@@ -11,5 +11,4 @@ public class FaketeeApplication {
         System.out.println("test log");
         System.out.println("test log2");
     }
-
 }
