@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.account.entity;
 
+import com.konai.kurong.faketee.account.util.Role;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class User {
 
     private String name;
 
-    private String role;
+    private Role role;
 
     @Column(name = "CRE_DTTM")
     private LocalDateTime createdDateTime;
@@ -45,7 +46,7 @@ public class User {
     private String updatedId;
 
     @Builder
-    public User(long id, String email, String password, String name, String role) {
+    public User(long id, String email, String password, String name, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
