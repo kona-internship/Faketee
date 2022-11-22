@@ -44,12 +44,12 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
-    public Long getId(){
+    public Long getId() {
 
         return sessionUser.getId();
     }
 
-    public String getName(){
+    public String getName() {
 
         return sessionUser.getName();
     }
