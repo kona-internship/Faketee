@@ -1,15 +1,16 @@
 package com.konai.kurong.faketee.account.entity;
 
+import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.util.Role;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Data
+@Getter
 @NoArgsConstructor
 @SequenceGenerator(
         name = "USR_SEQUENCE_GENERATOR",
@@ -17,12 +18,14 @@ import java.time.LocalDateTime;
         initialValue = 1,
         allocationSize = 1)
 @Table(name="USR")
+@Data
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "USR_SEQUENCE_GENERATOR")
     @Column(name = "ID")
-    private long id;
+    private Long id;
 
     private String email;
 
@@ -52,5 +55,10 @@ public class User {
         this.password = password;
         this.name = name;
         this.role = role;
+    }
+
+    public void updatePassword(UserUpdateRequestDto requestDto){
+
+        this.password = requestDto.getNewPassword();
     }
 }
