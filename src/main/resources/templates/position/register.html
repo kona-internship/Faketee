@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<button id="pos-register">직무 등록</button>
+<div id="pos-list"></div>
+
+</body>
+</html>
+
+<script>
+
+    function showPosList(posList){
+        $("#pos-list *").remove();
+
+        for(let pos of posList) {
+            $('#pos-list').append(
+                '<div>'+ pos + '</div>'
+            );
+        }
+    }
+
+    function registerPos(){
+        $.ajax({
+            url: "/api/pos/" + id,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                alert('등록 성공!');
+                showPosList(data);
+            },
+            error: function () {
+                alert('등록 실패!');
+            }
+        });
+    }
+
+</script>
