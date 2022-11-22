@@ -1,4 +1,4 @@
 package com.konai.kurong.faketee.account.controller;
 
-public class SignUpApiController {
+public class RegisterController {
 }
