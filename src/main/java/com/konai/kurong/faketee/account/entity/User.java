@@ -44,8 +44,8 @@ public class User {
 
     @Column(name = "CRE_ID")
     private String createdId;
-
     @Column(name = "UPD_ID")
+
     private String updatedId;
 
     @Builder
