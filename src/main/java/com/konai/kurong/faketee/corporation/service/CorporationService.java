@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.corporation.service;
 
+import com.konai.kurong.faketee.account.entity.Users;
 import com.konai.kurong.faketee.corporation.dto.CorporationSaveRequestDto;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
@@ -18,9 +19,11 @@ public class CorporationService {
     @Transactional
     public Long registerCorporation(CorporationSaveRequestDto requestDto) {
         Corporation cor = requestDto.toEntity();
+//        Users user = (Users) auth.getPrincipal();
 
         Corporation savedCor = corporationRepository.save(cor);
+        /*회사 생성하면서 직원도 생성해야하는뎅ㅇ*/
         return savedCor.getId();
     }
-    /*회사 가져오기*/
+    /*회사 가져오기? 필요한가*/
 }
