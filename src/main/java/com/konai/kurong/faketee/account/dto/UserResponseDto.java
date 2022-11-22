@@ -6,17 +6,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserUpdateResponseDto {
+public class UserResponseDto {
+
     private long id;
-
     private String email;
-
     private String password;
-
     private String name;
 
     //  User -> UserUpdateResponseDto
-    public UserUpdateResponseDto(User user) {
+    public UserResponseDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();

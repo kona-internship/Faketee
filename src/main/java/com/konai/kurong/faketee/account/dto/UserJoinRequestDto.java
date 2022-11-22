@@ -1,19 +1,19 @@
 package com.konai.kurong.faketee.account.dto;
 
 import com.konai.kurong.faketee.account.entity.User;
+import com.konai.kurong.faketee.account.util.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class UserJoinRequestDto {
-    private String email;
 
+    private String email;
     private String password;
 
     private String name;
-
-    private String role;
+    private Role role;
 
 //    UserJoinRequestDto -> User
     public User toEntity(){
