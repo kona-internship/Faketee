@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserUpdateRequestDto {
-    private String oldPassword;
 
+    private String oldPassword;
     private String newPassword;
 }
