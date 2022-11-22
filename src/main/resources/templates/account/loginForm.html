@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <title>login form</title></head>
 <body>
-<form name="registerForm"><h1>회사등록</h1> 회사 이름: <input type="text" id="name" placeholder="회사 이름을 입력하세요!" name="name">
+<form action="/login" name="login" method="post">
+    <h1><strong>FAKETEE 로그인</strong></h1>
+    <h1>로그인</h1>
+    <div>
+        <input type="text" name="email" placeholder="EMAIL">
+    </div>
     <br>
-    <button type="submit" onclick="checkAll()">회사 등록</button>
-    <p>&copy; faketee2022</p></form>
+    <div>
+        <input type="password" name="password" placeholder="PASSWORD">
+    </div>
+    <br>
+    <button>로그인</button>
+</form>
 </body>
-<script type="text/javascript" src="/js/corporation/register.js"></script>
-<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 </html>
