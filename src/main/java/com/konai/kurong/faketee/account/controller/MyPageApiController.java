@@ -2,8 +2,10 @@ package com.konai.kurong.faketee.account.controller;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.service.UserService;
+import com.konai.kurong.faketee.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/account")
@@ -13,15 +15,16 @@ public class MyPageApiController {
 
     private final UserService userService;
 
-    @PostMapping("/update-password/{userID}")
-    public ResponseEntity<?> updatePassword(@PathVariable Long userID, @RequestBody UserUpdateRequestDto requestDto){
+    @PostMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody UserUpdateRequestDto requestDto,
+                                            @AuthenticationPrincipal PrincipalDetails principalDetails){
 
-        return ResponseEntity.ok(userService.updatePassword(userID, requestDto));
+        return ResponseEntity.ok(userService.updatePassword(principalDetails.getId(), requestDto));
     }
 
-    @PostMapping("/delete/{userID}")
-    public void delete(@PathVariable Long userID){
+    @PostMapping("/delete")
+    public void delete(@AuthenticationPrincipal PrincipalDetails principalDetails){
 
-        userService.delete(userID);
+        userService.delete(principalDetails.getId());
     }
 }
