@@ -11,4 +11,9 @@ public class CorporationController {
     public String registerCor(){
         return "corporation/register";
     }
+
+    @GetMapping("/corporation/loc")
+    public String registerLoc(){
+        return "corporation/add_location";
+    }
 }
