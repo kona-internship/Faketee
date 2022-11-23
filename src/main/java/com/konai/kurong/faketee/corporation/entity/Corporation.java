@@ -20,6 +20,7 @@ public class Corporation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COR_ID_GENERATOR")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
     @Column(name = "CRE_DTTM")

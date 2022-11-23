@@ -5,7 +5,6 @@ import com.konai.kurong.faketee.position.dto.PositionSaveRequestDto;
 import com.konai.kurong.faketee.position.service.PositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,13 @@ public class PositionApiController {
 
     private final PositionService positionService;
 
+    /**
+     * 직무 등록
+     *
+     * @param corId
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/{corId}")
     public ResponseEntity<?> registerPosition(@PathVariable(name = "corId") Long corId,
                                               @Valid @RequestBody PositionSaveRequestDto requestDto){
@@ -29,17 +35,30 @@ public class PositionApiController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
+    /**
+     * 직무 목록 불러오기
+     *
+     * @param corId
+     * @return
+     */
     @GetMapping("/list/{corId}")
     public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId){
 
         return new ResponseEntity<>(positionService.getPosList(corId), HttpStatus.OK);
     }
 
+    /**
+     * 직무 삭제
+     *
+     * @param corId
+     * @param posId
+     * @return
+     */
     @GetMapping("/{corId}/delete/{posId}")
-    public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId,
+    public ResponseEntity<?> removePosition(@PathVariable(name = "corId") Long corId,
                                         @PathVariable(name = "posId") Long posId){
 
+        positionService.removePosition(corId, posId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
