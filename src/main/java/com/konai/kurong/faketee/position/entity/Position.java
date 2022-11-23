@@ -19,17 +19,18 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor()
 @NoArgsConstructor()
 @SequenceGenerator(
-        name="POS_SEQUENCE_GENERATOR", //시퀀스 제너레이터 이름
+        name="POS_ID_GENERATOR", //시퀀스 제너레이터 이름
         sequenceName="POS_SEQUENCE", //시퀀스 이름
         initialValue=1, //시작값
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
+@Table(name = "Pos")
 public class Position {
 
     @Id
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "POS_SEQUENCE_GENERATOR"
+            generator = "POS_ID_GENERATOR"
     )
     private Long id;
 
@@ -39,12 +40,16 @@ public class Position {
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
 
+    @Column(name = "CRE_DTTM")
     private LocalDateTime createdDateTime;
 
-    private LocalDateTime updatedDateTime;
-
+    @Column(name = "CRE_ID")
     private String createdId;
 
+    @Column(name = "UPD_DTTM")
+    private LocalDateTime updateDateTime;
+
+    @Column(name = "UPD_ID")
     private String updatedId;
 
 }
