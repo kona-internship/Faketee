@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <title>register</title>
+</head>
+
+<body>
+<form method="POST" name="joinForm" id="joinForm">
+    <h1><strong>FAKETEE 회원가입</strong></h1>
+    <h1>회원가입</h1>
+    <div>
+        <input type="text" name="email" placeholder="EMAIL">
+    </div>
+    <br>
+    <button type="button" id="btn-emailCheck" onclick="checkEmail()">EMAIL 중복확인</button>
+    <br><br>
+    <div>
+        <input type="password" name="password" placeholder="PASSWORD">
+    </div>
+    <br>
+    <div>
+        <input type="password" name="passwordCheck" placeholder="CHECK PASSWORD">
+    </div>
+    <br>
+    <div>
+        <input type="text" name="name" placeholder="NAME">
+    </div>
+    <br>
+    <button type="button" id="btn-register" onclick="register()">회원가입</button>
+</form>
+</body>
+
+<script src="/static/js/account/account.js"></script>
+</html>
