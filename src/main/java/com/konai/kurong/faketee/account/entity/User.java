@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.account.entity;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.util.Role;
+import com.konai.kurong.faketee.util.exception.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name="USR")
 @Data
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "USR_SEQUENCE_GENERATOR")
@@ -35,12 +36,6 @@ public class User {
     private String name;
 
     private Role role;
-
-    @Column(name = "CRE_DTTM")
-    private LocalDateTime createdDateTime;
-
-    @Column(name = "UPD_DTTM")
-    private LocalDateTime updatedDateTime;
 
     @Column(name = "CRE_ID")
     private String createdId;
