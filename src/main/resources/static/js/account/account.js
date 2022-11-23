@@ -16,7 +16,7 @@ function checkEmail() {
         },
         success: function(emailCheck) {
             /** emailCheck 가 0이라면 -> 사용 가능한 email **/
-            if(emailCheck == 0) {
+            if(emailCheck === true) {
                 alert("EMAIL 사용 가능합니다.");
                 emailFlag = true;
             } else {
@@ -68,7 +68,7 @@ function register() {
         $.ajax({
             async: "true",
             type: "POST",
-            url: 'account/api/register',
+            url: '/api/account/register',
             // contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             contentType: "application/json; charset=UTF-8",
             dataType: 'JSON',
@@ -94,23 +94,23 @@ function register() {
 }
 
 /**
- * 회원정보수정 updateForm 빈 칸 확인 + newPassword
+ * 회원정보수정 updateForm 빈 칸 확인 + 비밀번호, 비밀번호 확인 같은지 확인
  */
 function checkUpdateForm() {
     if (updateForm.password.value === "") {
-        alert("EMAIL 입력하세요.");
+        alert("현재 PASSWORD 입력하세요.");
         return false;
     }
     if (registerForm.newPassword.value === "") {
-        alert("PASSWORD 입력하세요.");
+        alert("변경 PASSWORD 입력하세요.");
         return false;
     }
     if (registerForm.newPasswordCheck.value === "") {
-        alert("CHECK PASSWORD 입력하세요.");
+        alert("변경 PASSWORD 확인 입력하세요.");
         return false;
     }
     if (registerForm.newPassword.value != registerForm.newPasswordCheck.value) {
-        alert("PASSWORD, CHECK PASSWORD 일치해야 합니다.");
+        alert("변경 PASSWORD, 변경 PASSWORD 확인 일치해야 합니다.");
         return false;
     }
     return true;
@@ -128,23 +128,21 @@ function update() {
         $.ajax({
             async: "true",
             type: "POST",
-            url: "/user/myPage",
+            url: "/api/account/update-password",
             // contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             contentType: "application/json; charset=UTF-8",
             dataType: 'JSON',
             // dataType: "text",
             data: JSON.stringify({
-                id: $('input[name="id"]').val(),
-                password: $('input[name="password"]').val(),
-                nickname: $('input[name="nickname"]').val(),
-                locationUserId: $('#locationUserId').val(),
+                oldPassword: $('input[name="password"]').val(),
+                newPassword: $('input[name="newPassword"]').val(),
             }),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert("회원정보를 수정했습니다.");
-                window.location.replace("/user/myPage");
+                alert("PASSWORD를 수정했습니다.");
+                window.location.replace("/account/mypage");
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
