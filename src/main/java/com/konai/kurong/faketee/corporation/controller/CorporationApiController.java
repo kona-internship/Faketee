@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -15,7 +17,7 @@ public class CorporationApiController {
     private final CorporationService corporationService;
 
     @PostMapping("/api/corporation")
-    public Long register(@RequestBody CorporationSaveRequestDto requestDto) {
+    public Long register(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
 
         Long id = corporationService.registerCorporation(requestDto);
         return id;
