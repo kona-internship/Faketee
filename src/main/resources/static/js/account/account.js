@@ -4,8 +4,8 @@ let emailFlag = false;
 function checkEmail() {
     const email = $('#email').val();
 
-    const header = $("meta[name='_csrf_header']").attr('content');
-    const token = $("meta[name='_csrf']").attr('content');
+    // const header = $("meta[name='_csrf_header']").attr('content');
+    // const token = $("meta[name='_csrf']").attr('content');
 
     $.ajax({
         url: "/api/account/check-email",
@@ -61,9 +61,11 @@ function checkRegisterForm() {
 
 /** 회원가입 **/
 function register() {
-    if(emailFlag == true && checkRegisterForm() == true) {
-        const header = $("meta[name='_csrf_header']").attr('content');
-        const token = $("meta[name='_csrf']").attr('content');
+    console.log("register 버튼 눌림")
+    emailFlag = true;
+    if(emailFlag == true) {
+        // const header = $("meta[name='_csrf_header']").attr('content');
+        // const token = $("meta[name='_csrf']").attr('content');
 
         $.ajax({
             async: "true",
@@ -78,9 +80,9 @@ function register() {
                 password: $('input[name="password"]').val(),
                 name: $('input[name="name"]').val(),
             }),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
+            // beforeSend: function (xhr) {
+            //     xhr.setRequestHeader(header, token);
+            // },
             success: function (data) {
                 alert("회원가입에 성공했습니다.\n다시 로그인 해주세요.");
                 window.location.replace("/");
@@ -122,8 +124,8 @@ function checkUpdateForm() {
 function update() {
     if(checkUpdateForm() == true) {
         // ajax 통신
-        const header = $("meta[name='_csrf_header']").attr('content');
-        const token = $("meta[name='_csrf']").attr('content');
+        // const header = $("meta[name='_csrf_header']").attr('content');
+        // const token = $("meta[name='_csrf']").attr('content');
 
         $.ajax({
             async: "true",
