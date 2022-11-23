@@ -8,12 +8,12 @@ function checkEmail() {
     // const token = $("meta[name='_csrf']").attr('content');
 
     $.ajax({
-        url: "/api/account/check-email",
-        type: "post",
+        url: "/api/account/check-email?email=" + email,
+        type: "get",
         data:{"email": email},
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function(xhr) {
+        //     xhr.setRequestHeader(header, token);
+        // },
         success: function(emailCheck) {
             /** emailCheck 가 0이라면 -> 사용 가능한 email **/
             if(emailCheck === true) {
@@ -139,9 +139,9 @@ function update() {
                 oldPassword: $('input[name="password"]').val(),
                 newPassword: $('input[name="newPassword"]').val(),
             }),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
+            // beforeSend: function (xhr) {
+            //     xhr.setRequestHeader(header, token);
+            // },
             success: function (data) {
                 alert("PASSWORD를 수정했습니다.");
                 window.location.replace("/account/mypage");
