@@ -21,6 +21,7 @@ public class UserJoinRequestDto {
         return User.builder()
                 .email(email)
                 .password(password)
+                .name(name)
                 .role(role)
                 .build();
     }
