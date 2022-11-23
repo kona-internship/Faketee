@@ -3,7 +3,6 @@ package com.konai.kurong.faketee.account.service;
 import com.konai.kurong.faketee.account.dto.UserJoinRequestDto;
 import com.konai.kurong.faketee.account.dto.UserResponseDto;
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
-import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.util.exception.NoUserFoundException;
