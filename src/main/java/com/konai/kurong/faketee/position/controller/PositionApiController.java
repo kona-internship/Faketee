@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/pos")
+@RequestMapping("/api/corporation/{corId}/pos")
 public class PositionApiController {
 
     private final PositionService positionService;
@@ -26,7 +26,7 @@ public class PositionApiController {
      * @param requestDto
      * @return
      */
-    @PostMapping("/{corId}")
+    @PostMapping()
     public ResponseEntity<?> registerPosition(@PathVariable(name = "corId") Long corId,
                                               @Valid @RequestBody PositionSaveRequestDto requestDto){
 
@@ -41,7 +41,7 @@ public class PositionApiController {
      * @param corId
      * @return
      */
-    @GetMapping("/list/{corId}")
+    @GetMapping("/list")
     public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId){
 
         return new ResponseEntity<>(positionService.getPosList(corId), HttpStatus.OK);
@@ -54,7 +54,7 @@ public class PositionApiController {
      * @param posId
      * @return
      */
-    @GetMapping("/{corId}/delete/{posId}")
+    @GetMapping("/delete/{posId}")
     public ResponseEntity<?> removePosition(@PathVariable(name = "corId") Long corId,
                                         @PathVariable(name = "posId") Long posId){
 
