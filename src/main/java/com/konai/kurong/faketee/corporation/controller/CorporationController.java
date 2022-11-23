@@ -12,7 +12,7 @@ public class CorporationController {
         return "corporation/register";
     }
 
-    @GetMapping("/corporation/loc")
+    @GetMapping("/corporation/{corId}/loc")
     public String registerLoc(){
         return "corporation/add_location";
     }

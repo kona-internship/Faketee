@@ -17,10 +17,11 @@ public class CorporationApiController {
     private final CorporationService corporationService;
 
     @PostMapping("/api/corporation")
-    public Long register(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
+    public int register(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
 
         Long id = corporationService.registerCorporation(requestDto);
-        return id;
+
+        return Math.toIntExact(id);
     }
 
 }

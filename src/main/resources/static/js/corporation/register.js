@@ -1,9 +1,9 @@
 function checkAll() {
-    console.log(registerForm.name.value);
-    setTimeout(() => console.log("after"), 10000);
     if (!checkExistData(registerForm.name.value, "이름을")) {
+
         registerForm.name.focus();
         return false;
+
     }
     if (confirm("회사를 등록하시겠습니까?")) {
         $.ajax({
@@ -17,7 +17,8 @@ function checkAll() {
             success:
                 function (result) {
                     alert("회사 등록이 완료되었습니다. 감사합니다.");
-                    location.href = "/corporation";
+                    location.href = "/corporation/"+result+"/loc";
+
                 },
             error:
                 function (request, status, error) {
@@ -25,6 +26,7 @@ function checkAll() {
                 }
         });
     }
+    return true;
 }
 
 function checkExistData(value, dataName) {
