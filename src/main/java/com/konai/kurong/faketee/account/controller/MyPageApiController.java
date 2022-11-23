@@ -19,7 +19,7 @@ public class MyPageApiController {
         return ResponseEntity.ok(userService.updatePassword(userID, requestDto));
     }
 
-    @PostMapping("/delete/{userID")
+    @PostMapping("/delete/{userID}")
     public void delete(@PathVariable Long userID){
 
         userService.delete(userID);
