@@ -14,11 +14,9 @@ public class UserJoinRequestDto {
 
     private String email;
     private String password;
-
     private String name;
     private Role role;
 
-    //    UserJoinRequestDto -> User
     public User toEntity() {
         return User.builder()
                 .email(email)
@@ -27,7 +25,7 @@ public class UserJoinRequestDto {
                 .build();
     }
 
-    public void setEncPassword(String encPassword){
+    public void setEncPassword(String encPassword) {
 
         this.password = encPassword;
     }
