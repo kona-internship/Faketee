@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.util.exception;
+package com.konai.kurong.faketee.util;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
