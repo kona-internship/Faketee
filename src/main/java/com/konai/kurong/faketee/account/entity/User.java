@@ -2,14 +2,13 @@ package com.konai.kurong.faketee.account.entity;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.util.Role;
-import com.konai.kurong.faketee.util.exception.BaseTimeEntity;
+import com.konai.kurong.faketee.util.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
