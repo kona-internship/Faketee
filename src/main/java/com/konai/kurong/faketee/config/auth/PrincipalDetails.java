@@ -54,6 +54,11 @@ public class PrincipalDetails implements UserDetails {
         return sessionUser.getName();
     }
 
+    public String getEmail() {
+
+        return sessionUser.getEmail();
+    }
+
     @Override
     public boolean isAccountNonLocked() {
 

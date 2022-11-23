@@ -17,11 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public Long join(UserJoinRequestDto requestDto){
+    public Long join(UserJoinRequestDto requestDto) {
 
         String rawPassword = requestDto.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -30,13 +29,13 @@ public class UserService {
         return userRepository.save(requestDto.toEntity()).getId();
     }
 
-    public UserResponseDto findByEmail(String email){
+    public UserResponseDto findByEmail(String email) {
 
         return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException()));
     }
 
     @Transactional
-    public Long updatePassword(Long id, UserUpdateRequestDto requestDto){
+    public Long updatePassword(Long id, UserUpdateRequestDto requestDto) {
 
         User user = userRepository.findById(id).orElseThrow(() -> new NoUserFoundException());
         String rawPassword = requestDto.getNewPassword(); // 수정할 비밀번호
@@ -51,12 +50,12 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(Long id){
+    public void delete(Long id) {
 
         userRepository.delete(userRepository.findById(id).orElseThrow(() -> new NoUserFoundException()));
     }
 
-    public boolean validatePassword(User user, String password){
+    public boolean validatePassword(User user, String password) {
 
         return bCryptPasswordEncoder.matches(password, user.getPassword());
     }

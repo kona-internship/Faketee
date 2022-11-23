@@ -57,7 +57,7 @@ public class User {
         this.role = role;
     }
 
-    public void updatePassword(UserUpdateRequestDto requestDto){
+    public void updatePassword(UserUpdateRequestDto requestDto) {
 
         this.password = requestDto.getNewPassword();
     }
