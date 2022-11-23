@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/register")
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
 @RestController
 public class RegisterApiController {
 
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
 
         return ResponseEntity.ok(userService.join(userJoinRequestDto));
