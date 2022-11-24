@@ -38,8 +38,8 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "CRE_ID")
     private String createdId;
-    @Column(name = "UPD_ID")
 
+    @Column(name = "UPD_ID")
     private String updatedId;
 
     @Builder

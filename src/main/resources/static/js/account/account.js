@@ -1,40 +1,81 @@
-/** 회원가입 email 중복 확인
+/**이메일 형식 지켰는지 확인
+ * 회원가입 email 중복 확인
 중복이 되었을 때 화면 처리 과정 추가 필요함 **/
 let emailFlag = false;
 function checkEmail() {
     const email = $('#email').val();
 
-    // const header = $("meta[name='_csrf_header']").attr('content');
-    // const token = $("meta[name='_csrf']").attr('content');
+    let emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    if (!emailRegExp.test(email)) {
+        emailFlag = false;
+        alert("EMAIL 형식이 올바르지 않습니다!");
+        $('#email').val('');
+        $("#btn-register").attr("disabled", true);
+        return false;
+    } else {
+        // const header = $("meta[name='_csrf_header']").attr('content');
+        // const token = $("meta[name='_csrf']").attr('content');
 
-    $.ajax({
-        url: "/api/account/check-email?email=" + email,
-        type: "get",
-        data:{"email": email},
-        // beforeSend: function(xhr) {
-        //     xhr.setRequestHeader(header, token);
-        // },
-        success: function(emailCheck) {
-            /** emailCheck 가 0이라면 -> 사용 가능한 email **/
-            if(emailCheck === true) {
-                alert("EMAIL 사용 가능합니다.");
-                emailFlag = true;
-            } else {
-                /** emailCheck 가 1이라면 -> 이미 존재하는 email 이므로 사용 못함 **/
-                alert("EMAIL 이미 존재합니다.");
-                $('#email').val('');
-                emailFlag = false;
-                // $("#btn-register").attr("disabled", true);
+        $.ajax({
+            url: "/api/account/check-email?email=" + email,
+            type: "get",
+            // data:{"email": email},
+            // beforeSend: function(xhr) {
+            //     xhr.setRequestHeader(header, token);
+            // },
+            success: function (emailCheck) {
+                /** emailCheck 가 0이라면 -> 사용 가능한 email **/
+                if (emailCheck === true) {
+                    emailFlag = true;
+                    alert("EMAIL 사용 가능합니다.");
+                    $("#btn-register").removeAttr("disabled");
+                } else {
+                    /** emailCheck 가 1이라면 -> 이미 존재하는 email 이므로 사용 못함 **/
+                    emailFlag = false;
+                    alert("EMAIL 이미 존재합니다.");
+                    $('#email').val('');
+                    $("#btn-register").attr("disabled", true);
+                }
+            },
+            error: function (request, status, error) {
+                // alert("에러입니다");
+                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
             }
-        },
-        error: function(request, status, error) {
-            // alert("에러입니다");
-            alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
-        }
-    });
+        });
+    }
 }
 
-/** 회원가입 registerForm 빈 칸 확인 + 비밀번호, 비밀번호 확인 같은지 확인 **/
+/**
+ * password 제약조건
+ * @param password
+ * @returns {boolean}
+ */
+function validatePassword(password) {
+    const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$/;
+    const hangulCheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+    if(false === reg.test(password)) {
+        alert('PASSWORD 8자 이상 32자 이하 이어야 하며\n숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+        $('#password').val('');
+        return false;
+    }
+    else if(hangulCheck.test(password)){
+        alert("PASSWORD 한글을 사용 할 수 없습니다.");
+        $('#password').val('');
+        return false;
+    }
+    else if(password.search(/\s/) != -1){
+        alert("PASSWORD 공백 없이 입력해주세요.");
+        $('#password').val('');
+        return false;
+    }
+    return true;
+}
+
+/** 회원가입 registerForm 빈 칸 확인
+ *  비밀번호 형식 지켰는지 확인
+ * 비밀번호, 비밀번호 확인 같은지 확인
+ * 이름 형식 지켰는지 확인 **/
 function checkRegisterForm() {
     if (registerForm.email.value === "") {
         alert("EMAIL 입력하세요.");
@@ -52,18 +93,26 @@ function checkRegisterForm() {
         alert("NAME 입력하세요.");
         return false;
     }
+
+    validatePassword(registerForm.password.value);
+
     if (registerForm.password.value != registerForm.passwordCheck.value) {
         alert("PASSWORD, CHECK PASSWORD 일치해야 합니다.");
         return false;
     }
+
+    if(registerForm.name.value.search(/\s/) != -1){
+        alert("NAME 공백 없이 입력해주세요.");
+        $('#name').val('');
+        return false;
+    }
+
     return true;
 }
 
 /** 회원가입 **/
 function register() {
-    console.log("register 버튼 눌림")
-    emailFlag = true;
-    if(emailFlag == true) {
+    if(checkRegisterForm() == true && emailFlag == true) {
         // const header = $("meta[name='_csrf_header']").attr('content');
         // const token = $("meta[name='_csrf']").attr('content');
 
@@ -92,6 +141,8 @@ function register() {
                 window.location.replace("/");
             }
         });
+    } else {
+        alert("다시 확인하세요.")
     }
 }
 
