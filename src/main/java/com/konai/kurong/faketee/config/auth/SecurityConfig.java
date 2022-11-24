@@ -26,7 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
 
-//    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
 
     @Bean
@@ -79,17 +79,22 @@ public class SecurityConfig {
                 .and()
                     .formLogin()
                     .loginPage("/account/login-form")
+                    .usernameParameter("email")
                     .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/account/set-auth")
+                    .permitAll()
 
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/");
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true) // 세션 날리기
+                        .permitAll()
 
-//                .and()
-//                    .oauth2Login()
-//                        .userInfoEndpoint()
-//                            .userService(customOAuth2UserService);
+                .and()
+                    .oauth2Login()
+                        .userInfoEndpoint()
+                            .userService(customOAuth2UserService);
 
         return http.build();
     }

@@ -1,6 +1,6 @@
 /**이메일 형식 지켰는지 확인
  * 회원가입 email 중복 확인
-중복이 되었을 때 화면 처리 과정 추가 필요함 **/
+ **/
 let emailFlag = false;
 function checkEmail() {
     const email = $('#email').val();
