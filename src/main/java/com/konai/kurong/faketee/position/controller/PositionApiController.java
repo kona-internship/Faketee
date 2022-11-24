@@ -54,7 +54,7 @@ public class PositionApiController {
      * @param posId
      * @return
      */
-    @GetMapping("/delete/{posId}")
+    @PostMapping("/delete/{posId}")
     public ResponseEntity<?> removePosition(@PathVariable(name = "corId") Long corId,
                                         @PathVariable(name = "posId") Long posId){
 

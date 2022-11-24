@@ -22,10 +22,7 @@ public class PositionResponseDto {
 
     public static List<PositionResponseDto> convertToDtoList(List<Position> positionList) {
         Stream<Position> stream = positionList.stream();
-//        if(authorId==null){
-//            return convertToRegistrationDtoList(positionList);
-//        }
-        return stream.map((position) -> convertToDto(position)).collect(Collectors.toList());
 
+        return stream.map((position) -> convertToDto(position)).collect(Collectors.toList());
     }
 }
