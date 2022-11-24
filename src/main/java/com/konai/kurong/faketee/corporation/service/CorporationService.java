@@ -15,6 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CorporationService {
     private final CorporationRepository corporationRepository;
 
+    /**
+     * 회사 생성
+     * 회사를 생성하는 동시에 최고 관리자 권한의 직원도 생성한다.
+     *
+     * @param requestDto
+     * @return
+     */
     /*회사 생성*/
     @Transactional
     public Long registerCorporation(CorporationSaveRequestDto requestDto) {

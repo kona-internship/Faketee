@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CorporationController {
     @GetMapping("/corporation")
-    public String registerCor(){
+    public String registerCor() {
         return "corporation/register";
     }
 

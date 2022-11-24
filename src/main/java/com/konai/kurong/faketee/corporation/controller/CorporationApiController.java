@@ -16,6 +16,13 @@ import javax.validation.Valid;
 public class CorporationApiController {
     private final CorporationService corporationService;
 
+    /**
+     * 회사 등록
+     *
+     * @param requestDto
+     * @return
+     */
+
     @PostMapping("/api/corporation")
     public int register(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
 
