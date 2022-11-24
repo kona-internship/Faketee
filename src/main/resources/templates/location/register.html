@@ -20,7 +20,8 @@
     <br>
 
     <div id="map" style="width:300px;height:300px;"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8c1b3f4657e0b73f9d3df25ca60c9730&libraries=services"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8c1b3f4657e0b73f9d3df25ca60c9730&libraries=services"></script>
     <script>
         let mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
@@ -32,11 +33,18 @@
         let map = new kakao.maps.Map(mapContainer, mapOption);
     </script>
     <br>
-    <button type="button" onclick="checkAll()">등록</button>
+    <button type="button" onclick="checkLocRegister()">등록</button>
+    <button type="button" onclick="goListLocRegister()">목록</button>
     <p>&copy; faketee2022</p>
 </form>
 </body>
-<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 
-<script type="text/javascript" src="/js/location/add_location.js"></script>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/location/location.js"></script>
+<script>
+    if (navigator.geolocation) {
+        getLocation();
+    }
+</script>
 </html>

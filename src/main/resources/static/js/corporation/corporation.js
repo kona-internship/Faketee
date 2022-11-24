@@ -1,9 +1,8 @@
-function checkAll() {
+function checkCorRegister() {
     if (!checkExistData(registerForm.name.value, "이름을")) {
 
-        registerForm.name.focus();
+        $("#name").focus();
         return false;
-
     }
     if (confirm("회사를 등록하시겠습니까?")) {
         $.ajax({
@@ -17,7 +16,7 @@ function checkAll() {
             success:
                 function (result) {
                     alert("회사 등록이 완료되었습니다. 감사합니다.");
-                    location.href = "/corporation/"+result+"/loc";
+                    location.href = "/corporation/" + result + "/loc";
 
                 },
             error:
