@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.config.auth;
 
+import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.util.Role;
 import lombok.Getter;
 import org.springframework.security.core.SpringSecurityCoreVersion;

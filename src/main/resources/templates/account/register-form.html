@@ -5,7 +5,7 @@
 <!--    <meta name="_csrf" th:content="${_csrf.token}">-->
 <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
 
-    <title>register</title>
+    <title>register-form</title>
 </head>
 
 <body>
@@ -13,24 +13,24 @@
     <h1><strong>FAKETEE 회원가입</strong></h1>
     <h1>회원가입</h1>
     <div>
-        <input type="text" name="email" placeholder="EMAIL">
+        <input type="text" name="email" id="email" placeholder="EMAIL">
     </div>
     <br>
     <button type="button" id="btn-emailCheck" onclick="checkEmail()">EMAIL 중복확인</button>
     <br><br>
     <div>
-        <input type="password" name="password" placeholder="PASSWORD">
+        <input type="password" name="password" id="password" placeholder="PASSWORD">
     </div>
     <br>
     <div>
-        <input type="password" name="passwordCheck" placeholder="CHECK PASSWORD">
+        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="CHECK PASSWORD">
     </div>
     <br>
     <div>
-        <input type="text" name="name" placeholder="NAME">
+        <input type="text" name="name" id="name" placeholder="NAME">
     </div>
     <br>
-    <button type="button" id="btn-register" onclick="register()">회원가입</button>
+    <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button>
 </form>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
