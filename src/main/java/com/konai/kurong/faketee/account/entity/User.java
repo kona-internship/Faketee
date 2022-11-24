@@ -2,7 +2,7 @@ package com.konai.kurong.faketee.account.entity;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.util.Role;
-import com.konai.kurong.faketee.util.BaseEntity;
+import com.konai.kurong.faketee.util.jpa_auditing.BaseEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -35,12 +35,6 @@ public class User extends BaseEntity {
     private String name;
 
     private Role role;
-
-    @Column(name = "CRE_ID")
-    private String createdId;
-
-    @Column(name = "UPD_ID")
-    private String updatedId;
 
     @Builder
     public User(long id, String email, String password, String name, Role role) {
