@@ -1,6 +1,7 @@
-package com.konai.kurong.faketee.config;
+package com.konai.kurong.faketee.config.auth;
 
 import com.konai.kurong.faketee.account.repository.UserRepository;
+import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.config.auth.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
 
-    PrincipalDetailsService principalDetailsService;
-    UserRepository userRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -63,9 +64,25 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                     .antMatchers(
-                            "/register/**"
+                            "/register/**"    /**추후 permit all url 수정 */
                     )
-                    .permitAll();
+                    .permitAll()
+                    .antMatchers("/api/**")
+                    .hasRole(Role.USER.name())
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                    .formLogin()
+                    .loginPage("/loginForm")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/")
+                .and()
+                    .logout()
+                        .logoutSuccessUrl("/")
+                .and()
+                    .oauth2Login()
+                        .userInfoEndpoint()
+                            .userService(customOAuth2UserService);
 
         return http.build();
     }
