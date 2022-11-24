@@ -32,6 +32,9 @@ public class UserService {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         requestDto.setEncPassword(encPassword);
         requestDto.setRole(Role.USER);
+
+        User user = requestDto.toEntity();
+
         return userRepository.save(requestDto.toEntity()).getId();
     }
 
