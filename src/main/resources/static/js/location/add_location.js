@@ -48,7 +48,7 @@ function transAddress(la, ln){
     let coord = new kakao.maps.LatLng(la, ln);
     let callback = function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
-            document.getElementById('clickLatlng').innerHTML = result[0].address.address_name;
+            document.getElementById('address').innerHTML = result[0].address.address_name;
         }
     };
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
