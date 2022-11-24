@@ -30,12 +30,14 @@ const URL_API_COR_PREFIX = "/api" + URL_COR_PREFIX;
  * @returns {*}
  */
 function getNextPath(url, path){
-    const list = url.split('/');
-    const path_index = list.indexOf(path.split('/')[-1]);
+
+    const pathList = path.split('/');
+    const urlList = url.split('/');
+    const path_index = urlList.indexOf(pathList[pathList.length-1]);
     let next_path;
 
-    if(path_index < list.length){
-        next_path = list[path_index + 1];
+    if(path_index < urlList.length){
+        next_path = urlList[path_index + 1];
     }
 
     return "/" + next_path;
