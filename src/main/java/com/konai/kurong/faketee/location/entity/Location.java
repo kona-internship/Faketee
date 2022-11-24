@@ -35,7 +35,7 @@ public class Location {
     private Long radius;
 
     @ManyToOne
-    @JoinColumn(name="COR_ID")
+    @JoinColumn(name = "COR_ID")
     private Corporation corporation;
 
     @Column(name = "CRE_DTTM")
