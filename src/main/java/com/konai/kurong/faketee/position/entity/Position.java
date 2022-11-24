@@ -24,7 +24,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         initialValue=1, //시작값
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
-@Table(name = "Pos")
+@Table(name = "POS")
 public class Position {
 
     @Id
