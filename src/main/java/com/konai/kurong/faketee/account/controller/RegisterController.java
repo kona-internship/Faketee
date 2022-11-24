@@ -25,4 +25,10 @@ public class RegisterController {
 
         return "account/register-form";
     }
+
+    @GetMapping("/set-auth")
+    public String setAuth(){
+
+        return "account/set-auth";
+    }
 }

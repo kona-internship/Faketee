@@ -26,7 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
 
     @Bean
@@ -36,11 +36,11 @@ public class SecurityConfig {
     }
 
     /** 순환참조 걸릴시 이 bean은 삭제하고 AuthenticationManager는 사용하지 않을것 **/
-    @Bean
-    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -64,25 +64,32 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                     .antMatchers(
-                            "/register/**"    /**추후 permit all url 수정 */
+                            "/account/**"    /**추후 permit all url 수정 */
                     )
                     .permitAll()
-                    .antMatchers("/api/**")
-                    .hasRole(Role.USER.name())
-                    .anyRequest()
-                    .authenticated()
+//                    .antMatchers("/api/**")
+//                    .hasRole(Role.USER.name())
+//                    .anyRequest()
+//                    .authenticated()
+
+                /**
+                 * 로그인 성공 시 redirect 페이지 결정 안되어 있음
+                 * 일단은 직원 / 최고관리자 결정하는 페이지로 이동
+                 */
                 .and()
                     .formLogin()
                     .loginPage("/account/login-form")
                     .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/account/set-auth")
+
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+                        .logoutSuccessUrl("/");
+
+//                .and()
+//                    .oauth2Login()
+//                        .userInfoEndpoint()
+//                            .userService(customOAuth2UserService);
 
         return http.build();
     }

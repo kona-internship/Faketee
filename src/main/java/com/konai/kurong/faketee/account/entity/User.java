@@ -1,8 +1,8 @@
 package com.konai.kurong.faketee.account.entity;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
+import com.konai.kurong.faketee.account.util.BaseUserEntity;
 import com.konai.kurong.faketee.account.util.Role;
-import com.konai.kurong.faketee.util.jpa_auditing.BaseEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Table(name="USR")
 @Data
 @Entity
-public class User extends BaseEntity {
+public class User extends BaseUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "USR_SEQUENCE_GENERATOR")
