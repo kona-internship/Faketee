@@ -23,7 +23,6 @@ public class RegisterApiController {
 
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam("email") String email){
-        log.info("registerApiController email : " + email);
         return ResponseEntity.ok(userService.validateEmail(email));
     }
 }
