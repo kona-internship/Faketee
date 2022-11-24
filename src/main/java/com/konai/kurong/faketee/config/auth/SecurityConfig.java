@@ -73,7 +73,7 @@ public class SecurityConfig {
                     .authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/loginForm")
+                    .loginPage("/account/login-form")
                     .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/")
                 .and()
