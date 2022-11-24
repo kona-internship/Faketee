@@ -18,9 +18,12 @@ public class AuditorAwareImpl implements AuditorAware<Long> {
 
     @Override
     public Optional<Long> getCurrentAuditor() {
+        Object authenticationPrincipal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        AuthenticationPrincipal authenticationPrincipal = (AuthenticationPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(authenticationPrincipal == null) {
+        /**
+         * 회원가입 시에는 anonymousUser 이므로 null 반환
+         */
+        if(authenticationPrincipal.equals("anonymousUser")) {
             log.debug("Not found Authentication Principal");
             return null;
         }

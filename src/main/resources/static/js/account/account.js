@@ -134,7 +134,7 @@ function register() {
             // },
             success: function (data) {
                 alert("회원가입에 성공했습니다.\n다시 로그인 해주세요.");
-                window.location.replace("/");
+                window.location.replace("/account/login-form");
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
@@ -147,7 +147,24 @@ function register() {
 }
 
 /**
- * 회원정보수정 updateForm 빈 칸 확인 + 비밀번호, 비밀번호 확인 같은지 확인
+ * 로그인 loginForm 빈 칸 확인
+ * @returns {boolean}
+ */
+function checkLoginForm() {
+    if (loginForm.email.value=="") {
+        alert("EMAIL 입력하세요.");
+        return false;
+    }
+    if (loginForm.password.value=="") {
+        alert("PASSWORD 입력하세요.");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 회원정보 수정 updateForm 빈 칸 확인
+ * 비밀번호, 비밀번호 확인 같은지 확인
  */
 function checkUpdateForm() {
     if (updateForm.password.value === "") {
