@@ -112,6 +112,23 @@ function goListLocRegister(){
 function goAddLocPage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc";
 }
+function deleteLoc(locId){
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/loc/delete/"+locId,
+        type: "post",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            alert("장소 삭제 성공");
+            showLocList(data);
+
+        },
+        error: function () {
+            alert('출퇴근 장소 목록 불러오기 실패!');
+        }
+    });
+}
 function loadLocList(){
     $.ajax({
         async: true,
@@ -128,9 +145,12 @@ function loadLocList(){
     });
 }
 function showLocList(locList){
+    $('#loc-list *').remove();
+
     for(let [index,loc] of locList.entries()) {
-        $('#loc-list').append(
-            '<div>'+(index+1) +'. 출퇴근 장소명: '+ loc.name +' 주소 : '+ loc.address+' 반경: '+ loc.radius+'</div>'
-        );
+        let msg = '<div>'+(index+1) +'. 출퇴근 장소명: '+ loc.name +' 주소 : '+ loc.address+' 반경: '+ loc.radius+
+            ' <button type="button" onclick=deleteLoc('+loc.id+')>삭제</button></div>';
+        console.log(msg);
+        $('#loc-list').append(msg);
     }
 }

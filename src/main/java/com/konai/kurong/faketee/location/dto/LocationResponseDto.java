@@ -11,12 +11,14 @@ import java.util.stream.Stream;
 @Data
 @Builder
 public class LocationResponseDto {
+    private Long id;
     private String name;
     private String address;
     private Long radius;
 
     public static LocationResponseDto convertToDto(Location location) {
         return LocationResponseDto.builder()
+                .id(location.getId())
                 .name(location.getName())
                 .address(location.getAddress())
                 .radius(location.getRadius())

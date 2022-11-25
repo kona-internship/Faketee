@@ -35,14 +35,29 @@ public class LocationApiController {
 
     /**
      * 출퇴근 장소 목록 불러오기
+     *
+     * @param corId
+     * @return
      */
     @PostMapping("/list")
-    public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId){
+    public ResponseEntity<?> getLocList(@PathVariable(name = "corId") Long corId){
 
         return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
 
     }
     /**
-     * 출퇴근 장소 삭제
+     *  출퇴근 장소 삭제
+     *
+     * @param corId
+     * @param locId
+     * @return
      */
+    @PostMapping("/delete/{locId}")
+    public ResponseEntity<?> removeLoc(@PathVariable(name = "corId") Long corId,
+                                       @PathVariable(name = "locId") Long locId){
+        locationService.removeLocation(locId);
+
+        return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
+
+    }
 }
