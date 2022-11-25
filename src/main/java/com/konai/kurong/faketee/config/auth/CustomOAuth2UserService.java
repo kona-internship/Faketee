@@ -5,6 +5,7 @@ import com.konai.kurong.faketee.account.dto.UserJoinRequestDto;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
+import com.konai.kurong.faketee.account.util.Type;
 import com.konai.kurong.faketee.config.auth.dto.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -60,16 +61,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.
                 of(registrationID, userNameAttributeName, oAuth2User.getAttributes());
 
-//        User user = saveOrUpdate(attributes);
-        User user = UserJoinRequestDto.builder()
-                .email(attributes.getEmail())
-                .name(attributes.getName())
-                .password("temp password")
-                .role(Role.USER)
-                .build()
-                .toEntity();
+        User user = saveOrUpdate(attributes);
+//        User user = UserJoinRequestDto.builder()
+//                .email(attributes.getEmail())
+//                .name(attributes.getName())
+//                .password("temp password")
+//                .role(Role.USER)
+//                .type(Type.GOOGLE)
+//                .build()
+//                .toEntity();
         httpSession.setAttribute("user", new SessionUser(user));
-        userRepository.save(user);
+//        userRepository.save(user);
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),
                 attributes.getAttributes(),

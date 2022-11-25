@@ -2,6 +2,11 @@
  * 회원가입 email 중복 확인
  **/
 let emailFlag = false;
+
+$('#btn-emailCheck').on('click', function (){
+    this.checkEmail();
+});
+
 function checkEmail() {
     const email = $('#email').val();
 
