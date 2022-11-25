@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -67,26 +68,19 @@ public class DepartmentService {
         departmentRepository.save(department);
 
         // 조직과 연결하려는 출퇴근 장소 불러오기
-        Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow();
-//                location = Location.builder()
-//                .name("test_name")
-//                .address("test_address")
-//                .lat(new BigDecimal("10.12345"))
-//                .lng(new BigDecimal("10.12345"))
-//                .radius(100L)
-//                .corporation(corporation)
-//                .createdDateTime(LocalDateTime.now())
-//                .createdId("user_1") //임의로 넣어둠
-//                .build();
-//        location = locationRepository.save(location);
+        List<Location> locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
 
         // 조직과 출퇴근 장소 연결하여 디비 저장
-        depLocRepository.save(DepLoc.builder()
-                .location(location)
-                .department(department)
-                .createdDateTime(LocalDateTime.now())
-                .createdId(100L) //임의로 넣어둠
-                .build());
+        List<DepLoc> depLocList = new ArrayList<>();
+        for(Location location : locationList){
+            depLocList.add(DepLoc.builder()
+                    .location(location)
+                    .department(department)
+                    .createdDateTime(LocalDateTime.now())
+                    .createdId(100L) //임의로 넣어둠
+                    .build());
+        }
+        depLocRepository.saveAll(depLocList);
 
     }
 
