@@ -44,12 +44,12 @@ public class Position {
     private LocalDateTime createdDateTime;
 
     @Column(name = "CRE_ID")
-    private String createdId;
+    private Long createdId;
 
     @Column(name = "UPD_DTTM")
     private LocalDateTime updateDateTime;
 
     @Column(name = "UPD_ID")
-    private String updatedId;
+    private Long updatedId;
 
 }
