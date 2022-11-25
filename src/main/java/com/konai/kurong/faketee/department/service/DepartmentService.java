@@ -30,7 +30,7 @@ public class DepartmentService {
 
     public void registerDepartment(Long corId, DepartmentSaveRequestDto requestDto){
 
-        //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
+        //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직, 여러 개 로케이션 추가 필요
 
         List<DepLoc> superDepLocList;
         Department superDep = null;
@@ -60,7 +60,7 @@ public class DepartmentService {
                 .corporation(corporation)
                 .superDepartment(superDep)
                 .createdDateTime(LocalDateTime.now())
-                .createdId("user_1") //임의로 넣어둠
+                .createdId(100L) //임의로 넣어둠
                 .build();
 
         // 디비에 조직 저장하기
@@ -85,7 +85,7 @@ public class DepartmentService {
                 .location(location)
                 .department(department)
                 .createdDateTime(LocalDateTime.now())
-                .createdId("user_1") //임의로 넣어둠
+                .createdId(100L) //임의로 넣어둠
                 .build());
 
     }
@@ -97,8 +97,8 @@ public class DepartmentService {
         return DepartmentResponseDto.convertToDtoList(departmentRepository.findAllByCorporation_Id(corId));
     }
 
-    public void removeDep(Long depId){
-
+    public void removeDep(Long corId, Long depId){
+        depLocRepository.deleteById(depId);
     }
 
 }

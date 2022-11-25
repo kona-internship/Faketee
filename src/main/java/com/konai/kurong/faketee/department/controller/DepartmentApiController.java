@@ -28,9 +28,17 @@ public class DepartmentApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId){
+    public ResponseEntity<?> getDepList(@PathVariable(name = "corId") Long corId){
 
         return new ResponseEntity<>(departmentService.getDepList(corId), HttpStatus.OK);
+    }
+
+    @PostMapping("/delete/{depId}")
+    public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
+                                            @PathVariable(name = "depId") Long posId){
+
+        departmentService.removeDep(corId, posId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
