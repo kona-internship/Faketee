@@ -53,7 +53,8 @@ public class SecurityConfig {
 
         return (web -> web
                         .ignoring()
-                        .antMatchers("/ignore"));
+                        .antMatchers("/resources/**," +
+                                "/static/**"));
     }
 
     @Bean
