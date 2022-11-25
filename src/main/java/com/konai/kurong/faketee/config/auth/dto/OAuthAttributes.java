@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.config.auth.dto;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.util.Role;
+import com.konai.kurong.faketee.account.util.Type;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,6 +20,7 @@ public class OAuthAttributes {
     private String nameAttributeKey;
     private String name;
     private String email;
+    private Type type;
 
     /**
      * OAuth2User에서 반환하는 사용자 정보는 Map이기 때문에 값 하나하나를 변환해야함
@@ -37,6 +39,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
+                .type(Type.GOOGLE)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -55,6 +58,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .role(Role.USER)
+                .type(type)
                 .build();
     }
 }

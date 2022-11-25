@@ -6,6 +6,7 @@ import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
+import com.konai.kurong.faketee.account.util.Type;
 import com.konai.kurong.faketee.util.exception.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,7 @@ public class UserService {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         requestDto.setEncPassword(encPassword);
         requestDto.setRole(Role.USER);
+        requestDto.setType(Type.GENERAL);
 
         User user = requestDto.toEntity();
 
