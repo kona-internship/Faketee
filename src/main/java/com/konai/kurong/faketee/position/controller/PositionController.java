@@ -15,6 +15,6 @@ public class PositionController {
 
     @GetMapping()
     public String registerPos(){
-        return "position/register";
+        return "position/registration";
     }
 }
