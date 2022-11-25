@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.location.service;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
+import com.konai.kurong.faketee.department.service.DepLocService;
 import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.dto.LocationSaveRequestDto;
 import com.konai.kurong.faketee.location.entity.Location;
@@ -18,6 +19,7 @@ import java.util.List;
 public class LocationService {
     private final CorporationRepository corporationRepository;
     private final LocationRepository locationRepository;
+    private final DepLocService depLocService;
 
     /**
      * 출퇴근 장소 등록
@@ -50,10 +52,15 @@ public class LocationService {
      * 값이 없을 경우에는 지우기 성공
      *
      * @param locId 지우려는 장소 아이디
+     * @return
      */
-    public void removeLocation(Long locId){
-        //dep_loc테이블에 locId가 존재하면  -1 보내주기 = 장소에 출근하는 조직이 존재한다는 말
-        //없으면 삭제
-        locationRepository.deleteById(locId);
+    public boolean removeLocation(Long locId){
+        if(depLocService.existDepLocBylocId(locId)) {
+            //장소에 출근하는 조직이 존재한다는 말
+            return false;
+        }else{//없으면 삭제
+            locationRepository.deleteById(locId);
+            return true;
+        }
     }
 }

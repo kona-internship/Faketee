@@ -24,7 +24,7 @@ public class CorporationApiController {
      */
 
     @PostMapping("/api/corporation")
-    public int register(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
+    public int registerCorporation(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
 
         Long id = corporationService.registerCorporation(requestDto);
 

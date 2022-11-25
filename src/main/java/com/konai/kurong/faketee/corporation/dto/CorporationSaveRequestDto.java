@@ -18,7 +18,7 @@ public class CorporationSaveRequestDto {
                 .name(name)
                 .createdDateTime(LocalDateTime.now())
                 /*생성사 id 임의로 100L넣어둠*/
-                .createdId("100")
+                .createdId(100L)
                 .build();
     }
 }
