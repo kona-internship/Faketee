@@ -41,7 +41,7 @@ public class PositionService {
                 .name(requestDto.getName())
                 .corporation(corporation)
                 .createdDateTime(LocalDateTime.now())
-                .createdId("user_1") //임의로 넣어둠
+                .createdId(100L) //임의로 넣어둠
                 .build();
 
         positionRepository.save(position);
