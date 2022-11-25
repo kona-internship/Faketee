@@ -27,15 +27,20 @@ public class User extends BaseUserEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "PSWD")
     private String password;
 
+    @Column(name = "NAME")
     private String name;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "TYPE")
+    private String type;
 
     @Builder
     public User(Long id, String email, String password, String name, Role role) {
