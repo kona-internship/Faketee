@@ -26,7 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
 
     @Bean
@@ -69,8 +69,8 @@ public class SecurityConfig {
                     .permitAll()
 //                    .antMatchers("/api/**")
 //                    .hasRole(Role.USER.name())
-//                    .anyRequest()
-//                    .authenticated()
+                    .anyRequest()
+                    .authenticated()
 
                 /**
                  * 로그인 성공 시 redirect 페이지 결정 안되어 있음
@@ -78,23 +78,23 @@ public class SecurityConfig {
                  */
                 .and()
                     .formLogin()
-                    .loginPage("/account/login-form")
-                    .usernameParameter("email")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/account/set-auth")
-                    .permitAll()
+                        .usernameParameter("email")
+                        .loginPage("/account/login-form")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/account/set-auth")
+                        .permitAll()
 
                 .and()
                     .logout()
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true) // 세션 날리기
-                        .permitAll()
+                        .permitAll();
 
-                .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+//                .and()
+//                    .oauth2Login()
+//                        .userInfoEndpoint()
+//                            .userService(customOAuth2UserService);
 
         return http.build();
     }
