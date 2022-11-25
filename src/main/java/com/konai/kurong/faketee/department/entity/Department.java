@@ -36,8 +36,10 @@ public class Department {
     )
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "LEVEL")
     private Long level;
 
     @ManyToOne(fetch = LAZY)
