@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>조직 등록</title>
+</head>
+
+<body>
+
+<div id="container" role="main">
+    <h2>조직 등록</h2>
+    <form>
+        <div id="dep-write">
+            <div id="basic-form">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span>조직 이름:</span>
+                        </th>
+                        <td>
+                            <input type="text" id="pos-name" placeholder="조직 이름을 입력하세요!">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>출퇴근 장소</span>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="loc-radio"></div>
+        </div>
+        <div>
+            <button id="dep-register" onclick="registerPos()">조직 등록</button>
+        </div>
+    </form>
+</div>
+</body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="/js/position/position.js"></script>
+
+</html>
