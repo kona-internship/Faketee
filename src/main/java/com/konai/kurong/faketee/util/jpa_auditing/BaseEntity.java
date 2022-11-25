@@ -12,14 +12,14 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @Getter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass // JPA Entity 클래스들이 이 클래스를 상속할 경우 CRE_DTTM, UPD_DTTM, CRE_ID, UPD_ID를 컬럼으로 인식
+@EntityListeners(AuditingEntityListener.class) // 해당 클래스에 Auditing 기능 포함
 public class BaseEntity {
 
-    @CreatedDate
+    @CreatedDate // Entity가 생성되어 저장될 때 시간이 자동 저장
     private LocalDateTime CRE_DTTM;
 
-    @LastModifiedDate
+    @LastModifiedDate // Entity의 값을 변경할 때 시간이 자동 저장
     private LocalDateTime UPD_DTTM;
 
     @CreatedBy
