@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class DepartmentSaveRequestDto {
@@ -12,7 +13,7 @@ public class DepartmentSaveRequestDto {
     private String name;
 
     private Long superId;
-
     @NotNull
-    private Long locationId;
+    private List<Long> locationIdList;
 }
+
