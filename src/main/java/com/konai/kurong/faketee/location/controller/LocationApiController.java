@@ -40,13 +40,14 @@ public class LocationApiController {
      * @return
      */
     @PostMapping("/list")
-    public ResponseEntity<?> getLocList(@PathVariable(name = "corId") Long corId){
+    public ResponseEntity<?> getLocList(@PathVariable(name = "corId") Long corId) {
 
         return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
 
     }
+
     /**
-     *  출퇴근 장소 삭제
+     * 출퇴근 장소 삭제
      *
      * @param corId
      * @param locId
@@ -54,10 +55,14 @@ public class LocationApiController {
      */
     @PostMapping("/delete/{locId}")
     public ResponseEntity<?> removeLoc(@PathVariable(name = "corId") Long corId,
-                                       @PathVariable(name = "locId") Long locId){
-        locationService.removeLocation(locId);
-
-        return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
+                                       @PathVariable(name = "locId") Long locId) {
+        if (locationService.removeLocation(locId)) {
+            return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
+        } else {
+            //에러 발생시켜야함
+            log.info("에러발생시켜햐함 alert띄워서 조직 존재한다고 알려줘/ 지금은 일단 httpStatus.ok");
+            return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
+        }
 
     }
 }

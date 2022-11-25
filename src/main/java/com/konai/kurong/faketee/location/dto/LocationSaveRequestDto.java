@@ -35,7 +35,7 @@ public class LocationSaveRequestDto {
                 .lng(lng)
                 .corporation(corporation)
                 .createdDateTime(LocalDateTime.now())
-                .createdId("user_Id")
+                .createdId(100L)
                 .build();
     }
 }
