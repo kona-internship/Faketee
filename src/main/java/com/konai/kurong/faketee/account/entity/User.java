@@ -45,18 +45,29 @@ public class User extends BaseUserEntity {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @Column(name = "EMAIL_AUTH_STATUS")
+    private String emailAuthStatus;
+
+    @OneToOne(mappedBy = "user")
+    private EmailAuth emailAuth;
+
     @Builder
-    public User(Long id, String email, String password, String name, Role role, Type type) {
+    public User(Long id, String email, String password, String name, Role role, Type type, String emailAuthStatus) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.role = role;
         this.type = type;
+        this.emailAuthStatus = emailAuthStatus;
     }
 
     public void updatePassword(UserUpdateRequestDto requestDto) {
 
         this.password = requestDto.getNewPassword();
+    }
+
+    public void updateEmailAuthStatus() {
+        this.emailAuthStatus = "T";
     }
 }

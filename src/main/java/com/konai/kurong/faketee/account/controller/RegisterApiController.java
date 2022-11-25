@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RequestMapping("/api/account")
 @RequiredArgsConstructor
 @RestController
@@ -18,11 +20,20 @@ public class RegisterApiController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
 
+//       DB에 회원가입 먼저 진행함
+        userService.join(userJoinRequestDto);
+
+//
         return ResponseEntity.ok(userService.join(userJoinRequestDto));
     }
 
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam("email") String email){
         return ResponseEntity.ok(userService.validateEmail(email));
+    }
+
+    @GetMapping("/confirm-email")
+    public ResponseEntity<?> confirmEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(userService.confirmEmailAuth(email));
     }
 }
