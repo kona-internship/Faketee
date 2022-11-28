@@ -45,5 +45,9 @@ public class DepartmentApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/detail/{depId}")
+    public ResponseEntity<?> detailDep(@PathVariable(name = "depId") Long depId){
 
+        return new ResponseEntity<>(departmentService.getDep(depId), HttpStatus.OK);
+    }
 }
