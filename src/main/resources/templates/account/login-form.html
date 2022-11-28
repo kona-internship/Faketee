@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<form action="/login" method="post" name="loginForm" id="loginForm">
+<form action="/login" method="POST" name="login">
     <h1><strong>FAKETEE 로그인</strong></h1>
     <h1>로그인</h1>
     <div>
@@ -15,12 +15,13 @@
     </div>
     <br>
     <div>
-        <input type="password" name="password" id="password" placeholder="PASSWORD">
+        <input type="password" name="pswd" id="password" placeholder="PASSWORD">
     </div>
     <br>
     <button>로그인</button>
+    <p th:value="${exception}"/>
 </form>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
-<script src="/static/js/account/account.js"></script>
+<!--<script src="/static/js/account/account.js"></script>-->
 </body>
 </html>

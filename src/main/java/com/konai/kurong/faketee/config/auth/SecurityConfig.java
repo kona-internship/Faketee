@@ -3,6 +3,7 @@ package com.konai.kurong.faketee.config.auth;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.config.auth.PrincipalDetailsService;
+import com.konai.kurong.faketee.util.CustomAuthFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
+    private final CustomAuthFailureHandler customAuthFailureHandler;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -53,7 +55,7 @@ public class SecurityConfig {
 
         return (web -> web
                         .ignoring()
-                        .antMatchers("/resources/**," +
+                        .antMatchers("/resources/**",
                                 "/static/**"));
     }
 
@@ -64,15 +66,19 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests()
-                    .antMatchers(
-                            "/account/**"    /**추후 permit all url 수정 */
+                    .antMatchers( /**추후 permit all url 수정 */
+                            "/",
+                            "/account/",
+                            "/account/login-form",
+                            "/account/register-form",
+                            "/api/**"
                     )
                     .permitAll()
 //                    .antMatchers("/api/**")
 //                    .hasRole(Role.USER.name())
+                    .antMatchers("/account/**").hasRole("USER")
                     .anyRequest()
                     .authenticated()
-
                 /**
                  * 로그인 성공 시 redirect 페이지 결정 안되어 있음
                  * 일단은 직원 / 최고관리자 결정하는 페이지로 이동
@@ -82,16 +88,15 @@ public class SecurityConfig {
                         .usernameParameter("email")
                         .loginPage("/account/login-form")
                         .loginProcessingUrl("/login")
+                        .failureHandler(customAuthFailureHandler)
                         .defaultSuccessUrl("/account/set-auth")
-                        .permitAll()
-
+//                        .permitAll()
                 .and()
                     .logout()
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true) // 세션 날리기
-                        .permitAll()
-
+//                        .permitAll()
                 .and()
                     .oauth2Login()
                         .userInfoEndpoint()

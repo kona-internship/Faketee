@@ -3,10 +3,6 @@
  **/
 let emailFlag = false;
 
-$('#btn-emailCheck').on('click', function (){
-    this.checkEmail();
-});
-
 function checkEmail() {
     const email = $('#email').val();
 
@@ -28,7 +24,7 @@ function checkEmail() {
             // beforeSend: function(xhr) {
             //     xhr.setRequestHeader(header, token);
             // },
-            success: function (emailCheck) {
+            success : function (emailCheck) {
                 /** emailCheck 가 0이라면 -> 사용 가능한 email **/
                 if (emailCheck === true) {
                     emailFlag = true;
