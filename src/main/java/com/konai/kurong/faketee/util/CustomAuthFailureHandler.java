@@ -1,8 +1,6 @@
 package com.konai.kurong.faketee.util;
 
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -30,8 +28,17 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
             errorMessage = "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요.";
         }else if (exception instanceof AuthenticationCredentialsNotFoundException){
             errorMessage = "인증 요청이 거부되었습니다. 관리자에게 문의해주세요.";
-        }else {
-            errorMessage = "알 수 없는 이유로 로그인에 실패했습니다. 관리자에게 문의하세요.";
+        }else if (exception instanceof LockedException){
+            errorMessage = "잠긴 계정입니다.";
+        }else if (exception instanceof DisabledException){
+            errorMessage = "비활성화된 계정입니다.";
+        }else if (exception instanceof AccountExpiredException){
+            errorMessage = "만료된 계정입니다.";
+        }else if (exception instanceof CredentialsExpiredException){
+            errorMessage = "비밀번호가 만료되었습니다.";
+        }
+        else {
+            errorMessage = exception.getMessage();
         }
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
         setDefaultFailureUrl("/account/login-form?error=true&exception=" + errorMessage);
