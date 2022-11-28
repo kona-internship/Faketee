@@ -9,18 +9,21 @@ import com.konai.kurong.faketee.department.entity.DepLoc;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.repository.DepLocRepository;
 import com.konai.kurong.faketee.department.repository.DepartmentRepository;
+import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.entity.Location;
 import com.konai.kurong.faketee.location.repository.LocationRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -94,11 +97,24 @@ public class DepartmentService {
         return DepartmentResponseDto.convertToDtoList(departmentRepository.findAllByCorporation_Id(corId));
     }
 
+    @Transactional
+    public Result<?> getDep(Long depId) {
+        Optional<Department> department = departmentRepository.findById(depId);
+        List<DepLoc> deplocs = depLocRepository.findAllByDepartment_Id(depId);
+        List<Location> loc = new ArrayList<>();
+        for (DepLoc deploc : deplocs) {
+            loc.add(deploc.getLocation());
+        }
+        return new Result<>(DepartmentResponseDto.convertToDto(department.get()), LocationResponseDto.converToDtoList(loc));
+    }
+
+
     public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto){
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
         List<Long> idList = new ArrayList<>();
         List<Long> levelList = new ArrayList<>();
+
 
         //어떤 객체이서 리스트 롱타임으로 2개빼내
         for(Map<Long, Long> map : requestDto.getRemoveDepList()){
@@ -128,6 +144,16 @@ public class DepartmentService {
             max--;
         }
 
+    }
+    @Getter
+    @Setter
+    static class Result<T>{
+        private T dep;
+        private T loc;
 
+        public Result(T dep, T loc){
+            this.dep = dep;
+            this.loc = loc;
+        }
     }
 }

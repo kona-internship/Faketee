@@ -18,6 +18,7 @@ public class DepartmentResponseDto {
     private String name;
     private Long level;
     private Long superId;
+    private String superName;
 
     // 쿼리 확인 필요(연관관계 매핑된거의 id를 가져오면서 어떻게 쿼리 동작하는지)
     public static DepartmentResponseDto convertToDto(Department department){
@@ -26,6 +27,7 @@ public class DepartmentResponseDto {
                 .name(department.getName())
                 .level(department.getLevel())
                 .superId((department.getSuperDepartment()!= null? department.getSuperDepartment().getId(): null))
+                .superName(department.getSuperDepartment()!= null? department.getSuperDepartment().getName(): null)
                 .build();
     }
 

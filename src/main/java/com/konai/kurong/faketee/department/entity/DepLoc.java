@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.department.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.konai.kurong.faketee.location.entity.Location;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

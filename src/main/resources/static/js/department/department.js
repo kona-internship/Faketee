@@ -241,3 +241,26 @@ function goDepListPage(){
 function goDepRegPage(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/reg";
 }
+function loadDetailDepPage(){
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/detail"+ getNextPath(window.location.href, "/dep"),
+        type: "post",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $('#dept-name').attr("value", data.dep.name);
+            $('#up-dept-name').attr("value", data.dep.superName);
+            let locs = data.loc;
+            let locText = $('#loc-name');
+            for(let [index, lo] of locs.entries()){
+                console.log(lo.name);
+                locText.val(locText.val()+ lo.name + ", ");
+            }
+        },
+        error: function () {
+            alert('조직 상세 불러오기 실패!');
+        }
+    });
+}
