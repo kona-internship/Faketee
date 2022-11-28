@@ -43,7 +43,7 @@ public class LocationService {
      * @return Location에서 LocationResponseDto로 변환된 리스트 반환
      */
     public List<LocationResponseDto> getLocList(Long corId){
-        return LocationResponseDto.converToDtoList(locationRepository.findLocationByCorporationId(corId));
+        return LocationResponseDto.converToDtoList(locationRepository.findLocationByCorporationIdOrderById(corId));
     }
 
     /**

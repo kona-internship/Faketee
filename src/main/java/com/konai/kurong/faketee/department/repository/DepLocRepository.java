@@ -14,4 +14,6 @@ public interface DepLocRepository extends JpaRepository<DepLoc, Long> {
 
     Optional<DepLoc> findDepLocByLocationId(Long locId);
 
+    void deleteDepLocByDepartmentId(Long depId);
+
 }
