@@ -59,6 +59,7 @@ public class OAuthAttributes {
                 .email(email)
                 .role(Role.USER)
                 .type(type)
+                .emailAuthStatus("T")
                 .build();
     }
 }

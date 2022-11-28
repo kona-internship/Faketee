@@ -24,10 +24,6 @@ public class RegisterApiController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
 
-//       DB에 회원가입 먼저 진행함
-        userService.join(userJoinRequestDto);
-
-//
         return ResponseEntity.ok(userService.join(userJoinRequestDto));
     }
 
