@@ -4,19 +4,25 @@ import com.konai.kurong.faketee.account.entity.EmailAuth;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepository;
 import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@EnableAsync
 @Service
 public class EmailAuthService {
-    private JavaMailSenderImpl javaMailSender;
+    @Autowired
+    private final JavaMailSender javaMailSender;
 
     private final EmailAuthRepository emailAuthRepository;
+
+    private static final Long MAX_EXPIRE_TIME = 5L;
 
 //    private final EmailAuthRepository emailAuthRepository;
 //    private final EmailAuthRepositoryImpl emailAuthRepositoryImpl;
@@ -114,14 +120,13 @@ public class EmailAuthService {
      * email 인증 링크 전송
      * smmSetText 수정필요함
      * @param email : 받는 email
-     * @param authToken
+     * @param emailAuthToken
      */
-    @Async
-    public void sendEmail(String email, String authToken) {
+    public void sendEmail(String email, String emailAuthToken) {
         SimpleMailMessage smm = new SimpleMailMessage();
-        smm.setTo(email + "@gmail.com");
+        smm.setTo(email);
         smm.setSubject("시프티 회원가입 이메일 인증");
-        smm.setText("http://localhost:8080/api/account/confirm-email?email=" + email + "&authToken=" + authToken);
+        smm.setText("http://localhost:8080/api/account/confirm-email?email=" + email + "&emailAuthToken=" + emailAuthToken);
 
         javaMailSender.send(smm);
     }
@@ -131,12 +136,16 @@ public class EmailAuthService {
      * @param email : 받는 email
      */
     public String saveEmailAuthToken(String email) {
+        LocalDateTime expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
+
         EmailAuth emailAuth = emailAuthRepository.save(
                 EmailAuth.builder()
                         .email(email)
                         .emailAuthToken(UUID.randomUUID().toString())
                         .expired("F")
+                        .expireDate(expireDate)
                         .build());
+
         return emailAuth.getEmailAuthToken();
     }
 

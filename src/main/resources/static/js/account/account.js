@@ -6,7 +6,7 @@ let checkEmailFlag = false;
 function checkEmail() {
     const email = $('#email').val();
 
-    let emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if (!emailRegExp.test(email)) {
         checkEmailFlag = false;
         alert("EMAIL 형식이 올바르지 않습니다!");
@@ -29,7 +29,7 @@ function checkEmail() {
                 if (emailCheck === true) {
                     checkEmailFlag = true;
                     alert("EMAIL 사용 가능합니다.");
-                    // $("#btn-register").removeAttr("disabled");
+                    $("#btn-register").removeAttr("disabled");
                 } else {
                     /** emailCheck 가 1이라면 -> 이미 존재하는 email 이므로 사용 못함 **/
                     checkEmailFlag = false;
@@ -46,39 +46,44 @@ function checkEmail() {
     }
 }
 
-let sendEmailFlag = false;
-
-function confirmEmail() {
-    const email = $('#email').val();
-
-    if(checkEmailFlag == true) {
-        $.ajax({
-            url: "/api/account/send-email?email=" + email,
-            type: "get",
-            // data:{"email": email},
-            // beforeSend: function(xhr) {
-            //     xhr.setRequestHeader(header, token);
-            // },
-            success: function (emailCheck) {
-                /** emailCheck 가 0이라면 -> 사용 가능한 email **/
-                if (emailCheck === true) {
-                    sendEmailFlag = true;
-                    alert("EMAIL 인증 링크가 전송되었습니다.");
-                    $("#btn-register").removeAttr("disabled");
-                } else {
-                    /** emailCheck 가 1이라면 -> email 인증 실패함 **/
-                    sendEmailFlag = false;
-                    alert("EMAIL 인증 링크가 전송이 실패입니다.");
-                    $("#btn-register").attr("disabled", true);
-                }
-            },
-            error: function (request, status, error) {
-                // alert("에러입니다");
-                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
-            }
-        });
-    }
-}
+// let sendEmailFlag = false;
+//
+// function confirmEmail() {
+//     const email = $('#email').val();
+//
+//     if(checkEmailFlag == true) {
+//         $.ajax({
+//             url: "/api/account/send-email?email=" + email,
+//             type: "get",
+//             data:{"email": email},
+//             beforeSend: function(xhr) {
+//                 xhr.setRequestHeader(header, token);
+//             },
+//             success: function (emailCheck) {
+//                 /** emailCheck 가 0이라면 -> 사용 가능한 email **/
+//                 if (emailCheck === true) {
+//                     sendEmailFlag = true;
+//                     alert("EMAIL 인증 링크가 전송되었습니다.");
+//                     $("#btn-register").removeAttr("disabled");
+//                 } else {
+//                     /** emailCheck 가 1이라면 -> email 인증 실패함 **/
+//                     sendEmailFlag = false;
+//                     alert("EMAIL 인증 링크가 전송이 실패입니다.");
+//                     $("#btn-register").attr("disabled", true);
+//                 }
+//
+//                 alert("EMAIL 인증 링크가 전송되었습니다.");
+//                 sendEmailFlag = true;
+//                 $("#btn-register").removeAttr("disabled");
+//
+//             },
+//             error: function (request, status, error) {
+//                 // alert("에러입니다");
+//                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+//             }
+//         });
+//     }
+// }
 
 /**
  * password 제약조건
@@ -147,7 +152,7 @@ function checkRegisterForm() {
 
 /** 회원가입 **/
 function register() {
-    if(checkRegisterForm() == true && checkEmailFlag == true && sendEmailFlag == true) {
+    if(checkRegisterForm() == true && checkEmailFlag == true) {
         // const header = $("meta[name='_csrf_header']").attr('content');
         // const token = $("meta[name='_csrf']").attr('content');
 
@@ -168,7 +173,9 @@ function register() {
             //     xhr.setRequestHeader(header, token);
             // },
             success: function (data) {
-                alert("회원가입에 성공했습니다.\n다시 로그인 해주세요.");
+                alert("회원가입에 성공했습니다.\n" +
+                    "이메일 인증 링크 클릭 후, \n" +
+                    "다시 로그인 해주세요.");
                 window.location.replace("/account/login-form");
             },
             error: function (request, status, error) {
