@@ -1,7 +1,6 @@
 package com.konai.kurong.faketee.department.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
-import com.konai.kurong.faketee.location.entity.Location;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
