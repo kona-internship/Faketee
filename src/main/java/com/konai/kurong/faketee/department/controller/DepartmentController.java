@@ -31,4 +31,10 @@ public class DepartmentController {
 
         return "department/modification";
     }
+
+    @GetMapping("/{depId}")
+    public String goDetailDepPage(){
+
+        return "department/detail";
+    }
 }
