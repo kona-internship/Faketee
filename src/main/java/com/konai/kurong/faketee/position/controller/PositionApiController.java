@@ -36,6 +36,22 @@ public class PositionApiController {
     }
 
     /**
+     * 직무 수정
+     *
+     * @param posId
+     * @param requestDto
+     * @return
+     */
+    @PostMapping("/update/{posId}")
+    public ResponseEntity<?> updatePosition(@PathVariable(name = "posId") Long posId,
+                                              @Valid @RequestBody PositionSaveRequestDto requestDto){
+
+        positionService.updatePosition(posId, requestDto);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    /**
      * 직무 목록 불러오기
      *
      * @param corId
@@ -59,7 +75,7 @@ public class PositionApiController {
                                         @PathVariable(name = "posId") Long posId){
 
         positionService.removePosition(corId, posId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(positionService.getPosList(corId), HttpStatus.OK);
     }
 
 }

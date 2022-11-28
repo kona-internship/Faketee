@@ -150,7 +150,6 @@ function showLocList(locList){
     for(let [index,loc] of locList.entries()) {
         let msg = '<div>'+(index+1) +'. 출퇴근 장소명: '+ loc.name +' 주소 : '+ loc.address+' 반경: '+ loc.radius+
             ' <button type="button" onclick=deleteLoc('+loc.id+')>삭제</button></div>';
-        console.log(msg);
         $('#loc-list').append(msg);
     }
 }
