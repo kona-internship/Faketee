@@ -92,7 +92,30 @@ public class DepartmentService {
     }
 
     public void removeDep(Long corId, Long depId){
-        depLocRepository.deleteById(depId);
-    }
+        //어떤 객체이서 리스트 롱타임으로 2개빼내
+//        int[] dep_id = .clone();
+//        int[] level = .clone();
+//
+//        int min = Integer.MIN_VALUE;
+//        int max = -1;
+//        for(int i : level){
+//            if(max < i){
+//                max = i;
+//            }
+//            if(min > i){
+//                min = i;
+//            }
+//        }
+//        while(max < min){
+//            for(int i = 0; i < level.length; i++){
+//                if(level[i] == max){
+//                    depLocRepository.deleteDepLocByDepartmentId((long) dep_id[i]);
+//                    departmentRepository.deleteById((long) dep_id[i]);
+//                }
+//            }
+//            max--;
+//        }
 
+
+    }
 }

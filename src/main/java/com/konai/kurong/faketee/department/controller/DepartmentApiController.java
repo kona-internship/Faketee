@@ -37,7 +37,8 @@ public class DepartmentApiController {
     public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
                                             @PathVariable(name = "depId") Long posId){
 
-        departmentService.removeDep(corId, posId);
+        //여기서 객체에 리스트 두개 롱타입으로 조직id와 조직 level의 값을 전달받는다.
+//        departmentService.removeDep(corId, posId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

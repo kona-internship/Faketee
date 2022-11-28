@@ -60,7 +60,7 @@ public class LocationApiController {
             return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
         } else {
             //에러 발생시켜야함
-            log.info("에러발생시켜햐함 alert띄워서 조직 존재한다고 알려줘/ 지금은 일단 httpStatus.ok");
+            log.info("에러발생시켜햐함 alert띄워서 조직 존재한다고 알려줘/ 지금은 일단 httpStatus.ok 근데 이거 변경 필수");
             return new ResponseEntity<>(locationService.getLocList(corId), HttpStatus.OK);
         }
 
