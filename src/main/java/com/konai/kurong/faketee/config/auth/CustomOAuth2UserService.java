@@ -20,8 +20,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextListener;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 import java.util.Collections;
 
 
@@ -35,6 +38,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final HttpServletRequest httpServletRequest;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -62,16 +66,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 of(registrationID, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
-//        User user = UserJoinRequestDto.builder()
-//                .email(attributes.getEmail())
-//                .name(attributes.getName())
-//                .password("temp password")
-//                .role(Role.USER)
-//                .type(Type.GOOGLE)
-//                .build()
-//                .toEntity();
-        httpSession.setAttribute("user", new SessionUser(user));
-//        userRepository.save(user);
+        //httpSession.setAttribute("user", new SessionUser(user));
+        httpServletRequest.getSession().setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),
                 attributes.getAttributes(),

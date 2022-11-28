@@ -50,13 +50,11 @@ public class EmailAuth extends BaseUserEntity {
 
     @Builder
     public EmailAuth(Long id, String email, String emailAuthToken, String expired, LocalDateTime expireDate) {
-        log.info("expiredDate  : " + expireDate);
         this.id = id;
         this.email = email;
         this.emailAuthToken = emailAuthToken;
         this.expired = expired;
         this.expireDate = expireDate;
-        log.info("expiredDate  : " + this.expireDate);
     }
 
     public void updateExpired() {

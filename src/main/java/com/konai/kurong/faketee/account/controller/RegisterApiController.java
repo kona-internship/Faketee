@@ -22,11 +22,6 @@ public class RegisterApiController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
-
-//       DB에 회원가입 먼저 진행함
-//        userService.join(userJoinRequestDto);
-
-//
         return ResponseEntity.ok(userService.join(userJoinRequestDto));
     }
 
@@ -50,7 +45,6 @@ public class RegisterApiController {
     @GetMapping("/confirm-email")
     public ResponseEntity<?> confirmEmail(@ModelAttribute EmailAuthRequestDto emailAuthRequestDto) {
         userService.confirmEmailAuth(emailAuthRequestDto);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/login-form"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
