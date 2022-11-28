@@ -67,12 +67,12 @@ function confirmEmail() {
                 /** emailCheck 가 0이라면 -> 사용 가능한 email **/
                 if (emailCheck === true) {
                     sendEmailFlag = true;
-                    alert("EMAIL 인증 완료되었습니다.");
+                    alert("EMAIL 인증 링크가 전송되었습니다.");
                     $("#btn-register").removeAttr("disabled");
                 } else {
                     /** emailCheck 가 1이라면 -> email 인증 실패함 **/
                     sendEmailFlag = false;
-                    alert("EMAIL 인증 실패했습니다.");
+                    alert("EMAIL 인증 링크가 전송이 실패입니다.");
                     $("#btn-register").attr("disabled", true);
                 }
             },
