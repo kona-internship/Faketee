@@ -106,7 +106,7 @@ function checkExistData(value, dataName) {
     }
     return true;
 }
-function goListLocRegister(){
+function goLocList(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc/list";
 }
 function goAddLocPage() {
