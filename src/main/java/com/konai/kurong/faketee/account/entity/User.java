@@ -48,9 +48,6 @@ public class User extends BaseUserEntity {
     @Column(name = "EMAIL_AUTH_STATUS")
     private String emailAuthStatus;
 
-    @OneToOne(mappedBy = "user")
-    private EmailAuth emailAuth;
-
     @Builder
     public User(Long id, String email, String password, String name, Role role, Type type, String emailAuthStatus) {
         this.id = id;

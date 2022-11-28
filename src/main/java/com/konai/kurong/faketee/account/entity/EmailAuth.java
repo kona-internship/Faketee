@@ -32,23 +32,24 @@ public class EmailAuth extends BaseUserEntity {
     @Column(name = "ID")
     private Long id;
 
+    private String email;
+
     @Column(name = "EMAIL_AUTH_TOKEN")
     private String emailAuthToken;
 
+    /**
+     * "T" 라면 만료된 것이므로 email 사용 불가
+     * "F" 사용 가능
+     */
     private String expired;
 
     @Column(name = "EXPIRED_DATE")
     private LocalDateTime expiredDate;
 
-    @OneToOne
-    @JoinColumn(name = "USR_ID")
-    private User user;
-
     @Builder
-    public EmailAuth(String emailAuthToken, String expired, User user) {
+    public EmailAuth(String email, String emailAuthToken, String expired) {
         this.emailAuthToken = emailAuthToken;
         this.expired = expired;
-        this.user = user;
         this.expiredDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
     }
 

@@ -1,7 +1,7 @@
 /**이메일 형식 지켰는지 확인
  * 회원가입 email 중복 확인
  **/
-let emailFlag = false;
+let checkEmailFlag = false;
 
 $('#btn-emailCheck').on('click', function (){
     this.checkEmail();
@@ -12,7 +12,7 @@ function checkEmail() {
 
     let emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
     if (!emailRegExp.test(email)) {
-        emailFlag = false;
+        checkEmailFlag = false;
         alert("EMAIL 형식이 올바르지 않습니다!");
         $('#email').val('');
         $("#btn-register").attr("disabled", true);
@@ -31,14 +31,48 @@ function checkEmail() {
             success: function (emailCheck) {
                 /** emailCheck 가 0이라면 -> 사용 가능한 email **/
                 if (emailCheck === true) {
-                    emailFlag = true;
+                    checkEmailFlag = true;
                     alert("EMAIL 사용 가능합니다.");
-                    $("#btn-register").removeAttr("disabled");
+                    // $("#btn-register").removeAttr("disabled");
                 } else {
                     /** emailCheck 가 1이라면 -> 이미 존재하는 email 이므로 사용 못함 **/
-                    emailFlag = false;
+                    checkEmailFlag = false;
                     alert("EMAIL 이미 존재합니다.");
                     $('#email').val('');
+                    $("#btn-register").attr("disabled", true);
+                }
+            },
+            error: function (request, status, error) {
+                // alert("에러입니다");
+                alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+            }
+        });
+    }
+}
+
+let sendEmailFlag = false;
+
+function confirmEmail() {
+    const email = $('#email').val();
+
+    if(checkEmailFlag == true) {
+        $.ajax({
+            url: "/api/account/send-email?email=" + email,
+            type: "get",
+            // data:{"email": email},
+            // beforeSend: function(xhr) {
+            //     xhr.setRequestHeader(header, token);
+            // },
+            success: function (emailCheck) {
+                /** emailCheck 가 0이라면 -> 사용 가능한 email **/
+                if (emailCheck === true) {
+                    sendEmailFlag = true;
+                    alert("EMAIL 인증 완료되었습니다.");
+                    $("#btn-register").removeAttr("disabled");
+                } else {
+                    /** emailCheck 가 1이라면 -> email 인증 실패함 **/
+                    sendEmailFlag = false;
+                    alert("EMAIL 인증 실패했습니다.");
                     $("#btn-register").attr("disabled", true);
                 }
             },
@@ -117,7 +151,7 @@ function checkRegisterForm() {
 
 /** 회원가입 **/
 function register() {
-    if(checkRegisterForm() == true && emailFlag == true) {
+    if(checkRegisterForm() == true && checkEmailFlag == true && sendEmailFlag == true) {
         // const header = $("meta[name='_csrf_header']").attr('content');
         // const token = $("meta[name='_csrf']").attr('content');
 
