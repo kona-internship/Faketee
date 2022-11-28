@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 @Component
-public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
