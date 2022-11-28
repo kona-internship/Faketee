@@ -29,7 +29,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
          */
         if (userRepository.findByEmail(authentication.getPrincipal().toString()).orElseThrow(() -> new NoUserFoundException()).getEmailAuthStatus().equals("F")){
 
-            response.sendRedirect("/account/home");
+            response.sendRedirect("/account/login-error");
             return ;
         }
 
