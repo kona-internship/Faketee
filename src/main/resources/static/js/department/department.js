@@ -2,6 +2,10 @@ function listPageInit(){
     loadDepList("button");
 }
 
+function removePageInit(){
+    loadDepList("check");
+}
+
 function regPageInit(){
     loadLocCheckList();
     loadDepList("radio");
@@ -65,7 +69,7 @@ function showCheckDepHierarchy(superId, depMap){
     for(let dep of depMap.get(superId)){
         $('#dep-list').append(
             '<div>' +
-            '<input type="checkbox" name="dep" value='+ dep.id +'>' +
+            '<input type="checkbox" name="dep" value-id='+ dep.id +' value-level='+dep.level+'>' +
             '<span>'+ (dep.level>0? 'ㄴ':'') +(' '.repeat(dep.level)) + dep.name +' </span>' +
             '</div>'
         );
@@ -146,32 +150,6 @@ function showRadioDepHierarchy(superId, depMap){
     }
 }
 
-function registerDep(){
-    const locIdList = [];
-    $("input:checkbox[name=loc]:checked").each(function (){
-        locIdList.push($(this).val());
-    })
-    let jsonData = JSON.stringify({
-        name: $('#dep-name').val(),
-        superId: $("input:radio[name=dep]:checked").val(),
-        locationIdList: locIdList
-    });
-    console.log(jsonData);
-    $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep",
-        type: "POST",
-        data: jsonData,
-        contentType: "application/json",
-        success: function () {
-            goDepListPage();
-            alert('조직 등록 성공!');
-        },
-        error: function () {
-            alert('조직 등록 실패!');
-        }
-    });
-}
-
 function loadLocCheckList(){
     $.ajax({
         async: true,
@@ -200,6 +178,60 @@ function showLocCheckList(locList){
             '</div>'
         );
     }
+}
+
+function registerDep(){
+    const locIdList = [];
+    $("input:checkbox[name=loc]:checked").each(function (){
+        locIdList.push($(this).val());
+    })
+    let jsonData = JSON.stringify({
+        name: $('#dep-name').val(),
+        superId: $("input:radio[name=dep]:checked").val(),
+        locationIdList: locIdList
+    });
+
+    $.ajax({
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep",
+        type: "POST",
+        data: jsonData,
+        contentType: "application/json",
+        success: function () {
+            goDepListPage();
+            alert('조직 등록 성공!');
+        },
+        error: function () {
+            alert('조직 등록 실패!');
+        }
+    });
+}
+
+function removeDep(){
+    const removeDepList = [];
+    $("input:checkbox[name=dep]:checked").each(function (){
+        console.log($(this).attr("value-id"));
+        removeDepList.push({
+            [$(this).attr("value-id")] : $(this).attr("value-level")
+        });
+    })
+    let jsonData = JSON.stringify({
+        name: $('#dep-name').val(),
+        removeDepList: removeDepList
+    });
+    console.log(jsonData);
+    $.ajax({
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/remove"+ getNextPath(window.location.href, PATH_DEP),
+        type: "POST",
+        data: jsonData,
+        contentType: "application/json",
+        success: function () {
+            goDepListPage();
+            alert('조직 등록 성공!');
+        },
+        error: function () {
+            alert('조직 등록 실패!');
+        }
+    });
 }
 
 function goDepListPage(){

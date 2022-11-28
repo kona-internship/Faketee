@@ -6,6 +6,13 @@
 const PATH_COR = "/corporation";
 
 /**
+ * 조직 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_DEP = "/dep";
+
+/**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
  * @type {string}
