@@ -1,54 +1,20 @@
 function listPageInit(){
-    loadDepList();
+    loadDepList("button");
 }
 
 function regPageInit(){
     loadLocCheckList();
+    loadDepList("radio");
 }
 
-function showDepCheckList(depList){
-    $("#dep-list *").remove();
-
-    const depMap = depList.reduce((map, obj) =>{
-        let superId = obj.superId;
-        if(superId == null){
-            superId = 'root';
-        }
-        map.set(0,0);
-        console.log(map.get(superId));
-        if(map.has(superId)){
-            map.get(superId).push(obj);
-        }else{
-            let tmpList = [];
-            tmpList.push(obj);
-            map.set(superId, tmpList);
-        }
-    }, new Map);
-
-    showDepHierarchy('root', depMap);
-
-}
-
-function showDepHierarchy(superId, depMap){
-    for(let dep of depMap.get(superId)){
-        $('#dep-list').append(
-            '<div>' +
-            '<input type="checkbox" name="dep" value='+ dep.id +'>' +
-            '<span>'+ dep.name +' </span>' +
-            '</div>'
-        );
-        showDepHierarchy(dep.id);
-    }
-}
-
-function loadDepList(){
+function loadDepList(type){
     $.ajax({
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/list",
         type: "GET",
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            // showDepCheckList(data);
+            showDepList(data, type);
         },
         error: function () {
             alert('직무 목록 불러오기 실패!');
@@ -56,13 +22,127 @@ function loadDepList(){
     });
 }
 
-function showDepList(depList){
+function showDepList(depList, type){
+    switch (type) {
+        case "check":
+            showCheckDepList(depList);
+            break;
+        case "button":
+            showButtonDepList(depList);
+            break;
+        case "radio":
+            showRadioDepList(depList);
+            break;
+    }
+}
+
+function showCheckDepList(depList){
     $("#dep-list *").remove();
 
-    for(let dep of depList) {
+    const depMap = depList.reduce((map, obj) =>{
+        let superId = obj.superId;
+        if(superId == null){
+            superId = 'root';
+        }
+        if(map.has(superId)){
+            map.get(superId).push(obj);
+        }else{
+            let tmpList = [];
+            tmpList.push(obj);
+            map.set(superId, tmpList);
+        }
+        return map;
+    }, new Map);
+
+    showCheckDepHierarchy('root', depMap);
+}
+
+function showCheckDepHierarchy(superId, depMap){
+
+    if(!depMap.has(superId)){
+        return;
+    }
+    for(let dep of depMap.get(superId)){
         $('#dep-list').append(
-            '<div>조직 이름: '+ dep.name +' </div>'
+            '<div>' +
+            '<input type="checkbox" name="dep" value='+ dep.id +'>' +
+            '<span>'+ (dep.level>0? 'ㄴ':'') +(' '.repeat(dep.level)) + dep.name +' </span>' +
+            '</div>'
         );
+        showCheckDepHierarchy(dep.id, depMap);
+    }
+}
+
+function showButtonDepList(depList){
+    $("#dep-list *").remove();
+
+    const depMap = depList.reduce((map, obj) =>{
+        let superId = obj.superId;
+        if(superId == null){
+            superId = 'root';
+        }
+        if(map.has(superId)){
+            map.get(superId).push(obj);
+        }else{
+            let tmpList = [];
+            tmpList.push(obj);
+            map.set(superId, tmpList);
+        }
+        return map;
+    }, new Map);
+
+    showButtonDepHierarchy('root', depMap);
+}
+
+function showButtonDepHierarchy(superId, depMap){
+
+    if(!depMap.has(superId)){
+        return;
+    }
+    for(let dep of depMap.get(superId)){
+        $('#dep-list').append(
+            '<div>' +
+            '<a href="http://localhost:8080/corporation/1/dep/'+ dep.id +'">'+ (dep.level>0? 'ㄴ':'') + (' '.repeat(dep.level)) + dep.name +' </a>' +
+            '</div>'
+        );
+        showButtonDepHierarchy(dep.id, depMap);
+    }
+}
+
+function showRadioDepList(depList){
+    $("#dep-list *").remove();
+
+    const depMap = depList.reduce((map, obj) =>{
+        let superId = obj.superId;
+        if(superId == null){
+            superId = 'root';
+        }
+        if(map.has(superId)){
+            map.get(superId).push(obj);
+        }else{
+            let tmpList = [];
+            tmpList.push(obj);
+            map.set(superId, tmpList);
+        }
+        return map;
+    }, new Map);
+
+    showRadioDepHierarchy('root', depMap);
+}
+
+function showRadioDepHierarchy(superId, depMap){
+
+    if(!depMap.has(superId)){
+        return;
+    }
+    for(let dep of depMap.get(superId)){
+        $('#dep-list').append(
+            '<div>' +
+            '<input type="radio" name="dep" value='+ dep.id +'>' +
+            '<span>'+ (dep.level>0? 'ㄴ':'') + (' '.repeat(dep.level)) + dep.name +' </span>' +
+            '</div>'
+        );
+        showRadioDepHierarchy(dep.id, depMap);
     }
 }
 
@@ -73,6 +153,7 @@ function registerDep(){
     })
     let jsonData = JSON.stringify({
         name: $('#dep-name').val(),
+        superId: $("input:radio[name=dep]:checked").val(),
         locationIdList: locIdList
     });
     console.log(jsonData);
