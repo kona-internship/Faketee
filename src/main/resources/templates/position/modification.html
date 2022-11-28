@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>직무 수정</title>
+</head>
+<body>
+<div id="container" role="main">
+    <h2>직무 수정</h2>
+    <span>직무 이름:</span>
+    <input type="text" id="up-pos-name" placeholder="직무 이름을 입력하세요!" th:value="${posName}">
+    <button type="button" th:id="${posId}" th:onclick="updatePos(this.getAttribute('id'))">직무 수정</button>
+    <br>
+    <button type="button" onclick="goListPosRegister()">목록</button>
+</div>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="/js/position/position.js"></script>
+</html>

@@ -5,10 +5,12 @@ import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.position.dto.PositionResponseDto;
 import com.konai.kurong.faketee.position.dto.PositionSaveRequestDto;
 import com.konai.kurong.faketee.position.entity.Position;
+import com.konai.kurong.faketee.position.repository.PositionQueryRepo;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 public class PositionService {
 
     private final PositionRepository positionRepository;
+    private final PositionQueryRepo positionQueryRepo;
 
     private final CorporationRepository corporationRepository;
 
@@ -45,6 +48,10 @@ public class PositionService {
                 .build();
 
         positionRepository.save(position);
+    }
+    @Transactional
+    public void updatePosition(Long posId, PositionSaveRequestDto requestDto){
+        positionQueryRepo.updatePosName(posId, requestDto.getName());
     }
 
     /**

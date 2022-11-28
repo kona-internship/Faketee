@@ -12,10 +12,12 @@ import java.util.stream.Stream;
 @Builder
 public class PositionResponseDto {
 
+    private Long id;
     private String name;
 
     public static PositionResponseDto convertToDto(Position position){
         return PositionResponseDto.builder()
+                .id(position.getId())
                 .name(position.getName())
                 .build();
     }
