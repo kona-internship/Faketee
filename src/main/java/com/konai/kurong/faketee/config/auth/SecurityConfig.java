@@ -4,11 +4,13 @@ import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.config.auth.PrincipalDetailsService;
 import com.konai.kurong.faketee.util.CustomAuthFailureHandler;
+import com.konai.kurong.faketee.util.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +32,8 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
     private final CustomAuthFailureHandler customAuthFailureHandler;
+    private final PrincipalDetailsService principalDetailsService;
+    //private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -48,6 +52,14 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAuthenticationProvider authenticationProvider(){
+
+        CustomAuthenticationProvider customAuthenticationProvider = new CustomAuthenticationProvider(principalDetailsService);
+        customAuthenticationProvider.setbCryptPasswordEncoder(passwordEncoder());
+        return customAuthenticationProvider;
     }
 
     @Bean
@@ -85,12 +97,12 @@ public class SecurityConfig {
                  */
                 .and()
                     .formLogin()
-                        .usernameParameter("email")
+//                        .usernameParameter("email")
                         .loginPage("/account/login-form")
                         .loginProcessingUrl("/login")
                         .failureHandler(customAuthFailureHandler)
                         .defaultSuccessUrl("/account/set-auth")
-//                        .permitAll()
+                        .permitAll()
                 .and()
                     .logout()
                         .logoutUrl("/logout")
