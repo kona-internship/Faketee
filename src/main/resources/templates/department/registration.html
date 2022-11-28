@@ -6,7 +6,6 @@
 </head>
 
 <body>
-
 <div id="container" role="main">
     <h2>조직 등록</h2>
     <form>
@@ -19,7 +18,7 @@
                             <span>조직 이름:</span>
                         </th>
                         <td>
-                            <input type="text" id="pos-name" placeholder="조직 이름을 입력하세요!">
+                            <input type="text" id="dep-name" placeholder="조직 이름을 입력하세요!">
                         </td>
                     </tr>
                     <tr>
@@ -30,10 +29,10 @@
                     </tbody>
                 </table>
             </div>
-            <div id="loc-radio"></div>
+            <div id="loc-check-list"></div>
         </div>
         <div>
-            <button id="dep-register" onclick="registerPos()">조직 등록</button>
+            <button id="dep-register" onclick="registerDep()">조직 등록</button>
         </div>
     </form>
 </div>
@@ -41,6 +40,9 @@
 
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src="/js/utils/url.js"></script>
-<script src="/js/position/position.js"></script>
+<script src="/js/department/department.js"></script>
+<script>
+    regPageInit();
+</script>
 
 </html>
