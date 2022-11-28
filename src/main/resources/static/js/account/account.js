@@ -6,7 +6,7 @@ let checkEmailFlag = false;
 function checkEmail() {
     const email = $('#email').val();
 
-    let emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if (!emailRegExp.test(email)) {
         checkEmailFlag = false;
         alert("EMAIL 형식이 올바르지 않습니다!");
@@ -55,6 +55,10 @@ function checkEmail() {
 //         $.ajax({
 //             url: "/api/account/send-email?email=" + email,
 //             type: "get",
+//             data:{"email": email},
+//             beforeSend: function(xhr) {
+//                 xhr.setRequestHeader(header, token);
+//             },
 //             // data:{"email": email},
 //             // beforeSend: function(xhr) {
 //             //     xhr.setRequestHeader(header, token);
@@ -64,11 +68,19 @@ function checkEmail() {
 //                 if (emailCheck === true) {
 //                     sendEmailFlag = true;
 //                     alert("EMAIL 인증 링크가 전송되었습니다.");
+//                     $("#btn-register").removeAttr("disabled");
 //                     //$("#btn-register").removeAttr("disabled");
 //                 } else {
 //                     /** emailCheck 가 1이라면 -> email 인증 실패함 **/
 //                     sendEmailFlag = false;
 //                     alert("EMAIL 인증 링크가 전송이 실패입니다.");
+//                     $("#btn-register").attr("disabled", true);
+//                 }
+//
+//                 alert("EMAIL 인증 링크가 전송되었습니다.");
+//                 sendEmailFlag = true;
+//                 $("#btn-register").removeAttr("disabled");
+//
 //                     //$("#btn-register").attr("disabled", true);
 //                 }
 //             },
@@ -168,7 +180,9 @@ function register() {
             //     xhr.setRequestHeader(header, token);
             // },
             success: function (data) {
-                alert("회원가입에 성공했습니다.\n다시 로그인 해주세요.");
+                alert("회원가입에 성공했습니다.\n" +
+                    "이메일 인증 링크 클릭 후, \n" +
+                    "다시 로그인 해주세요.");
                 window.location.replace("/account/login-form");
             },
             error: function (request, status, error) {

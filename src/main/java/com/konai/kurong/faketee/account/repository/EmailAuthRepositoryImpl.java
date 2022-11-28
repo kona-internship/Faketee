@@ -21,7 +21,7 @@ public class EmailAuthRepositoryImpl extends QuerydslRepositorySupport {
                 .selectFrom(QEmailAuth.emailAuth)
                 .where(QEmailAuth.emailAuth.email.eq(email),
                         QEmailAuth.emailAuth.emailAuthToken.eq(emailAuthToken),
-                        QEmailAuth.emailAuth.expiredDate.goe(currentTime),
+                        QEmailAuth.emailAuth.expireDate.goe(currentTime),
                         QEmailAuth.emailAuth.expired.eq("F"))
                 .fetchFirst();
 

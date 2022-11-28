@@ -48,11 +48,11 @@ public class UserService {
         requestDto.setEmailAuthStatus("F");
         User user = userRepository.save(requestDto.toEntity());
 
-////        emailAuth Entity 저장
-//        Long emailAuthId = emailAuthService.saveAuthEmail(user);
-//
-////        user에게 emailAuth 보내기
-//        emailAuthService.sendAuthEmail(user.getEmail(), emailAuthId);
+//        emailAuthToken Entity 저장
+        String emailAuthToken = emailAuthService.saveEmailAuthToken(user.getEmail());
+
+//        user에게 이메일 인증 링크 보내기
+        emailAuthService.sendEmail(user.getEmail(), emailAuthToken);
 
         return user.getId();
     }
