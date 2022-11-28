@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.department.service;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
+import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.entity.DepLoc;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -91,30 +94,39 @@ public class DepartmentService {
         return DepartmentResponseDto.convertToDtoList(departmentRepository.findAllByCorporation_Id(corId));
     }
 
-    public void removeDep(Long corId, Long depId){
+    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto){
+        //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
+
+        List<Long> idList = new ArrayList<>();
+        List<Long> levelList = new ArrayList<>();
+
         //어떤 객체이서 리스트 롱타임으로 2개빼내
-//        int[] dep_id = .clone();
-//        int[] level = .clone();
-//
-//        int min = Integer.MIN_VALUE;
-//        int max = -1;
-//        for(int i : level){
-//            if(max < i){
-//                max = i;
-//            }
-//            if(min > i){
-//                min = i;
-//            }
-//        }
-//        while(max < min){
-//            for(int i = 0; i < level.length; i++){
-//                if(level[i] == max){
-//                    depLocRepository.deleteDepLocByDepartmentId((long) dep_id[i]);
-//                    departmentRepository.deleteById((long) dep_id[i]);
-//                }
-//            }
-//            max--;
-//        }
+        for(Map<Long, Long> map : requestDto.getRemoveDepList()){
+            map.forEach((id, level)->{
+                idList.add(id);
+                levelList.add(level);
+            });
+        }
+
+        Long min = Long.MIN_VALUE;
+        Long max = -1L;
+        for(Long i : levelList){
+            if(max < i){
+                max = i;
+            }
+            if(min > i){
+                min = i;
+            }
+        }
+        while(max < min){
+            for(int i = 0; i < levelList.size(); i++){
+                if(levelList.get(i) == max){
+                    depLocRepository.deleteDepLocByDepartmentId(idList.get(i));
+                    departmentRepository.deleteById(idList.get(i));
+                }
+            }
+            max--;
+        }
 
 
     }

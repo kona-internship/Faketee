@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.department.controller;
 
+import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +34,14 @@ public class DepartmentApiController {
         return new ResponseEntity<>(departmentService.getDepList(corId), HttpStatus.OK);
     }
 
-    @PostMapping("/delete/{depId}")
+    @PostMapping("/remove/{depId}")
     public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
-                                            @PathVariable(name = "depId") Long posId){
+                                       @RequestBody DepartmentRemoveRequestDto requestDto){
 
+        log.info(requestDto.toString());
+        log.info(String.valueOf(requestDto.getRemoveDepList().get(1).get(3L)));
         //여기서 객체에 리스트 두개 롱타입으로 조직id와 조직 level의 값을 전달받는다.
-//        departmentService.removeDep(corId, posId);
+        departmentService.removeDep(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
