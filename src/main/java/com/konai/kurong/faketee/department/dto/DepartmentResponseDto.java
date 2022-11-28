@@ -25,7 +25,7 @@ public class DepartmentResponseDto {
                 .id(department.getId())
                 .name(department.getName())
                 .level(department.getLevel())
-                .superId(department.getSuperDepartment().getId())
+                .superId((department.getSuperDepartment()!= null? department.getSuperDepartment().getId(): null))
                 .build();
     }
 
