@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @Table(name="EMAIL_AUTH")
 @Data
 @Entity
+@Slf4j
 public class EmailAuth extends BaseUserEntity {
 
     /**
@@ -43,14 +45,16 @@ public class EmailAuth extends BaseUserEntity {
      */
     private String expired;
 
-    @Column(name = "EXPIRED_DATE")
-    private LocalDateTime expiredDate;
+    @Column(name = "EXPIRE_DATE")
+    private LocalDateTime expireDate;
 
     @Builder
-    public EmailAuth(String email, String emailAuthToken, String expired) {
+    public EmailAuth(Long id, String email, String emailAuthToken, String expired, LocalDateTime expireDate) {
+        this.id = id;
+        this.email = email;
         this.emailAuthToken = emailAuthToken;
         this.expired = expired;
-        this.expiredDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
+        this.expireDate = expireDate;
     }
 
     public void updateExpired() {
