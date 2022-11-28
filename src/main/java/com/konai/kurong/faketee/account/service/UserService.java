@@ -1,17 +1,24 @@
 package com.konai.kurong.faketee.account.service;
 
+import com.konai.kurong.faketee.account.dto.EmailAuthRequestDto;
 import com.konai.kurong.faketee.account.dto.UserJoinRequestDto;
 import com.konai.kurong.faketee.account.dto.UserResponseDto;
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
+import com.konai.kurong.faketee.account.entity.EmailAuth;
 import com.konai.kurong.faketee.account.entity.User;
+import com.konai.kurong.faketee.account.repository.EmailAuthRepository;
+import com.konai.kurong.faketee.account.repository.EmailAuthRepositoryImpl;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.account.util.Type;
+import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
 import com.konai.kurong.faketee.util.exception.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -19,6 +26,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final EmailAuthService emailAuthService;
+
+    private final EmailAuthRepositoryImpl emailAuthRepository;
+
 
     /**
      * 회원가입
@@ -28,16 +40,21 @@ public class UserService {
      */
     @Transactional
     public Long join(UserJoinRequestDto requestDto) {
-
         String rawPassword = requestDto.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         requestDto.setEncPassword(encPassword);
         requestDto.setRole(Role.USER);
         requestDto.setType(Type.GENERAL);
+        requestDto.setEmailAuthStatus("F");
+        User user = userRepository.save(requestDto.toEntity());
 
-        User user = requestDto.toEntity();
+////        emailAuth Entity 저장
+//        Long emailAuthId = emailAuthService.saveAuthEmail(user);
+//
+////        user에게 emailAuth 보내기
+//        emailAuthService.sendAuthEmail(user.getEmail(), emailAuthId);
 
-        return userRepository.save(requestDto.toEntity()).getId();
+        return user.getId();
     }
 
     /**
@@ -48,6 +65,16 @@ public class UserService {
     public UserResponseDto findByEmail(String email) {
 
         return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException()));
+    }
+
+    /**
+     * 이메일로 사용자 READ
+     * @param email: READ할 사용자 이메일
+     * @return 이메일에 해당하는 사용자
+     */
+    public User findUserByEmail(String email) {
+
+        return userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException());
     }
 
     /**
@@ -104,5 +131,30 @@ public class UserService {
     public boolean validateEmail(String email) {
 
         return userRepository.findByEmail(email).orElse(null) == null? true : false;
+    }
+
+    /**
+     * emailAuth 인증 절차
+     * user의 emailAuthStatus, emailAuth의 expired 변경
+     * @param emailAuthRequestDto
+     * @return 인증이 되면 true, 안되면 false
+     */
+    @Transactional
+    public boolean confirmEmailAuth(EmailAuthRequestDto emailAuthRequestDto) {
+//        User user = findUserByEmail(email);
+//        EmailAuth emailAuth = emailAuthService.findByUserEmail(user.getId());
+//        EmailAuth emailAuthCheck = emailAuthService.findValidEmailAuth(emailAuth);
+
+        EmailAuth emailAuth = emailAuthService.findByEmail(emailAuthRequestDto.getEmail());
+
+        EmailAuth emailAuthCheck = emailAuthRepository.findValidAuthByEmail
+                        (emailAuthRequestDto.getEmail(), emailAuth.getEmailAuthToken(), LocalDateTime.now())
+                .orElseThrow(() -> new NoEmailAuthFoundException());
+
+        User user = findUserByEmail(emailAuthRequestDto.getEmail());
+
+        emailAuthCheck.updateExpired();
+        user.updateEmailAuthStatus();
+        return true;
     }
 }

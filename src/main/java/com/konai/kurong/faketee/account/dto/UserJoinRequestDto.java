@@ -18,6 +18,7 @@ public class UserJoinRequestDto {
     private String name;
     private Role role;
     private Type type;
+    private String emailAuthStatus;
 
     public User toEntity() {
         return User.builder()
@@ -26,6 +27,7 @@ public class UserJoinRequestDto {
                 .name(name)
                 .role(role)
                 .type(type)
+                .emailAuthStatus(emailAuthStatus)
                 .build();
     }
 

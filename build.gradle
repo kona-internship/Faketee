@@ -64,6 +64,11 @@ dependencies {
 //    oauth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+//    emailAuth
+    implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.5'
+    implementation 'javax.mail:mail:1.4.7'
+    implementation 'org.springframework:spring-context-support:6.0.0'
+
 //    test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
@@ -84,12 +89,9 @@ querydsl {
 sourceSets {
     main.java.srcDir querydslDir
 }
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
 compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
-}
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    querydsl.extendsFrom compileClasspath
 }
