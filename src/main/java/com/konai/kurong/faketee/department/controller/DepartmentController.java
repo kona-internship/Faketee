@@ -24,6 +24,11 @@ public class DepartmentController {
         return "department/registration";
     }
 
+    @GetMapping("/remove")
+    public String removeDep(){
+        return "department/remove";
+    }
+
     @GetMapping("/{posId}/{posName}")
     public String goModiDepPage(@PathVariable(name = "posId") Long posId, @PathVariable(name = "posName") String posName, Model model){
         model.addAttribute("posId", posId);
