@@ -1,19 +1,19 @@
-function listPageInit(){
+function listPageInit() {
     loadDepList("button");
 }
 
-function removePageInit(){
+function removePageInit() {
     loadDepList("check");
 }
 
-function regPageInit(){
+function regPageInit() {
     loadLocCheckList();
     loadDepList("radio");
 }
 
-function loadDepList(type){
+function loadDepList(type) {
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/list",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/list",
         type: "GET",
         contentType: "application/json",
         dataType: "json",
@@ -26,7 +26,7 @@ function loadDepList(type){
     });
 }
 
-function showDepList(depList, type){
+function showDepList(depList, type) {
     switch (type) {
         case "check":
             showCheckDepList(depList);
@@ -40,17 +40,17 @@ function showDepList(depList, type){
     }
 }
 
-function showCheckDepList(depList){
+function showCheckDepList(depList) {
     $("#dep-list *").remove();
 
-    const depMap = depList.reduce((map, obj) =>{
+    const depMap = depList.reduce((map, obj) => {
         let superId = obj.superId;
-        if(superId == null){
+        if (superId == null) {
             superId = 'root';
         }
-        if(map.has(superId)){
+        if (map.has(superId)) {
             map.get(superId).push(obj);
-        }else{
+        } else {
             let tmpList = [];
             tmpList.push(obj);
             map.set(superId, tmpList);
@@ -61,33 +61,33 @@ function showCheckDepList(depList){
     showCheckDepHierarchy('root', depMap);
 }
 
-function showCheckDepHierarchy(superId, depMap){
+function showCheckDepHierarchy(superId, depMap) {
 
-    if(!depMap.has(superId)){
+    if (!depMap.has(superId)) {
         return;
     }
-    for(let dep of depMap.get(superId)){
+    for (let dep of depMap.get(superId)) {
         $('#dep-list').append(
             '<div>' +
-            '<input type="checkbox" name="dep" value-id='+ dep.id +' value-level='+dep.level+'>' +
-            '<span>'+ (dep.level>0? 'ㄴ':'') +(' '.repeat(dep.level)) + dep.name +' </span>' +
+            '<input type="checkbox" name="dep" value-id=' + dep.id + ' value-level=' + dep.level + '>' +
+            '<span>' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </span>' +
             '</div>'
         );
         showCheckDepHierarchy(dep.id, depMap);
     }
 }
 
-function showButtonDepList(depList){
+function showButtonDepList(depList) {
     $("#dep-list *").remove();
 
-    const depMap = depList.reduce((map, obj) =>{
+    const depMap = depList.reduce((map, obj) => {
         let superId = obj.superId;
-        if(superId == null){
+        if (superId == null) {
             superId = 'root';
         }
-        if(map.has(superId)){
+        if (map.has(superId)) {
             map.get(superId).push(obj);
-        }else{
+        } else {
             let tmpList = [];
             tmpList.push(obj);
             map.set(superId, tmpList);
@@ -98,32 +98,32 @@ function showButtonDepList(depList){
     showButtonDepHierarchy('root', depMap);
 }
 
-function showButtonDepHierarchy(superId, depMap){
+function showButtonDepHierarchy(superId, depMap) {
 
-    if(!depMap.has(superId)){
+    if (!depMap.has(superId)) {
         return;
     }
-    for(let dep of depMap.get(superId)){
+    for (let dep of depMap.get(superId)) {
         $('#dep-list').append(
             '<div>' +
-            '<a href="http://localhost:8080/corporation/1/dep/'+ dep.id +'">'+ (dep.level>0? 'ㄴ':'') + (' '.repeat(dep.level)) + dep.name +' </a>' +
+            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </a>' +
             '</div>'
         );
         showButtonDepHierarchy(dep.id, depMap);
     }
 }
 
-function showRadioDepList(depList){
+function showRadioDepList(depList) {
     $("#dep-list *").remove();
 
-    const depMap = depList.reduce((map, obj) =>{
+    const depMap = depList.reduce((map, obj) => {
         let superId = obj.superId;
-        if(superId == null){
+        if (superId == null) {
             superId = 'root';
         }
-        if(map.has(superId)){
+        if (map.has(superId)) {
             map.get(superId).push(obj);
-        }else{
+        } else {
             let tmpList = [];
             tmpList.push(obj);
             map.set(superId, tmpList);
@@ -134,26 +134,26 @@ function showRadioDepList(depList){
     showRadioDepHierarchy('root', depMap);
 }
 
-function showRadioDepHierarchy(superId, depMap){
+function showRadioDepHierarchy(superId, depMap) {
 
-    if(!depMap.has(superId)){
+    if (!depMap.has(superId)) {
         return;
     }
-    for(let dep of depMap.get(superId)){
+    for (let dep of depMap.get(superId)) {
         $('#dep-list').append(
             '<div>' +
-            '<input type="radio" name="dep" value='+ dep.id +'>' +
-            '<span>'+ (dep.level>0? 'ㄴ':'') + (' '.repeat(dep.level)) + dep.name +' </span>' +
+            '<input type="radio" name="dep" value=' + dep.id + '>' +
+            '<span>' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </span>' +
             '</div>'
         );
         showRadioDepHierarchy(dep.id, depMap);
     }
 }
 
-function loadLocCheckList(){
+function loadLocCheckList() {
     $.ajax({
         async: true,
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/loc/list",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc/list",
         type: "post",
         contentType: "application/json",
         dataType: "json",
@@ -166,23 +166,23 @@ function loadLocCheckList(){
     });
 }
 
-function showLocCheckList(locList){
+function showLocCheckList(locList) {
     $('#loc-check-list *').remove();
 
-    for(let [index,loc] of locList.entries()) {
-        let msg = '<label><input type="checkbox" name="loc" value='+ loc.id +'><div>'+(index+1) +'. 출퇴근 장소명: '+ loc.name +' 주소 : '+ loc.address+' 반경: '+ loc.radius+ ' </div></label>';
+    for (let [index, loc] of locList.entries()) {
+        let msg = '<label><input type="checkbox" name="loc" value=' + loc.id + '><div>' + (index + 1) + '. 출퇴근 장소명: ' + loc.name + ' 주소 : ' + loc.address + ' 반경: ' + loc.radius + ' </div></label>';
         $('#loc-check-list').append(
             '<div>' +
-            '<input type="checkbox" name="loc" value='+ loc.id +'>' +
-            '<span>'+(index+1) +'. 출퇴근 장소명: '+ loc.name +' 주소 : '+ loc.address+' 반경: '+ loc.radius+ ' </span>' +
+            '<input type="checkbox" name="loc" value=' + loc.id + '>' +
+            '<span>' + (index + 1) + '. 출퇴근 장소명: ' + loc.name + ' 주소 : ' + loc.address + ' 반경: ' + loc.radius + ' </span>' +
             '</div>'
         );
     }
 }
 
-function registerDep(){
+function registerDep() {
     const locIdList = [];
-    $("input:checkbox[name=loc]:checked").each(function (){
+    $("input:checkbox[name=loc]:checked").each(function () {
         locIdList.push($(this).val());
     })
     let jsonData = JSON.stringify({
@@ -192,7 +192,7 @@ function registerDep(){
     });
 
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep",
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -206,12 +206,12 @@ function registerDep(){
     });
 }
 
-function removeDep(){
+function removeDep() {
     const removeDepList = [];
-    $("input:checkbox[name=dep]:checked").each(function (){
+    $("input:checkbox[name=dep]:checked").each(function () {
         console.log($(this).attr("value-id"));
         removeDepList.push({
-            [$(this).attr("value-id")] : $(this).attr("value-level")
+            [$(this).attr("value-id")]: $(this).attr("value-level")
         });
     })
     let jsonData = JSON.stringify({
@@ -220,7 +220,7 @@ function removeDep(){
     });
     console.log(jsonData);
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/remove"+ getNextPath(window.location.href, PATH_DEP),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/remove" + getNextPath(window.location.href, PATH_DEP),
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -234,17 +234,18 @@ function removeDep(){
     });
 }
 
-function goDepListPage(){
+function goDepListPage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep";
 }
 
-function goDepRegPage(){
+function goDepRegPage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/reg";
 }
-function loadDetailDepPage(){
+
+function loadDetailDepPage() {
     $.ajax({
         async: true,
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/detail"+ getNextPath(window.location.href, "/dep"),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/detail" + getNextPath(window.location.href, "/dep"),
         type: "post",
         contentType: "application/json",
         dataType: "json",
@@ -254,12 +255,11 @@ function loadDetailDepPage(){
             $('#up-dept-name').attr("value", data.dep.superName);
             let locs = data.loc;
             let locText = $('#loc-name');
-            for(let [index, lo] of locs.entries()){
-                console.log(lo.name);
-                locText.val(locText.val()+ lo.name + ", ");
+            for (let [index, lo] of locs.entries()) {
+                locText.val(locText.val() + lo.name + ", ");
             }
 //하위조직
-//             showDepList(data, "button");
+            showDepList(data.sub, "button");
         },
         error: function () {
             alert('조직 상세 불러오기 실패!');
