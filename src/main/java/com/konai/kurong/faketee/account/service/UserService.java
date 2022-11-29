@@ -11,6 +11,7 @@ import com.konai.kurong.faketee.account.repository.EmailAuthRepositoryImpl;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.account.util.Type;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
 import com.konai.kurong.faketee.util.exception.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,8 @@ public class UserService {
         String emailAuthToken = emailAuthService.saveEmailAuthToken(user.getEmail());
 //        user에게 이메일 인증 링크 보내기
         emailAuthService.sendEmail(user.getEmail(), emailAuthToken);
-        httpServletRequest.getSession().setAttribute("guest", requestDto.getEmail());
+//        httpServletRequest.getSession().setAttribute("guest", requestDto.getEmail());
+        httpServletRequest.getSession().setAttribute("user", new SessionUser(requestDto.toEntity()));
 
         return user.getId();
     }
