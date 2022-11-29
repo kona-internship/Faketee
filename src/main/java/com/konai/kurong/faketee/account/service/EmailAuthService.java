@@ -19,9 +19,7 @@ import java.util.UUID;
 public class EmailAuthService {
     @Autowired
     private final JavaMailSender javaMailSender;
-
     private final EmailAuthRepository emailAuthRepository;
-
     private static final Long MAX_EXPIRE_TIME = 5L;
 
     /**
@@ -31,6 +29,7 @@ public class EmailAuthService {
      * @param emailAuthToken : 생성된 emailAuthToken
      */
     public void sendEmail(String email, String emailAuthToken) {
+
         SimpleMailMessage smm = new SimpleMailMessage();
         smm.setTo(email);
         smm.setSubject("시프티 회원가입 이메일 인증");
@@ -45,6 +44,7 @@ public class EmailAuthService {
      * @return emailAuthToken
      */
     public String saveEmailAuthToken(String email) {
+
         LocalDateTime expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
 
         EmailAuth emailAuth = emailAuthRepository.save(
@@ -64,6 +64,7 @@ public class EmailAuthService {
      * @return emailAuth
      */
     public EmailAuth findByEmail(String email) {
+
         return emailAuthRepository.findByEmail(email).orElseThrow(() -> new NoEmailAuthFoundException());
     }
 }

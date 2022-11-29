@@ -284,3 +284,8 @@ function update() {
         });
     }
 }
+
+function resendConfirmEmail() {
+
+
+}

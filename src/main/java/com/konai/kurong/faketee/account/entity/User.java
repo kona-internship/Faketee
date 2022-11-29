@@ -65,6 +65,12 @@ public class User extends BaseUserEntity {
     }
 
     public void updateEmailAuthStatus() {
+
         this.emailAuthStatus = "T";
+    }
+
+    public void updateRole(Role role){
+
+        this.role = role;
     }
 }
