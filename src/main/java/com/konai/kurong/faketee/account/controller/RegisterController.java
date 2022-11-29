@@ -46,4 +46,10 @@ public class RegisterController {
         System.out.println(user.getEmail());
         return "account/set-auth";
     }
+
+    @GetMapping("/login-error")
+    public String loginError(){
+
+        return "account/login-error";
+    }
 }
