@@ -85,7 +85,6 @@ public class DepartmentService {
                     .build());
         }
         depLocRepository.saveAll(depLocList);
-
     }
 
     public List<DepartmentResponseDto> getDepList(Long corId) {
@@ -171,7 +170,7 @@ public class DepartmentService {
 
     @Transactional
     public void modifyDep(Long corId, Long depId, DepartmentModifyRequestDto requestDto){
-
+        
         if(requestDto.getIsModifyLow()){
             depLocRepository.deleteDepLocsByDepIds(requestDto.getLowDepartmentIdList());
             List<DepLoc> depLocList = new ArrayList<>();
@@ -184,6 +183,8 @@ public class DepartmentService {
                     DepLoc lowDepLoc = DepLoc.builder()
                             .location(location)
                             .department(lowDep)
+                            .createdDateTime(LocalDateTime.now())
+                            .createdId(100L) //임의로 넣어둠
                             .build();
                     depLocList.add(lowDepLoc);
                 }
