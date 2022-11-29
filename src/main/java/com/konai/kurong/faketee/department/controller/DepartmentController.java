@@ -3,9 +3,7 @@ package com.konai.kurong.faketee.department.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -15,27 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DepartmentController {
 
     @GetMapping()
-    public String listDep(){
+    public String listDepPage(){
         return "department/list";
     }
 
     @GetMapping("/reg")
-    public String registerDep(){
+    public String registerDepPage(){
         return "department/registration";
     }
 
     @GetMapping("/remove")
-    public String removeDep(){
+    public String removeDepPage(){
         return "department/remove";
     }
 
-    @GetMapping("/{posId}/{posName}")
-    public String goModiDepPage(@PathVariable(name = "posId") Long posId, @PathVariable(name = "posName") String posName, Model model){
-        model.addAttribute("posId", posId);
-        model.addAttribute("posName", posName);
-
+    @GetMapping("/{depId}/mod")
+    public String modifyDepPage(){
         return "department/modification";
     }
+
 
     @GetMapping("/{depId}")
     public String goDetailDepPage(){
