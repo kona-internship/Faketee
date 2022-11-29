@@ -16,12 +16,11 @@ public class QuerydslDepLocRepositoryImpl implements QuerydslDepLocRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<DepLoc> findDepLocByIds(List<Long> depIdList) {
+    @Override
+    public Long deleteDepLocsByDepIds(List<Long> depIdList){
         return jpaQueryFactory
-                .select(depLoc)
-                .from(depLoc)
-                .join(depLoc.department, department)
+                .delete(depLoc)
                 .where(depLoc.department.id.in(depIdList))
-                .fetch();
+                .execute();
     }
 }
