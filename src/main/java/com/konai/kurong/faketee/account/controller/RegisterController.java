@@ -42,7 +42,7 @@ public class RegisterController {
     }
 
     @GetMapping("/set-auth")
-    public String setAuth(@AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String setAuth(){
 
         return "account/set-auth";
     }
