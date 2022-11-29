@@ -52,7 +52,7 @@ public class DepartmentApiController {
         return new ResponseEntity<>(departmentService.getDep(depId), HttpStatus.OK);
     }
 
-    @PostMapping("/detail/{depId}")
+    @PostMapping("/{depId}/mod")
     public ResponseEntity<?> modifyDep(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "depId") Long depId,
                                        @RequestBody DepartmentModifyRequestDto requestDto){
