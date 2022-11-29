@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.account.service;
 
 import com.konai.kurong.faketee.account.entity.EmailAuth;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepository;
+import com.konai.kurong.faketee.account.repository.EmailAuthRepositoryImpl;
 import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,6 +22,7 @@ public class EmailAuthService {
     @Autowired
     private final JavaMailSender javaMailSender;
     private final EmailAuthRepository emailAuthRepository;
+    private final EmailAuthRepositoryImpl emailAuthRepositoryImpl;
     private static final Long MAX_EXPIRE_TIME = 5L;
 
     /**
@@ -56,6 +59,13 @@ public class EmailAuthService {
                         .build());
 
         return emailAuth.getEmailAuthToken();
+    }
+
+    @Transactional
+    public String updateEmailAuthToken(String email) {
+        LocalDateTime expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
+        emailAuthRepositoryImpl.updateEmailAuth(email, UUID.randomUUID().toString(), expireDate);
+        return findByEmail(email).getEmailAuthToken();
     }
 
     /**
