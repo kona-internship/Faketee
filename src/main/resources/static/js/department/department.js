@@ -46,13 +46,18 @@ function showTextDeptList(depList) {
 
 }
 
-function showCheckDepList(depList) {
-    $("#dep-list *").remove();
+function makeDepLevelMap(depList){
+    let minLevel = Number.POSITIVE_INFINITY;
+    let root;
 
     const depMap = depList.reduce((map, obj) => {
         let superId = obj.superId;
         if (superId == null) {
             superId = 'root';
+        }
+        if(obj.level < minLevel){
+            minLevel = obj.level
+            root = superId
         }
         if (map.has(superId)) {
             map.get(superId).push(obj);
@@ -64,10 +69,22 @@ function showCheckDepList(depList) {
         return map;
     }, new Map);
 
-    showCheckDepHierarchy('root', depMap);
+    return {
+        root: root,
+        depMap: depMap,
+        minLevel: minLevel
+    }
 }
 
-function showCheckDepHierarchy(superId, depMap) {
+function showCheckDepList(depList) {
+    $("#dep-list *").remove();
+
+    const levelMap = makeDepLevelMap(depList);
+
+    showCheckDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
+}
+
+function showCheckDepHierarchy(superId, depMap, minLevel) {
 
     if (!depMap.has(superId)) {
         return;
@@ -77,35 +94,23 @@ function showCheckDepHierarchy(superId, depMap) {
         $('#dep-list').append(
             '<div>' +
             '<input type="checkbox" name="dep" value-id=' + dep.id + ' value-level=' + dep.level + '>' +
-            '<span>' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
+            '<span>' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
-        showCheckDepHierarchy(dep.id, depMap);
+        showCheckDepHierarchy(dep.id, depMap, minLevel);
     }
 }
 
 function showButtonDepList(depList) {
     $("#dep-list *").remove();
 
-    const depMap = depList.reduce((map, obj) => {
-        let superId = obj.superId;
-        if (superId == null) {
-            superId = 'root';
-        }
-        if (map.has(superId)) {
-            map.get(superId).push(obj);
-        } else {
-            let tmpList = [];
-            tmpList.push(obj);
-            map.set(superId, tmpList);
-        }
-        return map;
-    }, new Map);
+    const levelMap = makeDepLevelMap(depList);
+    console.log(levelMap);
 
-    showButtonDepHierarchy('root', depMap);
+    showButtonDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
 }
 
-function showButtonDepHierarchy(superId, depMap) {
+function showButtonDepHierarchy(superId, depMap, minLevel) {
 
     if (!depMap.has(superId)) {
         return;
@@ -114,35 +119,22 @@ function showButtonDepHierarchy(superId, depMap) {
         let spaces = "&emsp;&emsp;"
         $('#dep-list').append(
             '<div>' +
-            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
+            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
             '</div>'
         );
-        showButtonDepHierarchy(dep.id, depMap);
+        showButtonDepHierarchy(dep.id, depMap, minLevel);
     }
 }
 
 function showRadioDepList(depList) {
     $("#dep-list *").remove();
 
-    const depMap = depList.reduce((map, obj) => {
-        let superId = obj.superId;
-        if (superId == null) {
-            superId = 'root';
-        }
-        if (map.has(superId)) {
-            map.get(superId).push(obj);
-        } else {
-            let tmpList = [];
-            tmpList.push(obj);
-            map.set(superId, tmpList);
-        }
-        return map;
-    }, new Map);
+    const levelMap = makeDepLevelMap(depList);
 
-    showRadioDepHierarchy('root', depMap);
+    showRadioDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
 }
 
-function showRadioDepHierarchy(superId, depMap) {
+function showRadioDepHierarchy(superId, depMap, minLevel) {
 
     if (!depMap.has(superId)) {
         return;
@@ -152,10 +144,10 @@ function showRadioDepHierarchy(superId, depMap) {
         $('#dep-list').append(
             '<div>' +
             '<input type="radio" name="dep" value=' + dep.id + '>' +
-            '<span>' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
+            '<span>' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
-        showRadioDepHierarchy(dep.id, depMap);
+        showRadioDepHierarchy(dep.id, depMap, minLevel);
     }
 }
 
@@ -297,7 +289,7 @@ function loadDetailDepPage(){
                 locText.val(locText.val() + lo.name + ", ");
             }
 //하위조직
-            showDepList(data.sub, "text");
+            showDepList(data.sub, "button");
         },
         error: function () {
             alert('조직 상세 불러오기 실패!');
