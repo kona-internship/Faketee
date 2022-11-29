@@ -151,10 +151,10 @@ public class DepartmentService {
     public void modifyDep(Long corId, Long depId, DepartmentModifyRequestDto requestDto){
 
         if(requestDto.getIsModifyLow()){
-            depLocRepository.deleteDepLocsByDepIds(requestDto.getDepartmentIdList());
+            depLocRepository.deleteDepLocsByDepIds(requestDto.getLowDepartmentIdList());
             List<DepLoc> depLocList = new ArrayList<>();
             List<Location> locations = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
-            for(Long lowDepId : requestDto.getDepartmentIdList()){
+            for(Long lowDepId : requestDto.getLowDepartmentIdList()){
                 Department lowDep = departmentRepository.findById(lowDepId).orElseThrow();
                 lowDep.changeName(requestDto.getName());
 
