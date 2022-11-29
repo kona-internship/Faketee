@@ -3,6 +3,7 @@ package com.konai.kurong.faketee.account.dto;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.account.util.Type;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.*;
 
 

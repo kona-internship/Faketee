@@ -4,6 +4,8 @@ import com.konai.kurong.faketee.account.dto.EmailAuthRequestDto;
 import com.konai.kurong.faketee.account.dto.UserJoinRequestDto;
 import com.konai.kurong.faketee.account.service.EmailAuthService;
 import com.konai.kurong.faketee.account.service.UserService;
+import com.konai.kurong.faketee.auth.LoginUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +39,7 @@ public class RegisterApiController {
 
     @GetMapping("/confirm-email")
     public ResponseEntity<?> confirmEmail(@ModelAttribute EmailAuthRequestDto emailAuthRequestDto) {
+
         userService.confirmEmailAuth(emailAuthRequestDto);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/login-form"));
@@ -44,8 +47,9 @@ public class RegisterApiController {
     }
 
     @GetMapping("/reconfirm-email")
-    public ResponseEntity<?> reconfirmEmail(HttpServletRequest httpServletRequest) {
-        String email = (String) httpServletRequest.getSession().getAttribute("guest");
+    public ResponseEntity<?> reconfirmEmail(@LoginUser SessionUser sessionUser) {
+
+        String email = sessionUser.getEmail();
         String emailAuthToken = emailAuthService.updateEmailAuthToken(email);
         EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto(email, emailAuthToken);
         emailAuthService.sendEmail(email, emailAuthToken);
@@ -54,4 +58,5 @@ public class RegisterApiController {
         headers.setLocation(URI.create("/account/login-form"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
+
 }

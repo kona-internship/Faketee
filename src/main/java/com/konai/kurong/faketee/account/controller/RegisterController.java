@@ -45,9 +45,15 @@ public class RegisterController {
         return "account/set-auth";
     }
 
-    @GetMapping("/login-error")
+    @GetMapping("/login-auth")
     public String loginError(){
 
-        return "account/login-error";
+        return "account/login-auth";
+    }
+
+    @GetMapping("/register-auth")
+    public String registerAuth(){
+
+        return "account/register-auth";
     }
 }

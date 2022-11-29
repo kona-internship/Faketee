@@ -87,6 +87,8 @@ public class SecurityConfig {
                             "/account/",
                             "/account/login-form",
                             "/account/register-form",
+                            "/account/register-auth",
+                            "/account/login-auth",
                             "/api/**"
                     )
                     .permitAll()

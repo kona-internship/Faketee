@@ -185,7 +185,7 @@ function register() {
                 alert("회원가입에 성공했습니다.\n" +
                     "5분 안에 이메일 인증 링크 클릭 후, \n" +
                     "다시 로그인 해주세요.");
-                window.location.replace("/account/login-form");
+                window.location.replace("/account/register-auth");
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
@@ -287,5 +287,15 @@ function update() {
 
 function resendConfirmEmail() {
 
+    $.ajax({
+        type : "GET",
+        url : "/api/account/reconfirm-email",
 
+        success : function (data) {
+            alert("인증링크가 재전송되었습니다.");
+        },
+        error : function (request, status, error) {
+            alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+        }
+    });
 }
