@@ -1,6 +1,9 @@
-package com.konai.kurong.faketee.auth;
+package com.konai.kurong.faketee.auth.config;
 
 import com.konai.kurong.faketee.account.repository.UserRepository;
+import com.konai.kurong.faketee.auth.CustomAuthenticationProvider;
+import com.konai.kurong.faketee.auth.CustomOAuth2UserService;
+import com.konai.kurong.faketee.auth.PrincipalDetailsService;
 import com.konai.kurong.faketee.util.CustomLoginFailureHandler;
 import com.konai.kurong.faketee.util.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -113,8 +116,9 @@ public class SecurityConfig {
 //                        .permitAll()
                 .and()
                     .oauth2Login()
+                        .defaultSuccessUrl("/account/set-auth")
                         .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+                        .userService(customOAuth2UserService);
 
         return http.build();
     }
