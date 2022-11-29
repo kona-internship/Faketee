@@ -34,7 +34,8 @@ public class UserService {
 
     /**
      * 회원가입
-     * 입력받은 비밀번호를 암호화하여 저장하고 repo에 save
+     * 입력받은 비밀번호를 암호화하여 저장하고 repo 에 save
+     * emailAuthToken Entity 저장 후, User에게 이메일 인증 링크 전송
      * @param requestDto: 회원가입시 사용자로부터 입력받은 값을 가지는 dto
      * @return
      */
@@ -50,7 +51,6 @@ public class UserService {
 
 //        emailAuthToken Entity 저장
         String emailAuthToken = emailAuthService.saveEmailAuthToken(user.getEmail());
-
 //        user에게 이메일 인증 링크 보내기
         emailAuthService.sendEmail(user.getEmail(), emailAuthToken);
 
@@ -135,16 +135,12 @@ public class UserService {
 
     /**
      * emailAuth 인증 절차
-     * user의 emailAuthStatus, emailAuth의 expired 변경
+     * user 의 emailAuthStatus "T", emailAuth 의 expired "T" 로 변경
      * @param emailAuthRequestDto
      * @return 인증이 되면 true, 안되면 false
      */
     @Transactional
     public boolean confirmEmailAuth(EmailAuthRequestDto emailAuthRequestDto) {
-//        User user = findUserByEmail(email);
-//        EmailAuth emailAuth = emailAuthService.findByUserEmail(user.getId());
-//        EmailAuth emailAuthCheck = emailAuthService.findValidEmailAuth(emailAuth);
-
         EmailAuth emailAuth = emailAuthService.findByEmail(emailAuthRequestDto.getEmail());
 
         EmailAuth emailAuthCheck = emailAuthRepository.findValidAuthByEmail
@@ -155,6 +151,7 @@ public class UserService {
 
         emailAuthCheck.updateExpired();
         user.updateEmailAuthStatus();
+
         return true;
     }
 }

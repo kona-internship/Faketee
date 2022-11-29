@@ -31,17 +31,6 @@ public class RegisterApiController {
         return ResponseEntity.ok(userService.validateEmail(email));
     }
 
-//    /**
-//     * 반환 타입 고려 필요함
-//     * void 형으로 할지, 아니면 다른 것과 같이 responseEntity 로 묶을지!!!!!!!!!
-//     * @param email
-//     */
-//    @GetMapping("/send-email")
-//    public void sendEmail(@RequestParam("email") String email){
-//        String emailAuthToken = emailAuthService.saveEmailAuthToken(email);
-//        emailAuthService.sendEmail(email, emailAuthToken);
-//    }
-
     @GetMapping("/confirm-email")
     public ResponseEntity<?> confirmEmail(@ModelAttribute EmailAuthRequestDto emailAuthRequestDto) {
         userService.confirmEmailAuth(emailAuthRequestDto);
