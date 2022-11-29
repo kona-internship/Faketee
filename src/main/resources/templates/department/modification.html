@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>조직 상세</title>
 </head>
 <body>
+<h1>조직 상세보기</h1>
+조직 이름:<input type="text" id="dept-name" ><br>
+상위 조직 이름:<input type="text" id="up-dept-name" disabled><br>
+출퇴근 장소:<input type="text" id="loc-name" ><br>
 
+하위 조직도
+<button type="button" onclick="modifyDep()">수정완료</button>
+<button type="button" onclick="goDepListPage()">목록</button>
 </body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/department/department.js"></script>
+<script>
+    loadDetailDepPage();
+</script>
 </html>
