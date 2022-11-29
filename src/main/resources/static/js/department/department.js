@@ -11,6 +11,15 @@ function regPageInit() {
     loadDepList("radio");
 }
 
+function detailPageInit(){
+    loadDetailDepPage();
+}
+
+function modPageInit(){
+    loadLocCheckList();
+    loadDepList("text");
+}
+
 function loadDepList(type) {
     $.ajax({
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/list",
@@ -42,10 +51,6 @@ function showDepList(depList, type) {
     }
 }
 
-function showTextDeptList(depList) {
-
-}
-
 function makeDepLevelMap(depList){
     let minLevel = Number.POSITIVE_INFINITY;
     let root;
@@ -73,6 +78,29 @@ function makeDepLevelMap(depList){
         root: root,
         depMap: depMap,
         minLevel: minLevel
+    }
+}
+
+function showTextDeptList(depList) {
+    $("#dep-list *").remove();
+
+    const levelMap = makeDepLevelMap(depList);
+
+    showTextDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
+}
+
+function showTextDepHierarchy(superId, depMap, minLevel){
+    if (!depMap.has(superId)) {
+        return;
+    }
+    for (let dep of depMap.get(superId)) {
+        let spaces = "&emsp;&emsp;"
+        $('#dep-list').append(
+            '<div>' +
+            '<span name="dep" value-id=' + dep.id + ' value-level=' + dep.level + '>' + (spaces.repeat(dep.level - minLevel)) + (dep.level - minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
+            '</div>'
+        );
+        showTextDepHierarchy(dep.id, depMap, minLevel);
     }
 }
 
@@ -210,7 +238,6 @@ function registerDep() {
 function removeDep() {
     const removeDepList = [];
     $("input:checkbox[name=dep]:checked").each(function () {
-        console.log($(this).attr("value-id"));
         removeDepList.push({
             [$(this).attr("value-id")]: $(this).attr("value-level")
         });
@@ -227,20 +254,25 @@ function removeDep() {
         contentType: "application/json",
         success: function () {
             goDepListPage();
-            alert('조직 등록 성공!');
+            alert('조직 삭제 성공!');
         },
         error: function () {
-            alert('조직 등록 실패!');
+            alert('조직 삭제 실패!');
         }
     });
 }
 
 
 function modifyDep(){
-
+    const locIdList = [];
+    $("input:checkbox[name=loc]:checked").each(function () {
+        locIdList.push($(this).val());
+    })
     let jsonData = JSON.stringify({
         name: $('#dept-name').val(),
-        modifyId: $('loc-name').val()
+        lowDepartmentIdList: locIdList,
+        locationIdList: locIdList,
+        isModifyLow: $("#isModifyLow").is(':checked')
     });
     console.log(jsonData);
     $.ajax({
@@ -267,6 +299,9 @@ function goDepRegPage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/reg";
 }
 
+function goDepRemovePage() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/remove";
+}
 
 function goDepModPage(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep"+ getNextPath(window.location.href, PATH_DEP) + "/mod";
@@ -289,7 +324,7 @@ function loadDetailDepPage(){
                 locText.val(locText.val() + lo.name + ", ");
             }
 //하위조직
-            showDepList(data.sub, "button");
+            showDepList(data.sub, "text");
         },
         error: function () {
             alert('조직 상세 불러오기 실패!');
