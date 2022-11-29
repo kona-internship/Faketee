@@ -62,6 +62,7 @@ public class PrincipalDetails implements UserDetails {
     }
 
     public Type getType() {
+
         return sessionUser.getType();
     }
 

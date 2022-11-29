@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.account.controller;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.service.UserService;
+import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +21,15 @@ public class MyPageApiController {
 
     @PostMapping("/update-password")
     public ResponseEntity<?> updatePassword(@RequestBody UserUpdateRequestDto requestDto,
-                                            HttpServletRequest request){
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("user");
+                                            @LoginUser SessionUser sessionUser){
+
         return ResponseEntity.ok(userService.updatePassword(sessionUser.getId(), requestDto));
     }
 
     @PostMapping("/delete")
-    public void delete(HttpServletRequest request){
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("user");
+    public void delete(@LoginUser SessionUser sessionUser){
+
         userService.delete(sessionUser.getId());
     }
+
 }
