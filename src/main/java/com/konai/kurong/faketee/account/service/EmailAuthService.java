@@ -118,9 +118,9 @@ public class EmailAuthService {
 
     /**
      * email 인증 링크 전송
-     * smmSetText 수정필요함
+     * smmSetText emailAuthToken 이 노출된다
      * @param email : 받는 email
-     * @param emailAuthToken
+     * @param emailAuthToken : 생성된 emailAuthToken
      */
     public void sendEmail(String email, String emailAuthToken) {
         SimpleMailMessage smm = new SimpleMailMessage();
@@ -134,6 +134,7 @@ public class EmailAuthService {
     /**
      * emailAuthToken CREATE
      * @param email : 받는 email
+     * @return emailAuthToken
      */
     public String saveEmailAuthToken(String email) {
         LocalDateTime expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
@@ -149,6 +150,11 @@ public class EmailAuthService {
         return emailAuth.getEmailAuthToken();
     }
 
+    /**
+     * email 로 EmailAuth FIND
+     * @param email : 이메일
+     * @return emailAuth
+     */
     public EmailAuth findByEmail(String email) {
         return emailAuthRepository.findByEmail(email).orElseThrow(() -> new NoEmailAuthFoundException());
     }

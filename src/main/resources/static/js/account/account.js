@@ -181,7 +181,7 @@ function register() {
             // },
             success: function (data) {
                 alert("회원가입에 성공했습니다.\n" +
-                    "이메일 인증 링크 클릭 후, \n" +
+                    "5분 안에 이메일 인증 링크 클릭 후, \n" +
                     "다시 로그인 해주세요.");
                 window.location.replace("/account/login-form");
             },

@@ -43,4 +43,9 @@ public class RegisterController {
 
         return "account/login-error";
     }
+
+    @GetMapping("/mypage")
+    public String myPage() {
+        return "account/mypage";
+    }
 }
