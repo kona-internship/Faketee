@@ -64,4 +64,8 @@ public class Department {
 
     @Column(name = "UPD_ID")
     private Long updatedId;
+
+    public void changeName(String name){
+        this.name = name;
+    }
 }
