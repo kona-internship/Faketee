@@ -26,9 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final EmailAuthService emailAuthService;
-
     private final EmailAuthRepositoryImpl emailAuthRepository;
 
 

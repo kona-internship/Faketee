@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * 로그인 처리를 위해 authentication provider가 필요함
  * username password authentication token 발급을 위한 커스텀 클래스
+ * SecurityConfig에서 등록된다
  */
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -37,6 +38,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException(username);
         }
 
+        /**
+         * Spring 기본인 AbstractUserDetailAuthenticationProvider.class와 다르게 UsernamePasswordAuthenticationToken을 커스텀하여 저장
+         * @AuthenticationPrincipal PrincipalDetails 사용이 불가하다
+         * Authentication Token의 principal로 username을 주었으니, (@AuthenticationPrincipal String email) 사용하면 로그인한 유저의 email이 불러와진다.
+         */
         return new UsernamePasswordAuthenticationToken(username, password, principalDetails.getAuthorities());
     }
 

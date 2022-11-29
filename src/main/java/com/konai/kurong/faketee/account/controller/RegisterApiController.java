@@ -22,6 +22,7 @@ public class RegisterApiController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
+
         return ResponseEntity.ok(userService.join(userJoinRequestDto));
     }
 
