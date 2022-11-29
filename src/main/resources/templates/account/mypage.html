@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>mypage</title>
 </head>
 <body>
-    <h1><strong>내 계정</strong></h1>
-    <a href="/templates/account/set-info.html" role="button">내 계정 비밀번호 변경</a>
-
     <h1>내 계정 정보</h1>
     <table>
         <tr>
@@ -16,15 +14,17 @@
         </tr>
         <tr>
             <td>이메일</td>
-            <td>#######사용자의 이메일#######</td>
+            <td th:text="${email}"></td>
         </tr>
         <tr>
             <td>이름</td>
-            <td>#######사용자의 이름#######</td>
+            <td th:text="${name}"></td>
         </tr>
     </table>
 
+    <button th:onclick="|location.href='@{/account/mypage/set-info}'|">비밀번호 변경</button><br><br>
+
+    <a href="/logout" role="button">로그아웃</a><br>
     <p>웹 버젼 1.0.00</p>
-    <a href="/logout" role="button">로그아웃</a>
 </body>
 </html>

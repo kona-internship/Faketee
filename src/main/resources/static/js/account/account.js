@@ -141,10 +141,12 @@ function checkRegisterForm() {
         return false;
     }
 
-    validatePassword(registerForm.password.value);
-
     if (registerForm.password.value != registerForm.passwordCheck.value) {
         alert("PASSWORD, CHECK PASSWORD 일치해야 합니다.");
+        return false;
+    }
+
+    if(validatePassword(registerForm.password.value) == false) {
         return false;
     }
 
@@ -220,23 +222,29 @@ function checkUpdateForm() {
         alert("현재 PASSWORD 입력하세요.");
         return false;
     }
-    if (registerForm.newPassword.value === "") {
+    if (updateForm.newPassword.value === "") {
         alert("변경 PASSWORD 입력하세요.");
         return false;
     }
-    if (registerForm.newPasswordCheck.value === "") {
+    if (updateForm.newPasswordCheck.value === "") {
         alert("변경 PASSWORD 확인 입력하세요.");
         return false;
     }
-    if (registerForm.newPassword.value != registerForm.newPasswordCheck.value) {
+
+    if (updateForm.newPassword.value != updateForm.newPasswordCheck.value) {
         alert("변경 PASSWORD, 변경 PASSWORD 확인 일치해야 합니다.");
         return false;
     }
+
+    if(validatePassword(updateForm.newPassword.value) == false) {
+        return false;
+    }
+
     return true;
 }
 
 /**
- * 회원 정보 수정
+ * 회원 비밀번호 수정
  */
 function update() {
     if(checkUpdateForm() == true) {
@@ -260,8 +268,14 @@ function update() {
             //     xhr.setRequestHeader(header, token);
             // },
             success: function (data) {
-                alert("PASSWORD를 수정했습니다.");
-                window.location.replace("/account/mypage");
+                if(data == -1) {
+                    alert("현재 PASSWORD가 일치하지 않습니다.");
+                    window.location.replace("/account/mypage/set-info");
+                }
+                else {
+                    alert("PASSWORD를 수정했습니다.");
+                    window.location.replace("/account/mypage");
+                }
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);

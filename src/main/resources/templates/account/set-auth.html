@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>set-auth</title></head>
@@ -13,7 +12,7 @@
 <br>
 <a href="/account/관리자"><button type="button">최고관리자</button></a>
 <br>
-<button th:href="@{/account/mypage}">마이페이지</button>
+<button th:onclick="|location.href='@{/account/mypage}'|">마이페이지</button>
 
 <p>&copy; faketee2022</p></form>
 </body>

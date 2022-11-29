@@ -16,11 +16,11 @@
         </tr>
         <tr>
             <td>이메일</td>
-            <td>#######사용자의 이메일#######</td>
+            <td th:text="${email}"></td>
         </tr>
         <tr>
             <td>이름</td>
-            <td>#######사용자의 이름#######</td>
+            <td th:text="${name}"></td>
         </tr>
         <tr>
             <!--     현재 비밀번호       -->
@@ -43,7 +43,6 @@
 </form>
 
 </body>
-
-<script type="text/javascript" src="/js/corporation/account.js"></script>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src='/static/js/account/account.js'></script>
 </html>
