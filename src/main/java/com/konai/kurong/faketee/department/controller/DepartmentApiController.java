@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.department.controller;
 
+import com.konai.kurong.faketee.department.dto.DepartmentModifyRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
@@ -49,5 +50,13 @@ public class DepartmentApiController {
     public ResponseEntity<?> detailDep(@PathVariable(name = "depId") Long depId){
 
         return new ResponseEntity<>(departmentService.getDep(depId), HttpStatus.OK);
+    }
+
+    @PostMapping("/detail/{depId}")
+    public ResponseEntity<?> modifyDep(@PathVariable(name = "corId") Long corId,
+                                       @PathVariable(name = "depId") Long depId,
+                                       @RequestBody DepartmentModifyRequestDto requestDto){
+        departmentService.modifyDep(corId, depId, requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
