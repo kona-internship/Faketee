@@ -40,7 +40,6 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
 
-        System.out.println("ofGoogle**************************************************");
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -52,11 +51,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
 
-        System.out.println("ofNaver****************************************************");
         Map<String, Object> response = (Map<String, Object>)attributes.get("response");
-
-        System.out.println((String) response.get("name"));
-        System.out.println((String) response.get("email"));
 
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))

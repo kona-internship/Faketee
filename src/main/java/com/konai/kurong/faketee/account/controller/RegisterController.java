@@ -1,7 +1,9 @@
 package com.konai.kurong.faketee.account.controller;
 
+import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +42,8 @@ public class RegisterController {
     }
 
     @GetMapping("/set-auth")
-    public String setAuth(){
+    public String setAuth(@AuthenticationPrincipal PrincipalDetails principalDetails){
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        System.out.println(user.getEmail());
         return "account/set-auth";
     }
 
