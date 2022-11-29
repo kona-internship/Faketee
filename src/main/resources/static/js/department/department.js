@@ -234,6 +234,28 @@ function removeDep(){
     });
 }
 
+function modifyDep(){
+
+    let jsonData = JSON.stringify({
+        name: $('#dept-name').val(),
+        modifyId: $('loc-name').val()
+    });
+    console.log(jsonData);
+    $.ajax({
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep"+ getNextPath(window.location.href, PATH_DEP) + "/mod",
+        type: "POST",
+        data: jsonData,
+        contentType: "application/json",
+        success: function () {
+            goDepListPage();
+            alert('조직 등록 성공!');
+        },
+        error: function () {
+            alert('조직 등록 실패!');
+        }
+    });
+}
+
 function goDepListPage(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep";
 }
@@ -241,10 +263,15 @@ function goDepListPage(){
 function goDepRegPage(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/reg";
 }
+
+function goDepModPage(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep"+ getNextPath(window.location.href, PATH_DEP) + "/mod";
+}
+
 function loadDetailDepPage(){
     $.ajax({
         async: true,
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/detail"+ getNextPath(window.location.href, "/dep"),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/detail"+ getNextPath(window.location.href, PATH_DEP),
         type: "post",
         contentType: "application/json",
         dataType: "json",
