@@ -2,7 +2,7 @@ package com.konai.kurong.faketee.account.controller;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.service.UserService;
-import com.konai.kurong.faketee.config.auth.PrincipalDetails;
+import com.konai.kurong.faketee.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

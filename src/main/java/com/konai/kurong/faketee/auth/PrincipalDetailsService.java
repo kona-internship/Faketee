@@ -1,6 +1,7 @@
-package com.konai.kurong.faketee.config.auth;
+package com.konai.kurong.faketee.auth;
 
 import com.konai.kurong.faketee.account.repository.UserRepository;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

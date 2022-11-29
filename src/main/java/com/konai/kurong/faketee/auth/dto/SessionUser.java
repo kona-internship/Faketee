@@ -1,7 +1,8 @@
-package com.konai.kurong.faketee.config.auth;
+package com.konai.kurong.faketee.auth.dto;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.util.Role;
+import com.konai.kurong.faketee.account.util.Type;
 import lombok.Getter;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 
@@ -17,6 +18,7 @@ public class SessionUser implements Serializable {
     private String password;
     private String name;
     private Role role;
+    private Type type;
 
     public SessionUser(User user){
         this.id = user.getId();
@@ -24,5 +26,6 @@ public class SessionUser implements Serializable {
         this.password = user.getPassword();
         this.name = user.getName();
         this.role = user.getRole();
+        this.type = user.getType();
     }
 }
