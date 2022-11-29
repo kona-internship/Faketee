@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.account.controller;
 
+import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +20,16 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MyPageController {
     @GetMapping("/mypage")
-    public String myPage(Model model, HttpServletRequest request) {
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("user");
+    public String myPage(Model model, @LoginUser SessionUser sessionUser) {
+
         model.addAttribute("email", sessionUser.getEmail());
         model.addAttribute("name", sessionUser.getName());
         return "account/mypage";
     }
 
     @GetMapping("/mypage/set-info")
-    public String setInfo(Model model, HttpServletRequest request) {
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("user");
+    public String setInfo(Model model, @LoginUser SessionUser sessionUser) {
+
         if(sessionUser.getType().getKey().equals("TYPE_GENERAL")) {
             model.addAttribute("email", sessionUser.getEmail());
             model.addAttribute("name", sessionUser.getName());

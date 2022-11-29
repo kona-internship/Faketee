@@ -32,6 +32,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/templates/");
     }
 
+    /**
+     * (@LoginUser)어노테이션 작동을 위해 커스텀한 LoginUserArgumentResolver 등록
+     * @param resolvers initially an empty list
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginUserArgumentResolver);

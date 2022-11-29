@@ -17,8 +17,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class RegisterController {
 
-    private final HttpSession httpSession;
-
     @GetMapping("/")
     public String home(){
 
