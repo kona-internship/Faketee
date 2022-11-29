@@ -1,8 +1,7 @@
-package com.konai.kurong.faketee.config.auth;
+package com.konai.kurong.faketee.auth;
 
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.util.CustomLoginFailureHandler;
-import com.konai.kurong.faketee.util.CustomAuthenticationProvider;
 import com.konai.kurong.faketee.util.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -77,7 +76,8 @@ public class SecurityConfig {
                             "/account/",
                             "/account/login-form",
                             "/account/register-form",
-                            "/api/**"
+                            "/api/**",
+                            "**/oauth2/**"
                     )
                     .permitAll()
 //                    .antMatchers("/api/**")

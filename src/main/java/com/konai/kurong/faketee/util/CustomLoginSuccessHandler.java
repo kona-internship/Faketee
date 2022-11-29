@@ -2,7 +2,7 @@ package com.konai.kurong.faketee.util;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
-import com.konai.kurong.faketee.config.auth.SessionUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.util.exception.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RequiredArgsConstructor

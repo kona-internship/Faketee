@@ -1,7 +1,7 @@
-package com.konai.kurong.faketee.util;
+package com.konai.kurong.faketee.auth;
 
-import com.konai.kurong.faketee.config.auth.PrincipalDetails;
-import com.konai.kurong.faketee.config.auth.PrincipalDetailsService;
+import com.konai.kurong.faketee.auth.PrincipalDetails;
+import com.konai.kurong.faketee.auth.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

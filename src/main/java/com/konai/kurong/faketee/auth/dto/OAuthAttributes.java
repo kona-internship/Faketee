@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.config.auth.dto;
+package com.konai.kurong.faketee.auth.dto;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.util.Role;
@@ -31,16 +31,38 @@ public class OAuthAttributes {
      */
     public static OAuthAttributes of(String registrationID, String userNameAttributeName, Map<String, Object> attributes){
 
+        if("naver".equals(registrationID)){
+            return ofNaver("id", attributes);
+        }
+
         return ofGoogle(userNameAttributeName, attributes);
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
 
+        System.out.println("ofGoogle**************************************************");
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .type(Type.GOOGLE)
                 .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
+
+        System.out.println("ofNaver****************************************************");
+        Map<String, Object> response = (Map<String, Object>)attributes.get("response");
+
+        System.out.println((String) response.get("name"));
+        System.out.println((String) response.get("email"));
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .type(Type.NAVER)
+                .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
