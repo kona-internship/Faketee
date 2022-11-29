@@ -61,7 +61,7 @@ public class SecurityConfig {
         return (web -> web
                         .ignoring()
                         .antMatchers("/resources/**",
-                                "/static/**"));
+                                    "/static/**"));
     }
 
     @Bean
@@ -76,8 +76,7 @@ public class SecurityConfig {
                             "/account/",
                             "/account/login-form",
                             "/account/register-form",
-                            "/api/**",
-                            "**/oauth2/**"
+                            "/api/**"
                     )
                     .permitAll()
 //                    .antMatchers("/api/**")
@@ -96,7 +95,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .successHandler(customLoginSuccessHandler)
                         .failureHandler(customLoginFailureHandler)
-//                        .defaultSuccessUrl("/account/set-auth")
+                        //.defaultSuccessUrl("/account/set-auth")
                         .permitAll()
                 .and()
                     .logout()
