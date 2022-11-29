@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -63,6 +64,7 @@ public class EmailAuthService {
 
     @Transactional
     public String updateEmailAuthToken(String email) {
+
         LocalDateTime expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
         emailAuthRepositoryImpl.updateEmailAuth(email, UUID.randomUUID().toString(), expireDate);
         return findByEmail(email).getEmailAuthToken();
