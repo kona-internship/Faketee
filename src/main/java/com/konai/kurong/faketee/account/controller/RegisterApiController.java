@@ -48,7 +48,8 @@ public class RegisterApiController {
         String email = (String) httpServletRequest.getSession().getAttribute("guest");
         String emailAuthToken = emailAuthService.updateEmailAuthToken(email);
         EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto(email, emailAuthToken);
-        userService.confirmEmailAuth(emailAuthRequestDto);
+        emailAuthService.sendEmail(email, emailAuthToken);
+//        userService.confirmEmailAuth(emailAuthRequestDto);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/login-form"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
