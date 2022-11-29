@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -97,6 +94,22 @@ public class DepartmentService {
         return DepartmentResponseDto.convertToDtoList(departmentRepository.findAllByCorporation_Id(corId));
     }
 
+    public List<Department> getSubDepList(Department dep) {
+        List<Department> depList = new ArrayList<>();
+        Stack<Department> stack = new Stack<>();
+
+        stack.push(dep);
+        while (!stack.empty()) {
+            Department d = stack.pop();
+            depList.add(d);
+            for (int i = 0; i < d.getChildDepartments().size(); i++) {
+                stack.push(d.getChildDepartments().get(i));
+            }
+        }
+
+        return depList;
+    }
+
     @Transactional
     public Result<?> getDep(Long depId) {
 
@@ -111,15 +124,14 @@ public class DepartmentService {
             loc.add(deploc.getLocation());
         }
 
-        //해당 부서 하위 조직
-        //음 모르겠다
-//        dep.getChildDepartments()
+        //해당 부서 하위 조직들
+        List<Department> subs = getSubDepList(dep);
 
-        return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc));
+        return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
     }
 
     @Transactional
-    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException{
+    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException {
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
         List<Long> idList = new ArrayList<>();
@@ -162,9 +174,12 @@ public class DepartmentService {
         private T dep;
         private T loc;
 
-        public Result(T dep, T loc) {
+        private T sub;
+
+        public Result(T dep, T loc, T sub) {
             this.dep = dep;
             this.loc = loc;
+            this.sub = sub;
         }
     }
 }
