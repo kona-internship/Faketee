@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailAuthService emailAuthService;
     private final EmailAuthRepositoryImpl emailAuthRepository;
-
+    private final HttpServletRequest httpServletRequest;
 
     /**
      * 회원가입
@@ -39,10 +40,11 @@ public class UserService {
      */
     @Transactional
     public Long join(UserJoinRequestDto requestDto) {
+
         String rawPassword = requestDto.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         requestDto.setEncPassword(encPassword);
-        requestDto.setRole(Role.USER);
+        requestDto.setRole(Role.GUEST);
         requestDto.setType(Type.GENERAL);
         requestDto.setEmailAuthStatus("F");
         User user = userRepository.save(requestDto.toEntity());
@@ -51,6 +53,7 @@ public class UserService {
         String emailAuthToken = emailAuthService.saveEmailAuthToken(user.getEmail());
 //        user에게 이메일 인증 링크 보내기
         emailAuthService.sendEmail(user.getEmail(), emailAuthToken);
+        httpServletRequest.getSession().setAttribute("guest", requestDto.getEmail());
 
         return user.getId();
     }
@@ -139,6 +142,7 @@ public class UserService {
      */
     @Transactional
     public boolean confirmEmailAuth(EmailAuthRequestDto emailAuthRequestDto) {
+
         EmailAuth emailAuth = emailAuthService.findByEmail(emailAuthRequestDto.getEmail());
 
         EmailAuth emailAuthCheck = emailAuthRepository.findValidAuthByEmail
@@ -149,6 +153,7 @@ public class UserService {
 
         emailAuthCheck.updateExpired();
         user.updateEmailAuthStatus();
+        user.updateRole(Role.USER);
 
         return true;
     }
