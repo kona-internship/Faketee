@@ -258,6 +258,8 @@ function loadDetailDepPage(){
                 console.log(lo.name);
                 locText.val(locText.val()+ lo.name + ", ");
             }
+//하위조직
+//             showDepList(data, "button");
         },
         error: function () {
             alert('조직 상세 불러오기 실패!');

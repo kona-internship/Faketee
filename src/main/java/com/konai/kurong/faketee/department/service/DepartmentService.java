@@ -35,7 +35,7 @@ public class DepartmentService {
     private final LocationRepository locationRepository;
     private final DepLocRepository depLocRepository;
 
-    public void registerDepartment(Long corId, DepartmentSaveRequestDto requestDto){
+    public void registerDepartment(Long corId, DepartmentSaveRequestDto requestDto) {
 
         //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직, 여러 개 로케이션 추가 필요
 
@@ -48,7 +48,7 @@ public class DepartmentService {
 
         // 상위 조직 불러오기
         // 상위 조직이 있을 경우
-        if(requestDto.getSuperId() != null) {
+        if (requestDto.getSuperId() != null) {
             // 상위 조직과 연관된 출퇴근장소 리스트 불러오기
             superDepLocList = depLocRepository.findAllByDepartment_Id(requestDto.getSuperId());
             // 해당 아이디로 조직을 불러오지 못할 경우
@@ -78,7 +78,7 @@ public class DepartmentService {
 
         // 조직과 출퇴근 장소 연결하여 디비 저장
         List<DepLoc> depLocList = new ArrayList<>();
-        for(Location location : locationList){
+        for (Location location : locationList) {
             depLocList.add(DepLoc.builder()
                     .location(location)
                     .department(department)
@@ -90,7 +90,7 @@ public class DepartmentService {
 
     }
 
-    public List<DepartmentResponseDto> getDepList(Long corId){
+    public List<DepartmentResponseDto> getDepList(Long corId) {
 
         //추가사항: 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
@@ -99,17 +99,27 @@ public class DepartmentService {
 
     @Transactional
     public Result<?> getDep(Long depId) {
+
+        //해당 부서
         Optional<Department> department = departmentRepository.findById(depId);
+        Department dep = department.get();
+
+        //해당 부서 출퇴근 장소
         List<DepLoc> deplocs = depLocRepository.findAllByDepartment_Id(depId);
         List<Location> loc = new ArrayList<>();
         for (DepLoc deploc : deplocs) {
             loc.add(deploc.getLocation());
         }
-        return new Result<>(DepartmentResponseDto.convertToDto(department.get()), LocationResponseDto.converToDtoList(loc));
+
+        //해당 부서 하위 조직
+        //음 모르겠다
+//        dep.getChildDepartments()
+
+        return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc));
     }
 
-
-    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto){
+    @Transactional
+    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException{
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
         List<Long> idList = new ArrayList<>();
@@ -117,26 +127,26 @@ public class DepartmentService {
 
 
         //어떤 객체이서 리스트 롱타임으로 2개빼내
-        for(Map<Long, Long> map : requestDto.getRemoveDepList()){
-            map.forEach((id, level)->{
+        for (Map<Long, Long> map : requestDto.getRemoveDepList()) {
+            map.forEach((id, level) -> {
                 idList.add(id);
                 levelList.add(level);
             });
         }
 
-        Long min = Long.MIN_VALUE;
+        Long min = levelList.get(0);
         Long max = -1L;
-        for(Long i : levelList){
-            if(max < i){
+        for (Long i : levelList) {
+            if (max < i) {
                 max = i;
             }
-            if(min > i){
+            if (min > i) {
                 min = i;
             }
         }
-        while(max < min){
-            for(int i = 0; i < levelList.size(); i++){
-                if(levelList.get(i) == max){
+        while (max >= min) {
+            for (int i = 0; i < levelList.size(); i++) {
+                if (levelList.get(i) == max) {
                     depLocRepository.deleteDepLocByDepartmentId(idList.get(i));
                     departmentRepository.deleteById(idList.get(i));
                 }
@@ -145,13 +155,14 @@ public class DepartmentService {
         }
 
     }
+
     @Getter
     @Setter
-    static class Result<T>{
+    static class Result<T> {
         private T dep;
         private T loc;
 
-        public Result(T dep, T loc){
+        public Result(T dep, T loc) {
             this.dep = dep;
             this.loc = loc;
         }
