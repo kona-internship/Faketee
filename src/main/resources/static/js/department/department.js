@@ -37,7 +37,13 @@ function showDepList(depList, type) {
         case "radio":
             showRadioDepList(depList);
             break;
+        case "text":
+            showTextDeptList(depList);
     }
+}
+
+function showTextDeptList(depList) {
+
 }
 
 function showCheckDepList(depList) {
@@ -67,10 +73,11 @@ function showCheckDepHierarchy(superId, depMap) {
         return;
     }
     for (let dep of depMap.get(superId)) {
+        let spaces = "&emsp;&emsp;"
         $('#dep-list').append(
             '<div>' +
             '<input type="checkbox" name="dep" value-id=' + dep.id + ' value-level=' + dep.level + '>' +
-            '<span>' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </span>' +
+            '<span>' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
         showCheckDepHierarchy(dep.id, depMap);
@@ -104,9 +111,10 @@ function showButtonDepHierarchy(superId, depMap) {
         return;
     }
     for (let dep of depMap.get(superId)) {
+        let spaces = "&emsp;&emsp;"
         $('#dep-list').append(
             '<div>' +
-            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </a>' +
+            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
             '</div>'
         );
         showButtonDepHierarchy(dep.id, depMap);
@@ -140,10 +148,11 @@ function showRadioDepHierarchy(superId, depMap) {
         return;
     }
     for (let dep of depMap.get(superId)) {
+        let spaces = "&emsp;&emsp;"
         $('#dep-list').append(
             '<div>' +
             '<input type="radio" name="dep" value=' + dep.id + '>' +
-            '<span>' + (dep.level > 0 ? 'ㄴ' : '') + (' '.repeat(dep.level)) + dep.name + ' </span>' +
+            '<span>' + (spaces.repeat(dep.level)) + (dep.level > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
         showRadioDepHierarchy(dep.id, depMap);
@@ -259,7 +268,7 @@ function loadDetailDepPage() {
                 locText.val(locText.val() + lo.name + ", ");
             }
 //하위조직
-            showDepList(data.sub, "button");
+            showDepList(data.sub, "text");
         },
         error: function () {
             alert('조직 상세 불러오기 실패!');
