@@ -1,12 +1,9 @@
 package com.konai.kurong.faketee.util.jpa_auditing;
 
-import com.konai.kurong.faketee.account.dto.AuthUserDto;
-import com.konai.kurong.faketee.config.auth.SessionUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;

@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,5 +22,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/templates/**")
                 .addResourceLocations("classpath:/templates/");
+    }
+
+    @Bean
+    public RequestContextListener requestContextListener(){
+
+        return new RequestContextListener();
     }
 }

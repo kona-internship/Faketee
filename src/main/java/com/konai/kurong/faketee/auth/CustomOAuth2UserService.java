@@ -1,18 +1,12 @@
-package com.konai.kurong.faketee.config.auth;
+package com.konai.kurong.faketee.auth;
 
 
-import com.konai.kurong.faketee.account.dto.UserJoinRequestDto;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
-import com.konai.kurong.faketee.account.util.Role;
-import com.konai.kurong.faketee.account.util.Type;
-import com.konai.kurong.faketee.config.auth.dto.OAuthAttributes;
+import com.konai.kurong.faketee.auth.dto.OAuthAttributes;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -20,11 +14,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextListener;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.Collections;
 
 
@@ -32,16 +23,18 @@ import java.util.Collections;
  * CustomOAuth2UserService
  * 소셜 로그인 이후 가져온 사용자의 정보 (email, name 등)들을 기반으로 가입 및 정보수정, 세션저장 등의 기능 지원
  */
+
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final UserRepository userRepository;
-    private final HttpSession httpSession;
+   private final UserRepository userRepository;
+   private final HttpServletRequest httpServletRequest;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
+        System.out.println("CustomOAuth2UserService load User ******************************************************");
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -65,7 +58,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 of(registrationID, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
-        //httpSession.setAttribute("user", new SessionUser(user).getId());
+        httpServletRequest.getSession().setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),
                 attributes.getAttributes(),
@@ -74,6 +67,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User saveOrUpdate(OAuthAttributes attributes){
 
+        System.out.println("save or update *************************************************************************");
         User user = userRepository.findByEmail(attributes.getEmail())
                 .orElse(attributes.toEntity());
 

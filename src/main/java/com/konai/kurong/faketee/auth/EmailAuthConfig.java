@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.config.auth;
+package com.konai.kurong.faketee.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
