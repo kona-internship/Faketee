@@ -8,9 +8,9 @@
 <h1>조직 상세보기</h1>
 조직 이름:<input type="text" id="dept-name" ><br>
 상위 조직 이름:<input type="text" id="up-dept-name" disabled><br>
-출퇴근 장소:<input type="text" id="loc-name" ><br>
+출퇴근 장소:<div id="loc-check-list"></div><br>
 
-하위 조직도
+하위 조직도 <div><input type="checkbox" id="isModifyLow"><span>하위 조직 수정 여부</span></div>
 <button type="button" onclick="modifyDep()">수정완료</button>
 <button type="button" onclick="goDepListPage()">목록</button>
 </body>
@@ -18,6 +18,6 @@
 <script src="/js/utils/url.js"></script>
 <script type="text/javascript" src="/js/department/department.js"></script>
 <script>
-    loadDetailDepPage();
+    modPageInit();
 </script>
 </html>
