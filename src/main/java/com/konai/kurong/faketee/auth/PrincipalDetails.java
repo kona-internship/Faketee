@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.auth;
 
+import com.konai.kurong.faketee.account.util.Type;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,6 +59,10 @@ public class PrincipalDetails implements UserDetails {
     public String getEmail() {
 
         return sessionUser.getEmail();
+    }
+
+    public Type getType() {
+        return sessionUser.getType();
     }
 
     @Override

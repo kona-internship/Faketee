@@ -1,7 +1,9 @@
 package com.konai.kurong.faketee.account.controller;
 
+import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,10 +53,5 @@ public class RegisterController {
     public String loginError(){
 
         return "account/login-error";
-    }
-
-    @GetMapping("/mypage")
-    public String myPage() {
-        return "account/mypage";
     }
 }
