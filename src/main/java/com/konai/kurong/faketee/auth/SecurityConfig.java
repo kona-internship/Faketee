@@ -6,6 +6,7 @@ import com.konai.kurong.faketee.util.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -47,6 +48,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Spring의 기본인 AbstractUserDetailAuthenticationProvider를 사용하지 않고 CustomAuthenticationProvider사용
+     * Spring 기본인 AbstractUserDetailAuthenticationProvider를 사용하면 UserDetailService(PrincipalDetailsService)에서 반환한 객체를 Principal로 세팅하기에
+     * @AuthenticationPrincipal 어노테이션으로 PrincipalDetails 접근이 가능했었다.
+     * CustomAuthenticationProvider에서는 PrincipalDetails의 username과 password 정보만 꺼내서 String으로 UsernamePasswordAuthenticationToken에 넣었다.
+     * @return
+     */
     @Bean
     public CustomAuthenticationProvider authenticationProvider(){
 
@@ -61,7 +69,7 @@ public class SecurityConfig {
         return (web -> web
                         .ignoring()
                         .antMatchers("/resources/**",
-                                "/static/**"));
+                                    "/static/**"));
     }
 
     @Bean
@@ -76,8 +84,7 @@ public class SecurityConfig {
                             "/account/",
                             "/account/login-form",
                             "/account/register-form",
-                            "/api/**",
-                            "**/oauth2/**"
+                            "/api/**"
                     )
                     .permitAll()
 //                    .antMatchers("/api/**")
@@ -96,7 +103,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .successHandler(customLoginSuccessHandler)
                         .failureHandler(customLoginFailureHandler)
-//                        .defaultSuccessUrl("/account/set-auth")
+                        //.defaultSuccessUrl("/account/set-auth")
                         .permitAll()
                 .and()
                     .logout()

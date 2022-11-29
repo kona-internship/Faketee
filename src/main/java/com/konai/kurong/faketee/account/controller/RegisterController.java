@@ -44,8 +44,6 @@ public class RegisterController {
     @GetMapping("/set-auth")
     public String setAuth(){
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        System.out.println(user.getEmail());
         return "account/set-auth";
     }
 
