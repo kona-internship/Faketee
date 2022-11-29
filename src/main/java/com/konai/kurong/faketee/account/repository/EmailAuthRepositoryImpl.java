@@ -27,4 +27,13 @@ public class EmailAuthRepositoryImpl extends QuerydslRepositorySupport {
 
         return Optional.ofNullable(emailAuth);
     }
+
+    public void updateEmailAuth(String email, String emailAuthToken, LocalDateTime expireDate) {
+       jpaQueryFactory.update(QEmailAuth.emailAuth)
+                .set(QEmailAuth.emailAuth.emailAuthToken, emailAuthToken)
+                .set(QEmailAuth.emailAuth.expireDate, expireDate)
+                .set(QEmailAuth.emailAuth.expired, "F")
+                .where(QEmailAuth.emailAuth.email.eq(email))
+                .execute();
+    }
 }
