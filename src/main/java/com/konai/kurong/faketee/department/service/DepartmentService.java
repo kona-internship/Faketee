@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.department.service;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
+import com.konai.kurong.faketee.department.dto.DepartmentModifyRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
@@ -145,6 +146,49 @@ public class DepartmentService {
         }
 
     }
+
+    @Transactional
+    public void modifyDep(Long corId, Long depId, DepartmentModifyRequestDto requestDto){
+
+        if(requestDto.getIsModifyLow()){
+            depLocRepository.deleteDepLocsByDepIds(requestDto.getDepartmentIdList());
+            List<DepLoc> depLocList = new ArrayList<>();
+            List<Location> locations = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
+            for(Long lowDepId : requestDto.getDepartmentIdList()){
+                Department lowDep = departmentRepository.findById(lowDepId).orElseThrow();
+                lowDep.changeName(requestDto.getName());
+
+                for(Location location : locations) {
+                    DepLoc lowDepLoc = DepLoc.builder()
+                            .location(location)
+                            .department(lowDep)
+                            .build();
+                    depLocList.add(lowDepLoc);
+                }
+            }
+            depLocRepository.saveAll(depLocList);
+
+        }else{
+            depLocRepository.deleteAllByDepartment_Id(depId);
+
+            Department department = departmentRepository.findById(depId).orElseThrow();
+            department.changeName(requestDto.getName());
+
+            List<Location> locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
+
+            List<DepLoc> depLocList = new ArrayList<>();
+            for(Location location : locationList){
+                depLocList.add(DepLoc.builder()
+                        .location(location)
+                        .department(department)
+                        .createdDateTime(LocalDateTime.now())
+                        .createdId(100L) //임의로 넣어둠
+                        .build());
+            }
+            depLocRepository.saveAll(depLocList);
+        }
+    }
+
     @Getter
     @Setter
     static class Result<T>{
