@@ -33,9 +33,17 @@ public class DepartmentService {
     private final LocationRepository locationRepository;
     private final DepLocRepository depLocRepository;
 
+    /**
+     * 조직 등록.
+     * 회사와 상위 조직을 불러온 후 조직을 만들어 디비에 조직을 저장한다.
+     * 조직과 연결하려는 출퇴근 장소 목록을 매핑 테이블(DEP_LOC)에 저장한다.
+     *
+     * @param corId
+     * @param requestDto
+     */
     public void registerDepartment(Long corId, DepartmentSaveRequestDto requestDto) {
 
-        //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직, 여러 개 로케이션 추가 필요
+        //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
         List<DepLoc> superDepLocList;
         Department superDep = null;
@@ -87,6 +95,13 @@ public class DepartmentService {
         depLocRepository.saveAll(depLocList);
     }
 
+    /**
+     * 조직 목록 불러오기.
+     * 조직 목록을 디비에서 가져온 뒤, 반환 형식에 맞게 변환해준다.
+     *
+     * @param corId
+     * @return
+     */
     public List<DepartmentResponseDto> getDepList(Long corId) {
 
         //추가사항: 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
@@ -168,16 +183,33 @@ public class DepartmentService {
 
     }
 
+    /**
+     * 조직 수정.
+     * 하위 조직의 출퇴근 장소도 같이 수정할 것인지 여부를 확인하고,
+     * 조직 또는 조직들과 연결된 출퇴근 장소 매핑을 디비 테이블(DEP_LOC)에서 삭제시키고
+     * 요청된 출퇴근 장소들과 조직 또는 조직들을 연결시켜준다.
+     *
+     * @param corId
+     * @param depId
+     * @param requestDto
+     */
     @Transactional
     public void modifyDep(Long corId, Long depId, DepartmentModifyRequestDto requestDto){
-        
+
+        // 하위 조직도 같이 수정할 것인지 여부 확인
         if(requestDto.getIsModifyLow()){
+            // 자신과 하위 조직들에 연결된 출퇴근 장소를 그것들이 매핑된 테이블(DEP_LOC)에서 전부 삭제해준다.
             depLocRepository.deleteDepLocsByDepIds(requestDto.getLowDepartmentIdList());
+
+            // 수정하고자 하는 출퇴근 장소를 디비에서 불러온 뒤, 자신과 하위 조직들과 연결하여 매핑 테이블(DEP_LOC)에 넣어준다.
             List<DepLoc> depLocList = new ArrayList<>();
             List<Location> locations = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
             for(Long lowDepId : requestDto.getLowDepartmentIdList()){
                 Department lowDep = departmentRepository.findById(lowDepId).orElseThrow();
-                lowDep.changeName(requestDto.getName());
+                // 불러온 조직이 자신(root)일 경우 조직의 이름 변경
+                if(lowDep.getId() == depId) {
+                    lowDep.changeName(requestDto.getName());
+                }
 
                 for(Location location : locations) {
                     DepLoc lowDepLoc = DepLoc.builder()
@@ -192,13 +224,17 @@ public class DepartmentService {
             depLocRepository.saveAll(depLocList);
 
         }else{
+            // 조직과 연결된 출퇴근 장소를 그것들이 매핑된 테이블(DEP_LOC)에서 전부 삭제해준다.
             depLocRepository.deleteAllByDepartment_Id(depId);
 
+            // 조직을 불러와 이름을 변경해준다.
             Department department = departmentRepository.findById(depId).orElseThrow();
             department.changeName(requestDto.getName());
 
+            // 요청된 출퇴근 장소들을 불러온다.
             List<Location> locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
 
+            // 출퇴근 장소와 조직을 연결하여 디비에 매핑된 테이블(DEP_LOC)에 저장한다.
             List<DepLoc> depLocList = new ArrayList<>();
             for(Location location : locationList){
                 depLocList.add(DepLoc.builder()
