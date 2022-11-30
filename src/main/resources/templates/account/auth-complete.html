@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>auth-complete</title>
+</head>
+<body>
+<h1><strong>인증이 완료되었습니다.</strong></h1>
+<p>이전 페이지를 닫고, 다시 로그인해주세요.</p>
+<button th:onclick="|location.href='@{/account/login-form}'|">로그인</button><br><br>
+
+</body>
+</html>
