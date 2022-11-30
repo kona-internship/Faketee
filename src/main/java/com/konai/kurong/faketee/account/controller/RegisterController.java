@@ -29,7 +29,6 @@ public class RegisterController {
                             @RequestParam(value = "exception", required = false)String exception,
                             @LoginUser SessionUser sessionUser,
                             Model model){
-
         if(sessionUser != null){
             return "redirect:http://localhost:8080/account/set-auth";
         }
