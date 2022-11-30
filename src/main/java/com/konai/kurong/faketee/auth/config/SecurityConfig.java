@@ -122,6 +122,12 @@ public class SecurityConfig {
                         .userInfoEndpoint()
                         .userService(customOAuth2UserService);
 
+                http
+                        .sessionManagement()
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)
+                        .expiredUrl("/account/login-form");
+
         return http.build();
     }
 }
