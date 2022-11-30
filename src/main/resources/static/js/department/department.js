@@ -363,8 +363,9 @@ function removeDep() {
             alert('조직 삭제 성공!');
             goDepListPage();
         },
-        error: function () {
-            alert('조직 삭제 실패!');
+        error: function (jqXHR) {
+            let result = matchId(jqXHR);
+            showError(result);
         }
     });
 }
