@@ -1,7 +1,6 @@
 let lan = "";
 let lng = "";
 
-
 function getL() {
     return new Promise(function (resolve) {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -13,6 +12,13 @@ function getL() {
     });
 }
 
+/**
+ * 출퇴근 장소 등록 페이지
+ * 나의 현재 위치를 가져온다.
+ * getL()가 끝날 때까지 기다렸다가 순차적으로 진행한다.
+ *
+ * @returns {Promise<void>}
+ */
 async function getLocation() {
     await getL();
 
@@ -41,6 +47,13 @@ async function getLocation() {
     });
 }
 
+/**
+ * 파라미터로 받아온 위도,경도를 가지고 도로명 주소로 변환한다.
+ * 변환 후 html에 출력을 바꿔준다.
+ *
+ * @param la
+ * @param ln
+ */
 function transAddress(la, ln) {
     let geocoder = new kakao.maps.services.Geocoder();
 
@@ -52,6 +65,13 @@ function transAddress(la, ln) {
     };
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
 }
+
+/**
+ * 데이터 존재 여부를 모두 체크한 후
+ * 회사를 등록한다.
+ *
+ * @returns {boolean}
+ */
 
 function checkLocRegister() {
     if (!checkExistData($("#name").val(), "장소명을")) {
@@ -86,7 +106,7 @@ function checkLocRegister() {
             success:
                 function () {
                     alert("장소 등록 성공");
-                    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc/list";
+                    goLocList();
 
                 },
             error:
@@ -97,6 +117,14 @@ function checkLocRegister() {
     }
     return true;
 }
+/**
+ * 입력 받은 데이터가 있는지 체크
+ * value의 값이 비어있으면 dataName의 값이 비어있다고 alert를 띄운다.
+ *
+ * @param value
+ * @param dataName
+ * @returns {boolean} 비어있으면 false, 값이 존재하면 true
+ */
 
 function checkExistData(value, dataName) {
     value = value.trim();
@@ -106,12 +134,27 @@ function checkExistData(value, dataName) {
     }
     return true;
 }
+
+/**
+ * 출퇴근 장소 목록 리스트 페이지로 이동
+ */
 function goLocList(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc/list";
 }
+
+/**
+ * 출퇴근 장소를 등록하는 페이지로 이동
+ */
 function goAddLocPage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/loc";
 }
+
+/**
+ * 출퇴근 장소를 삭제한다.
+ *
+ * @param locId 삭제를 진행할 출퇴근 장소의 id
+ *
+ */
 function deleteLoc(locId){
     $.ajax({
         async: true,
@@ -125,10 +168,15 @@ function deleteLoc(locId){
 
         },
         error: function () {
-            alert('출퇴근 장소 목록 불러오기 실패!');
+            alert('출퇴근 장소 삭제 실패!');
         }
     });
 }
+
+/**
+ * 출퇴근 장소 목록페이지 로딩
+ *
+ */
 function loadLocList(){
     $.ajax({
         async: true,
@@ -144,6 +192,12 @@ function loadLocList(){
         }
     });
 }
+
+/**
+ * 출퇴근 장소리스트를 화면에 출력해준다.
+ * 
+ * @param locList 화면에 나올 출퇴근 장소 데이터의 리스트
+ */
 function showLocList(locList){
     $('#loc-list *').remove();
 

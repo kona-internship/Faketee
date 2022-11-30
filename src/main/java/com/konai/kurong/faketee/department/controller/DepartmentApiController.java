@@ -62,8 +62,6 @@ public class DepartmentApiController {
     public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
                                        @RequestBody DepartmentRemoveRequestDto requestDto) throws RuntimeException{
 
-        log.info(requestDto.toString());
-//        log.info(String.valueOf(requestDto.getRemoveDepList().get(1).get(3L)));
         //여기서 객체에 리스트 두개 롱타입으로 조직id와 조직 level의 값을 전달받는다.
         departmentService.removeDep(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);

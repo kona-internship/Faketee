@@ -52,7 +52,7 @@ public class LocationService {
      * 값이 없을 경우에는 지우기 성공
      *
      * @param locId 지우려는 장소 아이디
-     * @return
+     * @return 삭제가능하면 true, 삭제불가면 false
      */
     public boolean removeLocation(Long locId){
         if(depLocService.existDepLocBylocId(locId)) {

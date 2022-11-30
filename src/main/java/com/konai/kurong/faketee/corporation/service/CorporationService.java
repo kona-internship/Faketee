@@ -19,10 +19,9 @@ public class CorporationService {
      * 회사 생성
      * 회사를 생성하는 동시에 최고 관리자 권한의 직원도 생성한다.
      *
-     * @param requestDto
-     * @return
+     * @param requestDto 회사에 대한 내용
+     * @return 생성된 회사의 id
      */
-    /*회사 생성*/
     @Transactional
     public Long registerCorporation(CorporationSaveRequestDto requestDto) {
         Corporation cor = requestDto.toEntity();
@@ -32,5 +31,4 @@ public class CorporationService {
         /*회사 생성하면서 직원도 생성해야하는뎅ㅇ*/
         return savedCor.getId();
     }
-    /*회사 가져오기? 필요한가*/
 }
