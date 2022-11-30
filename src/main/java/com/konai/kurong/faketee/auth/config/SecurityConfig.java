@@ -89,6 +89,7 @@ public class SecurityConfig {
                             "/account/register-form",
                             "/account/register-auth",
                             "/account/login-auth",
+                            "/account/auth-complete",
                             "/api/**"
                     )
                     .permitAll()

@@ -289,7 +289,7 @@ function resendConfirmEmail() {
 
     $.ajax({
         type : "GET",
-        url : "/api/account/reconfirm-email",
+        url : "/api/account/reSend-email",
 
         success : function (data) {
             alert("인증링크가 재전송되었습니다.");
