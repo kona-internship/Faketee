@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.account.controller;
 
+import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,12 @@ public class RegisterController {
     @GetMapping("/login-form")
     public String loginForm(@RequestParam(value = "error", required = false)String error,
                             @RequestParam(value = "exception", required = false)String exception,
+                            @LoginUser SessionUser sessionUser,
                             Model model){
 
+        if(sessionUser != null){
+            return "redirect:http://localhost:8080/account/set-auth";
+        }
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
         return "account/login-form";
