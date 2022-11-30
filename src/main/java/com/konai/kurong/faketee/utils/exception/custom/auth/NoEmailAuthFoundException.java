@@ -1,9 +1,11 @@
-package com.konai.kurong.faketee.util.exception;
+package com.konai.kurong.faketee.utils.exception.custom.auth;
+
+import com.konai.kurong.faketee.utils.exception.ExceptionId;
 
 public class NoEmailAuthFoundException extends RuntimeException {
     public NoEmailAuthFoundException() {
 
-        super("이메일 인증 정보를 찾지 못하였습니다.");
+        super(ExceptionId.EMAIL_NOT_FOUND.getExceptionId());
     }
 
     public NoEmailAuthFoundException(String message) {

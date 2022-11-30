@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(LowDepAlreadyExistException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ExceptionResponse lowDepAlreadyExist(LowDepAlreadyExistException exception) {
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ExceptionResponse unknown(Exception exception){
         return getExceptionResponse(exception);
     }
 
-
-    private ExceptionResponse getExceptionResponse(Exception exception) {
+    protected ExceptionResponse getExceptionResponse(Exception exception) {
             ExceptionResponse errorResponse = ExceptionResponse.builder()
                 .message("exception")
                 .build();

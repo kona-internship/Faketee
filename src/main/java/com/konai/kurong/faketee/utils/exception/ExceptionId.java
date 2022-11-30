@@ -1,7 +1,15 @@
 package com.konai.kurong.faketee.utils.exception;
 
 public enum ExceptionId {
-    DEP_ALREADY_EXIST("400_001_001");
+
+//    ===============USER=================
+    USER_NOT_FOUND("400_001_001"),
+    EMAIL_NOT_FOUND("400_001_002"),
+
+//    ===============DEP=================
+    DEP_ALREADY_EXIST("400_002_001");
+
+
 
     private final String exceptionId;
 

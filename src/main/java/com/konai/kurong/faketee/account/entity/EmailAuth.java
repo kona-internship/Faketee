@@ -1,6 +1,6 @@
 package com.konai.kurong.faketee.account.entity;
 
-import com.konai.kurong.faketee.util.jpa_auditing.BaseUserEntity;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
