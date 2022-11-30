@@ -36,7 +36,7 @@ function modPageInit(){
  */
 function loadDepList(type) {
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/list",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP + "/list",
         type: "GET",
         contentType: "application/json",
         dataType: "json",
@@ -44,7 +44,7 @@ function loadDepList(type) {
             showDepList(data, type);
         },
         error: function () {
-            alert('직무 목록 불러오기 실패!');
+            alert('조직 목록 불러오기 실패!');
         }
     });
 }
@@ -323,7 +323,7 @@ function registerDep() {
     });
 
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP,
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -355,7 +355,7 @@ function removeDep() {
     });
     console.log(jsonData);
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/remove" + getNextPath(window.location.href, PATH_DEP),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP +"/remove" + getNextPath(window.location.href, PATH_DEP),
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -388,16 +388,16 @@ function modifyDep(){
     });
     console.log(jsonData);
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep"+ getNextPath(window.location.href, PATH_DEP) + "/mod",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +PATH_DEP+ getNextPath(window.location.href, PATH_DEP) + "/mod",
         type: "POST",
         data: jsonData,
         contentType: "application/json",
         success: function () {
             goDepListPage();
-            alert('조직 등록 성공!');
+            alert('조직 수정 성공!');
         },
         error: function () {
-            alert('조직 등록 실패!');
+            alert('조직 수정 실패!');
         }
     });
 }
@@ -406,28 +406,28 @@ function modifyDep(){
  * 조직 목록 화면(list.html)으로 이동하는 함수
  */
 function goDepListPage() {
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep";
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP;
 }
 
 /**
  * 조직 등록 화면(registration.html)으로 이동하는 함수
  */
 function goDepRegPage() {
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/reg";
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP +"/reg";
 }
 
 /**
  * 조직 삭제 화면(remove.html)으로 이동하는 함수
  */
 function goDepRemovePage() {
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep/remove";
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP +"/remove";
 }
 
 /**
  * 조직 수정 화면(modification.html)으로 이동하는 함수
  */
 function goDepModPage(){
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/dep"+ getNextPath(window.location.href, PATH_DEP) + "/mod";
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP+ getNextPath(window.location.href, PATH_DEP) + "/mod";
 }
 
 /**
@@ -436,7 +436,7 @@ function goDepModPage(){
 function loadDetailDepPage(){
     $.ajax({
         async: true,
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +"/dep/detail"+ getNextPath(window.location.href, PATH_DEP),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) +PATH_DEP +"/detail"+ getNextPath(window.location.href, PATH_DEP),
         type: "post",
         contentType: "application/json",
         dataType: "json",
