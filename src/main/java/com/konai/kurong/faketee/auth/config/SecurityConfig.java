@@ -126,7 +126,7 @@ public class SecurityConfig {
                 http
                         .sessionManagement()
                         .maximumSessions(1)
-                        .maxSessionsPreventsLogin(true)
+                        .maxSessionsPreventsLogin(false)
                         .expiredUrl("/account/login-form");
 
         return http.build();
