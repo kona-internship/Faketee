@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>login-form</title>
+</head>
+
+<body>
+<form action="/login" method="POST" name="login">
+    <h1><strong>FAKETEE 로그인</strong></h1>
+    <h1>로그인</h1>
+    <div>
+        <input type="text" name="username" id="id" placeholder="EMAIL">
+    </div>
+    <br>
+    <div>
+        <input type="password" name="password" id="pw" placeholder="PASSWORD">
+    </div>
+    <br>
+    <button>로그인</button>
+    <p th:value="${exception}"/>
+    <a href="/oauth2/authorization/google" role="button">Google Login</a>
+    <br>
+<!--    <a href="/oauth2/authorization/naver" role="button">Naver Login</a>-->
+</form>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<!--<script src="/static/js/account/account.js"></script>-->
+</body>
+</html>

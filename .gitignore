@@ -27,6 +27,7 @@ out/
 !**/src/test/**/out/
 application-dev.properties
 application.properties
+application-oauth.properties
 
 ### NetBeans ###
 /nbproject/private/
