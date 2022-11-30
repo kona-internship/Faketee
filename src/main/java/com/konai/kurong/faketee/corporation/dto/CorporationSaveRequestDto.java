@@ -16,9 +16,6 @@ public class CorporationSaveRequestDto {
     public Corporation toEntity() {
         return Corporation.builder()
                 .name(name)
-                .createdDateTime(LocalDateTime.now())
-                /*생성사 id 임의로 100L넣어둠*/
-                .createdId(100L)
                 .build();
     }
 }

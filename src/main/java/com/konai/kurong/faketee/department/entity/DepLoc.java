@@ -41,16 +41,4 @@ public class DepLoc extends BaseUserEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "DEP_ID")
     private Department department;
-
-    @Column(name = "CRE_DTTM")
-    private LocalDateTime createdDateTime;
-
-    @Column(name = "CRE_ID")
-    private Long createdId;
-
-    @Column(name = "UPD_DTTM")
-    private LocalDateTime updateDateTime;
-
-    @Column(name = "UPD_ID")
-    private Long updatedId;
 }
