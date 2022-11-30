@@ -2,7 +2,7 @@ package com.konai.kurong.faketee.account.entity;
 
 import com.konai.kurong.faketee.account.dto.UserUpdateRequestDto;
 import com.konai.kurong.faketee.account.util.Type;
-import com.konai.kurong.faketee.util.jpa_auditing.BaseUserEntity;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import com.konai.kurong.faketee.account.util.Role;
 import lombok.Builder;
 import lombok.Data;

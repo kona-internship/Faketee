@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.util.jpa_auditing;
+package com.konai.kurong.faketee.utils.jpa_auditing;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

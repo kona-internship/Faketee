@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.util;
+package com.konai.kurong.faketee.utils.handler;
 
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;

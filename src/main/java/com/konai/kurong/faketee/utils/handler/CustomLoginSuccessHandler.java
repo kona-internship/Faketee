@@ -1,9 +1,9 @@
-package com.konai.kurong.faketee.util;
+package com.konai.kurong.faketee.utils.handler;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
-import com.konai.kurong.faketee.util.exception.NoUserFoundException;
+import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
