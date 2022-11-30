@@ -3,7 +3,7 @@ package com.konai.kurong.faketee.account.service;
 import com.konai.kurong.faketee.account.entity.EmailAuth;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepository;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepositoryImpl;
-import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
+import com.konai.kurong.faketee.utils.exception.custom.auth.NoEmailAuthFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,6 +34,7 @@ public class EmailAuthService {
     public void sendEmail(String email, String emailAuthToken) {
 
         SimpleMailMessage smm = new SimpleMailMessage();
+        smm.setFrom("konai.faketee@gmail.com");
         smm.setTo(email);
         smm.setSubject("시프티 회원가입 이메일 인증");
         smm.setText("http://localhost:8080/api/account/confirm-email?email=" + email + "&emailAuthToken=" + emailAuthToken);
