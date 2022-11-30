@@ -66,9 +66,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 //    emailAuth
-    implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'javax.mail:mail:1.4.7'
-    implementation 'org.springframework:spring-context-support:6.0.0'
+    implementation 'org.springframework:spring-context-support'
 
 //    test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
