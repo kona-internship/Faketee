@@ -1,0 +1,17 @@
+<body class="text-center">
+<main class="form-signing w-100 m-auto needs-validation">
+    <form id="login-form" th:object="${login}" method="post">
+        <!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+        <!--    <img class="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">--> <h1
+            class="h3 mb-3 fw-normal">Please log in</h1>
+        <div class="alert alert-danger alert-dismissible" id="alert_err" hidden="true">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+        </div>
+        <div class="form-floating"><input type="email" class="form-control" id="email" th:field="*{email}"
+                                          placeholder="이메일입력"> <label for="email">Email address</label></div>
+        <div class="form-floating"><input type="password" class="form-control" id="password" th:field="*{password}"
+                                          placeholder="비밀번호"> <label for="password">Password</label></div>
+        <button id="btn_login" class="w-100 btn btn-lg btn-primary" type="button">Sign in</button>
+    </form>
+</main>
+</body>

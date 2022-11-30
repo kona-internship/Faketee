@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>출퇴근 장소 추가</title>
+</head>
+<body>
+<h1>출퇴근 장소 추가하기</h1>
+<form name="addLocationForm">
+
+    출퇴근 장소명: <input type="text" id="name" placeholder="장소명을 입력하세요!" name="name">
+    <br>
+    주소:
+    <div id="address"></div>
+
+    <br>
+    <b>좌표</b>
+    <br>
+    좌표 반경: <input type="text" id="radius" placeholder="ex) 50" name="name">(m)
+    <br>
+
+    <div id="map" style="width:300px;height:300px;"></div>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8c1b3f4657e0b73f9d3df25ca60c9730&libraries=services"></script>
+    <script>
+        let mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(37.56646, 126.98121), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        let map = new kakao.maps.Map(mapContainer, mapOption);
+    </script>
+    <br>
+    <button type="button" onclick="checkLocRegister()">등록</button>
+    <button type="button" onclick="goLocList()">목록</button>
+    <p>&copy; faketee2022</p>
+</form>
+</body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/location/location.js"></script>
+<script>
+    if (navigator.geolocation) {
+        getLocation();
+    }
+</script>
+</html>
