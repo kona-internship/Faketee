@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
 @RequestMapping("/api/account")
@@ -23,6 +24,7 @@ public class RegisterApiController {
 
     private final UserService userService;
     private final EmailAuthService emailAuthService;
+    private final HttpServletRequest httpServletRequest;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserJoinRequestDto userJoinRequestDto){
@@ -41,19 +43,31 @@ public class RegisterApiController {
 
         userService.confirmEmailAuth(emailAuthRequestDto);
 
+        /**
+         * session 초기화
+         */
+        httpServletRequest.getSession().invalidate();
+        log.info("confirm-email sessionInvalidate");
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/auth-complete"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
-    @GetMapping("/reconfirm-email")
-    public ResponseEntity<?> reConfirmEmail(@LoginUser SessionUser sessionUser) {
+    @GetMapping("/reSend-email")
+    public ResponseEntity<?> reSendEmail(@LoginUser SessionUser sessionLoginUser) {
+//        log.info("reconfirm-email sessionLoginUser : " + sessionLoginUser.toString());
+
+        SessionUser sessionUser =  (SessionUser) httpServletRequest.getSession().getAttribute("user");
+        log.info("reconfirm-email sessionUser : " + sessionUser.toString());
 
         String email = sessionUser.getEmail();
         String emailAuthToken = emailAuthService.updateEmailAuthToken(email);
         EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto(email, emailAuthToken);
         emailAuthService.sendEmail(email, emailAuthToken);
 //        userService.confirmEmailAuth(emailAuthRequestDto);
+
+//        httpServletRequest.getSession().invalidate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/auth-complete"));
