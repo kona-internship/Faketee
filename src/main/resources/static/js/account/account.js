@@ -274,7 +274,7 @@ function update() {
                 }
                 else {
                     alert("PASSWORD를 수정했습니다. \n변경된 비밀번호로 새로 로그인해주세요");
-                    window.location.replace("/logout");
+                    window.location.href="/logout";
                 }
             },
             error: function (request, status, error) {
