@@ -13,6 +13,7 @@ import com.konai.kurong.faketee.department.repository.DepartmentRepository;
 import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.entity.Location;
 import com.konai.kurong.faketee.location.repository.LocationRepository;
+import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -148,6 +149,10 @@ public class DepartmentService {
     @Transactional
     public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException {
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
+
+        if(requestDto.getRemoveDepList().isEmpty()){
+            throw new LowDepAlreadyExistException("하위 조직이 존재하여 삭제가 불가능합니다.");
+        }
 
         List<Long> idList = new ArrayList<>();
         List<Long> levelList = new ArrayList<>();
