@@ -20,11 +20,20 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MyPageController {
 
-    @GetMapping("/mypage")
-    public String myPage(Model model, @LoginUser SessionUser sessionUser) {
+    private final HttpServletRequest httpServletRequest;
 
-        model.addAttribute("email", sessionUser.getEmail());
-        model.addAttribute("name", sessionUser.getName());
+    @GetMapping("/mypage")
+    public String myPage(Model model) {
+
+//        log.info("sessionUser =========================" + sessionUser.getEmail());
+
+        log.info("mypage들어간다");
+        SessionUser sessionUser1 = (SessionUser) httpServletRequest.getSession().getAttribute("user");
+//        System.out.println(sessionUser.getEmail());
+        log.info("sessionUser1 =========================" + sessionUser1.getEmail());
+
+        model.addAttribute("email", sessionUser1.getEmail());
+        model.addAttribute("name", sessionUser1.getName());
         return "account/mypage";
     }
 
