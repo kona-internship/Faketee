@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
 @RequestMapping("/api/account")
@@ -47,7 +46,7 @@ public class RegisterApiController {
     }
 
     @GetMapping("/reconfirm-email")
-    public ResponseEntity<?> reconfirmEmail(@LoginUser SessionUser sessionUser) {
+    public ResponseEntity<?> reConfirmEmail(@LoginUser SessionUser sessionUser) {
 
         String email = sessionUser.getEmail();
         String emailAuthToken = emailAuthService.updateEmailAuthToken(email);

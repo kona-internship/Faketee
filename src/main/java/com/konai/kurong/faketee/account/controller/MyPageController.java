@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @Controller
 public class MyPageController {
+
     @GetMapping("/mypage")
     public String myPage(Model model, @LoginUser SessionUser sessionUser) {
 
