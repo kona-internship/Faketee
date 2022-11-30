@@ -16,6 +16,12 @@ public class QuerydslLocRepositoryImpl implements QuerydslLocRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    /**
+     * 출퇴근 장소의 ID들을 통해 출퇴근 장소들을 찾아 반환.
+     *
+     * @param locIdList
+     * @return
+     */
     @Override
     public List<Location> findLocationsByIds(List<Long> locIdList) {
         return jpaQueryFactory
