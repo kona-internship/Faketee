@@ -3,7 +3,8 @@ package com.konai.kurong.faketee.account.service;
 import com.konai.kurong.faketee.account.entity.EmailAuth;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepository;
 import com.konai.kurong.faketee.account.repository.EmailAuthRepositoryImpl;
-import com.konai.kurong.faketee.util.exception.NoEmailAuthFoundException;
+
+import com.konai.kurong.faketee.utils.exception.custom.auth.NoEmailAuthFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
