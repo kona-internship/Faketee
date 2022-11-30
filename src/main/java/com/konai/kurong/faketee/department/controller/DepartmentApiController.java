@@ -20,6 +20,15 @@ public class DepartmentApiController {
 
     private final DepartmentService departmentService;
 
+    /**
+     * 조직 등록
+     *
+     * @param corId
+     * @param requestDto @NotNull String name
+     *                   Long superId
+     *                   @NotNull List<Long> locationIdList
+     * @return
+     */
     @PostMapping()
     public ResponseEntity<?> registerDep(@PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody DepartmentSaveRequestDto requestDto){
@@ -29,12 +38,26 @@ public class DepartmentApiController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    /**
+     * 조직 목록 불러오기
+     *
+     * @param corId
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity<?> getDepList(@PathVariable(name = "corId") Long corId){
 
         return new ResponseEntity<>(departmentService.getDepList(corId), HttpStatus.OK);
     }
 
+    /**
+     * 조직 삭제
+     *
+     * @param corId
+     * @param requestDto List<Map<Long, Long>> removeDepList
+     * @return
+     * @throws RuntimeException
+     */
     @PostMapping("/remove/{depId}")
     public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
                                        @RequestBody DepartmentRemoveRequestDto requestDto) throws RuntimeException{
@@ -52,6 +75,17 @@ public class DepartmentApiController {
         return new ResponseEntity<>(departmentService.getDep(depId), HttpStatus.OK);
     }
 
+    /**
+     * 조직 수정
+     *
+     * @param corId
+     * @param depId
+     * @param requestDto String name
+     *                   List<Long> lowDepartmentIdList
+     *                   List<Long> locationIdList
+     *                   @NotNull Boolean isModifyLow
+     * @return
+     */
     @PostMapping("/{depId}/mod")
     public ResponseEntity<?> modifyDep(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "depId") Long depId,
