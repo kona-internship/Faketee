@@ -56,4 +56,10 @@ public class RegisterController {
 
         return "account/register-auth";
     }
+
+    @GetMapping("/auth-complete")
+    public String authComplete(){
+
+        return "account/auth-complete";
+    }
 }

@@ -40,8 +40,9 @@ public class RegisterApiController {
     public ResponseEntity<?> confirmEmail(@ModelAttribute EmailAuthRequestDto emailAuthRequestDto) {
 
         userService.confirmEmailAuth(emailAuthRequestDto);
+
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/account/login-form"));
+        headers.setLocation(URI.create("/account/auth-complete"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
@@ -53,8 +54,9 @@ public class RegisterApiController {
         EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto(email, emailAuthToken);
         emailAuthService.sendEmail(email, emailAuthToken);
 //        userService.confirmEmailAuth(emailAuthRequestDto);
+
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/account/login-form"));
+        headers.setLocation(URI.create("/account/auth-complete"));
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
