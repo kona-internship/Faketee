@@ -15,6 +15,12 @@ public class DepLocService {
 
     private final DepLocRepository depLocRepository;
 
+    /**
+     * 출퇴근 장소(locId)에 해당되는 데이터가 존재하면 삭제 불가함을 판별
+     *
+     * @param locId
+     * @return true면 삭제 불가, false면 삭제 가능
+     */
     public boolean existDepLocBylocId(Long locId){
         Optional<DepLoc> depLoc = depLocRepository.findDepLocByLocationId(locId);
         if(depLoc.isPresent()){
