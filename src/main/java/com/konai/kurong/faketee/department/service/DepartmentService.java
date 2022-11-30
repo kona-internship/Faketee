@@ -37,6 +37,7 @@ public class DepartmentService {
      * 조직 등록.
      * 회사와 상위 조직을 불러온 후 조직을 만들어 디비에 조직을 저장한다.
      * 조직과 연결하려는 출퇴근 장소 목록을 매핑 테이블(DEP_LOC)에 저장한다.
+     * 입력받은 출퇴근 장소가 없을 경우 회사에 속한 모든 출퇴근 장소를 가진다.
      *
      * @param corId
      * @param requestDto
@@ -45,7 +46,6 @@ public class DepartmentService {
 
         //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
-        List<DepLoc> superDepLocList;
         Department superDep = null;
         Long level = 0L;
 
@@ -55,14 +55,12 @@ public class DepartmentService {
         // 상위 조직 불러오기
         // 상위 조직이 있을 경우
         if (requestDto.getSuperId() != null) {
-            // 상위 조직과 연관된 출퇴근장소 리스트 불러오기
-            superDepLocList = depLocRepository.findAllByDepartment_Id(requestDto.getSuperId());
-            // 해당 아이디로 조직을 불러오지 못할 경우
-            if (superDepLocList.isEmpty()) {
+            Optional<Department> department = departmentRepository.findById(requestDto.getSuperId());
+            // 상위 조직 객체 불러오기
+            if(department.isEmpty()){
                 throw new RuntimeException();
             }
-            // 상위 조직 객체 불러오기
-            superDep = superDepLocList.get(0).getDepartment();
+            superDep = department.get();
             level = superDep.getLevel() + 1;
         }
 
@@ -79,8 +77,13 @@ public class DepartmentService {
         // 디비에 조직 저장하기
         departmentRepository.save(department);
 
+        List<Location> locationList;
         // 조직과 연결하려는 출퇴근 장소 불러오기
-        List<Location> locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
+        if (requestDto.getSuperId() != null) {
+            locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
+        }else{
+            locationList = locationRepository.findLocationByCorporationIdOrderById(corId);
+        }
 
         // 조직과 출퇴근 장소 연결하여 디비 저장
         List<DepLoc> depLocList = new ArrayList<>();
@@ -109,6 +112,13 @@ public class DepartmentService {
         return DepartmentResponseDto.convertToDtoList(departmentRepository.findAllByCorporation_Id(corId));
     }
 
+    /**
+     * 현재 조직과 그에 연결된 하위 조직들을 반환한다.
+     *
+     * @param dep 조직
+     * @return 조직과 조직의 하위조직들의 리스트
+     */
+
     public List<Department> getSubDepList(Department dep) {
         List<Department> depList = new ArrayList<>();
         Stack<Department> stack = new Stack<>();
@@ -124,6 +134,14 @@ public class DepartmentService {
 
         return depList;
     }
+
+    /**
+     * 부서에 대한 상세 사항들을 모두 가져온다
+     * 부서, 출퇴근 장소, 하위 조직들
+     *
+     * @param depId
+     * @return
+     */
 
     @Transactional
     public Result<?> getDep(Long depId) {
@@ -145,6 +163,16 @@ public class DepartmentService {
         return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
     }
 
+    /**
+     * 조직 삭제
+     * requestDto에 삭제할 조직들의 id와 level이 있다.
+     * level을 돌면서 가장 하위의 조직들부터 삭제해 나간다.
+     *
+     * @param corId
+     * @param requestDto
+     * @throws RuntimeException
+     */
+
     @Transactional
     public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException {
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
@@ -153,7 +181,7 @@ public class DepartmentService {
         List<Long> levelList = new ArrayList<>();
 
 
-        //어떤 객체이서 리스트 롱타임으로 2개빼내
+        //어떤 객체이서 리스트 롱타임으로 2개
         for (Map<Long, Long> map : requestDto.getRemoveDepList()) {
             map.forEach((id, level) -> {
                 idList.add(id);
@@ -161,7 +189,7 @@ public class DepartmentService {
             });
         }
 
-        Long min = levelList.get(0);
+        Long min = levelList.get(0).longValue();
         Long max = -1L;
         for (Long i : levelList) {
             if (max < i) {
