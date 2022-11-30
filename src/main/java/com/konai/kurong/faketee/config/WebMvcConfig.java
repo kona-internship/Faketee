@@ -21,6 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 정적 리소스 파일 읽어드리기 위해 핸들러 설정
+     * 리소스파일 불러올때 경로, 해당 경로로 불렀을때 리소스를 찾을 위치 설정
      * @param registry
      */
     @Override
@@ -30,6 +31,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/templates/**")
                 .addResourceLocations("classpath:/templates/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
     }
 
     /**
@@ -38,6 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+
         resolvers.add(loginUserArgumentResolver);
     }
 

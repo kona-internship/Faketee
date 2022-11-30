@@ -1,6 +1,5 @@
 package com.konai.kurong.faketee.corporation.service;
 
-import com.konai.kurong.faketee.account.entity.Users;
 import com.konai.kurong.faketee.corporation.dto.CorporationSaveRequestDto;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
