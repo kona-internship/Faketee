@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.department.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +27,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "DEP")
-public class Department {
+public class Department extends BaseUserEntity {
 
     @Id
     @GeneratedValue(
@@ -52,18 +53,6 @@ public class Department {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
-
-    @Column(name = "CRE_DTTM")
-    private LocalDateTime createdDateTime;
-
-    @Column(name = "CRE_ID")
-    private Long createdId;
-
-    @Column(name = "UPD_DTTM")
-    private LocalDateTime updateDateTime;
-
-    @Column(name = "UPD_ID")
-    private Long updatedId;
 
     public void changeName(String name){
         this.name = name;

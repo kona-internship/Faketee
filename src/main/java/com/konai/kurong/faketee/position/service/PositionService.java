@@ -23,7 +23,6 @@ public class PositionService {
 
     private final PositionRepository positionRepository;
     private final PositionQueryRepo positionQueryRepo;
-
     private final CorporationRepository corporationRepository;
 
     /**
@@ -43,8 +42,6 @@ public class PositionService {
         Position position = Position.builder()
                 .name(requestDto.getName())
                 .corporation(corporation)
-                .createdDateTime(LocalDateTime.now())
-                .createdId(100L) //임의로 넣어둠
                 .build();
 
         positionRepository.save(position);

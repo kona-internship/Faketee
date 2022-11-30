@@ -1,7 +1,7 @@
 package com.konai.kurong.faketee.department.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.konai.kurong.faketee.location.entity.Location;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "DEP_LOC")
-public class DepLoc {
+public class DepLoc extends BaseUserEntity {
     @Id
     @GeneratedValue(
             strategy = SEQUENCE,
@@ -41,16 +41,4 @@ public class DepLoc {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "DEP_ID")
     private Department department;
-
-    @Column(name = "CRE_DTTM")
-    private LocalDateTime createdDateTime;
-
-    @Column(name = "CRE_ID")
-    private Long createdId;
-
-    @Column(name = "UPD_DTTM")
-    private LocalDateTime updateDateTime;
-
-    @Column(name = "UPD_ID")
-    private Long updatedId;
 }

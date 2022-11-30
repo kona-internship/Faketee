@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -71,8 +70,6 @@ public class DepartmentService {
                 .level(level)
                 .corporation(corporation)
                 .superDepartment(superDep)
-                .createdDateTime(LocalDateTime.now())
-                .createdId(100L) //임의로 넣어둠
                 .build();
 
         // 디비에 조직 저장하기
@@ -92,8 +89,6 @@ public class DepartmentService {
             depLocList.add(DepLoc.builder()
                     .location(location)
                     .department(department)
-                    .createdDateTime(LocalDateTime.now())
-                    .createdId(100L) //임의로 넣어둠
                     .build());
         }
         depLocRepository.saveAll(depLocList);
@@ -248,8 +243,6 @@ public class DepartmentService {
                     DepLoc lowDepLoc = DepLoc.builder()
                             .location(location)
                             .department(lowDep)
-                            .createdDateTime(LocalDateTime.now())
-                            .createdId(100L) //임의로 넣어둠
                             .build();
                     depLocList.add(lowDepLoc);
                 }
@@ -273,8 +266,6 @@ public class DepartmentService {
                 depLocList.add(DepLoc.builder()
                         .location(location)
                         .department(department)
-                        .createdDateTime(LocalDateTime.now())
-                        .createdId(100L) //임의로 넣어둠
                         .build());
             }
             depLocRepository.saveAll(depLocList);
