@@ -34,6 +34,7 @@ public class EmailAuthService {
     public void sendEmail(String email, String emailAuthToken) {
 
         SimpleMailMessage smm = new SimpleMailMessage();
+        smm.setFrom("konai.faketee@gmail.com");
         smm.setTo(email);
         smm.setSubject("시프티 회원가입 이메일 인증");
         smm.setText("http://localhost:8080/api/account/confirm-email?email=" + email + "&emailAuthToken=" + emailAuthToken);
