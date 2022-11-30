@@ -16,6 +16,12 @@ public class QuerydslDepLocRepositoryImpl implements QuerydslDepLocRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    /**
+     * 조직 ID들을 FK로 가지고 있는 DEP_LOC 행들을 전부 지운다.
+     *
+     * @param depIdList
+     * @return
+     */
     @Override
     public Long deleteDepLocsByDepIds(List<Long> depIdList){
         return jpaQueryFactory
