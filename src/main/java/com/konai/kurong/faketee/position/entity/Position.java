@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.position.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "POS")
-public class Position {
+public class Position extends BaseUserEntity {
 
     @Id
     @GeneratedValue(
