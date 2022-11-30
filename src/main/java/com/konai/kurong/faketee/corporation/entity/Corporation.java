@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.corporation.entity;
 
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "COR")
-public class Corporation {
+public class Corporation extends BaseUserEntity {
     @Id
     @SequenceGenerator(name = "COR_ID_GENERATOR", sequenceName = "COR_SEQUENCE", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COR_ID_GENERATOR")
@@ -22,17 +23,5 @@ public class Corporation {
 
     @Column(name = "NAME")
     private String name;
-
-    @Column(name = "CRE_DTTM")
-    private LocalDateTime createdDateTime;
-
-    @Column(name = "CRE_ID")
-    private Long createdId;
-
-    @Column(name = "UPD_DTTM")
-    private LocalDateTime updateDateTime;
-
-    @Column(name = "UPD_ID")
-    private Long updatedId;
 
 }
