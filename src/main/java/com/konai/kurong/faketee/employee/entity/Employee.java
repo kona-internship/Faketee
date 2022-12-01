@@ -1,5 +1,9 @@
 package com.konai.kurong.faketee.employee.entity;
 
+import com.konai.kurong.faketee.account.entity.User;
+import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.department.entity.Department;
+import com.konai.kurong.faketee.position.entity.Position;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
@@ -28,4 +33,26 @@ public class Employee {
             generator = "EMP_ID_GENERATOR"
     )
     private Long id;
+
+    private String role;
+
+    private String joinCode;
+
+    private Boolean value;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "COR_ID")
+    private Corporation corporation;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "USR_ID")
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "DEP_ID")
+    private Position position;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "DEP_ID")
+    private Department department;
 }
