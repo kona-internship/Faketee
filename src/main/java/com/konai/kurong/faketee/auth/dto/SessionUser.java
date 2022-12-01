@@ -21,6 +21,7 @@ public class SessionUser implements Serializable {
     private Type type;
 
     public SessionUser(User user){
+
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();

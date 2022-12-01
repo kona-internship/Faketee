@@ -6,6 +6,7 @@ import com.konai.kurong.faketee.auth.CustomOAuth2UserService;
 import com.konai.kurong.faketee.auth.PrincipalDetailsService;
 import com.konai.kurong.faketee.utils.handler.CustomLoginFailureHandler;
 import com.konai.kurong.faketee.utils.handler.CustomLoginSuccessHandler;
+import com.konai.kurong.faketee.utils.handler.CustomOAuthLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +24,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-
-    private final CustomOAuth2UserService customOAuth2UserService;
     private final UserRepository userRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final PrincipalDetailsService principalDetailsService;
     private final CustomLoginFailureHandler customLoginFailureHandler;
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
-    private final PrincipalDetailsService principalDetailsService;
-
+    private final CustomOAuthLoginSuccessHandler customOauthLoginSuccessHandler;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -118,7 +118,8 @@ public class SecurityConfig {
 //                        .permitAll()
                 .and()
                     .oauth2Login()
-                        .defaultSuccessUrl("/account/set-auth")
+                        //.defaultSuccessUrl("/account/set-auth")
+                        .successHandler(customOauthLoginSuccessHandler)
                         .userInfoEndpoint()
                         .userService(customOAuth2UserService);
 

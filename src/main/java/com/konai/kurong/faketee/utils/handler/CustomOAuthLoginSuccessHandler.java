@@ -2,7 +2,6 @@ package com.konai.kurong.faketee.utils.handler;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
-import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,33 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * OAuth 로그인 성공시 로그인한 유저 정보를 세션에 저장하는 기능을 수행한다
+ * OAuth로부터 인증받은 정보 (Authentication)에서 email을 이용해 repository에서 user entity를 찾고
+ */
 @RequiredArgsConstructor
 @Component
-public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomOAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        User loginUser = userRepository.findByEmail(authentication.getPrincipal().toString()).orElseThrow(() -> new NoUserFoundException());
+        DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
 
-        /**
-         * 로그인 성공시, authentication.getPrincipal() (로그인한 email)로 user정보를 DB에서 find해와서
-         * "user" attribute에 user 정보를 저장한다.
-         * SessionUser를 이용하여 user 정보를 직렬화해서 저장
-         */
+        User loginUser = userRepository.findByEmail(oAuth2User.getAttributes().get("email").toString()).orElseThrow(() -> new NoUserFoundException());
+
         request.getSession().setAttribute("user", new SessionUser(loginUser));
-
-        /**
-         * 이메일 인증이 진행되지 않은 계정에 대해 block처리
-         */
-        if (loginUser.getEmailAuthStatus().equals("F")){
-
-            response.sendRedirect("/account/login-auth");
-            return ;
-        }
-
         response.sendRedirect("/account/set-auth");
     }
 }

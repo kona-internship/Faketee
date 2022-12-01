@@ -91,8 +91,10 @@ public class UserService {
     public Long updatePassword(Long id, UserUpdateRequestDto requestDto) {
 
         User user = userRepository.findById(id).orElseThrow(() -> new NoUserFoundException());
+
         String rawPassword = requestDto.getNewPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+
         if(validatePassword(user, requestDto.getOldPassword())){
             requestDto.setEncPassword(encPassword);
             user.updatePassword(requestDto);

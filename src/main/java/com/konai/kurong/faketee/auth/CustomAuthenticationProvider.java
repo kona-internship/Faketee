@@ -30,11 +30,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
 
         if(!bCryptPasswordEncoder.matches(password, principalDetails.getPassword())){
-
             throw new BadCredentialsException(username);
         }
         if(!principalDetails.isEnabled()){
-
             throw new BadCredentialsException(username);
         }
 
