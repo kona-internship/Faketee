@@ -70,7 +70,23 @@ function checkExistData(value, dataName) {
     });
     return true;
 }
+function deleteSchType(typeId){
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type/delete/" + typeId,
+        type: "post",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            alert("유형 삭제 성공");
+            showSchTypeList(data);
 
+        },
+        error: function () {
+            alert('직무 목록 불러오기 실패!');
+        }
+    });
+}
 function newTemplate() {
 
 }
