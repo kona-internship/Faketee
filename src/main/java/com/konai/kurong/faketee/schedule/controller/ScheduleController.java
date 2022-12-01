@@ -14,11 +14,11 @@ public class ScheduleController {
 
     @GetMapping()
     public String registerSchType() {
-        return "schedule/registration";
+        return "schedule/typeRegistration";
     }
 
     @GetMapping("/type")
     public String typeList() {
-        return "schedule/list";
+        return "schedule/typeList";
     }
 }
