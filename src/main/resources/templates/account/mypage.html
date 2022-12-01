@@ -20,9 +20,11 @@
             <td>이름</td>
             <td th:text="${name}"></td>
         </tr>
-    </table>
+    </table><br>
 
-    <button th:onclick="|location.href='@{/account/mypage/set-info}'|">비밀번호 변경</button><br><br>
+    <div th:if="${session.user.getType().getKey().equals('TYPE_GENERAL')}">
+        <button th:onclick="|location.href='@{/account/mypage/set-info}'|">비밀번호 변경</button><br><br>
+    </div>
 
     <a href="/logout" role="button">로그아웃</a><br>
     <p>웹 버젼 1.0.00</p>
