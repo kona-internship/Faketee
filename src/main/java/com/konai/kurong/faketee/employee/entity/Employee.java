@@ -49,7 +49,7 @@ public class Employee {
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "DEP_ID")
+    @JoinColumn(name = "POS_ID")
     private Position position;
 
     @ManyToOne(fetch = LAZY)

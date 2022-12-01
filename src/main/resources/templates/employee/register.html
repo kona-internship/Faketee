@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>직원등록</title>
+</head>
+
+<body>
+
+<h1>직원등록</h1>
+
+<form method="POST" name="registerForm" id="registerForm">
+    <div>
+        <input type="text" name="email" id="email" placeholder="EMAIL">
+    </div>
+    <br>
+    <button type="button" id="btn-emailCheck" onclick="checkEmail()">EMAIL 중복확인</button>
+    <br><br>
+    <!--    <button type="button" id="btn-emailValid" onclick="confirmEmail()">EMAIL 인증</button>-->
+    <!--    <br><br>-->
+    <div>
+        <input type="password" name="password" id="password" placeholder="PASSWORD">
+    </div>
+    <br>
+    <div>
+        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="CHECK PASSWORD">
+    </div>
+    <br>
+    <div>
+        <input type="text" name="name" id="name" placeholder="NAME">
+    </div>
+    <br>
+
+    <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button>
+</form>
+
+
+</body>
+</html>
