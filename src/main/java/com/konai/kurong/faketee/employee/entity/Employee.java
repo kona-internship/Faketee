@@ -3,6 +3,7 @@ package com.konai.kurong.faketee.employee.entity;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.department.entity.Department;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,14 +35,17 @@ public class Employee {
     )
     private Long id;
 
-    private String role;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EmpRole role;
 
     private String joinCode;
 
+    @Column(nullable = false)
     private Boolean value;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "COR_ID")
+    @JoinColumn(name = "COR_ID", nullable = false)
     private Corporation corporation;
 
     @ManyToOne(fetch = LAZY)
