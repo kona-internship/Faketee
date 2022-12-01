@@ -20,7 +20,6 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         SessionUser user = new SessionUser(userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 계정입니다.")));
         if(user != null){
-
             return new PrincipalDetails(user);
         }
         else throw new UsernameNotFoundException("존재하지 않는 Email 입니다.");

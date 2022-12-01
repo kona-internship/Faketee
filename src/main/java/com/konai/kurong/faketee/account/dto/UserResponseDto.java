@@ -15,6 +15,7 @@ public class UserResponseDto {
 
     //  User -> UserUpdateResponseDto
     public UserResponseDto(User user) {
+
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();

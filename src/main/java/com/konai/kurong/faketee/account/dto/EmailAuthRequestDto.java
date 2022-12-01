@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 public class EmailAuthRequestDto {
+
     private String email;
     private String emailAuthToken;
 }
