@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
 
@@ -57,9 +58,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 of(registrationID, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
-        httpServletRequest.getSession().setAttribute("user", new SessionUser(user));
-        SessionUser sessionUser = (SessionUser) httpServletRequest.getSession().getAttribute("user");
-        System.out.println("로그인 된 시점 " + sessionUser.getEmail());
+
+        /**
+         * OAuth 서비스에서 로그인 성공시 세션에 유저 정보를 추가하던 부분을
+         * CustomOauthLoginSuccessHandler에 추가하였다.
+         */
+//        httpServletRequest.getSession().setAttribute("user", new SessionUser(user));
+//        SessionUser sessionUser = (SessionUser) httpServletRequest.getSession().getAttribute("user");
+//        System.out.println("로그인 된 시점 " + sessionUser.getEmail());
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),
                 attributes.getAttributes(),
