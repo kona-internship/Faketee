@@ -18,6 +18,11 @@ const PATH_DEP = "/dep";
 const PATH_SCH = "/sch";
 
 /**
+ * 근무일정 템플릿 url path
+ */
+const PATH_TMP = "/template";
+
+/**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
  * @type {string}
