@@ -4,13 +4,18 @@ import com.konai.kurong.faketee.department.dto.DepartmentModifyRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
+import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
+import com.konai.kurong.faketee.utils.exception.response.CustomException;
+import com.konai.kurong.faketee.utils.exception.response.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @Slf4j
 @RestController
@@ -90,5 +95,23 @@ public class DepartmentApiController {
                                        @RequestBody DepartmentModifyRequestDto requestDto){
         departmentService.modifyDep(corId, depId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ExceptionResponse DataIntegrityViolation(DataIntegrityViolationException e) {
+
+        Boolean isDepDepLoc = Arrays.stream(e.getMessage().split(";")).anyMatch(s->s.equals(" constraint [C##FAKETEE.FK_DEP_TO_DEP_LOC]"));
+        ExceptionResponse errorResponse = ExceptionResponse.builder()
+                .message("exception")
+                .build();
+        if(isDepDepLoc) {
+            LowDepAlreadyExistException exception = new LowDepAlreadyExistException();
+            errorResponse.addError(CustomException.builder()
+                    .message(exception.getMessage())
+                    .build());
+        }
+
+        return errorResponse;
     }
 }

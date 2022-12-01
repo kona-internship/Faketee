@@ -18,9 +18,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.*;
 
 @Slf4j
@@ -174,12 +178,8 @@ public class DepartmentService {
      */
 
     @Transactional
-    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws RuntimeException {
+    public void removeDep(Long corId, DepartmentRemoveRequestDto requestDto) throws LowDepAlreadyExistException {
         //추가사항: 리펙토링 필요, 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
-
-        if(requestDto.getRemoveDepList().isEmpty()){
-            throw new LowDepAlreadyExistException("하위 조직이 존재하여 삭제가 불가능합니다.");
-        }
 
         List<Long> idList = new ArrayList<>();
         List<Long> levelList = new ArrayList<>();
@@ -206,8 +206,9 @@ public class DepartmentService {
         while (max >= min) {
             for (int i = 0; i < levelList.size(); i++) {
                 if (levelList.get(i) == max) {
-                    depLocRepository.deleteDepLocByDepartmentId(idList.get(i));
-                    departmentRepository.deleteById(idList.get(i));
+                        depLocRepository.deleteDepLocByDepartmentId(idList.get(i));
+                        departmentRepository.deleteById(idList.get(i));
+
                 }
             }
             max--;
