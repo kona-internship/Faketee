@@ -25,4 +25,10 @@ public class TemplateApiController {
         templateService.delete(id);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> getTemplates(@PathVariable(name = "corId") Long corId){
+
+        return ResponseEntity.ok(templateService.getTemplates(corId));
+    }
+
 }
