@@ -42,12 +42,10 @@ public class RegisterApiController {
     public ResponseEntity<?> confirmEmail(@ModelAttribute EmailAuthRequestDto emailAuthRequestDto) {
 
         userService.confirmEmailAuth(emailAuthRequestDto);
-
         /**
          * session 초기화
          */
         httpServletRequest.getSession().invalidate();
-        log.info("confirm-email sessionInvalidate");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/auth-complete"));
@@ -55,19 +53,12 @@ public class RegisterApiController {
     }
 
     @GetMapping("/reSend-email")
-    public ResponseEntity<?> reSendEmail(@LoginUser SessionUser sessionLoginUser) {
-//        log.info("reconfirm-email sessionLoginUser : " + sessionLoginUser.toString());
-
-        SessionUser sessionUser =  (SessionUser) httpServletRequest.getSession().getAttribute("user");
-        log.info("reconfirm-email sessionUser : " + sessionUser.toString());
+    public ResponseEntity<?> reSendEmail() {
+        SessionUser sessionUser = (SessionUser) httpServletRequest.getSession().getAttribute("user");
 
         String email = sessionUser.getEmail();
         String emailAuthToken = emailAuthService.updateEmailAuthToken(email);
-        EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto(email, emailAuthToken);
         emailAuthService.sendEmail(email, emailAuthToken);
-//        userService.confirmEmailAuth(emailAuthRequestDto);
-
-//        httpServletRequest.getSession().invalidate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/account/auth-complete"));
