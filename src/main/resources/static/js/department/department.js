@@ -222,7 +222,7 @@ function showButtonDepHierarchy(superId, depMap, minLevel) {
         let spaces = "&emsp;&emsp;"
         $('#dep-list').append(
             '<div>' +
-            '<a href="http://localhost:8080/corporation/1/dep/' + dep.id + '">' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
+            '<a href="http://localhost:8080/corporation'+ getNextPath(window.location.href, PATH_COR) +'/dep/' + dep.id + '">' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
             '</div>'
         );
         showButtonDepHierarchy(dep.id, depMap, minLevel);

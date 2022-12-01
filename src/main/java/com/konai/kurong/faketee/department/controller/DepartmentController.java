@@ -1,9 +1,13 @@
 package com.konai.kurong.faketee.department.controller;
 
+import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
+import com.konai.kurong.faketee.department.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/corporation/{corId}/dep")
 public class DepartmentController {
+
+    private final DepartmentService departmentService;
 
     @GetMapping()
     public String listDepPage(){
@@ -28,10 +34,11 @@ public class DepartmentController {
     }
 
     @GetMapping("/{depId}/mod")
-    public String modifyDepPage(){
+    public String modifyDepPage(@PathVariable(name = "depId") Long depId, Model model){
+        DepartmentResponseDto responseDto = departmentService.getDep(depId);
+        model.addAttribute("dep", responseDto);
         return "department/modification";
     }
-
 
     @GetMapping("/{depId}")
     public String goDetailDepPage(){
