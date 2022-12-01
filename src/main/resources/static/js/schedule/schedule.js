@@ -22,3 +22,7 @@ function showSchTypeList(data){
 function goAddSchTypePage(){
 
 }
+
+function newTemplate(){
+
+}
