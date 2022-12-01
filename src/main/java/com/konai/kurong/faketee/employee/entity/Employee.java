@@ -5,6 +5,7 @@ import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +28,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "EMP")
-public class Employee {
+public class Employee extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = SEQUENCE,
@@ -35,14 +36,14 @@ public class Employee {
     )
     private Long id;
 
+    private String name;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EmpRole role;
 
-    private String joinCode;
-
     @Column(nullable = false)
-    private Boolean value;
+    private String val;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "COR_ID", nullable = false)
@@ -59,4 +60,8 @@ public class Employee {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "DEP_ID")
     private Department department;
+
+    @OneToOne
+    @JoinColumn(name = "EMP_INFO_ID")
+    private EmployeeInfo employeeInfo;
 }

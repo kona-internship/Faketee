@@ -10,26 +10,27 @@
 <h1>직원등록</h1>
 
 <form method="POST" name="registerForm" id="registerForm">
-    <div>
-        <input type="text" name="email" id="email" placeholder="EMAIL">
-    </div>
-    <br>
-    <button type="button" id="btn-emailCheck" onclick="checkEmail()">EMAIL 중복확인</button>
-    <br><br>
-    <!--    <button type="button" id="btn-emailValid" onclick="confirmEmail()">EMAIL 인증</button>-->
-    <!--    <br><br>-->
-    <div>
-        <input type="password" name="password" id="password" placeholder="PASSWORD">
-    </div>
-    <br>
-    <div>
-        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="CHECK PASSWORD">
-    </div>
-    <br>
-    <div>
-        <input type="text" name="name" id="name" placeholder="NAME">
-    </div>
-    <br>
+    이름 : <input type="text" id="name" name="name" placeholder="이름"><br>
+
+    권한 : <input type='radio' name='role' value='GENERAL_MANAGER'/>총괄관리자
+    <input type='radio' name='role' value='GROUP_MANAGER' />조직관리자
+    <input type='radio' name='role' value='EMPLOYEE' />직원<br>
+
+    직무 :
+
+    조직 :
+
+    입사일 : <input type="date" id="date" max="2077-06-20" min="2077-06-05" value="2022-01-01">
+
+    퇴사일 :
+
+    전공 :
+
+    학위 :
+
+    정보 :
+
+    직원 합류 초대 보낼 이메일 :
 
     <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button>
 </form>
