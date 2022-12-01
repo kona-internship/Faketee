@@ -16,13 +16,61 @@ function loadSchList() {
         }
     });
 }
-function showSchTypeList(data){
 
+function showSchTypeList(scheduleTypeList) {
+    $('#sch-type-list *').remove();
+
+    for (let [index, type] of scheduleTypeList.entries()) {
+        let msg = '<div>' + (index + 1) + '. 근무일정 유형: ' + type.name +
+            ' <button type="button" onclick=deleteSchType(' + type.id + ')>삭제</button></div>';
+        $('#sch-type-list').append(msg);
+    }
 }
-function goAddSchTypePage(){
 
+function goAddSchTypePage() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH;
 }
 
-function newTemplate(){
+function goTypeList() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type";
+}
+
+function checkSchTypeRegister() {
+    if (!checkExistData($("#name").val(), "유형명을")) {
+
+        $("#name").focus();
+        return false;
+    }
+}
+
+function checkExistData(value, dataName) {
+    value = value.trim();
+    if (value == "") {
+        alert(dataName + " 입력해주세요!");
+        return false;
+    }
+    $.ajax({
+        async: true,
+        type: "post",
+        data: JSON.stringify({
+            name: $("#name").val()
+        }),
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type",
+        contentType: "application/json; charset=UTF-8",
+        success:
+            function () {
+                alert("유형 등록 성공");
+                goTypeList();
+
+            },
+        error:
+            function (request, status, error) {
+                alert("유형 등록 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+            }
+    });
+    return true;
+}
+
+function newTemplate() {
 
 }

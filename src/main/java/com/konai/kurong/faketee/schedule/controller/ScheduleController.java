@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/corporation/{corId}/sch")
 public class ScheduleController {
+
+    @GetMapping()
+    public String registerSchType() {
+        return "schedule/registration";
+    }
+
     @GetMapping("/type")
-    public String typeList(){
+    public String typeList() {
         return "schedule/list";
     }
 }
