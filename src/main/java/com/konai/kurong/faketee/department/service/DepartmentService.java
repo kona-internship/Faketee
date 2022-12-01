@@ -140,7 +140,7 @@ public class DepartmentService {
      */
 
     @Transactional
-    public Result<?> getDep(Long depId) {
+    public Result<?> getAllLowDepWithLoc(Long depId) {
 
         //해당 부서
         Optional<Department> department = departmentRepository.findById(depId);
@@ -157,6 +157,10 @@ public class DepartmentService {
         List<Department> subs = getSubDepList(dep);
 
         return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
+    }
+
+    public DepartmentResponseDto getDep(Long depId){
+        return DepartmentResponseDto.convertToDto(departmentRepository.findById(depId).orElseThrow());
     }
 
     /**
