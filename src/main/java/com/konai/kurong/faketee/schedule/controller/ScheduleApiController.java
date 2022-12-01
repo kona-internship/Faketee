@@ -33,4 +33,12 @@ public class ScheduleApiController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping("/type/delete/{typeId}")
+    public ResponseEntity<?> removeSchType(@PathVariable(name = "corId") Long corId,
+                                            @PathVariable(name = "typeId") Long typeId){
+        scheduleService.removeSchType(corId, typeId);
+
+        return new ResponseEntity<>(scheduleService.getSchTypeList(corId), HttpStatus.OK);
+    }
 }
