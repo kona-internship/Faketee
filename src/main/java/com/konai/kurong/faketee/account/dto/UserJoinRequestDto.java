@@ -22,6 +22,7 @@ public class UserJoinRequestDto {
     private String emailAuthStatus;
 
     public User toEntity() {
+
         return User.builder()
                 .email(email)
                 .password(password)

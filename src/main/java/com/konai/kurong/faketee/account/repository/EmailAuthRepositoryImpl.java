@@ -12,11 +12,13 @@ public class EmailAuthRepositoryImpl extends QuerydslRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     public EmailAuthRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+
         super(EmailAuth.class);
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
     public Optional<EmailAuth> findValidAuthByEmail(String email, String emailAuthToken, LocalDateTime currentTime) {
+
         EmailAuth emailAuth = jpaQueryFactory
                 .selectFrom(QEmailAuth.emailAuth)
                 .where(QEmailAuth.emailAuth.email.eq(email),
@@ -29,6 +31,7 @@ public class EmailAuthRepositoryImpl extends QuerydslRepositorySupport {
     }
 
     public void updateEmailAuth(String email, String emailAuthToken, LocalDateTime expireDate) {
+
        jpaQueryFactory.update(QEmailAuth.emailAuth)
                 .set(QEmailAuth.emailAuth.emailAuthToken, emailAuthToken)
                 .set(QEmailAuth.emailAuth.expireDate, expireDate)
