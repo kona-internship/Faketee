@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +8,8 @@
 </head>
 <body>
 <h1>조직 상세보기</h1>
-조직 이름:<input type="text" id="dept-name" ><br>
-상위 조직 이름:<input type="text" id="up-dept-name" disabled><br>
+조직 이름:<input type="text" id="dept-name" th:value="${dep?.name}"><br>
+상위 조직 이름:<input type="text" id="up-dept-name" th:value="${dep?.superId}" disabled><br>
 출퇴근 장소:<div id="loc-check-list"></div><br>
 
 하위 조직도 <div><input type="checkbox" id="isModifyLow"><span>하위 조직 수정 여부</span></div>
