@@ -364,7 +364,7 @@ function removeDep() {
             goDepListPage();
         },
         error: function (jqXHR) {
-            let result = matchId(jqXHR);
+            let result = getErrors(jqXHR);
             showError(result);
         }
     });
