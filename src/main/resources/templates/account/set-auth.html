@@ -9,8 +9,7 @@
 <h1>권한선택</h1>
 <br>
 <a href="/account/직원"><button type="button">직원</button></a>
-<br>
-<a href="/account/관리자"><button type="button">최고관리자</button></a>
+<button type="button" th:onclick="|location.href='@{/corporation}'|">최고관리자</button></a>
 <br>
 <button th:onclick="|location.href='@{/account/mypage}'|">마이페이지</button>
 

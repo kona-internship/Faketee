@@ -1,15 +1,13 @@
 package com.konai.kurong.faketee.position.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
-import com.konai.kurong.faketee.utils.jpa_auditing.BaseUserEntity;
+import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -26,7 +24,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
 @Table(name = "POS")
-public class Position extends BaseUserEntity {
+public class Position extends BaseEntity {
 
     @Id
     @GeneratedValue(
