@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -35,20 +38,19 @@ public class Template extends BaseEntity {
     private String name;
 
     @Column(name = "START_TIME")
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "END_TIME")
-    private LocalDateTime endTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DEP_ID")
-    private Department department;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POS_ID")
-    private Position position;
+    private LocalTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCH_TYPE_ID")
     private ScheduleType scheduleType;
+
+    @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
+    private List<TemplateDepartment> templateDepartments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
+    private List<TemplatePosition> templatePositions = new ArrayList<>();
+
 }

@@ -28,11 +28,8 @@ public class TemplateController {
     }
 
     @GetMapping("/new")
-    public String newTemplate(@PathVariable(name = "corId") Long corId, Model model){
+    public String newTemplate(){
 
-        model.addAttribute("departments", departmentService.getDepList(corId));
-        model.addAttribute("positions", positionService.getPosList(corId));
-        model.addAttribute("scheduleTypes", scheduleService.getSchTypeList(corId));
         return "schedule/template-new";
     }
 }

@@ -8,24 +8,24 @@
 <h1>근무일정 템플릿 추가하기</h1>
 <hr>
 <div>
-    <form>
+    <form name="template">
         <div>
-            템플릿명: <input type="text" id="tmp-name"><br>
+            템플릿명: <input type="text" id="tmp-name"><br><br>
         </div>
         <div>
-            근무일정유형: <select id="sch-type-list"></select>
+            근무일정유형: <select id="select-sch-type"></select><br><br>
         </div>
         <div>
-            출근시간: <input type="time" id="tmp-startTime"><br>
+            출근시간: <input type="time" id="tmp-startTime"><br><br>
         </div>
         <div>
-            퇴근시간: <input type="time" id="tmp-endTime"><br>
+            퇴근시간: <input type="time" id="tmp-endTime"><br><br>
         </div>
         <div>
-            조직들:
+            조직들: <br><select name="departments[]" id="select-departments" multiple="multiple" style="width: 200px; height: 80px"></select><br><br>
         </div>
         <div>
-            직무들:
+            직무들: <br><select name="positions[]" id="select-positions" multiple="multiple" style="width: 200px; height: 80px"></select><br><br>
         </div>
 
         <button type="button" onclick="saveTemplate()">추가하기</button>
@@ -37,5 +37,7 @@
 <script type="text/javascript" src="/js/schedule/schedule.js"></script>
 <script>
     selectSchType()
+    selectDepartments()
+    selectPositions()
 </script>
 </html>
