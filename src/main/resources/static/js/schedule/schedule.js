@@ -71,11 +71,31 @@ function checkExistData(value, dataName) {
     return true;
 }
 
+function deleteSchType(typeId) {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type/delete/" + typeId,
+        type: "post",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            alert("유형 삭제 성공");
+            showSchTypeList(data);
+
+        },
+        error: function () {
+            alert('직무 목록 불러오기 실패!');
+        }
+    });
+}
+
 function newTemplate() {
+
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/new";
 }
 
-function loadTemplates(){
+function loadTemplates() {
+
     $.ajax({
         async: true,
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/list",
@@ -86,14 +106,17 @@ function loadTemplates(){
             getTemplateList(data);
         },
         error: function (error) {
-            alert('근무일정 템플릿이 없습니다.');
             alert(JSON.stringify(error));
         }
     });
 }
 
-function getTemplateList(tempList){
+function getTemplateList(tempList) {
+
     $('#tmp-list *').remove();
+    if (tempList.entries().next().value == null) {
+        $('#tmp-list').append('<div>' + '근무일정 템플릿이 없습니다' + '</div>');
+    }
     for (let [index, tmp] of tempList.entries()) {
         let msg = '<div>' + (index + 1) + '. 템플릿: ' + tmp.name +
             ' <button type="button" onclick=deleteTemplate(' + tmp.id + ')>삭제</button></div>';
@@ -101,38 +124,119 @@ function getTemplateList(tempList){
     }
 }
 
-function saveTemplate(){
+function saveTemplate() {
+
+    let depList = new Array();
+    let posList = new Array();
+
+    $('#select-departments option:selected').each(function (){
+        depList.push(this.value);
+    });
+
+    $('#select-positions option:selected').each(function (){
+        posList.push(this.value);
+    });
 
     let data = {
-        name : $('#tmp-name').val(),
-        startTime : $('#tmp-startTime').val(),
-        endTime : $('#tmp-endTime').val(),
+        name: $('#tmp-name').val(),
+        scheduleName: $('#select-sch-type option:selected').val(),
+        startTime: $('#tmp-startTime').val(),
+        endTime: $('#tmp-endTime').val(),
+        departments: depList,
+        positions: posList
+    };
 
-
-    }
-}
-
-function selectSchType(){
     $.ajax({
         async : true,
-        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type/list",
         type : "POST",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/new",
+        dataType : 'json',
         contentType : "application/json",
-        dataType : "json",
-        success : function (list){
-            for(let [index, type] of list.entries()){
+        data : JSON.stringify(data),
+
+        beforeSend : function (){
+            if($('#tmp-name').value == ""){
+                alert("템플릿 명을 입력해주세요");
+                window.location.reload();
+            }
+        },
+        success : function (){
+            alert('근무일정 템플릿을 추가하였습니다.');
+            window.location.reload();
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function selectSchType() {
+
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type/list",
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (list) {
+            for (let [index, type] of list.entries()) {
                 let option = document.createElement("option");
                 option.value = type.name;
                 option.text = type.name;
-                $('#sch-type-list').appendChild(option);
+                $('#select-sch-type').append(option);
+            }
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function selectDepartments() {
+
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP + "/list",
+        type: "GET",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (list) {
+            for (let [index, department] of list.entries()) {
+                let option = document.createElement("option");
+                option.text = department.name;
+                option.value = department.name;
+                $('#select-departments').append(option);
+            }
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function selectPositions() {
+
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/list",
+        type: "GET",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (list) {
+            for(let [index, position] of list.entries()){
+                let option = document.createElement("option");
+                option.text = position.name;
+                option.value = position.name;
+                $('#select-positions').append(option);
             }
         },
         error : function (error){
             alert(JSON.stringify(error));
         }
-    })
+    });
+
 }
 
-function deleteTemplate(templateId){
+function deleteTemplate(templateId) {
 
 }

@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.department.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.schedule.entity.TemplateDepartment;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,6 +53,9 @@ public class Department extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
+
+    @OneToMany(mappedBy = "department", fetch = LAZY)
+    private List<TemplateDepartment> templateDepartments = new ArrayList<>();
 
     public void changeName(String name){
         this.name = name;

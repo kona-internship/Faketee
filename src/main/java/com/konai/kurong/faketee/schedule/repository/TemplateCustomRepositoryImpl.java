@@ -22,7 +22,7 @@ public class TemplateCustomRepositoryImpl implements TemplateCustomRepository {
         return jpaQueryFactory
                 .select(new QTemplateResponseDto(template))
                 .from(template)
-                .where(template.position.corporation.id.eq(corId))
+                .where(template.scheduleType.corporation.id.eq(corId))
                 .orderBy(template.CRE_DTTM.desc())
                 .fetch();
     }

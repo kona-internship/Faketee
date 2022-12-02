@@ -3,9 +3,11 @@ package com.konai.kurong.faketee.schedule.controller;
 import com.konai.kurong.faketee.schedule.dto.TemplateSaveRequestDto;
 import com.konai.kurong.faketee.schedule.service.TemplateService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/corporation/{corId}/template")
 @RestController
@@ -14,9 +16,10 @@ public class TemplateApiController {
     private final TemplateService templateService;
 
     @PostMapping("/new")
-    public ResponseEntity<?> newTemplate(@RequestBody TemplateSaveRequestDto requestDto){
+    public ResponseEntity<?> newTemplate(@RequestBody TemplateSaveRequestDto requestDto,
+                                         @PathVariable(name = "corId") Long corId){
 
-        return ResponseEntity.ok(templateService.save(requestDto));
+        return ResponseEntity.ok(templateService.save(requestDto, corId));
     }
 
     @PostMapping("/delete")
