@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,8 +23,11 @@ public class DepLocService {
      * @return true면 삭제 불가, false면 삭제 가능
      */
     public boolean existDepLocBylocId(Long locId){
-        Optional<DepLoc> depLoc = depLocRepository.findDepLocByLocationId(locId);
+        Optional<List<DepLoc>> depLoc = depLocRepository.findDepLocByLocationId(locId);
         if(depLoc.isPresent()){
+            if(depLoc.get().size() == 0) {
+                return false;
+            }
             return true;
         }else{
             return false;

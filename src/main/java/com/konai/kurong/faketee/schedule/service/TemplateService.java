@@ -40,7 +40,7 @@ public class TemplateService {
         return templateRepository.findAllByCorId(corId);
     }
 
-    public ScheduleType translateScheduleType(String scheduleName, Long corId){
+    public ScheduleType translateScheduleType(String scheduleName, Long corId) {
 
         return scheduleTypeRepository.findByNameAndCorId(scheduleName, corId);
     }

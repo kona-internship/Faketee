@@ -21,4 +21,9 @@ public class ScheduleController {
     public String typeList() {
         return "schedule/typeList";
     }
+
+    @GetMapping("/reg")
+    public String registerSch() {
+        return "schedule/schedule-new";
+    }
 }
