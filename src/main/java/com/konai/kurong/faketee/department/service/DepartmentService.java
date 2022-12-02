@@ -205,7 +205,7 @@ public class DepartmentService {
             });
         }
 
-        Long min = levelList.get(0).longValue();
+        Long min = Long.MAX_VALUE;
         Long max = -1L;
         for (Long i : levelList) {
             if (max < i) {

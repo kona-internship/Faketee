@@ -7,6 +7,7 @@ import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.dto.LocationSaveRequestDto;
 import com.konai.kurong.faketee.location.entity.Location;
 import com.konai.kurong.faketee.location.repository.LocationRepository;
+import com.konai.kurong.faketee.utils.exception.custom.location.ConnectedDepExistException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,8 @@ public class LocationService {
     public boolean removeLocation(Long locId){
         if(depLocService.existDepLocBylocId(locId)) {
             //장소에 출근하는 조직이 존재한다는 말
-            return false;
+            throw new ConnectedDepExistException();
+
         }else{//없으면 삭제
             locationRepository.deleteById(locId);
             return true;
