@@ -7,9 +7,14 @@ public enum ExceptionId {
     EMAIL_NOT_FOUND("400_001_002"),
 
 //    ===============DEP=================
-    DEP_ALREADY_EXIST("400_002_001");
+    DEP_ALREADY_EXIST("400_002_001"),
 
+//    ===============LOC=================
 
+    CONNECT_DEP_EXIST("400_003_001"),
+
+//    ===============SCH=================
+    CONNECT_TMP_EXIST("400_004_001");
 
     private final String exceptionId;
 

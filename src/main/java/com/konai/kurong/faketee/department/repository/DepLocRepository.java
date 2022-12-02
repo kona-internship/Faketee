@@ -12,7 +12,7 @@ public interface DepLocRepository extends JpaRepository<DepLoc, Long>, QuerydslD
     @EntityGraph(attributePaths = {"location", "department"})
     List<DepLoc> findAllByDepartment_Id(Long depId);
 
-    Optional<DepLoc> findDepLocByLocationId(Long locId);
+    Optional<List<DepLoc>> findDepLocByLocationId(Long locId);
 
     void deleteDepLocByDepartmentId(Long depId);
 

@@ -27,7 +27,7 @@ public class TemplateResponseDto {
     private ScheduleType scheduleType;
 
     @QueryProjection
-    public TemplateResponseDto(Template template){
+    public TemplateResponseDto(Template template) {
 
         this.id = template.getId();
         this.name = template.getName();
