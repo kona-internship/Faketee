@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ScheduleService {
+public class ScheduleTypeService {
     private final ScheduleTypeRepository scheduleTypeRepository;
     private final CorporationRepository corporationRepository;
     private final TemplateRepository templateRepository;
