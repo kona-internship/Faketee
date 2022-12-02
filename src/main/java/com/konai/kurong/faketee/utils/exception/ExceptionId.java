@@ -11,7 +11,10 @@ public enum ExceptionId {
 
 //    ===============LOC=================
 
-    CONNECT_DEP_EXIST("400_003_001");
+    CONNECT_DEP_EXIST("400_003_001"),
+
+//    ===============SCH=================
+    CONNECT_TMP_EXIST("400_004_001");
 
     private final String exceptionId;
 

@@ -82,8 +82,9 @@ function deleteSchType(typeId){
             showSchTypeList(data);
 
         },
-        error: function () {
-            alert('직무 목록 불러오기 실패!');
+        error: function (jqXHR) {
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
