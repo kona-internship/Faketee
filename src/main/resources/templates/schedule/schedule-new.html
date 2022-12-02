@@ -12,23 +12,12 @@
 <body>
 <h1>근무 일정 추가</h1>
 근무 일정 템플릿
+<select id="selectTmp" onchange="selectTmpChange()"></select>
 조직들
 달력
 <input type="text" id="datepicker">
-
+<button type="button" onclick="checkSchRegister()">근무 일정 등록</button>
 </body>
-<script>
-    $(function() {
-        let options={
-            multidate: true,
-            format: 'yyyy-mm-dd',
-            todayHighlight: true,
-            autoclose: false,
-        };
-
-        //초기값을 오늘 날짜로 설정해줘야 합니다.
-        // $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-        $('#datepicker').datepicker(options);
-    });
-</script>
+<script src="/js/utils/url.js"></script>
+<script src="/js/schedule/schedule-new.js"></script>
 </html>
