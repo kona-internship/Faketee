@@ -64,4 +64,15 @@ public class Employee extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "EMP_INFO_ID")
     private EmployeeInfo employeeInfo;
+
+    public void update(Employee employee) {
+        this.name = name;
+        this.role = role;
+        this.position = position;
+        this.department = department;
+    }
+
+    public void updateVal() {
+        this.val = "T";
+    }
 }
