@@ -43,6 +43,4 @@ public class Position extends BaseEntity {
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
 
-    @OneToMany(mappedBy = "position", fetch = LAZY)
-    private List<TemplatePosition> templatePositions = new ArrayList<>();
 }

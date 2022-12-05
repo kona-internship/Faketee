@@ -74,6 +74,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+//    jpa 영속 관계에서 fetch했을 때, 값이 없으면 null을 내부적으로 넣어주어 json으로 serialize할 때 문제가 생기지 않도록 해주는 모듈
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 }
 
 tasks.named('test') {

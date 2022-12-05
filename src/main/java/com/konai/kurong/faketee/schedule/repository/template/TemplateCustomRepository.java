@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.schedule.repository;
+package com.konai.kurong.faketee.schedule.repository.template;
 
 import com.konai.kurong.faketee.schedule.dto.TemplateResponseDto;
 import org.springframework.data.repository.query.Param;

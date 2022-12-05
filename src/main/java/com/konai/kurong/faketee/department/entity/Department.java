@@ -54,9 +54,6 @@ public class Department extends BaseEntity {
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
 
-    @OneToMany(mappedBy = "department", fetch = LAZY)
-    private List<TemplateDepartment> templateDepartments = new ArrayList<>();
-
     public void changeName(String name){
         this.name = name;
     }

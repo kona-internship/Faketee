@@ -15,7 +15,7 @@ public class TemplateApiController {
 
     private final TemplateService templateService;
 
-    @PostMapping("/new")
+    @PostMapping(value = "/new", produces = "application/json; charset=utf-8")
     public ResponseEntity<?> newTemplate(@RequestBody TemplateSaveRequestDto requestDto,
                                          @PathVariable(name = "corId") Long corId){
 

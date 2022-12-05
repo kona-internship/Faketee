@@ -8,13 +8,22 @@ public enum ExceptionId {
 
 //    ===============DEP=================
     DEP_ALREADY_EXIST("400_002_001"),
+    DEP_NOT_FOUND("400_002_002"),
+
 
 //    ===============LOC=================
 
     CONNECT_DEP_EXIST("400_003_001"),
 
 //    ===============SCH=================
-    CONNECT_TMP_EXIST("400_004_001");
+    CONNECT_TMP_EXIST("400_004_001"),
+    SCH_TYPE_NOT_FOUND("400_004_002"),
+    TMP_DEP_NOT_FOUND("400_004_003"),
+    TMP_POS_NOT_FOUND("400_004_004"),
+
+//    ===============POS=================
+
+    POS_NOT_FOUND("400_005_001");
 
     private final String exceptionId;
 

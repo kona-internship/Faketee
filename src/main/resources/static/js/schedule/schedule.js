@@ -140,11 +140,11 @@ function saveTemplate() {
 
     let data = {
         name: $('#tmp-name').val(),
-        scheduleName: $('#select-sch-type option:selected').val(),
+        scheduleId: $('#select-sch-type option:selected').val(),
         startTime: $('#tmp-startTime').val(),
         endTime: $('#tmp-endTime').val(),
-        departments: depList,
-        positions: posList
+        departmentsId: depList,
+        positionsId: posList
     };
 
     $.ajax({
@@ -163,6 +163,7 @@ function saveTemplate() {
         },
         success : function (){
             alert('근무일정 템플릿을 추가하였습니다.');
+
             window.location.reload();
         },
         error : function (error){
@@ -171,7 +172,7 @@ function saveTemplate() {
     });
 }
 
-function selectSchType() {
+function listSchType() {
 
     $.ajax({
         async: true,
@@ -182,7 +183,7 @@ function selectSchType() {
         success: function (list) {
             for (let [index, type] of list.entries()) {
                 let option = document.createElement("option");
-                option.value = type.name;
+                option.value = type.id;
                 option.text = type.name;
                 $('#select-sch-type').append(option);
             }
@@ -193,7 +194,7 @@ function selectSchType() {
     });
 }
 
-function selectDepartments() {
+function listDepartments() {
 
     $.ajax({
         async: true,
@@ -205,7 +206,8 @@ function selectDepartments() {
             for (let [index, department] of list.entries()) {
                 let option = document.createElement("option");
                 option.text = department.name;
-                option.value = department.name;
+                option.value = department.id;
+                // option.id = 'dep' + department.id;
                 $('#select-departments').append(option);
             }
         },
@@ -215,7 +217,7 @@ function selectDepartments() {
     });
 }
 
-function selectPositions() {
+function listPositions() {
 
     $.ajax({
         async: true,
@@ -224,10 +226,11 @@ function selectPositions() {
         contentType: "application/json",
         dataType: "json",
         success: function (list) {
-            for(let [index, position] of list.entries()){
+            for(let [index, position] of list.entries()) {
                 let option = document.createElement("option");
                 option.text = position.name;
-                option.value = position.name;
+                option.value = position.id;
+                // option.id = 'pos' + position.id;
                 $('#select-positions').append(option);
             }
         },

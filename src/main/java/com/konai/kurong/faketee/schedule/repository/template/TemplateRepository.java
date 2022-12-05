@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.schedule.repository;
+package com.konai.kurong.faketee.schedule.repository.template;
 
 import com.konai.kurong.faketee.schedule.entity.Template;
 import org.springframework.data.jpa.repository.JpaRepository;
