@@ -74,8 +74,21 @@ public class TemplateService {
         templateRepository.deleteById(id);
     }
 
+    @Transactional
     public List<TemplateResponseDto> getTemplates(Long corId){
+        List<TemplateResponseDto> list = templateRepository.findAllByCorId(corId);
+        List<Template> entityList = templateRepository.findTemplatesByScheduleTypeCorporationId(corId);
+        return list;
+    }
 
-        return templateRepository.findAllByCorId(corId);
+    @Transactional
+    public List<TemplateResponseDto> getTemplatesList(Long corId){
+
+        List<Template> templates =  templateRepository.findTemplatesByScheduleTypeCorporationId(corId);
+        List<TemplateResponseDto> dtoList = new ArrayList<>();
+        for(Template template : templates){
+            dtoList.add(new TemplateResponseDto(template));
+        }
+        return  dtoList;
     }
 }

@@ -37,4 +37,6 @@ public class TemplateDepartment extends BaseEntity {
     @JoinColumn(name = "DEP_ID")
     private Department department;
 
+
+
 }
