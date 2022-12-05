@@ -53,4 +53,13 @@ public class Template extends BaseEntity {
     @OneToMany(mappedBy = "template", fetch = FetchType.LAZY)
     private List<TemplatePosition> templatePositions = new ArrayList<>();
 
+    public void setTemplateDepartments(List<TemplateDepartment> list){
+
+        this.templateDepartments = list;
+    }
+
+    public void setTemplatePositions(List<TemplatePosition> list){
+
+        this.templatePositions = list;
+    }
 }

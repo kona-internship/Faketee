@@ -14,6 +14,7 @@ import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.entity.Location;
 import com.konai.kurong.faketee.location.repository.LocationRepository;
 import com.konai.kurong.faketee.location.repository.QuerydslLocRepository;
+import com.konai.kurong.faketee.utils.exception.custom.department.DepartmentNotFoundException;
 import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -302,5 +303,10 @@ public class DepartmentService {
             this.loc = loc;
             this.sub = sub;
         }
+    }
+
+    public Department findById(Long id){
+
+        return departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException());
     }
 }

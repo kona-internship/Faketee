@@ -1,10 +1,11 @@
-package com.konai.kurong.faketee.schedule.repository;
+package com.konai.kurong.faketee.schedule.repository.template;
 
 import com.konai.kurong.faketee.schedule.dto.QTemplateResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplateResponseDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
