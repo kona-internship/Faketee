@@ -43,7 +43,7 @@ public class Template extends BaseEntity {
     @Column(name = "END_TIME")
     private LocalTime endTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "SCH_TYPE_ID")
     private ScheduleType scheduleType;
 
