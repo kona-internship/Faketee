@@ -40,7 +40,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         if (loginUser.getEmailAuthStatus().equals("F")){
 
             response.sendRedirect("/account/login-auth");
-            return ;
+            return;
         }
 
         response.sendRedirect("/account/set-auth");

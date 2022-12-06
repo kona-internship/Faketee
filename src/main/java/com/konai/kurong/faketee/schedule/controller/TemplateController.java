@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RequestMapping("/corporation/{corId}/template")
@@ -29,5 +30,13 @@ public class TemplateController {
     public String newTemplate(){
 
         return "schedule/template-new";
+    }
+
+    @GetMapping("/detail")
+    public String templateDetails(@RequestParam Long tmpId, Model model){
+
+        model.addAttribute("responseDto", templateService.loadDetails(tmpId));
+        templateService.loadDetails(tmpId).getName();
+        return "schedule/template-detail";
     }
 }

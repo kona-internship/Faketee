@@ -1,22 +1,15 @@
 package com.konai.kurong.faketee.schedule.service;
 
-import com.konai.kurong.faketee.department.repository.DepartmentRepository;
 import com.konai.kurong.faketee.department.service.DepartmentService;
-import com.konai.kurong.faketee.position.repository.PositionRepository;
 import com.konai.kurong.faketee.position.service.PositionService;
-import com.konai.kurong.faketee.schedule.dto.TemplateResponseDto;
-import com.konai.kurong.faketee.schedule.dto.TemplateSaveRequestDto;
-import com.konai.kurong.faketee.schedule.entity.ScheduleType;
+import com.konai.kurong.faketee.schedule.dto.*;
 import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.entity.TemplateDepartment;
 import com.konai.kurong.faketee.schedule.entity.TemplatePosition;
-import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleTypeRepository;
 import com.konai.kurong.faketee.schedule.repository.template.TemplateDepartmentRepository;
 import com.konai.kurong.faketee.schedule.repository.template.TemplatePositionRepository;
 import com.konai.kurong.faketee.schedule.repository.template.TemplateRepository;
-import com.konai.kurong.faketee.utils.exception.custom.Schedule.TemplateDepartmentNotFoundException;
-import com.konai.kurong.faketee.utils.exception.custom.Schedule.TemplatePositionNotFoundException;
-import com.konai.kurong.faketee.utils.exception.custom.department.DepartmentNotFoundException;
+import com.konai.kurong.faketee.utils.exception.custom.schedule.TemplateNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,10 +23,10 @@ import java.util.List;
 @Service
 public class TemplateService {
 
-    private final TemplateRepository templateRepository;
     private final ScheduleTypeService scheduleTypeService;
     private final DepartmentService departmentService;
     private final PositionService positionService;
+    private final TemplateRepository templateRepository;
     private final TemplateDepartmentRepository templateDepartmentRepository;
     private final TemplatePositionRepository templatePositionRepository;
 
@@ -68,27 +61,37 @@ public class TemplateService {
         return template.getId();
     }
 
+    public Template findById(Long id){
+
+        return templateRepository.findById(id).orElseThrow(() -> new TemplateNotFoundException());
+    }
+
     @Transactional
     public void delete(Long id){
 
+        templateDepartmentRepository.deleteByTmpId(id);
+        templatePositionRepository.deleteByTmpId(id);
         templateRepository.deleteById(id);
     }
 
     @Transactional
-    public List<TemplateResponseDto> getTemplates(Long corId){
-        List<TemplateResponseDto> list = templateRepository.findAllByCorId(corId);
-        List<Template> entityList = templateRepository.findTemplatesByScheduleTypeCorporationId(corId);
-        return list;
+    public List<TemplateResponseDto> loadTemplates(Long corId){
+
+        return templateRepository.findAllByCorId(corId);
     }
 
-    @Transactional
-    public List<TemplateResponseDto> getTemplatesList(Long corId){
+    public TemplateResponseDto loadDetails(Long tempId){
 
-        List<Template> templates =  templateRepository.findTemplatesByScheduleTypeCorporationId(corId);
-        List<TemplateResponseDto> dtoList = new ArrayList<>();
-        for(Template template : templates){
-            dtoList.add(new TemplateResponseDto(template));
-        }
-        return  dtoList;
+        return new TemplateResponseDto(findById(tempId));
+    }
+
+    public List<TemplateDepartmentResponseDto> loadTemplateDepartments(Long tempId) {
+
+        return templateDepartmentRepository.findAllByTmpId(tempId);
+    }
+
+    public List<TemplatePositionResponseDto> loadTemplatePositions(Long tempId) {
+
+        return templatePositionRepository.findAllByTmpId(tempId);
     }
 }

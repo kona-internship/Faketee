@@ -24,35 +24,33 @@ public class TemplateResponseDto {
 
     private Long id;
     private String name;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private List<TemplateDepartment> departments;
-    private List<TemplatePosition> positions;
-    private ScheduleType scheduleType;
+    private String startTime;
+    private String endTime;
+    private List<TemplateDepartmentResponseDto> departments;
+    private List<TemplatePositionResponseDto> positions;
+    private ScheduleTypeResponseDto scheduleType;
 
     @QueryProjection
     public TemplateResponseDto(Template template) {
 
         this.id = template.getId();
         this.name = template.getName();
-        this.startTime = template.getStartTime();
-        this.endTime = template.getEndTime();
-        this.departments = template.getTemplateDepartments();
-        this.positions = template.getTemplatePositions();
-        this.scheduleType = template.getScheduleType();
+        this.startTime = template.getStartTime().toString();
+        this.endTime = template.getEndTime().toString();
+        this.scheduleType = ScheduleTypeResponseDto.convertToDto(template.getScheduleType());
     }
 
-    public void setDepartments(List<TemplateDepartment> list){
+    public void setDepartments(List<TemplateDepartmentResponseDto> list){
 
         this.departments = list;
     }
 
-    public void setPositions(List<TemplatePosition> list){
+    public void setPositions(List<TemplatePositionResponseDto> list){
 
         this.positions = list;
     }
 
-    public void setScheduleType(ScheduleType scheduleType){
+    public void setScheduleType(ScheduleTypeResponseDto scheduleType){
 
         this.scheduleType = scheduleType;
     }
