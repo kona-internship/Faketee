@@ -35,7 +35,7 @@ public class DepartmentController {
 
     @GetMapping("/{depId}/mod")
     public String modifyDepPage(@PathVariable(name = "depId") Long depId, Model model){
-        DepartmentResponseDto responseDto = departmentService.getDep(depId);
+        DepartmentResponseDto responseDto = departmentService.getDepWithoutSuper(depId);
         model.addAttribute("dep", responseDto);
         return "department/modification";
     }

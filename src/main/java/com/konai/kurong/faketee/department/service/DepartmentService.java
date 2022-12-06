@@ -46,6 +46,7 @@ public class DepartmentService {
      * @param corId
      * @param requestDto
      */
+    @Transactional
     public void registerDepartment(Long corId, DepartmentSaveRequestDto requestDto) {
 
         //추가사항: 등록하려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
@@ -105,6 +106,7 @@ public class DepartmentService {
      * @param corId
      * @return
      */
+    @Transactional(readOnly = true)
     public List<DepartmentResponseDto> getDepList(Long corId) {
 
         //추가사항: 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
@@ -163,8 +165,17 @@ public class DepartmentService {
         return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
     }
 
-    public DepartmentResponseDto getDep(Long depId){
-        return DepartmentResponseDto.convertToDto(departmentRepository.findById(depId).orElseThrow());
+    @Transactional(readOnly = true)
+    public List<DepartmentResponseDto> getAllLowDep(Long corId, Long depId){
+        if(depId ==null){
+            return getDepList(corId);
+        }
+        Department department = departmentRepository.findById(depId).orElseThrow(()->new IllegalArgumentException());
+        return DepartmentResponseDto.convertToDtoList(getSubDepList(department));
+    }
+
+    public DepartmentResponseDto getDepWithoutSuper(Long depId){
+        return DepartmentResponseDto.convertToDto(departmentRepository.getDepartmentWithoutSuper(depId));
     }
 
     /**
