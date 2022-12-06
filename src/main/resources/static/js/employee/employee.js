@@ -7,22 +7,34 @@ init();
 function loadList(){
     return new Promise(function (resolve){
         // loadPosList();
+        let posValue = $('#posValue').val()
+        alert("loadList posValue : " + posValue);
 
         $.ajax({
             url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/list",
             type: "GET",
             contentType: "application/json",
             dataType: "json",
-            async : false,
+            // async : false,
             success: function (posList) {
                 // showPosList(data);
 
                 $("#pos-list *").remove();
 
                 for (let [index, pos] of posList.entries()) {
-                    let msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + '>' + pos.name + "<br>"
-                    $('#pos-list').append(msg);
+                    let msg;
+                    if(pos.id === posValue) {
+                        alert("일치하는거");
+                        msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + 'checked=\'checked\'>' + pos.name + "<br>"
+                        $('#pos-list').append(msg);
+                    }
+                    else {
+                        console.log(pos);
+                        msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + '>' + pos.name + "<br>"
+                        $('#pos-list').append(msg);
+                    }
                 }
+
                 alert("직무 출력 완료");
             },
             error: function () {
@@ -45,10 +57,9 @@ function loadCheck() {
 
 async function init() {
     await loadList();
-    loadCheck();
+    // loadCheck();
 
-    loadDepList("radio");
-    alert("직무 조직 출력 완료");
+    // loadDepList("radio");
 }
 
 function loadPosList() {
@@ -101,18 +112,6 @@ function radioChecked() {
  */
 function registerEmp() {
     if(checkRegisterForm() == true) {
-        alert("name : " +  $('#name').val() +
-            "\nrole : " + $('input[name=role]:checked').val() +
-            "\npositionId : " + $('input[name=pos]:checked').val() +
-            "\ndepartmentId : " + $('input[name=dep]:checked').val() +
-            "\njoinDate : " + $('#joinDate').val() +
-            "\nfreeDate : " + $('#freeDate').val() +
-            "\nempNo : " + $('#empNo').val() +
-            "\nmajor : " + $('#major').val() +
-            "\ncert : " + $('#cert').val() +
-            "\ninfo : " + $('#info').val() +
-            "\nemail : " + $('#email').val());
-
         $.ajax({
             async: "true",
             type: "POST",
@@ -194,17 +193,6 @@ function checkRegisterForm() {
  */
 function updateEmp(empId) {
     if(checkUpdateForm() == true) {
-        alert("name : " +  $('#name').val() +
-            "\nrole : " + $('input[name=role]:checked').val() +
-            "\npositionId : " + $('input[name=pos]:checked').val() +
-            "\ndepartmentId : " + $('input[name=dep]:checked').val() +
-            "\njoinDate : " + $('#joinDate').val() +
-            "\nfreeDate : " + $('#freeDate').val() +
-            "\nempNo : " + $('#empNo').val() +
-            "\nmajor : " + $('#major').val() +
-            "\ncert : " + $('#cert').val() +
-            "\ninfo : " + $('#info').val());
-
         $.ajax({
             async: "true",
             type: "POST",
