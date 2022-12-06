@@ -4,6 +4,8 @@ import com.konai.kurong.faketee.department.dto.DepartmentModifyRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentRemoveRequestDto;
 import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
 import com.konai.kurong.faketee.utils.exception.response.CustomException;
 import com.konai.kurong.faketee.utils.exception.response.ExceptionResponse;
@@ -34,6 +36,7 @@ public class DepartmentApiController {
      *                   @NotNull List<Long> locationIdList
      * @return
      */
+    @EmpAuth(role = EmpRole.ADMIN)
     @PostMapping()
     public ResponseEntity<?> registerDep(@PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody DepartmentSaveRequestDto requestDto){
@@ -49,6 +52,7 @@ public class DepartmentApiController {
      * @param corId
      * @return
      */
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
     @GetMapping("/list")
     public ResponseEntity<?> getDepList(@PathVariable(name = "corId") Long corId){
 
@@ -63,6 +67,7 @@ public class DepartmentApiController {
      * @return
      * @throws RuntimeException
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping("/remove/{depId}")
     public ResponseEntity<?> removeDep(@PathVariable(name = "corId") Long corId,
                                        @RequestBody DepartmentRemoveRequestDto requestDto) throws RuntimeException{
@@ -72,6 +77,7 @@ public class DepartmentApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
     @PostMapping("/detail/{depId}")
     public ResponseEntity<?> detailDep(@PathVariable(name = "depId") Long depId){
 
@@ -89,6 +95,7 @@ public class DepartmentApiController {
      *                   @NotNull Boolean isModifyLow
      * @return
      */
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
     @PostMapping("/{depId}/mod")
     public ResponseEntity<?> modifyDep(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "depId") Long depId,
