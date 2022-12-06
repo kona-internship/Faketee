@@ -13,6 +13,14 @@ const PATH_COR = "/corporation";
 const PATH_DEP = "/dep";
 
 /**
+ * 직원 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_EMP = "/emp";
+
+
+/**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
  * @type {string}

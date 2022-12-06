@@ -36,4 +36,3 @@ public class DepartmentSaveRequestDto implements DepIdsDto {
 //        this.locationIdList = locationIdList;
 //    }
 }
-
