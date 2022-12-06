@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface DepartmentRepository extends JpaRepository<Department, Long>{
+public interface DepartmentRepository extends JpaRepository<Department, Long>, QuerydslDepRepository{
     List<Department> findAllByCorporation_Id(Long corId);
 }
