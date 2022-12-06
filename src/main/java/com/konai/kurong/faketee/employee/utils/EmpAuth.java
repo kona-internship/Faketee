@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface EmpAuth {
     EmpRole role() default EmpRole.EMPLOYEE;
+    boolean onlyLowDep() default true;
 }
