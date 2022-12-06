@@ -43,8 +43,10 @@ function loadDepList(type) {
         success: function (data) {
             showDepList(data, type);
         },
-        error: function () {
+        error: function (jqXHR) {
             alert('조직 목록 불러오기 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
@@ -282,8 +284,10 @@ function loadLocCheckList() {
         success: function (data) {
             showLocCheckList(data);
         },
-        error: function () {
+        error: function (jqXHR) {
             alert('출퇴근 장소 목록 불러오기 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
@@ -331,8 +335,10 @@ function registerDep() {
             alert('조직 등록 성공!');
             goDepListPage();
         },
-        error: function () {
+        error: function (jqXHR) {
             alert('조직 등록 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
@@ -396,8 +402,10 @@ function modifyDep(){
             goDepListPage();
             alert('조직 수정 성공!');
         },
-        error: function () {
+        error: function (jqXHR) {
             alert('조직 수정 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
@@ -452,8 +460,10 @@ function loadDetailDepPage(){
 //하위조직
             showDepList(data.sub, "text");
         },
-        error: function () {
+        error: function (jqXHR) {
             alert('조직 상세 불러오기 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }
