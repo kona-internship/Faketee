@@ -54,11 +54,11 @@ public class EmployeeInfo extends BaseEntity {
     private String joinCode;
 
     public void update(EmployeeInfo requestDto) {
-        this.joinDate = joinDate;
-        this.freeDate = freeDate;
-        this.empNo = empNo;
-        this.major = major;
-        this.cert = cert;
-        this.info = info;
+        this.joinDate = requestDto.getJoinDate();
+        this.freeDate = requestDto.getFreeDate();
+        this.major = requestDto.getMajor();
+        this.cert = requestDto.getCert();
+        this.info = requestDto.getInfo();
+        this.empNo = requestDto.getEmpNo();
     }
 }

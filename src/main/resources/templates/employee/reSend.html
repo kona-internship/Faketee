@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 합류 초대 다시 보내기</title>
+</head>
+
+<body>
+<h1>직원 합류 초대 다시 보내기</h1>
+<form method="POST" name="reSendForm" id="reSendForm">
+    직원 합류 초대 다시 보낼 이메일 : <input type="text" id="email" name="email" placeholder="이메일"><br><br>
+    <button type="button" th:id="${id}" onclick="reSend(this.getAttribute('id'))">합류 초대 재전송</button>
+</form>
+</body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="/js/department/department.js"></script>
+<script src="/js/employee/employee.js"></script>
+
+</html>
