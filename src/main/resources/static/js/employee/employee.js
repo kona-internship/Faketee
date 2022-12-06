@@ -59,7 +59,7 @@ async function init() {
     await loadList();
     // loadCheck();
 
-    // loadDepList("radio");
+    loadDepList("radio");
 }
 
 function loadPosList() {
@@ -112,6 +112,10 @@ function radioChecked() {
  */
 function registerEmp() {
     if(checkRegisterForm() == true) {
+        alert("직원등록에 성공했습니다.");
+
+        window.location.replace("/");
+
         $.ajax({
             async: "true",
             type: "POST",
@@ -134,8 +138,6 @@ function registerEmp() {
                 email: $('#email').val(),
             }),
             success: function () {
-                alert("직원등록에 성공했습니다.");
-                window.location.replace("/");
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
@@ -282,6 +284,8 @@ function reSend(empId) {
     const result = confirm("합류 초대를 재전송 하시겠습니까?");
 
     if(result == true && checkResendForm() == true) {
+        alert("재전송에 성공했습니다.");
+
         $.ajax({
             async: "true",
             type: "POST",
@@ -294,8 +298,6 @@ function reSend(empId) {
                 email: $('#email').val()
             }),
             success: function () {
-                alert("재전송에 성공했습니다.");
-                // window.location.replace("/");
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);

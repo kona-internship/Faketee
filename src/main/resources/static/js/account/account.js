@@ -162,8 +162,11 @@ function checkRegisterForm() {
 /** 회원가입 **/
 function register() {
     if(checkRegisterForm() == true && checkEmailFlag == true) {
-        // const header = $("meta[name='_csrf_header']").attr('content');
-        // const token = $("meta[name='_csrf']").attr('content');
+        alert("회원가입에 성공했습니다.\n" +
+            "5분 안에 이메일 인증 링크 클릭 후,\n" +
+            "다시 로그인 해주세요.");
+
+        window.location.replace("/account/register-auth");
 
         $.ajax({
             async: "true",
@@ -178,20 +181,14 @@ function register() {
                 password: $('input[name="password"]').val(),
                 name: $('input[name="name"]').val(),
             }),
-            // beforeSend: function (xhr) {
-            //     xhr.setRequestHeader(header, token);
-            // },
-            success: function (data) {
-                alert("회원가입에 성공했습니다.\n" +
-                    "5분 안에 이메일 인증 링크 클릭 후, \n" +
-                    "다시 로그인 해주세요.");
-                window.location.replace("/account/register-auth");
+            success: function () {
             },
             error: function (request, status, error) {
                 alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
                 window.location.replace("/");
             }
         });
+
     } else {
         alert("다시 확인하세요.")
     }
@@ -248,10 +245,6 @@ function checkUpdateForm() {
  */
 function update() {
     if(checkUpdateForm() == true) {
-        // ajax 통신
-        // const header = $("meta[name='_csrf_header']").attr('content');
-        // const token = $("meta[name='_csrf']").attr('content');
-
         $.ajax({
             async: "true",
             type: "POST",
@@ -286,14 +279,13 @@ function update() {
 }
 
 function resendConfirmEmail() {
+    alert("인증링크가 재전송되었습니다.");
 
     $.ajax({
         type : "GET",
         url : "/api/account/reSend-email",
-
-        success : function (data) {
-            alert("인증링크가 재전송되었습니다.");
-        },
+        // success : function (data) {
+        // },
         error : function (request, status, error) {
             alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
         }
