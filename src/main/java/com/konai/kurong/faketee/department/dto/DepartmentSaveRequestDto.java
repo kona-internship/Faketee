@@ -1,16 +1,17 @@
 package com.konai.kurong.faketee.department.dto;
 
 import com.konai.kurong.faketee.employee.utils.DepIdsDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentSaveRequestDto implements DepIdsDto {
 
     @NotBlank
@@ -22,7 +23,9 @@ public class DepartmentSaveRequestDto implements DepIdsDto {
 
     @Override
     public List<Long> getDepIds() {
-        return getLocationIdList();
+        List<Long> superIds = new ArrayList<>();
+        superIds.add(getSuperId());
+        return superIds;
     }
 
 
