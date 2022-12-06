@@ -130,14 +130,14 @@ function saveTemplate() {
     let depList = new Array();
     let posList = new Array();
 
-    $('#select-departments option:selected').each(function (){
-        depList.push(this.value);
+    $("input:checkbox[name=dep]:checked").each(function () {
+        depList.push($(this).attr("value-id"));
+    });
+    $("input:checkbox[name=pos]:checked").each(function (){
+        posList.push($(this).attr("value"));
     });
 
-    $('#select-positions option:selected').each(function (){
-        posList.push(this.value);
-    });
-
+    console.log(depList, posList);
     let data = {
         name: $('#tmp-name').val(),
         scheduleId: $('#select-sch-type option:selected').val(),
@@ -227,11 +227,17 @@ function listPositions() {
         dataType: "json",
         success: function (list) {
             for(let [index, position] of list.entries()) {
-                let option = document.createElement("option");
-                option.text = position.name;
-                option.value = position.id;
+                let input = document.createElement("input");
+                input.type = "checkbox";
+                input.name = "pos";
+                input.value = position.id;
+                // input = position.name;
+                // option.text = position.name;
+                // option.value = position.id;
                 // option.id = 'pos' + position.id;
-                $('#select-positions').append(option);
+                // $('#select-positions').append(option);
+                $('#pos-list').append(input);
+                $('#pos-list').append(position.name);
             }
         },
         error : function (error){
