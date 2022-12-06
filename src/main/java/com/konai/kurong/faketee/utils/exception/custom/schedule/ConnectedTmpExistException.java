@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.utils.exception.custom.Schedule;
+package com.konai.kurong.faketee.utils.exception.custom.schedule;
 
 import com.konai.kurong.faketee.utils.exception.ExceptionId;
 import com.konai.kurong.faketee.utils.exception.custom.CustomRuntimeException;

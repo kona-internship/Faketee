@@ -24,7 +24,7 @@ public class TemplateCustomRepositoryImpl implements TemplateCustomRepository {
                 .select(new QTemplateResponseDto(template))
                 .from(template)
                 .where(template.scheduleType.corporation.id.eq(corId))
-                .orderBy(template.CRE_DTTM.desc())
+                .orderBy(template.CRE_DTTM.asc())
                 .fetch();
     }
 }

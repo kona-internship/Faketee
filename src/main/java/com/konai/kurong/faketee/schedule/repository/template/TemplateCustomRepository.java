@@ -8,4 +8,5 @@ import java.util.List;
 public interface TemplateCustomRepository {
 
     List<TemplateResponseDto> findAllByCorId(@Param("corId") Long corId);
+
 }

@@ -20,10 +20,13 @@ public enum ExceptionId {
     SCH_TYPE_NOT_FOUND("400_004_002"),
     TMP_DEP_NOT_FOUND("400_004_003"),
     TMP_POS_NOT_FOUND("400_004_004"),
+    TMP_NOT_FOUND("400_004_005"),
 
 //    ===============POS=================
 
     POS_NOT_FOUND("400_005_001");
+
+
 
     private final String exceptionId;
 

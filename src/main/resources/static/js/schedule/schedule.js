@@ -104,7 +104,7 @@ function loadTemplates() {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            getTemplateList(data);
+            drawTemplateList(data);
         },
         error: function (error) {
             alert(JSON.stringify(error));
@@ -112,15 +112,26 @@ function loadTemplates() {
     });
 }
 
-function getTemplateList(tempList) {
+function drawTemplateList(tempList) {
 
     $('#tmp-list *').remove();
     if (tempList.entries().next().value == null) {
         $('#tmp-list').append('<div>' + '근무일정 템플릿이 없습니다' + '</div>');
     }
     for (let [index, tmp] of tempList.entries()) {
-        let msg = '<div>' + (index + 1) + '. 템플릿: ' + tmp.name +
-            ' <button type="button" onclick=deleteTemplate(' + tmp.id + ')>삭제</button></div>';
+        let msg = '<div>'
+            +'<a href="' + URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/detail?tmpId=" + tmp.id + '">'
+            + (index + 1)
+            + '. 템플릿: '
+            + tmp.name
+            + '</a>'
+            +'<br>'
+            + '/  시작시간: '
+            + tmp.startTime
+            + ' /  종료시간: '
+            + tmp.endTime
+            + ' <button type="button" onclick=deleteTemplate(' + tmp.id + ')>삭제</button>'
+            + '</div>';
         $('#tmp-list').append(msg);
     }
 }
@@ -238,9 +249,107 @@ function listPositions() {
             alert(JSON.stringify(error));
         }
     });
-
 }
 
 function deleteTemplate(templateId) {
+
+    $.ajax({
+        async : true,
+        type : "POST",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/delete?id=" + templateId,
+        contentType : "application/json",
+        success : function (){
+            alert("템플릿이 삭제되었습니다.");
+            loadTemplates();
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+            loadTemplates();
+        }
+    });
+}
+
+
+function loadDepartments() {
+
+    /*<![CDATA[*/
+    let tempId = [[ ${responseDto.id} ]];
+    /*]]>*/
+    $('#btn-loadDepartments').attr("hidden", "hidden");
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/departments?tempId=" + tempId,
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            drawDepartmentList(data);
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+
+function drawDepartmentList(list) {
+
+    $('#departments *').remove();
+    if(list.entries().next().value == null){
+        $('#departments').append('<div>' + '지정된 조직이 없습니다' + '</div>');
+    }
+    for(let [index, data] of list.entries()){
+        let msg = '<div>'
+        + (index + 1)
+        + '. '
+        + data.department.name
+        + '</div>';
+        $('#departments').append(msg);
+    }
+}
+// function loadTemplates() {
+//
+//     $.ajax({
+//         async: true,
+//         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/list",
+//         type: "GET",
+//         contentType: "application/json",
+//         dataType: "json",
+//         success: function (data) {
+//             drawTemplateList(data);
+//         },
+//         error: function (error) {
+//             alert(JSON.stringify(error));
+//         }
+//     });
+// }
+//
+// function drawTemplateList(tempList) {
+//
+//     $('#tmp-list *').remove();
+//     if (tempList.entries().next().value == null) {
+//         $('#tmp-list').append('<div>' + '근무일정 템플릿이 없습니다' + '</div>');
+//     }
+//     for (let [index, tmp] of tempList.entries()) {
+//         let msg = '<div>'
+//             +'<a href="' + URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/detail?tmpId=" + tmp.id + '">'
+//             + (index + 1)
+//             + '. 템플릿: '
+//             + tmp.name
+//             + '</a>'
+//             +'<br>'
+//             + '/  시작시간: '
+//             + tmp.startTime
+//             + ' /  종료시간: '
+//             + tmp.endTime
+//             + ' <button type="button" onclick=deleteTemplate(' + tmp.id + ')>삭제</button>'
+//             + '</div>';
+//         $('#tmp-list').append(msg);
+//     }
+// }
+
+function loadPositions(){
+
+    $('#btn-loadPositions').attr("hidden", "hidden");
 
 }

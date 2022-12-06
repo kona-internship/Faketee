@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.schedule.controller;
 
+import com.konai.kurong.faketee.schedule.dto.TemplateDepartmentResponseDto;
+import com.konai.kurong.faketee.schedule.dto.TemplatePositionResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplateResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplateSaveRequestDto;
 import com.konai.kurong.faketee.schedule.service.TemplateService;
@@ -32,9 +34,23 @@ public class TemplateApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getTemplates(@PathVariable(name = "corId") Long corId){
-        List<TemplateResponseDto> list = templateService.getTemplates(corId);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<?> loadTemplates(@PathVariable(name = "corId") Long corId){
+
+        List<TemplateResponseDto> responseDtos = templateService.loadTemplates(corId);
+        return ResponseEntity.ok(responseDtos);
     }
 
+    @GetMapping("/departments")
+    public ResponseEntity<?> loadDepartments(@RequestParam Long tempId){
+
+        List<TemplateDepartmentResponseDto> responseDtos = templateService.loadTemplateDepartments(tempId);
+        return ResponseEntity.ok(responseDtos);
+    }
+
+    @GetMapping("/positions")
+    public ResponseEntity<?> loadPositions(@RequestParam Long tempId){
+
+        List<TemplatePositionResponseDto> responseDtos = templateService.loadTemplatePositions(tempId);
+        return ResponseEntity.ok(responseDtos);
+    }
 }

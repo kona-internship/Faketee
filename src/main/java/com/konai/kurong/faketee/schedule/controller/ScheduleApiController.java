@@ -45,6 +45,6 @@ public class ScheduleApiController {
 
     @PostMapping("template/list")
     public ResponseEntity<?> getList(@PathVariable(name = "corId") Long corId){
-        return new ResponseEntity<>(templateService.getTemplates(corId), HttpStatus.OK);
+        return new ResponseEntity<>(templateService.loadTemplates(corId), HttpStatus.OK);
     }
 }
