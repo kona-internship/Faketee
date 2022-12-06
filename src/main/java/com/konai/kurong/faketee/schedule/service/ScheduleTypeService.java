@@ -37,7 +37,7 @@ public class ScheduleTypeService {
     @Transactional
     public void removeSchType(Long corId, Long typeId) {
         Long countTemp = templateRepository.countTemplateByScheduleTypeId(typeId);
-        log.info(countTemp + "dddd");
+
         if(countTemp != 0){
             throw new ConnectedTmpExistException();
         }
