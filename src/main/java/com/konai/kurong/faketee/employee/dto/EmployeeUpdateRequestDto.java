@@ -1,9 +1,9 @@
 package com.konai.kurong.faketee.employee.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -11,12 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Builder
-@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class EmployeeSaveRequestDto {
+public class EmployeeUpdateRequestDto {
     @NotBlank
     private String name;
 
@@ -40,30 +37,15 @@ public class EmployeeSaveRequestDto {
     private String cert;
     private String info;
 
-    @NotBlank
-    private String email;
-
-//    public EmployeeInfo toEmployeeInfoEntity(String joinCode) {
+//    public EmployeeInfo toEmployeeInfoEntity() {
+//
 //        return EmployeeInfo.builder()
-//                .joinDate(new java.sql.Timestamp(joinDate.getTime()).toLocalDateTime())
-//                .freeDate(new java.sql.Timestamp(freeDate.getTime()).toLocalDateTime())
+//                .joinDate(joinDate)
+//                .freeDate(freeDate)
 //                .empNo(empNo)
 //                .major(major)
 //                .cert(cert)
 //                .info(info)
-//                .email(email)
-//                .joinCode(joinCode)
-//                .build();
-//    }
-
-//    public Employee toEmployeeEntity() {
-//        return Employee.builder()
-//                .name(name)
-//                .EmpRole(role)
-//                .major(major)
-//                .cert(cert)
-//                .info(info)
-//                .email(email)
 //                .build();
 //    }
 }

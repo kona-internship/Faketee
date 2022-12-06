@@ -1,12 +1,9 @@
 package com.konai.kurong.faketee.employee.controller;
 
-import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
-import com.konai.kurong.faketee.employee.dto.EmployeeModifyRequestDto;
+import com.konai.kurong.faketee.employee.dto.EmployeeUpdateRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeReSendRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
-import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
-import com.konai.kurong.faketee.position.service.PositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,27 +24,33 @@ public class EmployeeApiController {
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody EmployeeSaveRequestDto requestDto) {
-        log.info("EmployeeApiController registerEmp");
+//        log.info("EmployeeApiController registerEmp");
         employeeService.registerEmployee(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 //    직원 수정하기
-    @PostMapping("/update/{employeeInfoId}/{employeeId}")
+    @PostMapping("/update/{employeeId}")
     public ResponseEntity<?> updateEmp(@PathVariable(name = "corId") Long corId,
-                                       @PathVariable(name = "employeeInfoId") Long employeeInfoId,
                                        @PathVariable(name = "employeeId") Long employeeId,
-                                       @Valid @RequestBody EmployeeModifyRequestDto requestDto) {
-        employeeService.updateEmployee(corId, employeeInfoId, employeeId, requestDto);
+                                       @Valid @RequestBody EmployeeUpdateRequestDto requestDto) {
+        log.info("EmployeeApiController requestDto : " + requestDto.toString());
+        employeeService.updateEmployee(corId, employeeId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 //    직원 비활성화
+//    만약에 이미 비활성화 된 직원이라면 forbidden 처리 해두었음
     @GetMapping("/deactivate/{employeeId}")
     public ResponseEntity<?> deactivateEmp(@PathVariable(name = "corId") Long corId,
                                            @PathVariable(name = "employeeId") Long employeeId) {
-        employeeService.deactivateEmployee(corId, employeeId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(employeeService.findByEmployeeById(employeeId).getVal() == "F") {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        else {
+            employeeService.deactivateEmployee(corId, employeeId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
 //    직원 합류 초대 재전송

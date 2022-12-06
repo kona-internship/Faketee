@@ -1,14 +1,13 @@
 package com.konai.kurong.faketee.config;
 
 import com.konai.kurong.faketee.auth.LoginUserArgumentResolver;
+import com.konai.kurong.faketee.employee.utils.EmpAuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,7 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
+    private final EmpAuthInterceptor empAuthInterceptor;
 
     /**
      * 정적 리소스 파일 읽어드리기 위해 핸들러 설정
@@ -43,6 +43,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 
         resolvers.add(loginUserArgumentResolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(empAuthInterceptor);
     }
 
     @Bean

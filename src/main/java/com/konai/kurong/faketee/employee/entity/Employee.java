@@ -42,6 +42,11 @@ public class Employee extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EmpRole role;
 
+    /**
+     * W(wait) : 직원 등록을 했으며, 합류 초대 메일 인증을 기다리고 있음
+     * T(true) : 합류 초대 메일 인증을 완료함
+     * F(false) : 비활성화
+     */
     @Column(nullable = false)
     private String val;
 
@@ -65,14 +70,14 @@ public class Employee extends BaseEntity {
     @JoinColumn(name = "EMP_INFO_ID")
     private EmployeeInfo employeeInfo;
 
-    public void update(Employee employee) {
-        this.name = name;
-        this.role = role;
-        this.position = position;
-        this.department = department;
+    public void update(Employee requestDto) {
+        this.name = requestDto.getName();
+        this.role = requestDto.getRole();
+        this.position = requestDto.getPosition();
+        this.department = requestDto.getDepartment();
     }
 
-    public void updateVal() {
-        this.val = "T";
+    public void deactivate() {
+        this.val = "F";
     }
 }
