@@ -23,6 +23,7 @@ public class ScheduleTypeService {
     private final ScheduleTypeRepository scheduleTypeRepository;
     private final CorporationRepository corporationRepository;
     private final TemplateRepository templateRepository;
+
     @Transactional
     public void registerSchType(Long corId, ScheduleTypeSaveRequestDto requestDto) {
         Corporation corporation = corporationRepository.findById(corId).orElseThrow();
@@ -34,6 +35,7 @@ public class ScheduleTypeService {
 
         scheduleTypeRepository.save(scheduleType);
     }
+
     @Transactional
     public void removeSchType(Long corId, Long typeId) {
         Long countTemp = templateRepository.countTemplateByScheduleTypeId(typeId);
