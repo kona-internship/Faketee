@@ -7,6 +7,8 @@ import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.entity.TemplateDepartment;
 import com.konai.kurong.faketee.schedule.entity.TemplatePosition;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +17,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class TemplateResponseDto {
 
     private Long id;
@@ -36,5 +40,20 @@ public class TemplateResponseDto {
         this.departments = template.getTemplateDepartments();
         this.positions = template.getTemplatePositions();
         this.scheduleType = template.getScheduleType();
+    }
+
+    public void setDepartments(List<TemplateDepartment> list){
+
+        this.departments = list;
+    }
+
+    public void setPositions(List<TemplatePosition> list){
+
+        this.positions = list;
+    }
+
+    public void setScheduleType(ScheduleType scheduleType){
+
+        this.scheduleType = scheduleType;
     }
 }
