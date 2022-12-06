@@ -45,11 +45,20 @@ public class EmployeeInfo extends BaseEntity {
     private String info;
 
     @Column(name="EMP_NO")
-    private long empNo;
+    private Long empNo;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(name="EMAIL_AUTH_STATUS")
-    private String emailAuthStatus;
+    @Column(name="JOIN_CODE", nullable = false)
+    private String joinCode;
+
+    public void update(EmployeeInfo requestDto) {
+        this.joinDate = requestDto.getJoinDate();
+        this.freeDate = requestDto.getFreeDate();
+        this.major = requestDto.getMajor();
+        this.cert = requestDto.getCert();
+        this.info = requestDto.getInfo();
+        this.empNo = requestDto.getEmpNo();
+    }
 }

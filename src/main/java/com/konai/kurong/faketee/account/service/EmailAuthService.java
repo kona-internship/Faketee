@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class EmailAuthService {
         SimpleMailMessage smm = new SimpleMailMessage();
         smm.setFrom("konai.faketee@gmail.com");
         smm.setTo(email);
-        smm.setSubject("시프티 회원가입 이메일 인증");
+        smm.setSubject("FAKETEE 회원가입 이메일 인증");
         smm.setText("http://localhost:8080/api/account/confirm-email?email=" + email + "&emailAuthToken=" + emailAuthToken);
 
         javaMailSender.send(smm);
@@ -62,6 +63,11 @@ public class EmailAuthService {
         return emailAuth.getEmailAuthToken();
     }
 
+    /**
+     * email 재전송 시, EmailAuthToken UPDATE
+     * @param email
+     * @return emailAuthToken
+     */
     @Transactional
     public String updateEmailAuthToken(String email) {
 
@@ -78,5 +84,45 @@ public class EmailAuthService {
     public EmailAuth findByEmail(String email) {
 
         return emailAuthRepository.findByEmail(email).orElseThrow(() -> new NoEmailAuthFoundException());
+    }
+
+    /**
+     * 직원 등록 시, 인증코드 생성하기
+     * @return joinCode
+     */
+    public String createJoinCode() {
+        StringBuffer joinCode = new StringBuffer();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 6; i++) {
+            int index = rnd.nextInt(3);
+            switch (index) {
+                case 0:
+                    joinCode.append(((int) (rnd.nextInt(26)) + 97));
+                    break;
+                case 1:
+                    joinCode.append(((int) (rnd.nextInt(26)) + 65));
+                    break;
+                case 2:
+                    joinCode.append((rnd.nextInt(10)));
+                    break;
+            }
+        }
+        return joinCode.toString();
+    }
+
+    /**
+     * 회사 합류 코드 직원에게 전송하기
+     * @param email : 직원의 email
+     * @param joinCode : 회사 합류 코드
+     */
+    public void sendJoinCode(String email, String joinCode) {
+        SimpleMailMessage smm = new SimpleMailMessage();
+        smm.setFrom("konai.faketee@gmail.com");
+        smm.setTo(email);
+        smm.setSubject("FAKETEE 회사 합류코드 인증");
+        smm.setText("회사 합류코드 : < " + joinCode + " >를 입력해주세요");
+
+        javaMailSender.send(smm);
     }
 }

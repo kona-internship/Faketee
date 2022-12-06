@@ -7,34 +7,42 @@
 
 <body>
 
-<h1>직원등록</h1>
+<h1>직원 등록</h1>
 
 <form method="POST" name="registerForm" id="registerForm">
     이름 : <input type="text" id="name" name="name" placeholder="이름"><br>
 
-    권한 : <input type='radio' name='role' value='GENERAL_MANAGER'/>총괄관리자
-    <input type='radio' name='role' value='GROUP_MANAGER' />조직관리자
-    <input type='radio' name='role' value='EMPLOYEE' />직원<br>
+    권한 : <input type='radio' name='role' value="GENERAL_MANAGER"/>총괄관리자
+    <input type='radio' name='role' value="GROUP_MANAGER" />조직관리자
+    <input type='radio' name='role' value="EMPLOYEE" />직원<br><br>
 
-    직무 :
+    직무 : <div id="pos-list"></div><br>
 
-    조직 :
+    조직 : <div id="dep-list"></div><br>
 
-    입사일 : <input type="date" id="date" max="2077-06-20" min="2077-06-05" value="2022-01-01">
+    입사일 : <input type="date" id="joinDate" name="joinDate" max="2077-06-20" min="2022-01-01" value="2022-01-01"><br>
 
-    퇴사일 :
+    퇴사일 : <input type="date" id="freeDate" name="freeDate" max="2077-06-20" min="2022-01-01"><br>
 
-    전공 :
+    사원번호 : <input type="number" id="empNo" name="empNo" placeholder="사원번호"><br>
 
-    학위 :
+    전공 : <input type="text" id="major" name="major" placeholder="전공"><br>
 
-    정보 :
+    학위 : <input type="text" id="cert" name="cert" placeholder="학위"><br>
 
-    직원 합류 초대 보낼 이메일 :
+    정보 : <input type="text" id="info" name="info" placeholder="정보"><br>
 
-    <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button>
+    직원 합류 초대 보낼 이메일 : <input type="text" id="email" name="email" placeholder="이메일"><br><br>
+
+    <button type="button" id="emp-register" onclick="registerEmp()">직원 등록</button>
 </form>
 
-
 </body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="/js/department/department.js"></script>
+<script src="/js/employee/employee.js"></script>
+
 </html>

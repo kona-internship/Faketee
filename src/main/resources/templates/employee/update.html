@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>직원수정</title>
 </head>
 <body>
 
+<h1>직원 수정</h1>
+<form method="POST" name="updateForm" id="updateForm" th:object="${emp}">
+    이름 : <input type="text" id="name" name="name" placeholder="이름" th:value="*{name}"><br>
+
+    권한 : <input type='radio' name='role' value='GENERAL_MANAGER'/>총괄관리자
+    <input type='radio' name='role' value='GROUP_MANAGER' />조직관리자
+    <input type='radio' name='role' value='EMPLOYEE' />직원<br>
+    <input type="hidden" id="roleValue" th:value="*{role}"><br>
+
+    직무 : <div id="pos-list"></div>
+    <input type="hidden" id="posValue" th:value="*{positionId}"><br>
+
+    조직 : <div id="dep-list"></div>
+    <input type="hidden" id="depValue" th:value="*{departmentId}"><br>
+
+    입사일 : <input type="date" id="joinDate" name="joinDate" max="2077-06-20" min="2022-01-01" th:value="*{joinDate}"><br>
+
+    퇴사일 : <input type="date" id="freeDate" name="freeDate" max="2077-06-20" min="2022-01-01" th:value="*{freeDate}"><br>
+
+    사원번호 : <input type="text" id="empNo" name="empNo" placeholder="사원번호" th:value="*{empNo}"><br>
+
+    전공 : <input type="text" id="major" name="major" placeholder="전공" th:value="*{major}"><br>
+
+    학위 : <input type="text" id="cert" name="cert" placeholder="학위" th:value="*{cert}"><br>
+
+    정보 : <label for="info"></label><input type="text" id="info" name="info" placeholder="정보" th:value="*{info}"><br><br>
+
+    <button type="button" th:id="*{id}" onclick="updateEmp(this.getAttribute('id'))">직원 수정</button>
+
+    <button type="button" th:if="*{val.toString().equals('T') || val.toString().equals('W')}"
+            th:id="*{id}" onclick="freeEmp(this.getAttribute('id'))">
+        직원 비활성화
+    </button>
+
+    <button type="button" th:if="*{val.toString().equals('W') || val.toString().equals('F')}">
+        <a th:href="@{/corporation/{corId}/emp/reSend/{empId}(corId=${emp.corporationId}, empId=${emp.id})}">
+        직원 합류 초대 다시 보내기
+        </a>
+    </button>
+</form>
+
 </body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="/js/department/department.js"></script>
+<script src="/js/employee/employee.js"></script>
+
 </html>
