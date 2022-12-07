@@ -90,11 +90,20 @@ function deleteSchType(typeId) {
     });
 }
 
+
+/**
+ * 템플릿 추가하는 화면으로 이동한다.
+ *
+ */
 function newTemplate() {
 
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/new";
 }
 
+/**
+ * 회사에 존재하는 근무일정 템플릿(들)을 불러온다.
+ *
+ */
 function loadTemplates() {
 
     $.ajax({
@@ -112,6 +121,11 @@ function loadTemplates() {
     });
 }
 
+/**
+ * 화면에 근무일정 템플릿 목록을 뿌려준다.
+ *
+ * @param tempList : 근무일정템플릿리스트
+ */
 function drawTemplateList(tempList) {
 
     $('#tmp-list *').remove();
@@ -136,6 +150,12 @@ function drawTemplateList(tempList) {
     }
 }
 
+/**
+ * 근무일정 템플릿을 save 요청한다.
+ *
+ * depList: 사용자가 선택한 조직(들)의 id 값을 담은 배열
+ * posList: 사용자가 선택한 직무(들)의 id 값을 담은 배열
+ */
 function saveTemplate() {
 
     let depList = new Array();
@@ -148,7 +168,6 @@ function saveTemplate() {
         posList.push($(this).attr("value"));
     });
 
-    console.log(depList, posList);
     let data = {
         name: $('#tmp-name').val(),
         scheduleId: $('#select-sch-type option:selected').val(),
@@ -183,6 +202,10 @@ function saveTemplate() {
     });
 }
 
+/**
+ *  회사에 존재하는 근무유형(들)을 요청하고, 화면에 뿌려준다.
+ *
+ */
 function listSchType() {
 
     $.ajax({
@@ -205,6 +228,10 @@ function listSchType() {
     });
 }
 
+/**
+ * 회사에 존재하는 조직(들)을 요청하고, 화면에 뿌려준다.
+ *
+ */
 function listDepartments() {
 
     $.ajax({
@@ -228,6 +255,10 @@ function listDepartments() {
     });
 }
 
+/**
+ * 회사에 존재하는 직무(들)을 요청하고, 화면에 뿌려준다.
+ *
+ */
 function listPositions() {
 
     $.ajax({
@@ -257,6 +288,11 @@ function listPositions() {
     });
 }
 
+/**
+ * 특정 근무일정 템플릿에 대해 삭제 요청을 보낸다.
+ *
+ * @param templateId : 템플릿ID
+ */
 function deleteTemplate(templateId) {
 
     $.ajax({
@@ -275,6 +311,11 @@ function deleteTemplate(templateId) {
     });
 }
 
+/**
+ * 특정 템플릿에 지정된 조직(들)을 요청한다.
+ *
+ * @param tempId : 템플릿ID
+ */
 function loadDepartments(tempId) {
 
     $('#btn-loadDepartments').attr("hidden", "hidden");
@@ -293,6 +334,14 @@ function loadDepartments(tempId) {
     });
 }
 
+/**
+ * ********** DEPRECATED **********
+ * 조직(들)을 화면에 뿌려준다.
+ *
+ * 조직 위계를 표현한 조직도를 뿌리기 위해 이 method 는 deprecated 화하고,
+ * department.js 의 showTextDeptList() 를 사용한다.
+ * @param list
+ */
 function drawDepartmentList(list) {
 
     //$('#departments *').remove();
@@ -309,6 +358,11 @@ function drawDepartmentList(list) {
     }
 }
 
+/**
+ * 특정 템플릿에 지정된 직무(들)을 요청한다.
+ *
+ * @param tempId : 템플릿ID
+ */
 function loadPositions(tempId){
 
     $('#btn-loadPositions').attr("hidden", "hidden");
@@ -327,6 +381,11 @@ function loadPositions(tempId){
     });
 }
 
+/**
+ * 직무(들)을 화면에 뿌려준다.
+ *
+ * @param list
+ */
 function drawPositionList(list){
 
     //$('#positions *').remove();

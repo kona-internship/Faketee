@@ -15,6 +15,12 @@ public class TemplatePositionCustomRepositoryImpl implements TemplatePositionCus
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    /**
+     * 특정 template 에 속해 있는 template position 객체(들)을 find 한다.
+     *
+     * @param tempId : template ID
+     * @return template position response dto list
+     */
     @Override
     public List<TemplatePositionResponseDto> findAllByTmpId(Long tempId) {
 
@@ -26,6 +32,11 @@ public class TemplatePositionCustomRepositoryImpl implements TemplatePositionCus
                 .fetch();
     }
 
+    /**
+     * 특정 template 과 연관관계에 있는 template position 객체(들)을 delete 한다.
+     *
+     * @param tempId : template ID
+     */
     @Override
     public void deleteByTmpId(Long tempId) {
 
