@@ -26,8 +26,6 @@ public class TemplateResponseDto {
     private String name;
     private String startTime;
     private String endTime;
-//    private List<TemplateDepartmentResponseDto> departments;
-//    private List<TemplatePositionResponseDto> positions;
     private ScheduleTypeResponseDto scheduleType;
 
     @QueryProjection
@@ -40,18 +38,14 @@ public class TemplateResponseDto {
         this.scheduleType = ScheduleTypeResponseDto.convertToDto(template.getScheduleType());
     }
 
-//    public void setDepartments(List<TemplateDepartmentResponseDto> list){
-//
-//        this.departments = list;
-//    }
-//
-//    public void setPositions(List<TemplatePositionResponseDto> list){
-//
-//        this.positions = list;
-//    }
-//
-//    public void setScheduleType(ScheduleTypeResponseDto scheduleType){
-//
-//        this.scheduleType = scheduleType;
-//    }
+    public static TemplateResponseDto convertToDto(Template template) {
+
+        return TemplateResponseDto.builder()
+                .id(template.getId())
+                .name(template.getName())
+                .startTime(template.getStartTime().toString())
+                .endTime(template.getEndTime().toString())
+                .scheduleType(ScheduleTypeResponseDto.convertToDto(template.getScheduleType()))
+                .build();
+    }
 }

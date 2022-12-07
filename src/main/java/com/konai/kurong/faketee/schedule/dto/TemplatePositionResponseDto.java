@@ -27,4 +27,13 @@ public class TemplatePositionResponseDto {
         this.template = new TemplateResponseDto(templatePosition.getTemplate());
         this.position = PositionResponseDto.convertToDto(templatePosition.getPosition());
     }
+
+    public static TemplatePositionResponseDto convertToDto(TemplatePosition templatePosition){
+
+        return TemplatePositionResponseDto.builder()
+                .id(templatePosition.getId())
+                .template(TemplateResponseDto.convertToDto(templatePosition.getTemplate()))
+                .position(PositionResponseDto.convertToDto(templatePosition.getPosition()))
+                .build();
+    }
 }
