@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.schedule.dto;
 
+import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.entity.TemplateDepartment;
@@ -16,14 +17,14 @@ import lombok.NoArgsConstructor;
 public class TemplateDepartmentResponseDto {
 
     private Long id;
-    private Template template;
-    private Department department;
+    private TemplateResponseDto template;
+    private DepartmentResponseDto department;
 
     @QueryProjection
     public TemplateDepartmentResponseDto(TemplateDepartment templateDepartment){
 
         this.id = templateDepartment.getId();
-        this.template = templateDepartment.getTemplate();
-        this.department = templateDepartment.getDepartment();
+        this.template = new TemplateResponseDto(templateDepartment.getTemplate());
+        this.department =  DepartmentResponseDto.convertToDto(templateDepartment.getDepartment());
     }
 }

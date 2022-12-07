@@ -275,12 +275,10 @@ function deleteTemplate(templateId) {
     });
 }
 
-function loadDepartments() {
+function loadDepartments(tempId) {
 
-    /*<![CDATA[*/
-    let tempId = [[ ${responseDto.id} ]];
-    /*]]>*/
     $('#btn-loadDepartments').attr("hidden", "hidden");
+    $('#departments').append('<h3>' + "조직들:" + '</h3>');
     $.ajax({
         async: true,
         type: "GET",
@@ -298,9 +296,9 @@ function loadDepartments() {
 
 function drawDepartmentList(list) {
 
-    $('#departments *').remove();
+    //$('#departments *').remove();
     if(list.entries().next().value == null){
-        $('#departments').append('<div>' + '지정된 조직이 없습니다' + '</div>');
+        $('#departments').append('<div>' + '지정된 조직이 없습니다.' + '</div>');
     }
     for(let [index, data] of list.entries()){
         let msg = '<div>'
@@ -308,12 +306,41 @@ function drawDepartmentList(list) {
         + '. '
         + data.department.name
         + '</div>';
-        $('#departments').append(msg);
+        $('#departments').append(msg + '<br>');
     }
 }
 
-function loadPositions(){
+function loadPositions(tempId){
 
     $('#btn-loadPositions').attr("hidden", "hidden");
+    $('#positions').append('<h3>' + "직무들" + '</h3>');
+    $.ajax({
+        async : true,
+        type : "GET",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/positions?tempId=" + tempId,
+        contentType : "application/json",
+        dataType : "json",
+        success : function (data){
+            drawPositionList(data);
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
 
+function drawPositionList(list){
+
+    //$('#positions *').remove();
+    if(list.entries().next().value == null){
+        $('#departments').append('<div>' + '지정된 직무가 없습니다.' + '</div>');
+    }
+    for(let [index, data] of list.entries()){
+        let msg = '<div>'
+        + (index + 1)
+        + '. '
+        + data.position.name
+        + '</div>';
+        $('#positions').append(msg + '<br>');
+    }
 }
