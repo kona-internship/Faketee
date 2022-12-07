@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.schedule.controller;
 
+import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplateDepartmentResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplatePositionResponseDto;
 import com.konai.kurong.faketee.schedule.dto.TemplateResponseDto;
@@ -44,7 +45,8 @@ public class TemplateApiController {
     public ResponseEntity<?> loadDepartments(@RequestParam Long tempId){
 
         List<TemplateDepartmentResponseDto> responseDtos = templateService.loadTemplateDepartments(tempId);
-        return ResponseEntity.ok(responseDtos);
+        List<DepartmentResponseDto> departments = templateService.loadDepartments(tempId);
+        return ResponseEntity.ok(departments);
     }
 
     @GetMapping("/positions")

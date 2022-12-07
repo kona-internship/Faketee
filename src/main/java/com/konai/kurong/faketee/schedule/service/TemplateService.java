@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.schedule.service;
 
+import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.position.service.PositionService;
 import com.konai.kurong.faketee.schedule.dto.*;
@@ -93,5 +94,15 @@ public class TemplateService {
     public List<TemplatePositionResponseDto> loadTemplatePositions(Long tempId) {
 
         return templatePositionRepository.findAllByTmpId(tempId);
+    }
+
+    public List<DepartmentResponseDto> loadDepartments(Long tempId){
+
+        List<TemplateDepartmentResponseDto> templateDepartments = templateDepartmentRepository.findAllByTmpId(tempId);
+        List<DepartmentResponseDto> departments = new ArrayList<>();
+        for(TemplateDepartmentResponseDto templateDepartment : templateDepartments){
+            departments.add(templateDepartment.getDepartment());
+        }
+        return departments;
     }
 }
