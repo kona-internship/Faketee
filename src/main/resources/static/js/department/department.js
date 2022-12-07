@@ -165,6 +165,8 @@ function showCheckDepList(depList) {
     const levelMap = makeDepIdMap(depList);
 
     showCheckDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
+
+    checkLowDep(levelMap.depMap);
 }
 
 /**
@@ -188,6 +190,38 @@ function showCheckDepHierarchy(superId, depMap, minLevel) {
             '</div>'
         );
         showCheckDepHierarchy(dep.id, depMap, minLevel);
+    }
+}
+
+/**
+ * 체크 상태가 바뀔 시 재귀적인 함수 checkLowDepHierarchy를 호출한다.
+ *
+ * @param depMap 상위조직을 key로 만든 조직 맵. (id, list) 형태
+ */
+function checkLowDep(depMap){
+    $("input:checkbox[name=dep]").change(function (){
+        let checked = $(this).prop("checked");
+        checkLowDepHierarchy(checked, parseInt($(this).attr("value-id")), depMap);
+    })
+}
+
+/**
+ * 자기 자신을 재귀적으로 호출하여 상위조직이 체크될 때 하위 조직도 체크되도록 한다.
+ *
+ * @param depMap 상위조직을 key로 만든 조직 맵. (id, list) 형태
+ */
+function checkLowDepHierarchy(checked, depId, depMap){
+    if(checked){
+        $("input:checkbox[value-id="+ depId +"]").prop('checked', true);
+    }
+    // else{
+    //     $("input:checkbox[value-id="+ depId +"]").prop('checked', false);
+    // }
+    if(!depMap.has(depId)){
+        return;
+    }
+    for(let lowDep of depMap.get(depId)){
+        checkLowDepHierarchy(checked, lowDep.id, depMap);
     }
 }
 
