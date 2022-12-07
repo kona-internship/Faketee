@@ -4,107 +4,17 @@
  */
 init();
 
-function loadList(){
-    return new Promise(function (resolve){
-        // loadPosList();
-        let posValue = $('#posValue').val()
-        alert("loadList posValue : " + posValue);
+function init() {
 
-        $.ajax({
-            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/list",
-            type: "GET",
-            contentType: "application/json",
-            dataType: "json",
-            // async : false,
-            success: function (posList) {
-                // showPosList(data);
+    // position.js
+    clearPosCheckIdList();
+    addPosCheckId(parseInt($('#posValue').val()));
+    loadPosList("radio");
 
-                $("#pos-list *").remove();
-
-                for (let [index, pos] of posList.entries()) {
-                    let msg;
-                    if(pos.id === posValue) {
-                        alert("일치하는거");
-                        msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + 'checked=\'checked\'>' + pos.name + "<br>"
-                        $('#pos-list').append(msg);
-                    }
-                    else {
-                        console.log(pos);
-                        msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + '>' + pos.name + "<br>"
-                        $('#pos-list').append(msg);
-                    }
-                }
-
-                alert("직무 출력 완료");
-            },
-            error: function () {
-                alert('직무 목록 불러오기 실패!');
-            }
-        });
-        resolve();
-    });
-
-}
-
-function loadCheck() {
-    // return new Promise(function (resolve){
-        if($('#posValue').val() != null) {
-            radioChecked();
-            resolve();
-        }
-    // });
-}
-
-async function init() {
-    await loadList();
-    // loadCheck();
-
+    // department.js
+    clearDepCheckIdList();
+    addDepCheckId(parseInt($('#depValue').val()));
     loadDepList("radio");
-}
-
-function loadPosList() {
-    // $.ajax({
-    //     url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/list",
-    //     type: "GET",
-    //     contentType: "application/json",
-    //     dataType: "json",
-    //     success: function (posList) {
-    //         // showPosList(data);
-    //
-    //         $("#pos-list *").remove();
-    //
-    //         for (let [index, pos] of posList.entries()) {
-    //             let msg = '<input type=\'radio\' name=\'pos\' value=' + pos.id + '>' + pos.name + "<br>"
-    //             $('#pos-list').append(msg);
-    //         }
-    //         alert("직무 출력 완료");
-    //     },
-    //     error: function () {
-    //         alert('직무 목록 불러오기 실패!');
-    //     }
-    // });
-}
-
-/**
- * 직원 수정 시
- * 권한, 직무, 조직 radio 버튼에 checked 속성 추가
- */
-function radioChecked() {
-    let roleValue = $('#roleValue').val()
-    let posValue = $('#posValue').val()
-    let depValue = $('#depValue').val()
-
-    alert(roleValue + " : " + posValue + " : " + depValue);
-
-    // $('input[name="role"]').val([roleValue]);
-    // $('input[name="pos"]').val([posValue]);
-    // $('input[name="dep"]').val([depValue]);
-
-    // $('input:radio[name="pos"]').filter('[value="1"]').attr('checked', true);
-
-    $("input:radio[name ='role']:input[value = 'GENERAL_MANAGER']").prop("checked", true);
-    $("input:radio[name ='pos']:input[value = '1']").prop("checked", true);
-    $("input:radio[name ='dep']:input[value = depValue]").prop("checked", true);
 }
 
 /**
