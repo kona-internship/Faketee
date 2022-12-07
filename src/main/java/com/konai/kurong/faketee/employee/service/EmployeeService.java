@@ -7,10 +7,7 @@ import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.repository.DepartmentRepository;
-import com.konai.kurong.faketee.employee.dto.EmployeeUpdateRequestDto;
-import com.konai.kurong.faketee.employee.dto.EmployeeReSendRequestDto;
-import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
-import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
+import com.konai.kurong.faketee.employee.dto.*;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
 import com.konai.kurong.faketee.employee.repository.EmployeeInfoRepository;
@@ -126,10 +123,13 @@ public class EmployeeService {
      * @param empId
      */
     @Transactional
-    public void joinEmployee(Long empId, Long userId){
+    public void joinEmployee(Long empId, Long userId, EmployeeJoinRequestDto requestDto){
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
         Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
         if(employee.getVal()!="W"){
+            throw new RuntimeException();
+        }
+        if(requestDto.getJoinCode() != employee.getEmployeeInfo().getJoinCode()){
             throw new RuntimeException();
         }
         employee.join(user);
