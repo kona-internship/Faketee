@@ -52,7 +52,7 @@ public class DepartmentApiController {
      * @param corId
      * @return
      */
-    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @GetMapping("/list")
     public ResponseEntity<?> getDepList(@PathVariable(name = "corId") Long corId){
 
