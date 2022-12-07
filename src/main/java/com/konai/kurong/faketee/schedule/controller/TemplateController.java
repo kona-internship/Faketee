@@ -36,7 +36,6 @@ public class TemplateController {
     public String templateDetails(@RequestParam Long tmpId, Model model){
 
         model.addAttribute("responseDto", templateService.loadDetails(tmpId));
-        templateService.loadDetails(tmpId).getName();
         return "schedule/template-detail";
     }
 }
