@@ -80,4 +80,9 @@ public class Employee extends BaseEntity {
     public void deactivate() {
         this.val = "F";
     }
+
+    public void join(User user){
+        this.val = "T";
+        this.user = user;
+    }
 }

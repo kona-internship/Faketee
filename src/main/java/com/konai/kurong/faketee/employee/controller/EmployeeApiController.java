@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.employee.controller;
 
+import com.konai.kurong.faketee.auth.LoginUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.employee.dto.EmployeeUpdateRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeReSendRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
@@ -36,6 +38,13 @@ public class EmployeeApiController {
                                        @Valid @RequestBody EmployeeUpdateRequestDto requestDto) {
         log.info("EmployeeApiController requestDto : " + requestDto.toString());
         employeeService.updateEmployee(corId, employeeId, requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/join/{employeeId}")
+    public ResponseEntity<?> joinEmp(@LoginUser SessionUser user,
+                                     @PathVariable(name = "employeeId") Long employeeId) {
+        employeeService.joinEmployee(employeeId, user.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

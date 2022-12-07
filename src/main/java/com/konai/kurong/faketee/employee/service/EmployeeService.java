@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.employee.service;
 
+import com.konai.kurong.faketee.account.entity.User;
+import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.service.EmailAuthService;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
@@ -33,6 +35,7 @@ public class EmployeeService {
     private final CorporationRepository corporationRepository;
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
+    private final UserRepository userRepository;
 
     //    직원 저장하기
     @Transactional
@@ -115,6 +118,21 @@ public class EmployeeService {
 
         //        직원(EMP) Entity 수정하기
         employeeRepository.findById(employeeId).orElseThrow().update(employee);
+    }
+
+    /**
+     * 직원 합류
+     *
+     * @param empId
+     */
+    @Transactional
+    public void joinEmployee(Long empId, Long userId){
+        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
+        Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
+        if(employee.getVal()!="W"){
+            throw new RuntimeException();
+        }
+        employee.join(user);
     }
 
     //    직원 비활성화
