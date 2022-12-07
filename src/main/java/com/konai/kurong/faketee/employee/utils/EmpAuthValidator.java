@@ -3,7 +3,6 @@ package com.konai.kurong.faketee.employee.utils;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
-import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.employee.entity.Employee;
@@ -15,11 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
