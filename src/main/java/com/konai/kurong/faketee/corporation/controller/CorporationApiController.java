@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.corporation.controller;
 
+import com.konai.kurong.faketee.auth.LoginUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.corporation.dto.CorporationSaveRequestDto;
 import com.konai.kurong.faketee.corporation.service.CorporationService;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,10 @@ public class CorporationApiController {
      */
 
     @PostMapping("/api/corporation")
-    public int registerCorporation(@Valid @RequestBody CorporationSaveRequestDto requestDto) {
+    public int registerCorporation(@Valid @RequestBody CorporationSaveRequestDto requestDto,
+                                   @LoginUser SessionUser user) {
 
-        Long id = corporationService.registerCorporation(requestDto);
+        Long id = corporationService.registerCorporation(requestDto, user.getId(), user.getName());
 
         return Math.toIntExact(id);
     }
