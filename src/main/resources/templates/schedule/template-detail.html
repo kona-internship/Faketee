@@ -17,10 +17,11 @@
 <div th:text="'퇴근시간: ' + ${responseDto.endTime}"></div><br>
 <h3>조직들:</h3>
 <div><button type="button" id="btn-loadDepartments" th:tmpId = "${responseDto.id}" th:onclick="loadDepartments(this.getAttribute('tmpId'))">조직 조회</button></div>
-<div id="dep-list"></div>
+<div id="dep-list"></div><br>
 <h3>직무들:</h3>
 <div><button type="button" id="btn-loadPositions" th:tmpId="${responseDto.id}" th:onclick="loadPositions(this.getAttribute('tmpId'))">직무 조회</button></div>
 <div id="positions"></div>
+<p>&copy; faketee2022</p>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src="/js/utils/url.js"></script>
