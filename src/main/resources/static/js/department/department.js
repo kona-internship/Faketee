@@ -1,3 +1,17 @@
+let depCheckIdList=[];
+
+function addDepCheckId(id){
+    depCheckIdList.push(id);
+}
+
+function getDepCheckIdList(){
+    return depCheckIdList;
+}
+
+function clearDepCheckIdList(){
+    depCheckIdList=[];
+}
+
 /**
  * html page 별 init 함수들
  */
@@ -69,7 +83,7 @@ function showDepList(depList, type) {
             showRadioDepList(depList);
             break;
         case "text":
-            showTextDeptList(depList);
+            showTextDepList(depList);
             break;
     }
 }
@@ -121,7 +135,7 @@ function makeDepIdMap(depList){
  *
  * @param depList 정렬이 되어있지 않은 조직 목록
  */
-function showTextDeptList(depList) {
+function showTextDepList(depList) {
     $("#dep-list *").remove();
 
     const levelMap = makeDepIdMap(depList);
@@ -183,9 +197,13 @@ function showCheckDepHierarchy(superId, depMap, minLevel) {
     }
     for (let dep of depMap.get(superId)) {
         let spaces = "&emsp;&emsp;"
+        let check;
+        if(depCheckIdList.length != 0) {
+            check = depCheckIdList.includes(dep.id);
+        }
         $('#dep-list').append(
             '<div>' +
-            '<input type="checkbox" name="dep" value-id=' + dep.id + ' value-level=' + dep.level + '>' +
+            '<input type="checkbox" name="dep" value-id=' + dep.id + ' value-level=' + dep.level + ((check)? 'checked' : '') +'>' +
             '<span>' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
@@ -295,15 +313,20 @@ function showRadioDepHierarchy(superId, depMap, minLevel) {
     }
     for (let dep of depMap.get(superId)) {
         let spaces = "&emsp;&emsp;"
+        let check;
+        if(depCheckIdList.length != 0) {
+            check = depCheckIdList.includes(dep.id);
+        }
         $('#dep-list').append(
             '<div>' +
-            '<input type="radio" name="dep" value=' + dep.id + '>' +
+            '<input type="radio" name="dep" value=' + dep.id + ((check)? ' checked' : '') + '>' +
             '<span>' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </span>' +
             '</div>'
         );
         showRadioDepHierarchy(dep.id, depMap, minLevel);
     }
 }
+
 
 /**
  * 출퇴근 장소 목록을 가져온 후 출력을 위해 showLocCheckList 함수 호출.
@@ -483,7 +506,6 @@ function loadDetailDepPage(){
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            console.log(data);
             $('#dept-name').attr("value", data.dep.name);
             $('#up-dept-name').attr("value", data.dep.superName);
             let locs = data.loc;
