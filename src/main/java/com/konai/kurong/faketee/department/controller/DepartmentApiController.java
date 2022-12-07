@@ -36,7 +36,7 @@ public class DepartmentApiController {
      *                   @NotNull List<Long> locationIdList
      * @return
      */
-    @EmpAuth(role = EmpRole.ADMIN)
+
     @PostMapping()
     public ResponseEntity<?> registerDep(@PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody DepartmentSaveRequestDto requestDto){
