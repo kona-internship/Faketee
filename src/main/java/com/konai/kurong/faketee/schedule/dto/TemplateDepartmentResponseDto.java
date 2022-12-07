@@ -27,4 +27,13 @@ public class TemplateDepartmentResponseDto {
         this.template = new TemplateResponseDto(templateDepartment.getTemplate());
         this.department =  DepartmentResponseDto.convertToDto(templateDepartment.getDepartment());
     }
+
+    public static TemplateDepartmentResponseDto convertToDto(TemplateDepartment templateDepartment){
+
+        return TemplateDepartmentResponseDto.builder()
+                .id(templateDepartment.getId())
+                .template(TemplateResponseDto.convertToDto(templateDepartment.getTemplate()))
+                .department(DepartmentResponseDto.convertToDto(templateDepartment.getDepartment()))
+                .build();
+    }
 }
