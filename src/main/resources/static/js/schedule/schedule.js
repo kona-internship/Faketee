@@ -278,7 +278,6 @@ function deleteTemplate(templateId) {
 function loadDepartments(tempId) {
 
     $('#btn-loadDepartments').attr("hidden", "hidden");
-    $('#departments').append('<h3>' + "조직들:" + '</h3>');
     $.ajax({
         async: true,
         type: "GET",
@@ -286,7 +285,7 @@ function loadDepartments(tempId) {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            drawDepartmentList(data);
+            showTextDeptList(data);
         },
         error: function (error) {
             alert(JSON.stringify(error));
@@ -313,7 +312,6 @@ function drawDepartmentList(list) {
 function loadPositions(tempId){
 
     $('#btn-loadPositions').attr("hidden", "hidden");
-    $('#positions').append('<h3>' + "직무들" + '</h3>');
     $.ajax({
         async : true,
         type : "GET",

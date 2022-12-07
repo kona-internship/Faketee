@@ -23,6 +23,7 @@ function modPageInit(){
     loadDepList("text");
 }
 
+
 /**
  * 조직 목록을 불러와주는 함수
  * ajax 통신이 정상적으로 처리 될 시 showDepList 함수를 호출한다.
