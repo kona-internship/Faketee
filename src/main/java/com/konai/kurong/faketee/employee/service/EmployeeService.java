@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,7 +36,11 @@ public class EmployeeService {
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
 
-    //    직원 저장하기
+    /**
+     * 직원 저장하기
+     * @param corId
+     * @param requestDto
+     */
     @Transactional
     public void registerEmployee(Long corId, EmployeeSaveRequestDto requestDto) {
 //        해당 회사의 관리자인지 권한 확인 필요
@@ -81,7 +87,12 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    //    직원 수정하기
+    /**
+     * 직원 수정하기
+     * @param corId
+     * @param employeeId
+     * @param requestDto
+     */
     @Transactional
     public void updateEmployee(Long corId, Long employeeId, EmployeeUpdateRequestDto requestDto) {
 //        해당 회사의 관리자인지 권한 확인 필요
@@ -136,7 +147,23 @@ public class EmployeeService {
         employee.join(user);
     }
 
-    //    직원 비활성화
+    public List<EmployeeResponseDto> getAllEmployee(Long corId) {
+//        회사의 모든 직원을 볼 수 있는 권한은 생각해 볼 필요 있음
+//        전직원이 가능한지 / 관리자들만 가능한지
+
+        List<Employee> employees = employeeRepository.findByCorporationId(corId);
+        List<EmployeeResponseDto> employeeResponseDtos = new ArrayList<>();
+        for(Employee employee : employees) {
+            employeeResponseDtos.add(getEmployeeResponseDto(employee.getId()));
+        }
+        return employeeResponseDtos;
+    }
+
+    /**
+     * 직원 비활성화
+     * @param corId
+     * @param employeeId
+     */
     @Transactional
     public void deactivateEmployee(Long corId, Long employeeId) {
 //        해당 회사의 관리자인지 권한 확인 필요
@@ -145,25 +172,53 @@ public class EmployeeService {
         employee.deactivate();
     }
 
-    //    employeeId로 Employee 반환
+    /**
+     * 직원 합류 초대 재전송
+     * @param corId
+     * @param employeeId
+     * @param requestDto
+     */
+    public void reSendJoinCode(Long corId, Long employeeId, EmployeeReSendRequestDto requestDto) {
+//        해당 회사의 관리자인지 권한 확인 필요
+
+        Employee employee = findByEmployeeById(employeeId);
+        EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        emailAuthService.sendJoinCode(requestDto.getEmail(), employeeInfo.getJoinCode());
+    }
+
+    /**
+     * employeeId 로 Employee 반환
+     * @param employeeId
+     * @return
+     */
     public Employee findByEmployeeById(Long employeeId) {
         return employeeRepository.findById(employeeId).orElseThrow();
     }
 
-    //    employeeId로 Employee 반환
+    /**
+     * employeeId로 Employee 반환
+     * @param employeeInfoId
+     * @return
+     */
     public EmployeeInfo findByEmployeeInfoById(Long employeeInfoId) {
         return employeeInfoRepository.findById(employeeInfoId).orElseThrow();
     }
 
+    /**
+     * 직원 responseDto 만들기
+     * @param employeeId
+     * @return
+     */
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
         Employee employee = findByEmployeeById(employeeId);
         EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
-                .role(employee.getRole().toString())
+                .role(role.getRole())
                 .corporationId(employee.getCorporation().getId())
                 .positionId(employee.getPosition().getId())
                 .departmentId(employee.getDepartment().getId())
@@ -177,14 +232,5 @@ public class EmployeeService {
                 .build();
 
         return employeeResponseDto;
-    }
-
-    //    직원 합류 초대 재전송
-    public void reSendJoinCode(Long corId, Long employeeId, EmployeeReSendRequestDto requestDto) {
-//        해당 회사의 관리자인지 권한 확인 필요
-
-        Employee employee = findByEmployeeById(employeeId);
-        EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
-        emailAuthService.sendJoinCode(requestDto.getEmail(), employeeInfo.getJoinCode());
     }
 }
