@@ -1,20 +1,24 @@
 /**
  * 직원 등록 시, 직무와 조직 선택
- * 직무는 새로 함수를 작성해 주었지만 부서는 기존의 position.js 를 끌어와서 사용한다
  */
 init();
 
 function init() {
-
+    // 현재 직무 선택 표시
     // position.js
     clearPosCheckIdList();
     addPosCheckId(parseInt($('#posValue').val()));
     loadPosList("radio");
 
+    // 현재 조직 선택 표시
     // department.js
     clearDepCheckIdList();
     addDepCheckId(parseInt($('#depValue').val()));
     loadDepList("radio");
+
+    //현재 권한 선택 표시
+    let roleValue = $('#roleValue').val()
+    $("input:radio[name='role']:radio[value='" + roleValue + "']").attr('checked', true);
 }
 
 /**
@@ -219,6 +223,11 @@ function reSend(empId) {
     }
 }
 
+/**
+ * ResendForm 빈 칸 확인
+ * 이메일 형식 확인
+ * @returns {boolean}
+ */
 function checkResendForm() {
     if(checkExistData(reSendForm.email.value, "이메일") == false) {
         return false;
@@ -248,3 +257,49 @@ function checkExistData(value, dataName) {
     return true;
 }
 
+/**
+ * 직원 등록하는 page로 이동
+ */
+function goRegisterEmp() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_EMP + "/register";
+}
+
+/**
+ * 직원 수정하는 page로 이동
+ */
+function goUpdateEmp(empId) {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_EMP + "/update/" + empId;
+}
+
+/**
+ * 직원 목록 불러오기
+ */
+function loadEmpList() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_EMP + "/list",
+        type: "get",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            showEmpList(data);
+        },
+        error: function () {
+            alert('직원 목록 불러오기 실패!');
+        }
+    });
+}
+
+/**
+ * 직원 목록을 화면에 보여준다
+ * @param locList 화면에 나올 출퇴근 장소 데이터의 리스트
+ */
+function showEmpList(empList){
+    $('#emp-list *').remove();
+
+    for(let [index, emp] of empList.entries()) {
+        let msg = '<div>'+ (index + 1) +'. 사원번호 : '+ emp.empNo +' 권한 : '+ emp.role + ' 직원명 : '+ emp.name +
+            ' <button type="button" onclick=goUpdateEmp('+emp.id+')>수정</button></div>';
+        $('#emp-list').append(msg);
+    }
+}
