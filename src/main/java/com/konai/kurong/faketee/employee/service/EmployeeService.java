@@ -124,6 +124,7 @@ public class EmployeeService {
      */
     @Transactional
     public void joinEmployee(Long empId, Long userId, EmployeeJoinRequestDto requestDto){
+
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
         Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
         if(employee.getVal()!="W"){

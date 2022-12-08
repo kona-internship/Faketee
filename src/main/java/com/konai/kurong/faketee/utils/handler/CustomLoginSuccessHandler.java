@@ -43,6 +43,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             return ;
         }
 
-        response.sendRedirect("/account/set-auth");
+        response.sendRedirect("/set-auth");
     }
 }
