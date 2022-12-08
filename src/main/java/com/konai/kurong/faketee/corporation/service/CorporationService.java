@@ -40,7 +40,8 @@ public class CorporationService {
     @Transactional
     public Long registerCorporation(CorporationSaveRequestDto requestDto,
                                     Long userId,
-                                    String userName) {
+                                    String userName,
+                                    String userEmail) {
         Corporation cor = requestDto.toEntity();
         Corporation savedCor = corporationRepository.save(cor);
 
@@ -57,6 +58,8 @@ public class CorporationService {
                 .build();
         Position savePos = positionRepository.save(position);
         EmployeeInfo employeeInfo = EmployeeInfo.builder()
+                .email(userEmail)
+                .joinCode("admin")
                 .build();
         EmployeeInfo saveEmp = employeeInfoRepository.save(employeeInfo);
 
