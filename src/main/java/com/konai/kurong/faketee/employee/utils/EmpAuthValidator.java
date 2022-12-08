@@ -26,41 +26,26 @@ public class EmpAuthValidator {
 
     public Employee validateCorporation(Long corId, Long usrId){
         Corporation corporation = corporationRepository.findById(corId).orElseThrow(()->new IllegalArgumentException());
-//        Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
-        Employee employee = Employee.builder()
-                .id(1L)
-                .name("TEST_NAME")
-                .role(EmpRole.GENERAL_MANAGER)
-                .val("0")
-                .department(Department.builder().id(3L).level(0L).build())
-                .corporation(corporation)
-                .build();
+        Employee employee = employeeRepository.findByUserId(usrId).orElseThrow(()->new IllegalArgumentException());
+
         if(!employee.getCorporation().getId().equals(corporation.getId())){
             throw new EmpCorDiffException();
         }
         return employee;
     }
 
-    public Employee validateEmployee(EmpRole role, Long empId){
-//        Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
-        Employee employee = Employee.builder()
-                .id(1L)
-                .name("TEST_NAME")
-                .role(EmpRole.GENERAL_MANAGER)
-                .val("0")
-                .build();
+    public Employee validateEmployee(EmpRole role, Employee employee){
 
-        // 설정해놓은 권한보다 요청한 직원의 권한이 더 낮을 때
-        if(role.compareTo(employee.getRole())<0){
+        // 설정해놓은 권한보다 요청한 직원의 권한이 더 낮거나 직원이 활성 상태가 아닐 때
+        if(role.compareTo(employee.getRole())<0 || !(employee.getVal().equals("T"))){
             throw new EmpNotPermitException();
         }
         return employee;
     }
 
-    public void validateDepartment(Long corId, Long empDepId, List<Long> requestDepIdList){
+    public void validateDepartment(Long empDepId, List<Long> requestDepIdList){
 
-
-        List<DepartmentResponseDto> depList = departmentService.getAllLowDep(corId, empDepId);
+        List<DepartmentResponseDto> depList = departmentService.getAllLowDep(empDepId);
 
         // map으로 만들어 쓰는 것보다 containsAll이 더 빠르다
 //        Map<Long, List<DepartmentResponseDto>> map =  depList.stream().collect(Collectors.toMap((dto)->dto.getId(), (dto)-> Arrays.asList(dto), (list, oneDtoList)-> {
