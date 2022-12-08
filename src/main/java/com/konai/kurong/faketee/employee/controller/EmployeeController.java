@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    @GetMapping()
+    public String emp() {
+        return "employee/list";
+    }
+
     @GetMapping("/register")
     public String registerEmp() {
         return "employee/register";
