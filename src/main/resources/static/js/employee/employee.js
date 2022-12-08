@@ -248,3 +248,10 @@ function checkExistData(value, dataName) {
     return true;
 }
 
+/**
+ * 직원이 회사 합류하기
+ */
+function joinCor(){
+
+
+}

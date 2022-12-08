@@ -2,11 +2,9 @@ package com.konai.kurong.faketee.account.controller;
 
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.auth.LoginUser;
-import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RequestMapping("/account")
@@ -37,7 +34,7 @@ public class RegisterController {
                             Model model){
 
         if(sessionUser != null && sessionUser.getRole().equals(Role.USER)){
-            return "redirect:http://localhost:8080/account/set-auth";
+            return "redirect:http://localhost:8080/set-auth";
         }
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
@@ -48,14 +45,6 @@ public class RegisterController {
     public String registerForm(){
 
         return "account/register-form";
-    }
-
-    @GetMapping("/set-auth")
-    public String setAuth(){
-        SessionUser sessionUser1 =  (SessionUser) httpServletRequest.getSession().getAttribute("user");
-        log.info("set-auth sessionUser1 : " + sessionUser1.getEmail());
-
-        return "account/set-auth";
     }
 
     @GetMapping("/login-auth")
