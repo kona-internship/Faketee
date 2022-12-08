@@ -6,6 +6,8 @@ import com.konai.kurong.faketee.department.dto.DepartmentSaveRequestDto;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.employee.utils.EmpAuth;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
+import com.konai.kurong.faketee.employee.utils.ReqEmp;
+import com.konai.kurong.faketee.employee.utils.ReqEmpInfo;
 import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
 import com.konai.kurong.faketee.utils.exception.response.CustomException;
 import com.konai.kurong.faketee.utils.exception.response.ExceptionResponse;
@@ -16,8 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
+
+import static com.konai.kurong.faketee.employee.utils.EmpAuthInterceptor.AUTH_EMP_KEY;
+
 
 @Slf4j
 @RestController
@@ -36,13 +42,16 @@ public class DepartmentApiController {
      *                   @NotNull List<Long> locationIdList
      * @return
      */
-
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER, onlyLowDep = false)
     @PostMapping()
     public ResponseEntity<?> registerDep(@PathVariable(name = "corId") Long corId,
-                                         @Valid @RequestBody DepartmentSaveRequestDto requestDto){
+                                         @Valid @RequestBody DepartmentSaveRequestDto requestDto,
+                                         @ReqEmp ReqEmpInfo reqEmpInfo){
+        log.info("==================controller=====================");
+        log.info("reqEmpInfo: "+ reqEmpInfo.getId());
 
         departmentService.registerDepartment(corId, requestDto);
-
+        log.info("==================end=========================");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
