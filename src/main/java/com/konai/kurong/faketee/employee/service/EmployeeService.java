@@ -48,6 +48,15 @@ public class EmployeeService {
 //        합류코드 만들기
         String joinCode = emailAuthService.createJoinCode();
 
+        // 합류코드 있는지 여부 검증
+        Integer count = 0;
+        while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()){
+            if(count>100){
+                break;
+            }
+            count++;
+        }
+
 //        직원 상세정보(EMP_INFO) Entity 만들어서 먼저 저장하기
         EmployeeInfo employeeInfo = EmployeeInfo.builder()
                 .joinDate(new java.sql.Timestamp(requestDto.getJoinDate().getTime()).toLocalDateTime())
