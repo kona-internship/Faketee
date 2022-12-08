@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.config;
 
 import com.konai.kurong.faketee.auth.LoginUserArgumentResolver;
+import com.konai.kurong.faketee.employee.utils.EmpAuthInterceptor;
+import com.konai.kurong.faketee.employee.utils.EmployeeHandlerMethodArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
+    private final EmployeeHandlerMethodArgumentResolver employeeHandlerMethodArgumentResolver;
+    private final EmpAuthInterceptor empAuthInterceptor;
 
     /**
      * 정적 리소스 파일 읽어드리기 위해 핸들러 설정
@@ -41,6 +45,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 
         resolvers.add(loginUserArgumentResolver);
+        resolvers.add(employeeHandlerMethodArgumentResolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(empAuthInterceptor);
     }
 
     @Bean
