@@ -29,7 +29,7 @@ public class CorporationApiController {
     public int registerCorporation(@Valid @RequestBody CorporationSaveRequestDto requestDto,
                                    @LoginUser SessionUser user) {
 
-        Long id = corporationService.registerCorporation(requestDto, user.getId(), user.getName());
+        Long id = corporationService.registerCorporation(requestDto, user.getId(), user.getName(), user.getEmail());
 
         return Math.toIntExact(id);
     }

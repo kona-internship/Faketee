@@ -163,11 +163,13 @@ public class DepartmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<DepartmentResponseDto> getAllLowDep(Long corId, Long depId){
+    public List<DepartmentResponseDto> getAllLowDep(Long depId){
+
+        Department department = departmentRepository.findById(depId).orElseThrow(()->new IllegalArgumentException());
+        Long corId = department.getCorporation().getId();
         if(depId ==null){
             return getDepList(corId);
         }
-        Department department = departmentRepository.findById(depId).orElseThrow(()->new IllegalArgumentException());
         return DepartmentResponseDto.convertToDtoList(getSubDepList(department));
     }
 
