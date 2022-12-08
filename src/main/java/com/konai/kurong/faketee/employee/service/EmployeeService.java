@@ -52,7 +52,7 @@ public class EmployeeService {
         Integer count = 0;
         while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()){
             if(count>100){
-                break;
+                throw new RuntimeException();
             }
             count++;
         }
