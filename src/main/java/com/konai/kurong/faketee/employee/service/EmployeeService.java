@@ -211,12 +211,13 @@ public class EmployeeService {
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
         Employee employee = findByEmployeeById(employeeId);
         EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
-                .role(employee.getRole().toString())
+                .role(role.getRole())
                 .corporationId(employee.getCorporation().getId())
                 .positionId(employee.getPosition().getId())
                 .departmentId(employee.getDepartment().getId())
