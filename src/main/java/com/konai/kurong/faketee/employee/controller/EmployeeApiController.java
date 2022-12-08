@@ -42,11 +42,10 @@ public class EmployeeApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/join/{employeeId}")
+    @PostMapping("/join")
     public ResponseEntity<?> joinEmp(@LoginUser SessionUser user,
-                                     @PathVariable(name = "employeeId") Long employeeId,
-                                     EmployeeJoinRequestDto requestDto) {
-        employeeService.joinEmployee(employeeId, user.getId(), requestDto);
+                                     @Valid @RequestBody EmployeeJoinRequestDto requestDto) {
+        employeeService.joinEmployee(user.getId(), requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
