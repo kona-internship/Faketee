@@ -1,20 +1,24 @@
 /**
  * 직원 등록 시, 직무와 조직 선택
- * 직무는 새로 함수를 작성해 주었지만 부서는 기존의 position.js 를 끌어와서 사용한다
  */
 init();
 
 function init() {
-
+    // 현재 직무 선택 표시
     // position.js
     clearPosCheckIdList();
     addPosCheckId(parseInt($('#posValue').val()));
     loadPosList("radio");
 
+    // 현재 조직 선택 표시
     // department.js
     clearDepCheckIdList();
     addDepCheckId(parseInt($('#depValue').val()));
     loadDepList("radio");
+
+    //현재 권한 선택 표시
+    let roleValue = $('#roleValue').val()
+    $("input:radio[name='role']:radio[value='" + roleValue + "']").attr('checked', true);
 }
 
 /**
@@ -219,6 +223,11 @@ function reSend(empId) {
     }
 }
 
+/**
+ * ResendForm 빈 칸 확인
+ * 이메일 형식 확인
+ * @returns {boolean}
+ */
 function checkResendForm() {
     if(checkExistData(reSendForm.email.value, "이메일") == false) {
         return false;
