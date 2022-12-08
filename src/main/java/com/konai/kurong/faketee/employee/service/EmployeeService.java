@@ -123,9 +123,11 @@ public class EmployeeService {
      * @param empId
      */
     @Transactional
-    public void joinEmployee(Long empId, Long userId, EmployeeJoinRequestDto requestDto){
+    public void joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
+        EmployeeInfo employeeInfo = employeeInfoRepository.findByJoinCode(requestDto.getJoinCode()).orElseThrow(()->new IllegalArgumentException());
+        Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
-        Employee employee = employeeRepository.findById(empId).orElseThrow(()->new IllegalArgumentException());
+
         if(employee.getVal()!="W"){
             throw new RuntimeException();
         }
