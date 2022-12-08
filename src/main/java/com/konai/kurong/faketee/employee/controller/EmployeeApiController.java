@@ -27,7 +27,6 @@ public class EmployeeApiController {
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody EmployeeSaveRequestDto requestDto) {
-//        log.info("EmployeeApiController registerEmp");
         employeeService.registerEmployee(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -47,6 +46,12 @@ public class EmployeeApiController {
                                      @Valid @RequestBody EmployeeJoinRequestDto requestDto) {
         employeeService.joinEmployee(user.getId(), requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+//    모든 직원 목록 가져오기
+    @GetMapping("/list")
+    public ResponseEntity<?> getAllEmp(@PathVariable(name = "corId") Long corId) {
+        return new ResponseEntity<>(employeeService.getAllEmployee(corId), HttpStatus.OK);
     }
 
 //    직원 비활성화
