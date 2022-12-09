@@ -28,10 +28,10 @@ public class IndexController {
         return "/index/set-auth";
     }
 
-    @GetMapping("/join-cor")
-    public String joinCor(){
+    @GetMapping("/join-corporation")
+    public String joinCorporation(){
 
-        return "/index/join-cor";
+        return "/index/join-corporation";
     }
 
 }

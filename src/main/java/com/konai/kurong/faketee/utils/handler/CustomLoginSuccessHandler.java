@@ -2,12 +2,10 @@ package com.konai.kurong.faketee.utils.handler;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
-import com.konai.kurong.faketee.auth.PrincipalDetails;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
+import static com.konai.kurong.faketee.utils.Uri.USER_UNAUTHORIZED_URI;
 
 @RequiredArgsConstructor
 @Component
@@ -39,10 +40,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
          */
         if (loginUser.getEmailAuthStatus().equals("F")){
 
-            response.sendRedirect("/account/login-auth");
+            response.sendRedirect(USER_UNAUTHORIZED_URI);
             return ;
         }
 
-        response.sendRedirect("/set-auth");
+        response.sendRedirect(LOGIN_REDIRECT_URI);
     }
 }
