@@ -52,6 +52,7 @@ public class EmployeeApiController {
     public ResponseEntity<?> updateEmp(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "employeeId") Long employeeId,
                                        @Valid @RequestBody EmployeeUpdateRequestDto requestDto) {
+        log.info("EmployeeApiController requestDto : " + requestDto.toString());
         employeeService.updateEmployee(corId, employeeId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
