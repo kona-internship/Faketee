@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
+
 /**
  * OAuth 로그인 성공시 로그인한 유저 정보를 세션에 저장하는 기능을 수행한다
  * OAuth로부터 인증받은 정보 (Authentication)에서 email을 이용해 repository에서 user entity를 찾고
@@ -33,6 +35,6 @@ public class CustomOAuthLoginSuccessHandler implements AuthenticationSuccessHand
         User loginUser = userRepository.findByEmail(oAuth2User.getAttributes().get("email").toString()).orElseThrow(() -> new NoUserFoundException());
 
         request.getSession().setAttribute("user", new SessionUser(loginUser));
-        response.sendRedirect("/account/set-auth");
+        response.sendRedirect(LOGIN_REDIRECT_URI);
     }
 }
