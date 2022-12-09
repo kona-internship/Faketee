@@ -287,6 +287,10 @@ public class DepartmentService {
         }
     }
 
+    public Department findDepartmentById(Long depId) {
+        return departmentRepository.findById(depId).orElseThrow();
+    }
+
     @Getter
     @Setter
     static class Result<T> {
