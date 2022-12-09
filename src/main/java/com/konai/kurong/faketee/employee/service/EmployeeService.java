@@ -49,7 +49,7 @@ public class EmployeeService {
         // 합류코드 있는지 여부 검증
         Integer count = 0;
         while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()){
-            if(count>100){
+            if(count>5){
                 throw new RuntimeException();
             }
             count++;
@@ -66,7 +66,7 @@ public class EmployeeService {
                 .email(requestDto.getEmail())
                 .joinCode(joinCode)
                 .build();
-        
+        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
         employeeInfoRepository.save(employeeInfo);
 
 //        회사 합류코드 전송하기
@@ -89,7 +89,7 @@ public class EmployeeService {
                 .department(department)
                 .employeeInfo(employeeInfo)
                 .build();
-
+        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
     }
@@ -138,7 +138,6 @@ public class EmployeeService {
     /**
      * 직원 합류
      *
-
      * @param userId
      * @param requestDto
      */
@@ -148,8 +147,13 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
+        // 회사가 가지고 있는 직원 이메일과 유저 이메일을 비교
+        if(!employeeInfo.getEmail().equals(user.getEmail())){
+            throw new RuntimeException();
+        }
+
         // 회사에 현재 같은 유저 아이디를 가지고 있는 직원이 없는지 확인
-        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(userId, employee.getCorporation().getId(), "W");
+        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(null, employee.getCorporation().getId(), "W");
         if(employeeList.size() != 1){
             throw new RuntimeException();
         }
