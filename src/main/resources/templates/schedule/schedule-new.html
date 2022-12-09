@@ -8,16 +8,70 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <style type="text/css">
+        .multiselect {
+            width: 200px;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #dep-list {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+        #dep-list input {
+            display: block;
+        }
+
+        #dep-list input:hover {
+            background-color: #1e90ff;
+        }
+    </style>
 </head>
 <body>
 <h1>근무 일정 추가</h1>
 근무 일정 템플릿
 <select id="selectTmp" onchange="selectTmpChange()"></select>
+<br>
 조직들
+<form>
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+            <select>
+                <option>조직 선택</option>
+            </select>
+            <div class="overSelect"></div>
+        </div>
+        <div id="dep-list">
+
+        </div>
+    </div>
+</form>
+<br>
+
 달력
 <input type="text" id="datepicker">
+<br>
 <button type="button" onclick="checkSchRegister()">근무 일정 등록</button>
+
 </body>
 <script src="/js/utils/url.js"></script>
+<script src="/js/department/department.js"></script>
 <script src="/js/schedule/schedule-new.js"></script>
 </html>
