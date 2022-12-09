@@ -3,19 +3,23 @@ package com.konai.kurong.faketee.employee.utils;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.department.dto.DepartmentResponseDto;
-import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
-import com.konai.kurong.faketee.utils.exception.custom.employee.EmpCorDiffException;
-import com.konai.kurong.faketee.utils.exception.custom.employee.EmpDepDiffException;
-import com.konai.kurong.faketee.utils.exception.custom.employee.EmpNotPermitException;
+import com.konai.kurong.faketee.utils.exception.custom.empauth.EmpCorDiffException;
+import com.konai.kurong.faketee.utils.exception.custom.empauth.EmpDepDiffException;
+import com.konai.kurong.faketee.utils.exception.custom.empauth.EmpNotPermitException;
+import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
+/**
+ * 권한 검증 로직을 처리하는 검증 클래스
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -38,8 +42,7 @@ public class EmpAuthValidator {
 //        List<Employee> employee = employeeRepository.findByUserIdAndCorporationId(usrId, corId);
         List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(usrId, corId, "T");
         if(employeeList.size() != 1){
-            // 관리자에게 문의 커스텀 exception으로 변경
-            throw new RuntimeException();
+            throw new EmpUserDuplException();
         }
         Employee employee = employeeList.get(0);
 
