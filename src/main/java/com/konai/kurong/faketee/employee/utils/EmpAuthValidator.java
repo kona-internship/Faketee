@@ -24,25 +24,56 @@ public class EmpAuthValidator {
     private final DepartmentService departmentService;
     private final CorporationRepository corporationRepository;
 
-    public Employee validateCorporation(Long corId, Long usrId){
+    /**
+     * 요청을 보낸 사용자가 요청된 회사의 직원인지 여부 확인
+     *
+     * @param corId 회사 id
+     * @param usrId 유저 id
+     * @return
+     */
+    public ReqEmpInfo validateCorporation(Long corId, Long usrId){
         Corporation corporation = corporationRepository.findById(corId).orElseThrow(()->new IllegalArgumentException());
-        Employee employee = employeeRepository.findByUserId(usrId).orElseThrow(()->new IllegalArgumentException());
+        //쿼리 확인 필요
+//        List<Employee> employee = employeeRepository.findByUserIdAndCorporationId(usrId, corId);
+        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(usrId, corId, "T");
+        if(employeeList.size() != 1){
+            // 관리자에게 문의 커스텀 exception으로 변경
+            throw new RuntimeException();
+        }
+        Employee employee = employeeList.get(0);
 
         if(!employee.getCorporation().getId().equals(corporation.getId())){
             throw new EmpCorDiffException();
         }
-        return employee;
+        return ReqEmpInfo.builder()
+                .id(employee.getId())
+                .name(employee.getName())
+                .val(employee.getVal())
+                .role(employee.getRole())
+                .build();
     }
 
-    public Employee validateEmployee(EmpRole role, Employee employee){
-
+    /**
+     * 직원이 보낸 요청에 대한 권한이 있는지 여부 확인
+     *
+     * @param role 권한
+     * @param reqEmpInfo 요청 직원 정보 객체 (ReqEmpInfo)
+     * @return
+     */
+    public ReqEmpInfo validateEmployee(EmpRole role, ReqEmpInfo reqEmpInfo){
         // 설정해놓은 권한보다 요청한 직원의 권한이 더 낮거나 직원이 활성 상태가 아닐 때
-        if(role.compareTo(employee.getRole())<0 || !(employee.getVal().equals("T"))){
+        if(role.compareTo(reqEmpInfo.getRole())<0 || !(reqEmpInfo.getVal().equals("T"))){
             throw new EmpNotPermitException();
         }
-        return employee;
+        return reqEmpInfo;
     }
 
+    /**
+     * 요청한 사람이 속해 있는 조직의 하위 조직에 접근하는 요청인지 여부 확인
+     *
+     * @param empDepId
+     * @param requestDepIdList
+     */
     public void validateDepartment(Long empDepId, List<Long> requestDepIdList){
 
         List<DepartmentResponseDto> depList = departmentService.getAllLowDep(empDepId);
@@ -67,6 +98,5 @@ public class EmpAuthValidator {
         if(!depList.containsAll(requestDepIdList)){
             throw new EmpDepDiffException();
         }
-
     }
 }

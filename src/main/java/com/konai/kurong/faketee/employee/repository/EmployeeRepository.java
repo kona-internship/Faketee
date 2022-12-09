@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, QuerydslEmpRepository {
-    Optional<Employee> findByUserId(Long userId);
+    List<Employee> findByUserIdAndCorporationId(Long userId, Long corId);
     Optional<Employee> findByEmployeeInfoId(Long empInfoId);
     List<Employee> findByCorporationId(Long corId);
+
 }
