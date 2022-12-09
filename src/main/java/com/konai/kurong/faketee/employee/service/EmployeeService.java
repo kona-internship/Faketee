@@ -140,6 +140,7 @@ public class EmployeeService {
     /**
      * 직원 합류
      *
+
      * @param userId
      * @param requestDto
      */
@@ -155,12 +156,8 @@ public class EmployeeService {
             throw new RuntimeException();
         }
 
-        // 직원의 상태가 대기 상태가 아닐 시
-        if(employee.getVal()!="W"){
-            throw new RuntimeException();
-        }
         // 요청의 합류코드와 디비에 들어있는 합류코드와 일치하는지 확인
-        if(requestDto.getJoinCode() != employee.getEmployeeInfo().getJoinCode()){
+        if(!requestDto.getJoinCode().equals(employee.getEmployeeInfo().getJoinCode())){
             throw new RuntimeException();
         }
         employee.join(user);

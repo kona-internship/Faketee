@@ -41,12 +41,6 @@ public class EmployeeApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/join")
-    public ResponseEntity<?> joinEmp(@LoginUser SessionUser user,
-                                     @Valid @RequestBody EmployeeJoinRequestDto requestDto) {
-        employeeService.joinEmployee(user.getId(), requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
 //    모든 직원 목록 가져오기
     @GetMapping("/list")

@@ -33,6 +33,7 @@ public class EmpAuthValidator {
      */
     public ReqEmpInfo validateCorporation(Long corId, Long usrId){
         Corporation corporation = corporationRepository.findById(corId).orElseThrow(()->new IllegalArgumentException());
+
         //쿼리 확인 필요
 //        List<Employee> employee = employeeRepository.findByUserIdAndCorporationId(usrId, corId);
         List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(usrId, corId, "T");
