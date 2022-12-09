@@ -1,7 +1,6 @@
 package com.konai.kurong.faketee.employee.utils;
 
 import com.konai.kurong.faketee.auth.dto.SessionUser;
-import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.parse.UrlParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
