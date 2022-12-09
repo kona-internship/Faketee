@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @NoArgsConstructor()
 @SequenceGenerator(
         name="EMP_INFO_ID_GENERATOR", //시퀀스 제너레이터 이름
-        sequenceName="EMP_SEQUENCE", //시퀀스 이름
+        sequenceName="EMP_INFO_SEQUENCE", //시퀀스 이름
         initialValue=1, //시작값
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )

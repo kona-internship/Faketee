@@ -157,6 +157,11 @@ public class EmployeeService {
         employee.join(user);
     }
 
+    /**
+     * 회사의 직원 목록 불러오기
+     * @param corId
+     * @return
+     */
     public List<EmployeeResponseDto> getAllEmployee(Long corId) {
 //        회사의 모든 직원을 볼 수 있는 권한은 생각해 볼 필요 있음
 //        전직원이 가능한지 / 관리자들만 가능한지
@@ -220,11 +225,13 @@ public class EmployeeService {
      * @return
      */
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
+//        EmployeeResponseDto 만들기에 필요한 것들 불러오기
         Employee employee = findByEmployeeById(employeeId);
         EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+//        EmployeeResponseDto 만들기
         EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
