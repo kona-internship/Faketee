@@ -238,7 +238,7 @@ public class EmployeeService {
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
 //        EmployeeResponseDto 만들기에 필요한 것들 불러오기
         Employee employee = findByEmployeeById(employeeId);
-        EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        EmployeeInfo employeeInfo = employee.getEmployeeInfo();
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -248,14 +248,16 @@ public class EmployeeService {
                 .name(employee.getName())
                 .role(role.getRole())
                 .corporationId(employee.getCorporation().getId())
-                .positionId(employee.getPosition().getId())
-                .departmentId(employee.getDepartment().getId())
-                .joinDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())))
-                .freeDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())))
-                .empNo(employeeInfo.getEmpNo())
-                .major(employeeInfo.getMajor())
-                .cert(employeeInfo.getCert())
-                .info(employeeInfo.getInfo())
+
+                .positionId((employee.getPosition().getId() == null) ? null : employee.getPosition().getId())
+                .departmentId((employee.getDepartment().getId() == null) ? null : employee.getDepartment().getId())
+                .joinDate((employeeInfo.getJoinDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())) : null)
+                .freeDate((employeeInfo.getFreeDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())) : null)
+                .empNo((employeeInfo.getEmpNo() != null) ? employeeInfo.getEmpNo() : null)
+                .major((employeeInfo.getMajor() != null) ? employeeInfo.getMajor() : null)
+                .cert((employeeInfo.getCert() != null) ? employeeInfo.getCert() : null)
+                .info((employeeInfo.getInfo() != null) ? employeeInfo.getInfo() : null)
+
                 .val(employee.getVal())
                 .build();
 
