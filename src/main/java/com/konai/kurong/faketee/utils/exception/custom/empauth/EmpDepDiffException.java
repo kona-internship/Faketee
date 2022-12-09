@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.utils.exception.custom.employee;
+package com.konai.kurong.faketee.utils.exception.custom.empauth;
 
 import com.konai.kurong.faketee.utils.exception.ExceptionId;
 import com.konai.kurong.faketee.utils.exception.custom.CustomRuntimeException;

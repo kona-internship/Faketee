@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionController {
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse unknown(Exception exception) {
         log.info(exception.toString());
         if (exception instanceof DataIntegrityViolationException) {
