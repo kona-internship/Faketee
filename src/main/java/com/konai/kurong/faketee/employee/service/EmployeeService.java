@@ -48,8 +48,8 @@ public class EmployeeService {
 
         // 합류코드 있는지 여부 검증
         Integer count = 0;
-        while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()) {
-            if(count > 100) {
+        while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()){
+            if(count>5){
                 throw new RuntimeException();
             }
             count++;
@@ -66,7 +66,7 @@ public class EmployeeService {
                 .email(requestDto.getEmail())
                 .joinCode(joinCode)
                 .build();
-        
+        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
         employeeInfoRepository.save(employeeInfo);
 
 //        회사 합류코드 전송하기
@@ -89,7 +89,7 @@ public class EmployeeService {
                 .department(department)
                 .employeeInfo(employeeInfo)
                 .build();
-
+        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
     }
@@ -138,7 +138,6 @@ public class EmployeeService {
     /**
      * 직원 합류
      *
-
      * @param userId
      * @param requestDto
      */
@@ -148,8 +147,14 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
+
+        if(!employeeInfo.getEmail().equals(user.getEmail())){ // 인증코드 받은 이메일과 인증요청하는 계정이 다른경우
+
+            throw new RuntimeException();
+        }
+
         // 회사에 현재 같은 유저 아이디를 가지고 있는 직원이 없는지 확인
-        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(userId, employee.getCorporation().getId(), "W");
+        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(null, employee.getCorporation().getId(), "W");
         if(employeeList.size() != 1){
             throw new RuntimeException();
         }
@@ -231,25 +236,26 @@ public class EmployeeService {
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
 //        EmployeeResponseDto 만들기에 필요한 것들 불러오기
         Employee employee = findByEmployeeById(employeeId);
-        EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        EmployeeInfo employeeInfo = employee.getEmployeeInfo();
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        log.info("-----------EmployeeService getEmployeeResponseDto : " + role.getRole());
 //        EmployeeResponseDto 만들기
         EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
                 .role(role.getRole())
                 .corporationId(employee.getCorporation().getId())
-                .positionId(employee.getPosition().getId())
-                .departmentId(employee.getDepartment().getId())
-                .joinDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())))
-                .freeDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())))
-                .empNo(employeeInfo.getEmpNo())
-                .major(employeeInfo.getMajor())
-                .cert(employeeInfo.getCert())
-                .info(employeeInfo.getInfo())
+
+                .positionId((employee.getPosition().getId() == null) ? null : employee.getPosition().getId())
+                .departmentId((employee.getDepartment().getId() == null) ? null : employee.getDepartment().getId())
+                .joinDate((employeeInfo.getJoinDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())) : null)
+                .freeDate((employeeInfo.getFreeDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())) : null)
+                .empNo((employeeInfo.getEmpNo() != null) ? employeeInfo.getEmpNo() : null)
+                .major((employeeInfo.getMajor() != null) ? employeeInfo.getMajor() : null)
+                .cert((employeeInfo.getCert() != null) ? employeeInfo.getCert() : null)
+                .info((employeeInfo.getInfo() != null) ? employeeInfo.getInfo() : null)
+
                 .val(employee.getVal())
                 .build();
 

@@ -18,6 +18,12 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
 
     @Override
     public List<Employee> getEmployeeByUserAndCorAndVal(Long usrId, Long corId, String val){
+        if(usrId == null){
+            return jpaQueryFactory
+                    .selectFrom(employee)
+                    .where(employee.user.id.isNull(), employee.corporation.id.eq(corId), employee.val.eq(val))
+                    .fetch();
+        }
         return jpaQueryFactory
                 .selectFrom(employee)
                 .where(employee.user.id.eq(usrId), employee.corporation.id.eq(corId), employee.val.eq(val))
