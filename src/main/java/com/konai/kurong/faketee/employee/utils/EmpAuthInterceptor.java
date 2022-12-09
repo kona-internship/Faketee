@@ -54,10 +54,10 @@ public class EmpAuthInterceptor implements HandlerInterceptor {
 
         // 요청을 보낸 사용자가 요청된 회사의 직원인지 여부 확인
         Employee employee = empAuthValidator.validateCorporation(corId, sessionUser.getId());
-
+        log.info("==================flag3=====================");
         // 직원이 보낸 요청에 대한 권한이 있는지 여부 확인
         empAuthValidator.validateEmployee(empAuth.role(), employee);
-
+        log.info("==================flag4=====================");
         request.setAttribute(AUTH_EMP_KEY, ReqEmpInfo.builder()
                 .id(employee.getId())
                 .name(employee.getName())

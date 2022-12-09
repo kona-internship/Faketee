@@ -304,3 +304,25 @@ function showEmpList(empList){
 /**
  * 직원 합류하기
  */
+function joinEmployee(){
+
+    let data = {
+        joinCode : $('#joincode').val()
+    };
+
+    $.ajax({
+        async : true,
+        type : "POST",
+        url : "/api/join-corporation",
+        dataType : "json",
+        contentType : "application/json",
+        data : JSON.stringify(data),
+        success : function (){
+            alert("success");
+        },
+        error : function(){
+            alert("failure");
+        }
+        }
+    );
+}
