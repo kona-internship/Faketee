@@ -148,6 +148,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
+        if(!employeeInfo.getEmail().equals(user.getEmail())){ // 인증코드 받은 이메일과 인증요청하는 계정이 다른경우
+            throw new RuntimeException();
+        }
+
         // 회사에 현재 같은 유저 아이디를 가지고 있는 직원이 없는지 확인
         List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(userId, employee.getCorporation().getId(), "W");
         if(employeeList.size() != 1){

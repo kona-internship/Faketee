@@ -314,7 +314,6 @@ function joinEmployee(){
         async : true,
         type : "POST",
         url : "/api/join-corporation",
-        dataType : "json",
         contentType : "application/json",
         data : JSON.stringify(data),
         success : function (){
