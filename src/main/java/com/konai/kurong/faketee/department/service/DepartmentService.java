@@ -13,6 +13,8 @@ import com.konai.kurong.faketee.department.repository.DepartmentRepository;
 import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.entity.Location;
 import com.konai.kurong.faketee.location.repository.LocationRepository;
+import com.konai.kurong.faketee.location.repository.QuerydslLocRepository;
+import com.konai.kurong.faketee.utils.exception.custom.department.DepartmentNotFoundException;
 import com.konai.kurong.faketee.utils.exception.custom.department.LowDepAlreadyExistException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -77,12 +79,22 @@ public class DepartmentService {
         // 디비에 조직 저장하기
         departmentRepository.save(department);
 
-        List<Location> locationList;
+        List<Location> locationList = new ArrayList<>();
         // 조직과 연결하려는 출퇴근 장소 불러오기
-        if (requestDto.getSuperId() != null) {
-            locationList = locationRepository.findLocationsByIds(requestDto.getLocationIdList());
-        }else{
+        if (requestDto.getSuperId() == null && requestDto.getLocationIdList().size() == 0) {
+            //상위 조직이 없고 출퇴근장소도 고르지 않았을 경우
             locationList = locationRepository.findLocationByCorporationIdOrderById(corId);
+        }else if(requestDto.getSuperId() != null && requestDto.getLocationIdList().size() == 0){
+            //상위 조직 있고 출퇴근 장소를 고르지 않았을 경우
+            List<DepLoc> depLocList = depLocRepository.findAllByDepartment_Id(superDep.getId());
+
+            for(int i = 0; i < depLocList.size(); i++){
+                Location location = depLocList.get(i).getLocation();
+                locationList.add(location);
+            }
+        }else {
+            // 출퇴근 장소 있는 경우
+            locationList = locationRepository.findLocationByIdIn(requestDto.getLocationIdList());
         }
 
         // 조직과 출퇴근 장소 연결하여 디비 저장
@@ -203,7 +215,7 @@ public class DepartmentService {
             });
         }
 
-        Long min = levelList.get(0).longValue();
+        Long min = Long.MAX_VALUE;
         Long max = -1L;
         for (Long i : levelList) {
             if (max < i) {
@@ -293,7 +305,7 @@ public class DepartmentService {
 
     @Getter
     @Setter
-    static class Result<T> {
+    private class Result<T> {
         private T dep;
         private T loc;
 
@@ -304,5 +316,10 @@ public class DepartmentService {
             this.loc = loc;
             this.sub = sub;
         }
+    }
+
+    public Department findById(Long id){
+
+        return departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException());
     }
 }

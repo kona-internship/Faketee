@@ -11,6 +11,16 @@ const PATH_COR = "/corporation";
  * @type {string}
  */
 const PATH_DEP = "/dep";
+/**
+ * 근무일정 url path이다.
+ * @type {string}
+ */
+const PATH_SCH = "/sch";
+
+/**
+ * 근무일정 템플릿 url path
+ */
+const PATH_TMP = "/template";
 
 /**
  * 직원 url path이다.

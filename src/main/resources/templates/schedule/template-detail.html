@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>근무일정 템플릿</title>
+</head>
+<body>
+<h1>근무일정 템플릿 상세</h1>
+<button type="button" onclick="deleteTemplate()">삭제하기</button>
+<hr>
+<h3>템플릿 이름: </h3>
+<div th:text="${responseDto.name}"></div><br>
+<h3>근무 유형: </h3>
+<div th:text="${responseDto.scheduleType.name}"></div><br>
+<h3>근무 시간: </h3>
+<div th:text="'출근시간: ' + ${responseDto.startTime}"></div>
+<div th:text="'퇴근시간: ' + ${responseDto.endTime}"></div><br>
+<h3>조직들:</h3>
+<div><button type="button" id="btn-loadDepartments" th:tmpId = "${responseDto.id}" th:onclick="loadDepartments(this.getAttribute('tmpId'))">조직 조회</button></div>
+<div id="dep-list"></div><br>
+<h3>직무들:</h3>
+<div><button type="button" id="btn-loadPositions" th:tmpId="${responseDto.id}" th:onclick="loadPositions(this.getAttribute('tmpId'))">직무 조회</button></div>
+<div id="positions"></div>
+<p>&copy; faketee2022</p>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/schedule/schedule.js"></script>
+<script type="text/javascript" src="/js/department/department.js"></script>
+</html>
