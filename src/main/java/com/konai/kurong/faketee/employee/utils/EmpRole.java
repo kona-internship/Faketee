@@ -3,6 +3,8 @@ package com.konai.kurong.faketee.employee.utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 @AllArgsConstructor
 public enum EmpRole {
@@ -13,4 +15,11 @@ public enum EmpRole {
     EMPLOYEE("직원");
 
     private final String role;
+
+    public static EmpRole convertToType(String stringRole){
+        return Arrays.stream(values())
+                .filter(empRole -> empRole.role.equals(stringRole))
+                .findAny()
+                .orElse(null);
+    }
 }
