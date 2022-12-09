@@ -167,8 +167,9 @@ function deleteLoc(locId){
             showLocList(data);
 
         },
-        error: function () {
-            alert('출퇴근 장소 삭제 실패!');
+        error: function (jqXHR) {
+            let result = getErrors(jqXHR);
+            showError(result);
         }
     });
 }

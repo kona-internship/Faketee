@@ -7,6 +7,7 @@ import com.konai.kurong.faketee.position.dto.PositionSaveRequestDto;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionQueryRepo;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
+import com.konai.kurong.faketee.utils.exception.custom.position.PositionNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,11 @@ public class PositionService {
         //추가사항: 지우려는 사용자가 해당 회사의 권한을 가지고 있는지 여부 로직
 
         return PositionResponseDto.convertToDtoList(positionRepository.findAllByCorporation_Id(corId));
+    }
+
+    public Position findById(Long id){
+
+        return positionRepository.findById(id).orElseThrow(() -> new PositionNotFoundException());
     }
 
 

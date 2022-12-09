@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>근무일정 템플릿 추가</title>
+    <style>
+        ul { height: 100px; overflow: auto; width: 200px; border: 1px solid #000; }
+        ul { list-style-type: none; margin: 0; padding: 0; overflow-x: hidden; }
+        li { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<h1>근무일정 템플릿 추가하기</h1>
+<hr>
+<div>
+    <form name="template">
+        <div>
+            템플릿명: <input type="text" id="tmp-name"><br><br>
+        </div>
+        <div>
+            근무일정유형: <select id="select-sch-type"></select><br><br>
+        </div>
+        <div>
+            출근시간: <input type="time" id="tmp-startTime"><br><br>
+        </div>
+        <div>
+            퇴근시간: <input type="time" id="tmp-endTime"><br><br>
+        </div>
+        <div>
+            조직들: <br>
+            <div>
+                <div id="dep-list"></div>
+            </div>
+            <br><br>
+        </div>
+        <div>
+            직무들: <br>
+            <div>
+                <div id="pos-list"></div>
+            </div>
+<!--            <select name="positions[]" id="select-positions" multiple="multiple" style="width: 200px; height: 80px"></select>-->
+            <br><br>
+        </div>
+
+        <button type="button" onclick="saveTemplate()">추가하기</button>
+    </form>
+</div>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/schedule/schedule.js"></script>
+<script type="text/javascript" src="/js/department/department.js"></script>
+<script>
+    listSchType()
+    // listDepartments()
+    listPositions()
+    loadDepList("check");
+</script>
+</html>

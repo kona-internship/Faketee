@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice(basePackages = "com.konai.kurong.faketee.employee")
-public class EmployeeExceptionController extends ExceptionController {
+public class EmployeeAuthExceptionController extends ExceptionController {
 
     @ExceptionHandler(EmpCorDiffException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

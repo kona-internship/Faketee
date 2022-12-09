@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.department.entity;
 
 import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.schedule.entity.TemplateDepartment;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

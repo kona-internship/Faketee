@@ -89,7 +89,7 @@ public class SecurityConfig {
                             "/account/register-auth",
                             "/account/login-auth",
                             "/account/auth-complete",
-                            "/api/**"
+                            "/api/account/**"
                     )
                     .permitAll()
 //                    .antMatchers("/api/**")
