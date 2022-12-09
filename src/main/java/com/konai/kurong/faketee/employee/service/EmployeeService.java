@@ -37,14 +37,12 @@ public class EmployeeService {
     private final UserRepository userRepository;
 
     /**
-     * 직원 저장하기
+     * 직원 등록하기
      * @param corId
      * @param requestDto
      */
     @Transactional
     public void registerEmployee(Long corId, EmployeeSaveRequestDto requestDto) {
-//        해당 회사의 관리자인지 권한 확인 필요
-
 //        합류코드 만들기
         String joinCode = emailAuthService.createJoinCode();
 

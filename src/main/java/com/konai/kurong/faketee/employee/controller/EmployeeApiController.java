@@ -7,6 +7,8 @@ import com.konai.kurong.faketee.employee.dto.EmployeeUpdateRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeReSendRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,11 +24,13 @@ import javax.validation.Valid;
 public class EmployeeApiController {
     private final EmployeeService employeeService;
 
-//    직원 저장하기
+//    직원 등록하기
+//    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @PostMapping("/register")
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody EmployeeSaveRequestDto requestDto) {
+        log.info("===========EmployeeApiController registerEmp : " + requestDto.toString());
         employeeService.registerEmployee(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
