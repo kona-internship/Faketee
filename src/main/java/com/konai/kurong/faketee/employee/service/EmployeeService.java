@@ -142,7 +142,7 @@ public class EmployeeService {
      * @param requestDto
      */
     @Transactional
-    public void joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
+    public Long joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
         EmployeeInfo employeeInfo = employeeInfoRepository.findByJoinCode(requestDto.getJoinCode()).orElseThrow(()->new IllegalArgumentException());
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
@@ -164,6 +164,7 @@ public class EmployeeService {
             throw new RuntimeException();
         }
         employee.join(user);
+        return employee.getCorporation().getId();
     }
 
     /**
