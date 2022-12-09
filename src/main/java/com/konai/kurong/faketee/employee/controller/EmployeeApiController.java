@@ -24,18 +24,30 @@ import javax.validation.Valid;
 public class EmployeeApiController {
     private final EmployeeService employeeService;
 
-//    직원 등록하기
-    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
+    /**
+     * 직원 등록하기
+     * 최고관리자, 총괄관리자만 가능하다
+     * 본인의 하위조직이 아니더라도 가능하다
+     * @param corId
+     * @param requestDto
+     * @return
+     */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER, onlyLowDep = false)
     @PostMapping("/register")
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,
                                          @Valid @RequestBody EmployeeSaveRequestDto requestDto) {
-        log.info("===========EmployeeApiController registerEmp : " + requestDto.toString());
         employeeService.registerEmployee(corId, requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-//    직원 수정하기
+    /**
+     * 직원 수정하기
+     * @param corId
+     * @param employeeId
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/update/{employeeId}")
     public ResponseEntity<?> updateEmp(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "employeeId") Long employeeId,
@@ -45,15 +57,23 @@ public class EmployeeApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-//    모든 직원 목록 가져오기
+    /**
+     * 모든 직원 목록 가져오기
+     * @param corId
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity<?> getAllEmp(@PathVariable(name = "corId") Long corId) {
         return new ResponseEntity<>(employeeService.getAllEmployee(corId), HttpStatus.OK);
     }
 
-//    직원 비활성화
-//    만약에 이미 비활성화 된 직원이라면 forbidden 처리 해두었음
+    /**
+     * 직원 비활성화
+     * 만약에 이미 비활성화 된 직원이라면 forbidden 처리 해두었음
+     * @param corId
+     * @param employeeId
+     * @return
+     */
     @GetMapping("/deactivate/{employeeId}")
     public ResponseEntity<?> deactivateEmp(@PathVariable(name = "corId") Long corId,
                                            @PathVariable(name = "employeeId") Long employeeId) {
@@ -66,7 +86,13 @@ public class EmployeeApiController {
         }
     }
 
-//    직원 합류 초대 재전송
+    /**
+     * 직원 합류 초대 재전송
+     * @param corId
+     * @param employeeId
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/reSend/{employeeId}")
     public ResponseEntity<?> reSendJoinCode(@PathVariable(name = "corId") Long corId,
                                             @PathVariable(name = "employeeId") Long employeeId,

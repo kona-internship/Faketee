@@ -15,6 +15,8 @@ import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
+import com.konai.kurong.faketee.utils.exception.custom.employee.EmpJoinEmailDiffException;
+import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -147,16 +149,16 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
+        // 인증코드 받은 이메일과 인증요청하는 계정이 다른경우
+        if(!employeeInfo.getEmail().equals(user.getEmail())){
 
-        if(!employeeInfo.getEmail().equals(user.getEmail())){ // 인증코드 받은 이메일과 인증요청하는 계정이 다른경우
-
-            throw new RuntimeException();
+            throw new EmpJoinEmailDiffException();
         }
 
         // 회사에 현재 같은 유저 아이디를 가지고 있는 직원이 없는지 확인
         List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(null, employee.getCorporation().getId(), "W");
         if(employeeList.size() != 1){
-            throw new RuntimeException();
+            throw new EmpUserDuplException();
         }
 
         // 요청의 합류코드와 디비에 들어있는 합류코드와 일치하는지 확인
@@ -237,7 +239,7 @@ public class EmployeeService {
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
 //        EmployeeResponseDto 만들기에 필요한 것들 불러오기
         Employee employee = findByEmployeeById(employeeId);
-        EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
+        EmployeeInfo employeeInfo = employee.getEmployeeInfo();
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -247,14 +249,16 @@ public class EmployeeService {
                 .name(employee.getName())
                 .role(role.getRole())
                 .corporationId(employee.getCorporation().getId())
-                .positionId(employee.getPosition().getId())
-                .departmentId(employee.getDepartment().getId())
-                .joinDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())))
-                .freeDate(simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())))
-                .empNo(employeeInfo.getEmpNo())
-                .major(employeeInfo.getMajor())
-                .cert(employeeInfo.getCert())
-                .info(employeeInfo.getInfo())
+
+                .positionId((employee.getPosition().getId() == null) ? null : employee.getPosition().getId())
+                .departmentId((employee.getDepartment().getId() == null) ? null : employee.getDepartment().getId())
+                .joinDate((employeeInfo.getJoinDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getJoinDate())) : null)
+                .freeDate((employeeInfo.getFreeDate() != null) ? simpleDateFormat.format(java.sql.Timestamp.valueOf(employeeInfo.getFreeDate())) : null)
+                .empNo((employeeInfo.getEmpNo() != null) ? employeeInfo.getEmpNo() : null)
+                .major((employeeInfo.getMajor() != null) ? employeeInfo.getMajor() : null)
+                .cert((employeeInfo.getCert() != null) ? employeeInfo.getCert() : null)
+                .info((employeeInfo.getInfo() != null) ? employeeInfo.getInfo() : null)
+
                 .val(employee.getVal())
                 .build();
 
