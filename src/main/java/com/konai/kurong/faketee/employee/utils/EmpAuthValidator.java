@@ -26,11 +26,13 @@ public class EmpAuthValidator {
 
     public Employee validateCorporation(Long corId, Long usrId){
         Corporation corporation = corporationRepository.findById(corId).orElseThrow(()->new IllegalArgumentException());
+        log.info("==================flag0=====================");
         Employee employee = employeeRepository.findByUserId(usrId).orElseThrow(()->new IllegalArgumentException());
-
+        log.info("==================flag1=====================");
         if(!employee.getCorporation().getId().equals(corporation.getId())){
             throw new EmpCorDiffException();
         }
+        log.info("==================flag2=====================");
         return employee;
     }
 

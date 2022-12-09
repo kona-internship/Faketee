@@ -140,7 +140,6 @@ public class EmployeeService {
     /**
      * 직원 합류
      *
-     * @param empId
      */
     @Transactional
     public void joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
@@ -148,10 +147,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
-        if(employee.getVal()!="W"){
+        if(employee.getVal().equals("T")){
             throw new RuntimeException();
         }
-        if(requestDto.getJoinCode() != employee.getEmployeeInfo().getJoinCode()){
+        if(!requestDto.getJoinCode().equals(employee.getEmployeeInfo().getJoinCode())){
             throw new RuntimeException();
         }
         employee.join(user);

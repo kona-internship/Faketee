@@ -257,9 +257,6 @@ function checkExistData(value, dataName) {
     return true;
 }
 
-/**
- * 직원 등록하는 page로 이동
- */
 function goRegisterEmp() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_EMP + "/register";
 }
@@ -302,4 +299,30 @@ function showEmpList(empList){
             ' <button type="button" onclick=goUpdateEmp('+emp.id+')>수정</button></div>';
         $('#emp-list').append(msg);
     }
+}
+
+/**
+ * 직원 합류하기
+ */
+function joinEmployee(){
+
+    let data = {
+        joinCode : $('#joincode').val()
+    };
+
+    $.ajax({
+        async : true,
+        type : "POST",
+        url : "/api/join-corporation",
+        dataType : "json",
+        contentType : "application/json",
+        data : JSON.stringify(data),
+        success : function (){
+            alert("success");
+        },
+        error : function(){
+            alert("failure");
+        }
+        }
+    );
 }
