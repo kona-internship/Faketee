@@ -134,7 +134,7 @@ function updatePos(posId) {
             type: "post",
             data: jsonData,
             contentType: "application/json",
-            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/update/"+posId,
+            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/pos/update/" + posId,
             success: function () {
                 alert('수정 성공!');
                 goListPosRegister();
