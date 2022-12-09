@@ -1,7 +1,10 @@
 package com.konai.kurong.faketee.employee.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.konai.kurong.faketee.department.entity.Department;
+import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
+import com.konai.kurong.faketee.employee.utils.DepIdsDto;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,14 +12,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EmployeeSaveRequestDto {
+public class EmployeeSaveRequestDto implements DepIdsDto {
+    private static DepartmentService departmentService;
+
     @NotBlank
     private String name;
 
@@ -42,6 +49,17 @@ public class EmployeeSaveRequestDto {
 
     @NotBlank
     private String email;
+
+    @Override
+    public List<Long> getDepIds() {
+        Department department = departmentService.findDepartmentById(departmentId);
+        List<Department> depList = departmentService.getSubDepList(department);
+        List<Long> depIdList = new ArrayList<>();
+        for(Department dep : depList) {
+            depIdList.add(dep.getId());
+        }
+        return depIdList;
+    }
 
 //    public EmployeeInfo toEmployeeInfoEntity(String joinCode) {
 //        return EmployeeInfo.builder()
