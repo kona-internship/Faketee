@@ -48,8 +48,8 @@ public class EmployeeService {
 
         // 합류코드 있는지 여부 검증
         Integer count = 0;
-        while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()){
-            if(count>100){
+        while(employeeInfoRepository.findByJoinCode(joinCode).isPresent()) {
+            if(count > 100) {
                 throw new RuntimeException();
             }
             count++;
@@ -235,6 +235,7 @@ public class EmployeeService {
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+        log.info("-----------EmployeeService getEmployeeResponseDto : " + role.getRole());
 //        EmployeeResponseDto 만들기
         EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
                 .id(employee.getId())
