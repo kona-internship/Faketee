@@ -25,7 +25,7 @@ public class EmployeeApiController {
     private final EmployeeService employeeService;
 
 //    직원 등록하기
-//    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @PostMapping("/register")
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,

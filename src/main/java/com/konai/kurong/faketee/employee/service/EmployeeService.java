@@ -73,7 +73,7 @@ public class EmployeeService {
         emailAuthService.sendJoinCode(employeeInfo.getEmail(), joinCode);
 
 //        직원 만들기에 필요한 것들 불러오기
-        EmpRole role = EmpRole.valueOf(requestDto.getRole());
+        EmpRole role = EmpRole.convertToType(requestDto.getRole());
         Corporation corporation = corporationRepository.findById(corId).orElseThrow();
         Position position = positionRepository.findById(requestDto.getPositionId()).orElseThrow();
         Department department = departmentRepository.findById(requestDto.getDepartmentId()).orElseThrow();
@@ -119,7 +119,7 @@ public class EmployeeService {
         employeeInfoRepository.findById(oldEmployeeInfo.getId()).orElseThrow().update(newEmployeeInfo);
 
 //        직원 수정에 필요한 것들 불러오기
-        EmpRole role = EmpRole.valueOf(requestDto.getRole());
+        EmpRole role = EmpRole.convertToType(requestDto.getRole());
         Position position = positionRepository.findById(requestDto.getPositionId()).orElseThrow();
         Department department = departmentRepository.findById(requestDto.getDepartmentId()).orElseThrow();
 
