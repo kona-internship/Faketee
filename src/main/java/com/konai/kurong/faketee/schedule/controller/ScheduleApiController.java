@@ -1,8 +1,8 @@
 package com.konai.kurong.faketee.schedule.controller;
 
 import com.konai.kurong.faketee.schedule.dto.ScheduleTypeSaveRequestDto;
+import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;
 import com.konai.kurong.faketee.schedule.service.ScheduleTypeService;
-import com.konai.kurong.faketee.schedule.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class ScheduleApiController {
 
     private final ScheduleTypeService scheduleTypeService;
-    private final TemplateService templateService;
+    private final ScheduleInfoService scheduleInfoService;
 
     @PostMapping("/type/list")
     public ResponseEntity<?> getSchTypeList(@PathVariable(name = "corId") Long corId) {
@@ -43,8 +43,8 @@ public class ScheduleApiController {
         return new ResponseEntity<>(scheduleTypeService.getSchTypeList(corId), HttpStatus.OK);
     }
 
-    @PostMapping("template/list")
+    @PostMapping("before/reg")
     public ResponseEntity<?> getList(@PathVariable(name = "corId") Long corId){
-        return new ResponseEntity<>(templateService.loadTemplates(corId), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleInfoService.getAllRelationWithTemp(corId), HttpStatus.OK);
     }
 }

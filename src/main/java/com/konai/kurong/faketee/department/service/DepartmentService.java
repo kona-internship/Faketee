@@ -292,7 +292,7 @@ public class DepartmentService {
 
     @Getter
     @Setter
-    static class Result<T> {
+    private class Result<T> {
         private T dep;
         private T loc;
 
