@@ -310,17 +310,20 @@ function joinEmployee(){
         joinCode : $('#joincode').val()
     };
 
+
     $.ajax({
         async : true,
         type : "POST",
         url : "/api/join-corporation",
         contentType : "application/json",
         data : JSON.stringify(data),
-        success : function (){
-            alert("success");
+        success : function (param){
+            alert("회사에 합류하셨습니다.");
+            let URL = "/corporation/" + param;
+            window.location.replace(URL);
         },
-        error : function(){
-            alert("failure");
+        error : function(error){
+            alert(JSON.stringify(error));
         }
         }
     );

@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.corporation.service;
 
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
+import com.konai.kurong.faketee.corporation.dto.CorporationResponseDto;
 import com.konai.kurong.faketee.corporation.dto.CorporationSaveRequestDto;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
@@ -76,5 +77,10 @@ public class CorporationService {
         employeeRepository.save(employee);
 
         return savedCor.getId();
+    }
+
+    public CorporationResponseDto findById(Long corId){
+
+        return CorporationResponseDto.convertToDto(corporationRepository.findById(corId).orElseThrow(() -> new IllegalArgumentException()));
     }
 }
