@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.position.controller;
 
 
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.dto.PositionSaveRequestDto;
 import com.konai.kurong.faketee.position.service.PositionService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class PositionApiController {
      * @param requestDto
      * @return
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping()
     public ResponseEntity<?> registerPosition(@PathVariable(name = "corId") Long corId,
                                               @Valid @RequestBody PositionSaveRequestDto requestDto){
@@ -42,6 +45,7 @@ public class PositionApiController {
      * @param requestDto
      * @return
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping("/update/{posId}")
     public ResponseEntity<?> updatePosition(@PathVariable(name = "posId") Long posId,
                                               @Valid @RequestBody PositionSaveRequestDto requestDto){
@@ -57,6 +61,7 @@ public class PositionApiController {
      * @param corId
      * @return
      */
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/list")
     public ResponseEntity<?> getPosList(@PathVariable(name = "corId") Long corId){
 
@@ -70,6 +75,7 @@ public class PositionApiController {
      * @param posId
      * @return
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping("/delete/{posId}")
     public ResponseEntity<?> removePosition(@PathVariable(name = "corId") Long corId,
                                         @PathVariable(name = "posId") Long posId){
