@@ -42,16 +42,11 @@ public class DepartmentApiController {
      *                   @NotNull List<Long> locationIdList
      * @return
      */
-    @EmpAuth(role = EmpRole.GENERAL_MANAGER, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping()
     public ResponseEntity<?> registerDep(@PathVariable(name = "corId") Long corId,
-                                         @Valid @RequestBody DepartmentSaveRequestDto requestDto,
-                                         @ReqEmp ReqEmpInfo reqEmpInfo){
-        log.info("==================controller=====================");
-        log.info("reqEmpInfo: "+ reqEmpInfo.getId());
-
+                                         @Valid @RequestBody DepartmentSaveRequestDto requestDto){
         departmentService.registerDepartment(corId, requestDto);
-        log.info("==================end=========================");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -61,7 +56,7 @@ public class DepartmentApiController {
      * @param corId
      * @return
      */
-    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/list")
     public ResponseEntity<?> getDepList(@PathVariable(name = "corId") Long corId){
 
@@ -86,7 +81,7 @@ public class DepartmentApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @PostMapping("/detail/{depId}")
     public ResponseEntity<?> detailDep(@PathVariable(name = "depId") Long depId){
 
