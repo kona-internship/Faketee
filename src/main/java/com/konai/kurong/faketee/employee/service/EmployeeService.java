@@ -138,6 +138,9 @@ public class EmployeeService {
     /**
      * 직원 합류
      *
+
+     * @param userId
+     * @param requestDto
      */
     @Transactional
     public void joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
@@ -145,9 +148,13 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
 
-        if(employee.getVal().equals("T")){
+        // 회사에 현재 같은 유저 아이디를 가지고 있는 직원이 없는지 확인
+        List<Employee> employeeList = employeeRepository.getEmployeeByUserAndCorAndVal(userId, employee.getCorporation().getId(), "W");
+        if(employeeList.size() != 1){
             throw new RuntimeException();
         }
+
+        // 요청의 합류코드와 디비에 들어있는 합류코드와 일치하는지 확인
         if(!requestDto.getJoinCode().equals(employee.getEmployeeInfo().getJoinCode())){
             throw new RuntimeException();
         }
