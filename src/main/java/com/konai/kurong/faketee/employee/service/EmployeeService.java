@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.TableGenerator;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -257,5 +258,21 @@ public class EmployeeService {
                 .build();
 
         return employeeResponseDto;
+    }
+
+    /**
+     * 조직리스트와 직무리스트를 매개변수로 받아
+     * 모두 해당되는 직원의 리스트를 반환한다.
+     *
+     * @param depIds
+     * @param posIds
+     * @return
+     */
+    @Transactional
+    public List<EmployeeSchResponseDto> getEmpByDepAndPos(List<Long> depIds, List<Long> posIds){
+        List<Employee> emp = employeeRepository.getEmployeeByDepAndPos(depIds, posIds);
+
+        List<EmployeeSchResponseDto> dtoList = EmployeeSchResponseDto.convertToDtoList(emp);
+        return dtoList;
     }
 }
