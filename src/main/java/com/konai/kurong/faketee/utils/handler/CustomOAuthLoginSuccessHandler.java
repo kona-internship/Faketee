@@ -19,8 +19,9 @@ import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
 
 /**
  * OAuth 로그인 성공시 로그인한 유저 정보를 세션에 저장하는 기능을 수행한다
- * OAuth로부터 인증받은 정보 (Authentication)에서 email을 이용해 repository에서 user entity를 찾고
- * httpsession에 SessionUser로 저장한다
+ *
+ * OAuth 로부터 인증받은 정보 (Authentication)에서 email 을 이용해 repository 에서 user entity 를 찾고
+ * httpsession 에 SessionUser 로 저장한다
  */
 @RequiredArgsConstructor
 @Component
