@@ -26,4 +26,9 @@ public class ScheduleController {
     public String registerSch() {
         return "schedule/schedule-new";
     }
+
+    @GetMapping("/list")
+    public String goSchList() {
+        return "schedule/schedule-list";
+    }
 }
