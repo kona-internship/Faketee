@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.employee.repository;
 
+import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.entity.QEmployee;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,4 +30,13 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
                 .where(employee.user.id.eq(usrId), employee.corporation.id.eq(corId), employee.val.eq(val))
                 .fetch();
     }
+
+    @Override
+    public List<Employee> getEmployeeByDepAndPos(List<Long> deps, List<Long> pos) {
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.department.id.in(deps).and(employee.position.id.in(pos)))
+                .fetch();
+    }
+
 }
