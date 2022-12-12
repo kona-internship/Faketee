@@ -17,6 +17,11 @@ function loadSchList() {
     });
 }
 
+/**
+ * 근무일정 유형 리스트
+ *
+ * @param scheduleTypeList
+ */
 function showSchTypeList(scheduleTypeList) {
     $('#sch-type-list *').remove();
 
@@ -27,14 +32,24 @@ function showSchTypeList(scheduleTypeList) {
     }
 }
 
+/**
+ * 근무 일정 유형 추가 페이지로 이동
+ */
 function goAddSchTypePage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH;
 }
 
+/**
+ * 근무 일정 유형 리스트 페이지로 이동
+ */
 function goTypeList() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type";
 }
 
+/**
+ * 근무일정 유형 입력값 검사
+ * @returns {boolean}
+ */
 function checkSchTypeRegister() {
     if (!checkExistData($("#name").val(), "유형명을")) {
 
@@ -43,6 +58,13 @@ function checkSchTypeRegister() {
     }
 }
 
+/**
+ * 근무일정 유형 등록
+ *
+ * @param value
+ * @param dataName
+ * @returns {boolean}
+ */
 function checkExistData(value, dataName) {
     value = value.trim();
     if (value == "") {
@@ -71,6 +93,11 @@ function checkExistData(value, dataName) {
     return true;
 }
 
+/**
+ * 근무일정 유형 삭제
+ *
+ * @param typeId
+ */
 function deleteSchType(typeId) {
     $.ajax({
         async: true,
@@ -402,7 +429,10 @@ function drawPositionList(list){
     }
 }
 
-
+/**
+ * 날짜에 해당하는 근무일정 데이터를 가져온다.
+ *
+ */
 function loadSchedules() {
     let selectedDate = document.querySelector('#selectedDate').value;
 

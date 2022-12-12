@@ -1,3 +1,8 @@
+/**
+ * html시작하자마자
+ * 달력 라이브러리 로딩
+ *
+ */
 $(function() {
     let options={
         multidate: true,
@@ -10,6 +15,9 @@ $(function() {
     loadSelectTmp();
 });
 
+/**
+ * 템플릿 불러오기
+ */
 function loadSelectTmp(){
     $.ajax({
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + "/template/list",
@@ -24,6 +32,11 @@ function loadSelectTmp(){
         }
     });
 }
+
+/**
+ * 불러온 템플릿 리스트 화면에 나타내주기
+ * @param tmpList
+ */
 function showTmpList(tmpList){
     $('#selectTmp').empty();
 
@@ -33,6 +46,12 @@ function showTmpList(tmpList){
         $('#selectTmp').append(option);
     }
 }
+
+/**
+ * 템플릿 선택이 변경될때마다
+ * 달라지는 조직들을 가져온다.
+ *
+ */
 let tempId;
 function selectTmpChange(){
     let selectTempId = document.getElementById("selectTmp");
@@ -54,6 +73,13 @@ function selectTmpChange(){
         }
     });
 }
+
+/**
+ * 조직 select 박스 화면 보였다가
+ * 안보이게하는 css
+ *
+ * @type {boolean}
+ */
 let expanded = false;
 
 function showCheckboxes() {
@@ -66,6 +92,12 @@ function showCheckboxes() {
         expanded = false;
     }
 }
+/**
+ * 직원 select 박스 화면 보였다가
+ * 안보이게하는 css
+ *
+ * @type {boolean}
+ */
 let expandedEmp = false;
 
 function showEmpCheckboxes() {
@@ -78,6 +110,10 @@ function showEmpCheckboxes() {
         expandedEmp = false;
     }
 }
+
+/**
+ * 조직에 따른 해당되는 직무리스트 가져오기.
+ */
 function loadEmp(){
     const checkedDep = [];
     $("input:checkbox[name=dep]:checked").each(function () {
@@ -104,6 +140,11 @@ function loadEmp(){
         }
     });
 }
+
+/**
+ * 직원 리스트 화면에 나타내주기.
+ * @param empList
+ */
 function showEmpList(empList) {
 
     for(let emp of empList){
@@ -112,6 +153,10 @@ function showEmpList(empList) {
         $("#emp-list").append(msg);
     }
 }
+
+/**
+ * 근무일정 최종 등록
+ */
 function checkSchRegister(){
     if (confirm("근무 일정을 등록하시겠습니까?")) {
 
