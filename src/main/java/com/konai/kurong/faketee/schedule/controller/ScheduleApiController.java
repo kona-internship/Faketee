@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.schedule.controller;
 
+import com.konai.kurong.faketee.schedule.dto.ScheduleInfoDepRequestDto;
+import com.konai.kurong.faketee.schedule.dto.ScheduleInfoSaveRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleTypeSaveRequestDto;
 import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;
 import com.konai.kurong.faketee.schedule.service.ScheduleTypeService;
@@ -43,8 +45,27 @@ public class ScheduleApiController {
         return new ResponseEntity<>(scheduleTypeService.getSchTypeList(corId), HttpStatus.OK);
     }
 
-    @PostMapping("before/reg")
-    public ResponseEntity<?> getList(@PathVariable(name = "corId") Long corId){
-        return new ResponseEntity<>(scheduleInfoService.getAllRelationWithTemp(corId), HttpStatus.OK);
+    @PostMapping("/template/emp")
+    public ResponseEntity<?> getEmpByDepAndPos(@PathVariable(name = "corId") Long corId,
+                                               @RequestBody ScheduleInfoDepRequestDto requestDto){
+
+
+
+        return new ResponseEntity<>(scheduleInfoService.getEmpByDepAndPos(requestDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/reg")
+    public ResponseEntity<?> registerScheduleInfo(@PathVariable(name = "corId") Long corId,
+                                               @RequestBody ScheduleInfoSaveRequestDto requestDto){
+
+        scheduleInfoService.registerScheduleInfo(requestDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getSchList(@PathVariable(name = "corId") Long corId, @RequestParam("selectedDate") String date) {
+        scheduleInfoService.getSchListByDate(date, corId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

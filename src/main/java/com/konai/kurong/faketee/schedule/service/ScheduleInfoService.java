@@ -1,85 +1,77 @@
 package com.konai.kurong.faketee.schedule.service;
 
-import com.konai.kurong.faketee.schedule.dto.test.TempDepDto;
-import com.konai.kurong.faketee.schedule.dto.test.TemplateDto;
+import com.konai.kurong.faketee.employee.dto.EmployeeSchResponseDto;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
+import com.konai.kurong.faketee.schedule.dto.ScheduleInfoDepRequestDto;
+import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
+import com.konai.kurong.faketee.schedule.dto.ScheduleInfoSaveRequestDto;
+import com.konai.kurong.faketee.schedule.dto.TemplatePositionResponseDto;
+import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.entity.Template;
-import com.konai.kurong.faketee.schedule.repository.template.TemplateRepository;
-import lombok.Getter;
+import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleInfoRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScheduleInfoService {
     private final TemplateService templateService;
-    private final TemplateRepository templateRepository;
+    private final EmployeeService employeeService;
+    private final ScheduleInfoRepository scheduleInfoRepository;
 
-    @Transactional
-    public Result<?> getAllRelationWithTemp(Long corId) {
+    private static final String SCH_PREFIX = "SCH_";
+    private static final String VAC_PREFIX = "VAC_";
 
-        List<Template> templateList = templateRepository.findTemplatesByScheduleTypeCorporationIdOrderById(corId);
-        List<TemplateDto> templateDtoList = TemplateDto.convertToDtoList(templateList);
 
-        Map<Long, List<TempDepDto>> depsWithTempId = new HashMap<Long, List<TempDepDto>>();
-        for(int i = 0; i < templateDtoList.size(); i++){
-            Long tempId = templateDtoList.get(i).getId();
-            List<TempDepDto> tempDepDtos = TempDepDto.convertToDtoList(templateList.get(i).getTemplateDepartments());
-
-            depsWithTempId.put(tempId, tempDepDtos);
+    public List<EmployeeSchResponseDto> getEmpByDepAndPos(ScheduleInfoDepRequestDto requestDto) {
+        List<TemplatePositionResponseDto> posList = templateService.loadTemplatePositions(requestDto.getTempId());
+        List<Long> posIds = new ArrayList<>();
+        for (int i = 0; i < posList.size(); i++) {
+            Long posId = posList.get(i).getPosition().getId();
+            posIds.add(posId);
         }
 
-//        log.info(templateList.get(0).getTemplateDepartments().toString());
-        //회사에 해당되는 템플릿 리스트
-//        List<TemplateResponseDto> tempResponseDtos = templateService.loadTemplates(corId);
-//
-//        Map<Long, List<TemplateDepartmentResponseDto>> depsWithTempId= new HashMap<Long, List<TemplateDepartmentResponseDto>>();
-//        //각 템플릿에 해당되는 조직들 리스트
-//        for(int i = 0; i < tempResponseDtos.size(); i++){
-//            Long tempId = tempResponseDtos.get(i).getId();
-//            List<TemplateDepartmentResponseDto> tempDeptResponseDtos = templateService.loadTemplateDepartments(tempId);
-//
-//            depsWithTempId.put(tempId, tempDeptResponseDtos);
-//        }
-//
-//        return new Result<>(tempResponseDtos, depsWithTempId);
-        return new Result<>(templateDtoList, depsWithTempId);
+        List<EmployeeSchResponseDto> empList = employeeService.getEmpByDepAndPos(requestDto.getCheckedDep(), posIds);
+
+        return empList;
     }
 
-    @Getter
-    @Setter
-    private class Result<T> {
-        private T temp;
-        private T dep;
+    @Transactional
+    public void registerScheduleInfo(ScheduleInfoSaveRequestDto requestDto) {
+        Template template = templateService.findById(requestDto.getTempId());
+        List<ScheduleInfo> scheduleInfoList = new ArrayList<>();
+        List<LocalDate> dateList = requestDto.transToDate();
 
-        private T pos;
-        private T emp;
-        public Result(T temp) {
-            this.temp = temp;
+        for (int i = 0; i < requestDto.getCheckedEmp().size(); i++) {
+            for (int j = 0; j < dateList.size(); j++) {
+                ScheduleInfo scheduleInfo = ScheduleInfo.builder()
+                        .date(dateList.get(j))
+                        .state(SCH_PREFIX + template.getName())
+                        .startTime(template.getStartTime())
+                        .endTime(template.getEndTime())
+                        .build();
+                scheduleInfoList.add(scheduleInfo);
+            }
+        }
+        scheduleInfoRepository.saveAll(scheduleInfoList);
+    }
 
-        }
-        public Result(T temp, T dep) {
-            this.temp = temp;
-            this.dep = dep;
-        }
+    @Transactional
+    public List<ScheduleInfoResponseDto> getSchListByDate(String date, Long corId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateTime = LocalDate.parse(date, formatter);
 
-        public Result(T temp, T dep, T pos) {
-            this.temp = temp;
-            this.dep = dep;
-            this.pos = pos;
-        }
-        public Result(T temp, T dep, T pos, T emp) {
-            this.temp = temp;
-            this.dep = dep;
-            this.pos = pos;
-            this.emp = emp;
-        }
+        List<ScheduleInfo> scheduleInfoList = scheduleInfoRepository.findAllByDateAndEmployeeCorporationId(dateTime, corId);
+
+        return ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList);
     }
 }
