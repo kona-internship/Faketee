@@ -33,6 +33,7 @@ public class UserService {
 
     /**
      * 회원가입
+     *
      * 입력받은 비밀번호를 암호화하여 저장하고 repo 에 save
      * emailAuthToken Entity 저장 후, User에게 이메일 인증 링크 전송
      * @param requestDto: 회원가입시 사용자로부터 입력받은 값을 가지는 dto
@@ -61,6 +62,7 @@ public class UserService {
 
     /**
      * 이메일로 사용자 READ
+     *
      * @param email: READ할 사용자 이메일
      * @return 이메일에 해당하는 사용자 response dto
      */
@@ -71,6 +73,7 @@ public class UserService {
 
     /**
      * 이메일로 사용자 READ
+     *
      * @param email: READ할 사용자 이메일
      * @return 이메일에 해당하는 사용자
      */
@@ -81,6 +84,7 @@ public class UserService {
 
     /**
      * 비밀번호 변경
+     *
      * 유저로부터 입력받은 비밀번호(requestDto)를 암호화하고 기존 비밀번호와 일치하지 않으면 updatePassword 진행
      * 기존 암호와 동일하면 return -1L
      * @param id: user pk
@@ -106,6 +110,7 @@ public class UserService {
 
     /**
      * 유저 삭제
+     *
      * @param id: user pk
      */
     @Transactional
@@ -116,6 +121,7 @@ public class UserService {
 
     /**
      * 비밀번호 검수
+     *
      * 입력받은 비밀번호가 기존 비밀번호와 일치하는지 확인
      * @param user: 검수할 사용자
      * @param password: 입력받은 비밀번호
@@ -128,6 +134,7 @@ public class UserService {
 
     /**
      * EMAIL 중복 검수
+     *
      * 회원가입할 이메일이 기존에 존재하는지 확인
      * @param email: 회원가입할 EMAIL
      * @return 가입 가능하면 true, 불가능하면 false
@@ -139,6 +146,7 @@ public class UserService {
 
     /**
      * emailAuth 인증 절차
+     *
      * user 의 emailAuthStatus "T", emailAuth 의 expired "T" 로 변경
      * @param emailAuthRequestDto
      * @return 인증이 되면 true, 안되면 false
