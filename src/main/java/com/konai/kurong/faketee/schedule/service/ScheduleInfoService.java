@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,14 @@ public class ScheduleInfoService {
     private static final String SCH_PREFIX = "SCH_";
     private static final String VAC_PREFIX = "VAC_";
 
-
+    /**
+     * 템플릿 id를 받아 템플릿을 찾는다.
+     * 선택된 조직과 템플릿에 적용된 직무에
+     * 모두 만족하는 emp리스트를 반환
+     *
+     * @param requestDto 선택된 조직들의 id리스트와 템플릿 id
+     * @return
+     */
     public List<EmployeeSchResponseDto> getEmpByDepAndPos(ScheduleInfoDepRequestDto requestDto) {
         List<TemplatePositionResponseDto> posList = templateService.loadTemplatePositions(requestDto.getTempId());
         List<Long> posIds = new ArrayList<>();
@@ -46,6 +52,13 @@ public class ScheduleInfoService {
         return empList;
     }
 
+    /**
+     * 근무일정 추가
+     * 선택한 직원들과 선택된 날짜에 해당하는
+     * 템플릿 내용을 근무일정을 생성해준다.
+     *
+     * @param requestDto 템플릿 id, 날짜 리스트, 직원 리스트
+     */
     @Transactional
     public void registerScheduleInfo(ScheduleInfoSaveRequestDto requestDto) {
         Template template = templateService.findById(requestDto.getTempId());
@@ -69,6 +82,13 @@ public class ScheduleInfoService {
         scheduleInfoRepository.saveAll(scheduleInfoList);
     }
 
+    /**
+     * 해당날짜에 해당하는 근무일정을 가져온다.
+     *
+     * @param date 날짜
+     * @param corId 회사
+     * @return
+     */
     @Transactional
     public List<ScheduleInfoResponseDto> getSchListByDate(String date, Long corId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -79,6 +99,11 @@ public class ScheduleInfoService {
         return ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList);
     }
 
+    /**
+     * 근무일정 삭제
+     *
+     * @param schId 삭제할 근무일정 id
+     */
     @Transactional
     public void deleteSchedule(Long schId){
         scheduleInfoRepository.deleteById(schId);
