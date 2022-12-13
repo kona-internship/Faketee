@@ -65,7 +65,13 @@ public class ScheduleApiController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getSchList(@PathVariable(name = "corId") Long corId, @RequestParam("selectedDate") String date) {
-        scheduleInfoService.getSchListByDate(date, corId);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(scheduleInfoService.getSchListByDate(date, corId), HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public void deleteSch(@RequestParam Long id){
+
+        scheduleInfoService.deleteSchedule(id);
     }
 }

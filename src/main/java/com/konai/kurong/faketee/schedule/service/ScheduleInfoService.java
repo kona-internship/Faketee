@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.schedule.service;
 
 import com.konai.kurong.faketee.employee.dto.EmployeeSchResponseDto;
+import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoDepRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
@@ -52,12 +53,15 @@ public class ScheduleInfoService {
         List<LocalDate> dateList = requestDto.transToDate();
 
         for (int i = 0; i < requestDto.getCheckedEmp().size(); i++) {
+            Long empId = requestDto.getCheckedEmp().get(i);
+            Employee employee = employeeService.findByEmployeeById(empId);
             for (int j = 0; j < dateList.size(); j++) {
                 ScheduleInfo scheduleInfo = ScheduleInfo.builder()
                         .date(dateList.get(j))
                         .state(SCH_PREFIX + template.getName())
                         .startTime(template.getStartTime())
                         .endTime(template.getEndTime())
+                        .employee(employee)
                         .build();
                 scheduleInfoList.add(scheduleInfo);
             }
@@ -73,5 +77,10 @@ public class ScheduleInfoService {
         List<ScheduleInfo> scheduleInfoList = scheduleInfoRepository.findAllByDateAndEmployeeCorporationId(dateTime, corId);
 
         return ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList);
+    }
+
+    @Transactional
+    public void deleteSchedule(Long schId){
+        scheduleInfoRepository.deleteById(schId);
     }
 }
