@@ -445,7 +445,7 @@ function loadSchedules() {
             selectedDate : selectedDate
         },
         success: function (data) {
-
+            drawScheduleList(data);
         },
         error: function (error) {
             alert(JSON.stringify(error));
@@ -453,26 +453,40 @@ function loadSchedules() {
     });
 }
 
-// function drawTemplateList(tempList) {
-//
-//     $('#tmp-list *').remove();
-//     if (tempList.entries().next().value == null) {
-//         $('#tmp-list').append('<div>' + '근무일정 템플릿이 없습니다' + '</div>');
-//     }
-//     for (let [index, tmp] of tempList.entries()) {
-//         let msg = '<div>'
-//             +'<a href="' + URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_TMP + "/detail?tmpId=" + tmp.id + '">'
-//             + (index + 1)
-//             + '. 템플릿: '
-//             + tmp.name
-//             + '</a>'
-//             +'<br>'
-//             + '/  시작시간: '
-//             + tmp.startTime
-//             + ' /  종료시간: '
-//             + tmp.endTime
-//             + ' <button type="button" onclick=deleteTemplate(' + tmp.id + ')>삭제</button>'
-//             + '</div>';
-//         $('#tmp-list').append(msg);
-//     }
-// }
+function drawScheduleList(schList) {
+
+    $('#sch-list *').remove();
+    if (schList.entries().next().value == null) {
+        $('#sch-list').append('<div>' + '해당 날짜에 근무 일정이 없습니다' + '</div>');
+    }
+    for (let [index, sch] of schList.entries()) {
+        let msg = '<div>' + (index + 1) + '. 이름: ' + sch.empName
+            + '<br>'
+            + '/  시작시간: '
+            + sch.startTime
+            + ' /  종료시간: '
+            + sch.endTime
+            + '<br> 상태: '
+            + sch.state
+            + ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
+            + '</div>';
+        $('#sch-list').append(msg);
+    }
+}
+function deleteSchedule(scheduleId) {
+
+    $.ajax({
+        async : true,
+        type : "POST",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/delete?id=" + scheduleId,
+        contentType : "application/json",
+        success : function (){
+            alert("근무 일정이 삭제되었습니다.");
+            loadSchedules();
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+            loadSchedules();
+        }
+    });
+}
