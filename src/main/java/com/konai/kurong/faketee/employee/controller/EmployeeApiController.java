@@ -26,13 +26,13 @@ public class EmployeeApiController {
 
     /**
      * 직원 등록하기
-     * 최고관리자, 총괄관리자만 가능하다
-     * 본인의 하위조직이 아니더라도 가능하다
+     * 최고관리자, 총괄관리자, 조직관리자 가능하다
+     * 본인의 하위조직만 가능하다
      * @param corId
      * @param requestDto
      * @return
      */
-    @EmpAuth(role = EmpRole.GENERAL_MANAGER, onlyLowDep = false)
+    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @PostMapping("/register")
     public ResponseEntity<?> registerEmp(
                                         @PathVariable(name = "corId") Long corId,
@@ -48,6 +48,7 @@ public class EmployeeApiController {
      * @param requestDto
      * @return
      */
+    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @PostMapping("/update/{employeeId}")
     public ResponseEntity<?> updateEmp(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "employeeId") Long employeeId,
@@ -62,6 +63,7 @@ public class EmployeeApiController {
      * @param corId
      * @return
      */
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/list")
     public ResponseEntity<?> getAllEmp(@PathVariable(name = "corId") Long corId) {
         return new ResponseEntity<>(employeeService.getAllEmployee(corId), HttpStatus.OK);
@@ -74,6 +76,7 @@ public class EmployeeApiController {
      * @param employeeId
      * @return
      */
+    @EmpAuth(role = EmpRole.GROUP_MANAGER, onlyLowDep = false)
     @GetMapping("/deactivate/{employeeId}")
     public ResponseEntity<?> deactivateEmp(@PathVariable(name = "corId") Long corId,
                                            @PathVariable(name = "employeeId") Long employeeId) {
@@ -93,6 +96,7 @@ public class EmployeeApiController {
      * @param requestDto
      * @return
      */
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
     @PostMapping("/reSend/{employeeId}")
     public ResponseEntity<?> reSendJoinCode(@PathVariable(name = "corId") Long corId,
                                             @PathVariable(name = "employeeId") Long employeeId,
