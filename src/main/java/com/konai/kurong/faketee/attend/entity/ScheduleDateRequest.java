@@ -2,7 +2,6 @@ package com.konai.kurong.faketee.attend.entity;
 
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.employee.entity.Employee;
-import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
