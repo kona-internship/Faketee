@@ -1,7 +1,8 @@
 package com.konai.kurong.faketee.attend.entity;
 
+import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.employee.entity.Employee;
-import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
+import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,19 +23,25 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor()
 @NoArgsConstructor()
 @SequenceGenerator(
-        name="ATD_ID_GENERATOR", //시퀀스 제너레이터 이름
-        sequenceName="ATD_SEQUENCE", //시퀀스 이름
+        name="SCH_DATE_REQ_ID_GENERATOR", //시퀀스 제너레이터 이름
+        sequenceName="SCH_DATE_REQ_SEQUENCE", //시퀀스 이름
         initialValue=1, //시작값
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
-@Table(name = "ATD")
-public class Attend extends BaseEntity {
+@Table(name = "SCH_DATE_REQ")
+public class ScheduleDateRequest extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "ATD_ID_GENERATOR"
+            generator = "SCH_DATE_REQ_ID_GENERATOR"
     )
     private Long id;
+
+    @Column(name = "SCH_REQ_DATE", nullable = false)
+    private LocalDateTime date;
+
+    @Column(nullable = false)
+    private String val;
 
     @Column(name = "START_TIME")
     private LocalTime startTime;
@@ -42,17 +49,11 @@ public class Attend extends BaseEntity {
     @Column(name = "END_TIME")
     private LocalTime endTime;
 
-    @Column(nullable = false)
-    private String val;
-
-    @Column(name = "ATD_DATE", nullable = false)
-    private LocalDateTime date;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "SCH_INFO_ID", nullable = false)
-    private ScheduleInfo scheduleInfo;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "EMP_ID", nullable = false)
     private Employee employee;
+
+    @OneToOne
+    @JoinColumn(name = "ITG_DRAFT_ID", nullable = false)
+    private Draft draft;
 }
