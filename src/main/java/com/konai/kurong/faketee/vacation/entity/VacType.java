@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Builder
@@ -36,10 +37,10 @@ public class VacType extends BaseEntity {
     private Long sub;
 
     @Column(name = "START_TIME")
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "END_TIME")
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "VAC_GROUP_ID")
