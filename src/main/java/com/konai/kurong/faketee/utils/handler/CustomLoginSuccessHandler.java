@@ -29,14 +29,14 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         User loginUser = userRepository.findByEmail(authentication.getPrincipal().toString()).orElseThrow(() -> new NoUserFoundException());
 
         /**
-         * 로그인 성공시, authentication.getPrincipal() (로그인한 email)로 user정보를 DB에서 find해와서
-         * "user" attribute에 user 정보를 저장한다.
-         * SessionUser를 이용하여 user 정보를 직렬화해서 저장
+         * 로그인 성공시, authentication.getPrincipal() (로그인한 email)로 user 정보를 DB 에서 find 해와서
+         * "user" attribute 에 user 정보를 저장한다.
+         * SessionUser 를 이용하여 user 정보를 직렬화해서 저장
          */
         request.getSession().setAttribute("user", new SessionUser(loginUser));
 
         /**
-         * 이메일 인증이 진행되지 않은 계정에 대해 block처리
+         * 이메일 인증이 진행되지 않은 계정에 대해 block 처리
          */
         if (loginUser.getEmailAuthStatus().equals("F")){
 

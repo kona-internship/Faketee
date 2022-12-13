@@ -11,9 +11,15 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
+/**
+ * 클래스를 상속할 시 DB 데이터의 생성, 수정 순간의 날짜시간과 생성자/수정자 정보가 컬럼에 자동 입력
+ *
+ * @MapperSuperclass JPA Entity 클래스들이 이 클래스를 상속할 경우 CRE_DTTM, UPD_DTTM, CRE_ID, UPD_ID를 컬럼으로 인식하도록 해주는 어노테이션
+ * @EntityListeners(AuditingEntityListener.class) 해당 클래스에 Auditing 기능을 포함
+ */
 @Getter
-@MappedSuperclass // JPA Entity 클래스들이 이 클래스를 상속할 경우 CRE_DTTM, UPD_DTTM, CRE_ID, UPD_ID를 컬럼으로 인식
-@EntityListeners(AuditingEntityListener.class) // 해당 클래스에 Auditing 기능 포함
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedDate // Entity가 생성되어 저장될 때 시간이 자동 저장
