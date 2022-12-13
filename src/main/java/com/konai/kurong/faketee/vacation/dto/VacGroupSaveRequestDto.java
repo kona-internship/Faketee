@@ -26,4 +26,9 @@ public class VacGroupSaveRequestDto {
                 .corporation(corporation)
                 .build();
     }
+
+    public void setCorporation(Corporation corporation){
+
+        this.corporation = corporation;
+    }
 }
