@@ -132,7 +132,6 @@ function loadEmp(){
         data: jsonData,
 
         success: function (data) {
-            $("#emp-list *").remove();
             showEmpList(data);
         },
         error: function () {
@@ -146,7 +145,7 @@ function loadEmp(){
  * @param empList
  */
 function showEmpList(empList) {
-
+    $("#emp-list").empty();
     for(let emp of empList){
         let msg = '<label><input type="checkbox" id="'+emp.id+'"name="emp">'+emp.name+'</label>' +
             '&nbsp 조직: '+emp.depName+ '&nbsp 직무: '+emp.posName+ '<br>'
