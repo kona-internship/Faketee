@@ -42,6 +42,9 @@ public class VacType extends BaseEntity {
     @Column(name = "END_TIME")
     private LocalTime endTime;
 
+    @Column(name = "APVL_LVL")
+    private String approvalLevel;
+
     @ManyToOne
     @JoinColumn(name = "VAC_GROUP_ID")
     private VacGroup vacGroup;

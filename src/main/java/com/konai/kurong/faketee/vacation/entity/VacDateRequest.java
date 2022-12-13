@@ -42,7 +42,7 @@ public class VacDateRequest extends BaseEntity {
     private VacType vacType;
 
     @ManyToOne
-    @JoinColumn(name = "ITG_DRAFT_ID")
+    @JoinColumn(name = "DRAFT_ID")
     private Draft draft;
 
     @ManyToOne
