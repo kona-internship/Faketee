@@ -60,7 +60,7 @@ public class Draft extends BaseEntity {
     private Employee approvalEmp1;
 
     @ManyToOne
-    @JoinColumn(name = "APVL_EMP_ID_2")
-    private Employee approvalEmp2;
+    @JoinColumn(name = "APVL_EMP_ID_FIN")
+    private Employee approvalEmpFin;
 
 }
