@@ -453,6 +453,11 @@ function loadSchedules() {
     });
 }
 
+/**
+ * 데이터에 해당하는 근무일정 유형을 화면에 나타내준다.
+ *
+ * @param schList
+ */
 function drawScheduleList(schList) {
 
     $('#sch-list *').remove();
@@ -473,6 +478,12 @@ function drawScheduleList(schList) {
         $('#sch-list').append(msg);
     }
 }
+
+/**
+ * 선택된 근무일정을 삭제한다.
+ *
+ * @param scheduleId
+ */
 function deleteSchedule(scheduleId) {
 
     $.ajax({

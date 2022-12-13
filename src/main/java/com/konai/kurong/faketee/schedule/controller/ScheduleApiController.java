@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.schedule.controller;
 
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoDepRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoSaveRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleTypeSaveRequestDto;
@@ -22,12 +24,14 @@ public class ScheduleApiController {
     private final ScheduleTypeService scheduleTypeService;
     private final ScheduleInfoService scheduleInfoService;
 
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @PostMapping("/type/list")
     public ResponseEntity<?> getSchTypeList(@PathVariable(name = "corId") Long corId) {
 
         return new ResponseEntity<>(scheduleTypeService.getSchTypeList(corId), HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.ADMIN)
     @PostMapping("/type")
     public ResponseEntity<?> registerSchType(@PathVariable(name = "corId") Long corId,
                                              @Valid @RequestBody ScheduleTypeSaveRequestDto requestDto) {
@@ -37,14 +41,16 @@ public class ScheduleApiController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @EmpAuth(role = EmpRole.ADMIN)
     @PostMapping("/type/delete/{typeId}")
     public ResponseEntity<?> removeSchType(@PathVariable(name = "corId") Long corId,
                                             @PathVariable(name = "typeId") Long typeId){
-        scheduleTypeService.removeSchType(corId, typeId);
+        scheduleTypeService.removeSchType(typeId);
 
         return new ResponseEntity<>(scheduleTypeService.getSchTypeList(corId), HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @PostMapping("/template/emp")
     public ResponseEntity<?> getEmpByDepAndPos(@PathVariable(name = "corId") Long corId,
                                                @RequestBody ScheduleInfoDepRequestDto requestDto){
@@ -54,6 +60,7 @@ public class ScheduleApiController {
         return new ResponseEntity<>(scheduleInfoService.getEmpByDepAndPos(requestDto), HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
     @PostMapping("/reg")
     public ResponseEntity<?> registerScheduleInfo(@PathVariable(name = "corId") Long corId,
                                                @RequestBody ScheduleInfoSaveRequestDto requestDto){
@@ -63,12 +70,14 @@ public class ScheduleApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/list")
     public ResponseEntity<?> getSchList(@PathVariable(name = "corId") Long corId, @RequestParam("selectedDate") String date) {
 
         return new ResponseEntity<>(scheduleInfoService.getSchListByDate(date, corId), HttpStatus.OK);
     }
 
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
     @PostMapping("/delete")
     public void deleteSch(@RequestParam Long id){
 
