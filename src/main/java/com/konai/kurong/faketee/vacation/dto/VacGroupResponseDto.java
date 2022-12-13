@@ -35,4 +35,5 @@ public class VacGroupResponseDto {
                 .corporationResponseDto(CorporationResponseDto.convertToDto(vacGroup.getCorporation()))
                 .build();
     }
+
 }
