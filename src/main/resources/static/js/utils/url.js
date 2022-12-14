@@ -29,7 +29,11 @@ const PATH_TMP = "/template";
  */
 const PATH_EMP = "/emp";
 
-
+/**
+ * 근태 url path이다.
+ * @type {string}
+ */
+const PATH_ATD = "/atd";
 /**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
