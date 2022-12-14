@@ -11,14 +11,22 @@ function selectDate() {
     } else {
         $.ajax({
             async: true,
-            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/list",
+            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/check-date",
             type: "get",
             contentType: "application/json",
             data: {
                 selectedDate: selectedDate
             },
             success: function (data) {
-                drawScheduleList(data);
+                /**
+                 * 선택된 날짜에 출퇴근기록이 없으면 시간 설정하는 페이지로 이동
+                 */
+                if (data === true) {
+                    window.location.replace("/");
+                } else {
+                    alert("출퇴근기록이 이미 생성된 날짜입니다.");
+                }
+
             },
             error: function (error) {
                 alert(JSON.stringify(error));

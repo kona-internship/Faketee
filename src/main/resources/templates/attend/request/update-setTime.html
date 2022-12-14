@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>출퇴근기록 수정 요청</title>
+</head>
+<body>
+<h1>출퇴근기록 수정 요청</h1>
+<h1>시간 설정하기</h1>
+
+<form name="update-setTime" id="update-setTime">
+    <!--  선택한 출퇴근기록의 날짜, 출근시간, 퇴근시간 가져오기  -->
+    출퇴근기록 :
+
+    <!--    해당 날짜의 그 직원의 근무 일정을 가져와야 함
+            근무 일정의 출근 시간과 퇴근 시간 설정 해주고 선택 가능    -->
+    출근시간 : <input type="time" id="tmp-startTime"><br>
+
+    퇴근시간 : <input type="time" id="tmp-endTime"><br>
+
+    <button type="button" onclick="">다음</button>
+</form>
+</body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/attend/request/request.js"></script>
+
+</html>

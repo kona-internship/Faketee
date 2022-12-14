@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>출퇴근기록 생성 요청</title>
+</head>
+
+<body>
+<h1>출퇴근기록 생성 요청</h1>
+<h1>시간 설정하기</h1>
+
+<form name="create-setTime" id="create-setTime">
+    날짜 : <input type="text" id="date" name="date" readonly><br>
+
+    <!--    해당 날짜의 그 직원의 근무 일정을 가져와야 함
+            근무 일정의 출근 시간과 퇴근 시간 설정 해주고 선택 가능    -->
+    근무일정 :
+
+    출근시간 : <input type="time" id="tmp-startTime"><br>
+
+    퇴근시간 : <input type="time" id="tmp-endTime"><br>
+
+    <!--    현재 근무 선택 시 퇴근 시간은 수정 안해도 된다 -->
+    현재근무중 :
+
+    <button type="button" onclick="">다음</button>
+</form>
+</body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/attend/request/request.js"></script>
+
+</html>
