@@ -33,4 +33,5 @@ public class VacGroupApiController {
 
         return ResponseEntity.ok(vacGroupService.loadVacGroups(corId));
     }
+
 }
