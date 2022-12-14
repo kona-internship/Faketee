@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>휴가그룹 추기</title>
+    <title>휴가그룹 추가</title>
     <style>
         ul { height: 100px; overflow: auto; width: 200px; border: 1px solid #000; }
         ul { list-style-type: none; margin: 0; padding: 0; overflow-x: hidden; }
@@ -16,6 +16,12 @@
     <form name="vacation-group">
         <div>
             휴가그룹 명: <input type="text" id="vacation-group-name"><br><br>
+        </div>
+        <div>
+            최종승인 단계:
+            <input type="radio" name="APVL_LVL" value="1LVL"/>1차 승인
+            <input type="radio" name="APVL_LVL" value="2LVL"/>2차 승인
+            <br><br>
         </div>
         <button type="button" onclick="newVacationGroup()">추가하기</button>
     </form>

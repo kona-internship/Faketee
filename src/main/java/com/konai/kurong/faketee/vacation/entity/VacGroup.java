@@ -33,6 +33,9 @@ public class VacGroup extends BaseEntity {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "APVL_LVL")
+    private String approvalLevel;
+
     @ManyToOne
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
