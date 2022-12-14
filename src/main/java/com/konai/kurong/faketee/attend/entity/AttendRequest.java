@@ -22,21 +22,21 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor()
 @NoArgsConstructor()
 @SequenceGenerator(
-        name="SCH_DATE_REQ_ID_GENERATOR", //시퀀스 제너레이터 이름
-        sequenceName="SCH_DATE_REQ_SEQUENCE", //시퀀스 이름
+        name="ATD_REQ_ID_GENERATOR", //시퀀스 제너레이터 이름
+        sequenceName="ATD_REQ_SEQUENCE", //시퀀스 이름
         initialValue=1, //시작값
         allocationSize=1 //메모리를 통해 할당할 범위 사이즈
 )
-@Table(name = "SCH_DATE_REQ")
-public class ScheduleDateRequest extends BaseEntity {
+@Table(name = "ATD_REQ")
+public class AttendRequest extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "SCH_DATE_REQ_ID_GENERATOR"
+            generator = "ATD_REQ_ID_GENERATOR"
     )
     private Long id;
 
-    @Column(name = "SCH_REQ_DATE", nullable = false)
+    @Column(name = "ATD_REQ_DATE", nullable = false)
     private LocalDateTime date;
 
     @Column(nullable = false)
