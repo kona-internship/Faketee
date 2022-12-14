@@ -239,7 +239,7 @@ public class EmployeeService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 //        EmployeeResponseDto 만들기
-        EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
                 .role(role.getRole())
@@ -256,8 +256,6 @@ public class EmployeeService {
 
                 .val(employee.getVal())
                 .build();
-
-        return employeeResponseDto;
     }
 
     /**
