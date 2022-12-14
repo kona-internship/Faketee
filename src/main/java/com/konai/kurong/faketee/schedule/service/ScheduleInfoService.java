@@ -85,7 +85,7 @@ public class ScheduleInfoService {
     /**
      * 해당날짜에 해당하는 근무일정을 가져온다.
      *
-     * @param date 날짜
+     * @param date  날짜
      * @param corId 회사
      * @return
      */
@@ -100,12 +100,29 @@ public class ScheduleInfoService {
     }
 
     /**
+     * 근로일정 찾기
+     * 날짜, 회사id, 직원id
+     *
+     * @param date
+     * @param corId
+     * @param empId
+     * @return
+     */
+    @Transactional
+    public ScheduleInfo getSchByDateAndEmp(String date, Long corId, Long empId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateTime = LocalDate.parse(date, formatter);
+
+        return scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
+    }
+
+    /**
      * 근무일정 삭제
      *
      * @param schId 삭제할 근무일정 id
      */
     @Transactional
-    public void deleteSchedule(Long schId){
+    public void deleteSchedule(Long schId) {
         scheduleInfoRepository.deleteById(schId);
     }
 }
