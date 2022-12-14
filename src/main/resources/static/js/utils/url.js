@@ -34,6 +34,13 @@ const PATH_EMP = "/emp";
  * @type {string}
  */
 const PATH_ATD = "/atd";
+
+/**
+ * 출퇴근기록 요청 url path이다.
+ * @type {string}
+ */
+const PATH_ATD_REQ = "/atd/req";
+
 /**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
