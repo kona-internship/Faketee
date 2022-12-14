@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Corporation</title>
+    <style>
+        .my-box {
+            border: 1px solid;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 <h1 th:text="${corporation.name} + '에 오신것을 환영합니다.'"></h1>
 <hr>
 기대하고 들어왔겠지만 별 내용은 없다.
+<div class="my-box">
+    <h3>오늘 근무</h3>
+    <div id="today-schedule"></div>
+</div>
 </body>
+<script type="text/javascript" src="/js/corporation/home.js"/>
 <script type="text/javascript" src="/js/employee/employee.js"></script>
 <script src="/js/utils/url.js"></script>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script>
+    loadTodaySchedule();
+</script>
 </html>
