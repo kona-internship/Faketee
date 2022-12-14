@@ -28,7 +28,7 @@ public class VacGroupApiController {
         vacGroupService.delete(id);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/groups")
     public ResponseEntity<?> loadVacationGroups(@PathVariable(name = "corId") Long corId){
 
         return ResponseEntity.ok(vacGroupService.loadVacGroups(corId));

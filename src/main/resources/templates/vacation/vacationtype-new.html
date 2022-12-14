@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>휴가유형 추가</title>
+    <style>
+        ul { height: 100px; overflow: auto; width: 200px; border: 1px solid #000; }
+        ul { list-style-type: none; margin: 0; padding: 0; overflow-x: hidden; }
+        li { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<h1>휴가 유형 추가하기</h1>
+<hr>
+<div>
+    <form name="vacation-group">
+        <div>
+            휴가그룹:
+            <div>
+                <div id="vacation-group-list"></div>
+            </div>
+            <br>
+        </div>
+        <div>
+            휴가유형 이름: <input type="text" id="vacation-type-name"><br><br>
+        </div>
+        <div>
+            차감일수: <input type="text" id="sub"><br><br>
+        </div>
+        <div>
+            시작시간: <input type="time" id="start-time"><br><br>
+        </div>
+        <div>
+            종료시간: <input type="time" id="end-time"><br><br>
+        </div>
+        <button type="button" onclick="newVacationType()">추가하기</button>
+    </form>
+</div>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+<script>
+    listVacationGroup();
+</script>
+</html>
