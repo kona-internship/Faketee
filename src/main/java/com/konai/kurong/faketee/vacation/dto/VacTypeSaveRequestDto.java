@@ -18,7 +18,7 @@ public class VacTypeSaveRequestDto {
 
     private Long id;
     private String name;
-    private Long sub;
+    private Double sub;
     private String startTime;
     private String endTime;
     private VacGroup vacGroup;

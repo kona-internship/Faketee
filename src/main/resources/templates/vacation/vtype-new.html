@@ -15,11 +15,7 @@
 <div>
     <form name="vacation-group">
         <div>
-            휴가그룹:
-            <div>
-                <div id="vacation-group-list"></div>
-            </div>
-            <br>
+            휴가그룹: <select id="vacation-group-list"></select><br><br>
         </div>
         <div>
             휴가유형 이름: <input type="text" id="vacation-type-name"><br><br>
@@ -33,7 +29,7 @@
         <div>
             종료시간: <input type="time" id="end-time"><br><br>
         </div>
-        <button type="button" onclick="newVacationType()">추가하기</button>
+        <button type="button" onclick="saveVacationType()">추가하기</button>
     </form>
 </div>
 </body>

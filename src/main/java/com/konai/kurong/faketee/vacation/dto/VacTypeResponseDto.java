@@ -18,7 +18,7 @@ public class VacTypeResponseDto {
 
     private Long id;
     private String name;
-    private Long sub;
+    private Double sub;
     private String startTime;
     private String endTime;
     private VacGroupResponseDto vacGroupResponseDto;
