@@ -11,6 +11,7 @@ function loadVacationGroups(){
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/by-cor",
         contentType: "application/json",
         dataType: "json",
+
         success: function (data){
             drawVgroupList(data);
         },
@@ -47,6 +48,7 @@ function deleteVacationGroup(groupId){
         type: "POST",
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/delete?id=" + groupId,
         contentType: "application/json",
+
         success: function (){
             alert("휴가그룹이 삭제되었습니다.");
             loadVacationGroups();
@@ -99,6 +101,7 @@ function listVacationGroup(){
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/by-cor",
         contentType: "application/json",
         dataType: "json",
+
         success : function (groups){
             for(let[index, group] of groups.entries()){
                 let option = document.createElement("option");
@@ -123,6 +126,7 @@ function loadVacationTypesByGroupId(groupId){
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/by-vacgroup?vacGroupId=" + groupId,
         contentType: "application/json",
         dataType: "json",
+
         success: function (list){
             drawVacationTypeList(list);
         },
@@ -169,6 +173,7 @@ function loadVacationTypesByCorId(){
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/by-cor",
         contentType: "application/json",
         dataType: "json",
+
         success: function (list){
             drawVacationTypeList(list);
         },
@@ -178,11 +183,9 @@ function loadVacationTypesByCorId(){
     });
 }
 
-
 function newVacationType(){
 
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/form";
-
 
 }
 

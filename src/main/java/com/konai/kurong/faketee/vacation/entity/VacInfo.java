@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @SequenceGenerator(
         name = "VAC_INFO_SEQUENCE_GENERATOR",
-        sequenceName = "VAC_INFO",
+        sequenceName = "VAC_INFO_SEQUENCE",
         initialValue = 1,
         allocationSize = 1
 )
@@ -31,7 +31,7 @@ public class VacInfo extends BaseEntity {
     private Long id;
 
     @Column(name = "REMAIN")
-    private Long remain;
+    private Double remain;
 
     @ManyToOne
     @JoinColumn(name = "EMP_ID")

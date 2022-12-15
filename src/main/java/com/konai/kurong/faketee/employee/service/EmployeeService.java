@@ -17,6 +17,13 @@ import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
 import com.konai.kurong.faketee.utils.exception.custom.employee.EmpJoinEmailDiffException;
 import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplException;
+import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
+import com.konai.kurong.faketee.vacation.dto.VacGroupSaveRequestDto;
+import com.konai.kurong.faketee.vacation.dto.VacInfoSaveRequestDto;
+import com.konai.kurong.faketee.vacation.entity.VacGroup;
+import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
+import com.konai.kurong.faketee.vacation.service.VacGroupService;
+import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,10 +40,12 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeInfoRepository employeeInfoRepository;
     private final EmailAuthService emailAuthService;
+    private final VacInfoService vacInfoService;
     private final CorporationRepository corporationRepository;
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
+    private final VacGroupRepository vacGroupRepository;
 
     /**
      * 직원 등록하기
@@ -91,9 +100,9 @@ public class EmployeeService {
                 .department(department)
                 .employeeInfo(employeeInfo)
                 .build();
-        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
+        addVacationInfo(employee, corId);
     }
 
     /**
@@ -257,5 +266,16 @@ public class EmployeeService {
                 .build();
 
         return employeeResponseDto;
+    }
+
+    private void addVacationInfo(Employee employee, Long corId){
+
+        for(VacGroup group : vacGroupRepository.findAllByCorId(corId)){
+            vacInfoService.save(VacInfoSaveRequestDto.builder()
+                    .remain(0D)
+                    .employee(employee)
+                    .vacGroup(group)
+                    .build());
+        }
     }
 }

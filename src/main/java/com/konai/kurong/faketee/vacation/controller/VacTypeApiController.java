@@ -31,13 +31,13 @@ public class VacTypeApiController {
     @GetMapping("/by-cor")
     public ResponseEntity<?> listByCorId(@PathVariable(name = "corId") Long corId){
 
-        return ResponseEntity.ok(vacTypeService.loadVacTypesByCorId(corId));
+        return ResponseEntity.ok(vacTypeService.loadByCorId(corId));
     }
 
     @GetMapping("/by-vacgroup")
     public ResponseEntity<?> listByVacGroupId(@RequestParam Long vacGroupId){
 
-        return ResponseEntity.ok(vacTypeService.loadVacTypesByVacGroupId(vacGroupId));
+        return ResponseEntity.ok(vacTypeService.loadByVacGroupId(vacGroupId));
     }
 
 }

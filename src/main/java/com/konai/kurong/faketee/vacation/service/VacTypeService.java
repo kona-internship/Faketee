@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class VacTypeService {
     @Transactional
     public Long save(VacTypeSaveRequestDto requestDto, Long vacGroupId){
 
-        requestDto.setVacGroup(vacGroupRepository.findById(vacGroupId).orElseThrow(() -> new VacationGroupNotFoundException()));
+        requestDto.setVacGroup(vacGroupRepository.findById(vacGroupId).orElseThrow(VacationGroupNotFoundException::new));
         return vacTypeRepository.save(requestDto.toEntity()).getId();
     }
 
@@ -34,19 +35,25 @@ public class VacTypeService {
         vacTypeRepository.deleteById(id);
     }
 
-    public List<VacTypeResponseDto> loadVacTypesByCorId(Long corId){
+    public List<VacTypeResponseDto> loadByCorId(Long corId){
 
-        return vacTypeRepository.findAllByCorId(corId);
+        return vacTypeRepository.findAllByCorId(corId)
+                .stream()
+                .map(VacTypeResponseDto::new)
+                .collect(Collectors.toList());
     }
 
-    public List<VacTypeResponseDto> loadVacTypesByVacGroupId(Long vacGroupId){
+    public List<VacTypeResponseDto> loadByVacGroupId(Long vacGroupId){
 
-        return vacTypeRepository.findAllByVacGroupId(vacGroupId);
+        return vacTypeRepository.findAllByVacGroupId(vacGroupId)
+                .stream()
+                .map(VacTypeResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public VacTypeResponseDto findById(Long typeId){
 
-        return new VacTypeResponseDto(vacTypeRepository.findById(typeId).orElseThrow(() -> new VacationTypeNotFoundException()));
+        return new VacTypeResponseDto(vacTypeRepository.findById(typeId).orElseThrow(VacationTypeNotFoundException::new));
     }
 
 }
