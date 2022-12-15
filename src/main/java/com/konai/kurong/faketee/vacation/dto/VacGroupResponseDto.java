@@ -17,6 +17,7 @@ public class VacGroupResponseDto {
 
     private Long id;
     private String name;
+    private String approvalLevel;
     private CorporationResponseDto corporationResponseDto;
 
     @QueryProjection
@@ -24,6 +25,7 @@ public class VacGroupResponseDto {
 
         this.id = vacGroup.getId();
         this.name = vacGroup.getName();
+        this.approvalLevel = vacGroup.getApprovalLevel();
         this.corporationResponseDto = CorporationResponseDto.convertToDto(vacGroup.getCorporation());
     }
 
@@ -32,6 +34,7 @@ public class VacGroupResponseDto {
         return VacGroupResponseDto.builder()
                 .id(vacGroup.getId())
                 .name(vacGroup.getName())
+                .approvalLevel(vacGroup.getApprovalLevel())
                 .corporationResponseDto(CorporationResponseDto.convertToDto(vacGroup.getCorporation()))
                 .build();
     }

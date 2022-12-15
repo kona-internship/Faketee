@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.vacation.service;
 
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
+import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationGroupNotFoundException;
 import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacGroupSaveRequestDto;
 import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
@@ -35,6 +36,11 @@ public class VacGroupService {
     public List<VacGroupResponseDto> loadVacGroups(Long corId){
 
         return vacGroupRepository.findAllByCorId(corId);
+    }
+
+    public VacGroupResponseDto findById(Long groupId){
+
+        return new VacGroupResponseDto(vacGroupRepository.findById(groupId).orElseThrow(() -> new VacationGroupNotFoundException()));
     }
 
 }

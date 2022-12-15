@@ -1,23 +1,80 @@
 function newVacationGroup(){
 
-    let level
-    if($('input[name=APVL_LVL]').val().eq("1LVL")){
-        level = 'F'
-    }else{
-        level = 'T'
-    }
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/form";
+}
 
-    alert($('input[name=APVL_LVL]').val().eq("1LVL"))
-    alert(level)
+function loadVacationGroups(){
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/by-cor",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data){
+            drawVgroupList(data);
+        },
+        error: function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function drawVgroupList(groupList){
+
+    $('#vgroup-list *').remove();
+    if(groupList.entries().next().value == null){
+        $('#vgroup-list').append('<div>' + '등록된 휴가그룹이 없습니다.' + '</div>');
+    }
+    for(let [index, group] of groupList.entries()){
+        let msg = '<div>'
+            + '<a href="'+ URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/details?groupId=" + group.id +'">'
+            + (index+1)
+            + '. 그룹:'
+            + group.name
+            + '</a>'
+            + '<br>'
+            + '<button type="button" onclick=deleteVacationGroup(' + group.id + ')>삭제</button>'
+            +'</div>'
+        $('#vgroup-list').append(msg);
+    }
+}
+
+function deleteVacationGroup(groupId){
+
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/delete?id=" + groupId,
+        contentType: "application/json",
+        success: function (){
+            alert("휴가그룹이 삭제되었습니다.");
+            loadVacationGroups();
+        },
+        error: function (error){
+            alert(JSON.stringify(error));
+            loadVacationGroups();
+        }
+    });
+}
+
+function saveVacationGroup(){
+
+    let level;
+    if($('input[name=APVL_LVL]').val() == "1LVL"){
+        level = '1'
+    }else{
+        level = '2'
+    }
 
     let data = {
         name : $("#vacation-group-name").val(),
-        approvalLevel : level.val()
+        approvalLevel : level
     }
 
     $.ajax({
         type : "POST",
-        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC + "/group",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP,
         dataType : "json",
         contentType : "application/json",
         data : JSON.stringify(data),
@@ -36,7 +93,7 @@ function listVacationGroup(){
     $.ajax({
         async: true,
         type: "GET",
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC + "/groups",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/by-cor",
         contentType: "application/json",
         dataType: "json",
         success : function (groups){
@@ -64,7 +121,7 @@ function newVacationType(){
 
     $.ajax({
         type: "POST",
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC + "/type",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE,
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(data),
