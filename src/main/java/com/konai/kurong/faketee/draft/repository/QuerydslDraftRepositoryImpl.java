@@ -20,7 +20,7 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
     public List<Draft> getDraftsWithRequestsByApproverAndStateCode(Long apvlEmpId, List<DraftStateCode> draftStateCodeList) {
         List<Draft> draftList =  jpaQueryFactory
                 .selectFrom(draft)
-                .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmp2.id.eq(apvlEmpId))).and(draft.stateCode.in(draftStateCodeList)))
+                .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmpFin.id.eq(apvlEmpId))).and(draft.stateCode.in(draftStateCodeList)))
                 .fetch();
         draftList.stream().map(Draft::getVacDateRequestList).forEach(Hibernate::initialize);
         return draftList;

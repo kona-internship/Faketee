@@ -14,9 +14,12 @@ import java.util.Date;
 public class AttendRequestSaveDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private Date atdReqDate;
     private String startTime;
     private String endTime;
-    private Long empId;
-    private Long draftId;
+    private Long reqEmpId;
+
+    private String requestMessage;
+    private Long apvEmp1Id;
+    private Long apvEmpFinId;
 }
