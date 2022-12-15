@@ -39,6 +39,7 @@ function loadSelectTmp(){
  */
 function showTmpList(tmpList){
     $('#selectTmp').empty();
+    $('#selectTmp').append('<option value="">템플릿</option>');
 
     for(let temp of tmpList.entries()){
 
