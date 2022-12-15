@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>근무일정 템플릿 상세</h1>
-<button type="button" onclick="deleteTemplate()">삭제하기</button>
+<button type="button" th:tmpId = "${responseDto.id}" th:onclick="deleteTemplate(this.getAttribute('tmpId'))">삭제하기</button>
 <hr>
 <h3>템플릿 이름: </h3>
 <div th:text="${responseDto.name}"></div><br>

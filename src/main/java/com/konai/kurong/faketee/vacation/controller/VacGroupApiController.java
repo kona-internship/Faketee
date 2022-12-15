@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/corporation/{corId}/vac")
+@RequestMapping("/api/corporation/{corId}/vac/group")
 @RestController
 public class VacGroupApiController {
 
     private final VacGroupService vacGroupService;
 
-    @PostMapping(value = "/group", produces = "application/json; charset=utf-8")
+    @PostMapping(produces = "application/json; charset=utf-8")
     public ResponseEntity<?> newGroup(@RequestBody VacGroupSaveRequestDto requestDto,
                                       @PathVariable(name = "corId") Long corId){
 
@@ -28,7 +28,7 @@ public class VacGroupApiController {
         vacGroupService.delete(id);
     }
 
-    @GetMapping("/groups")
+    @GetMapping("/by-cor")
     public ResponseEntity<?> loadVacationGroups(@PathVariable(name = "corId") Long corId){
 
         return ResponseEntity.ok(vacGroupService.loadVacGroups(corId));

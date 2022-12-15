@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.schedule.controller;
 
 import com.konai.kurong.faketee.department.service.DepartmentService;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.service.PositionService;
 import com.konai.kurong.faketee.schedule.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
-@RequestMapping("/corporation/{corId}/template")
+@RequestMapping("/corporation/{corId}/temp")
 @Controller
 public class TemplateController {
 
@@ -20,18 +22,21 @@ public class TemplateController {
     private final DepartmentService departmentService;
     private final PositionService positionService;
 
-    @GetMapping("/")
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
+    @GetMapping()
     public String templates(){
 
         return "schedule/template-list";
     }
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @GetMapping("/new")
     public String newTemplate(){
 
         return "schedule/template-new";
     }
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @GetMapping("/detail")
     public String templateDetails(@RequestParam Long tmpId, Model model){
 

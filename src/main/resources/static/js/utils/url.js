@@ -20,7 +20,7 @@ const PATH_SCH = "/sch";
 /**
  * 근무일정 템플릿 url path
  */
-const PATH_TMP = "/template";
+const PATH_TMP = "/temp";
 
 /**
  * 직원 url path이다.
@@ -33,6 +33,11 @@ const PATH_EMP = "/emp";
  * 휴가 url path
  */
 const PATH_VAC = "/vac";
+
+const PATH_VAC_GROUP = "/vac/group";
+const PATH_VAC_TYPE = "/vac/type";
+const PATH_VAC_INFO = "/vac/info";
+const PATH_VAC_REQ = "/vac/req";
 
 /**
  * 회사 선택 후 url에 들어가는 prefix이다.
