@@ -15,7 +15,7 @@ public class VacTypeApiController {
 
     private final VacTypeService vacTypeService;
 
-    @PostMapping(value = "/", produces = "application/json; charset=utf-8")
+    @PostMapping(produces = "application/json; charset=utf-8")
     public ResponseEntity<?> newType(@RequestBody VacTypeSaveRequestDto requestDto,
                                      @RequestParam Long vacGroupId){
 

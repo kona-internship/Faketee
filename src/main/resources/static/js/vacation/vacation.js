@@ -60,16 +60,18 @@ function deleteVacationGroup(groupId){
 
 function saveVacationGroup(){
 
-    let level;
-    if($('input[name=APVL_LVL]').val() == "1LVL"){
-        level = '1'
-    }else{
-        level = '2'
-    }
+    let input = document.getElementsByName('APVL_LVL');
+    let APVL_LVL;
+
+    input.forEach((level) => {
+        if(level.checked){
+            APVL_LVL = level.value;
+        }
+    })
 
     let data = {
         name : $("#vacation-group-name").val(),
-        approvalLevel : level
+        approvalLevel : APVL_LVL
     }
 
     $.ajax({
@@ -80,7 +82,8 @@ function saveVacationGroup(){
         data : JSON.stringify(data),
 
         success : function (){
-            alert('성공');
+            alert('휴가그룹이 생성되었습니다.');
+            window.location.reload();
         },
         error : function (error){
             alert(JSON.stringify(error));
@@ -110,8 +113,60 @@ function listVacationGroup(){
     });
 }
 
+function loadVacationTypes(groupId){
+
+    $('#btn-loadVacTypes').attr("hidden", "hidden");
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/by-vacgroup?vacGroupId=" + groupId,
+        contentType: "application/json",
+        dataType: "json",
+        success: function (list){
+            drawVacationTypeList(list);
+        },
+        error: function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function drawVacationTypeList(list){
+
+    if(list.entries().next().value == null){
+        $('#vacationTypes').append('<div>' + '추가된 휴가 유형이 없습니다.' + '</div>');
+    }
+    for(let[index, type] of list.entries()){
+        let msg = '<div>'
+            + (index+1)
+            + '. '
+            + type.name
+            + '<br>'
+            + '차감일수: '
+            + type.sub
+            + '<br>'
+            + '시작시간: '
+            + type.startTime
+            + '<br>'
+            + '종료시간: '
+            + type.endTime
+            + '</div>'
+        $('#vacationTypes').append(msg + '<br>');
+    }
+}
+
+
 function newVacationType(){
 
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/form";
+
+
+}
+
+function saveVacationType(){
+
+    let groupId = $('#vacation-group-list option:selected').val();
     let data = {
         name : $("#vacation-type-name").val(),
         sub : $("#sub").val(),
@@ -121,13 +176,13 @@ function newVacationType(){
 
     $.ajax({
         type: "POST",
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "?vacGroupId=" + groupId,
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(data),
 
-        success : function (typeID){
-            alert("성공, typeID:" + typeID);
+        success : function (){
+            alert("휴가 유형을 추가했습니다.");
         },
         error : function (error){
             alert(JSON.stringify(error));
