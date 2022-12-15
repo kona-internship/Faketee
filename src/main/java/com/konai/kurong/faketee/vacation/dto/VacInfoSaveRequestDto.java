@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class VacInfoSaveRequestDto {
 
     private Long id;
-    private Long remain;
+    private Double remain;
     private Employee employee;
     private VacGroup vacGroup;
 

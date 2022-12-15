@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,12 +36,15 @@ public class VacGroupService {
 
     public List<VacGroupResponseDto> loadVacGroups(Long corId){
 
-        return vacGroupRepository.findAllByCorId(corId);
+        return vacGroupRepository.findAllByCorId(corId)
+                .stream()
+                .map(VacGroupResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public VacGroupResponseDto findById(Long groupId){
 
-        return new VacGroupResponseDto(vacGroupRepository.findById(groupId).orElseThrow(() -> new VacationGroupNotFoundException()));
+        return new VacGroupResponseDto(vacGroupRepository.findById(groupId).orElseThrow(VacationGroupNotFoundException::new));
     }
 
 }

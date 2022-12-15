@@ -6,12 +6,15 @@ import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
+import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -69,6 +72,9 @@ public class Employee extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "EMP_INFO_ID")
     private EmployeeInfo employeeInfo;
+
+    @OneToMany(mappedBy = "employee", fetch = LAZY, cascade = CascadeType.REMOVE)
+    private List<VacInfo> vacationInfo;
 
     public void update(Employee requestDto) {
         this.name = requestDto.getName();

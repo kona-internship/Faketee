@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.vacation.repository.vac_group;
 
 import com.konai.kurong.faketee.vacation.dto.QVacGroupResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
+import com.konai.kurong.faketee.vacation.entity.VacGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,10 +19,10 @@ public class VacGroupCustomRepositoryImpl implements VacGroupCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<VacGroupResponseDto> findAllByCorId(Long corId){
+    public List<VacGroup> findAllByCorId(Long corId){
 
         return jpaQueryFactory
-                .select(new QVacGroupResponseDto(vacGroup))
+                .select(vacGroup)
                 .from(vacGroup)
                 .where(vacGroup.corporation.id.eq(corId))
                 .orderBy(vacGroup.CRE_DTTM.asc())

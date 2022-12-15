@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class VacInfoResponseDto {
 
     private Long id;
-    private Long remain;
+    private Double remain;
     private EmployeeResponseDto employeeResponseDto;
     private VacGroupResponseDto vacGroupResponseDto;
 
