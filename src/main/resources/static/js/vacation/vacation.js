@@ -72,7 +72,7 @@ function saveVacationGroup(){
     let data = {
         name : $("#vacation-group-name").val(),
         approvalLevel : APVL_LVL
-    }
+    };
 
     $.ajax({
         type : "POST",
@@ -113,7 +113,7 @@ function listVacationGroup(){
     });
 }
 
-function loadVacationTypes(groupId){
+function loadVacationTypesByGroupId(groupId){
 
     $('#btn-loadVacTypes').attr("hidden", "hidden");
 
@@ -139,9 +139,12 @@ function drawVacationTypeList(list){
     }
     for(let[index, type] of list.entries()){
         let msg = '<div>'
+            +'<a href="'+ URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/details?typeId=" + type.id +'">'
             + (index+1)
             + '. '
             + type.name
+            + ' (' + type.vacGroupResponseDto.name +')'
+            + '</a>'
             + '<br>'
             + '차감일수: '
             + type.sub
@@ -154,6 +157,25 @@ function drawVacationTypeList(list){
             + '</div>'
         $('#vacationTypes').append(msg + '<br>');
     }
+}
+
+function loadVacationTypesByCorId(){
+
+    $('#vacationTypes *').remove();
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/by-cor",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (list){
+            drawVacationTypeList(list);
+        },
+        error: function (error){
+            alert(JSON.stringify(error));
+        }
+    });
 }
 
 
@@ -183,6 +205,24 @@ function saveVacationType(){
 
         success : function (){
             alert("휴가 유형을 추가했습니다.");
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function deleteVacationType(typeId){
+
+    $.ajax({
+        async: true,
+        type: "POSt",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_TYPE + "/delete?vacTypeId=" + typeId,
+        contentType: "application/json",
+        dataType: "json",
+
+        success : function (){
+            alert("휴가 유형을 삭제했습니다.");
         },
         error : function (error){
             alert(JSON.stringify(error));
