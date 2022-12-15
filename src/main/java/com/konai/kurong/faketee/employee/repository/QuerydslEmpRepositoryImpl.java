@@ -2,7 +2,6 @@ package com.konai.kurong.faketee.employee.repository;
 
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.employee.entity.Employee;
-import com.konai.kurong.faketee.employee.entity.QEmployee;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
