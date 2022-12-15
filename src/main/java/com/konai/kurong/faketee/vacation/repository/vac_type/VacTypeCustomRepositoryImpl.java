@@ -23,7 +23,7 @@ public class VacTypeCustomRepositoryImpl implements VacTypeCustomRepository{
                 .select(new QVacTypeResponseDto(vacType))
                 .from(vacType)
                 .where(vacType.vacGroup.corporation.id.eq(corId))
-                .orderBy(vacType.CRE_DTTM.asc())
+                .orderBy(vacType.vacGroup.CRE_DTTM.asc())
                 .fetch();
     }
 

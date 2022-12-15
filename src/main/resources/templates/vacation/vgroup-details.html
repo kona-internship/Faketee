@@ -13,7 +13,7 @@
 <h3>승인 단계: </h3>
 <div th:text="${responseDto.approvalLevel} + 차승인"></div><br>
 <h3>휴가 유형:</h3>
-<div><button type="button" id="btn-loadVacTypes" th:tmpId="${responseDto.id}" th:onclick="loadVacationTypes(this.getAttribute('tmpId'))">휴가유형 조회</button></div>
+<div><button type="button" id="btn-loadVacTypes" th:tmpId="${responseDto.id}" th:onclick="loadVacationTypesByGroupId(this.getAttribute('tmpId'))">휴가유형 조회</button></div>
 <div id="vacationTypes"></div>
 <p>&copy; faketee2022</p>
 </body>
