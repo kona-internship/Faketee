@@ -55,4 +55,8 @@ public class DraftService {
     public void cancelDraft(Long draftId){
         draftRepository.updateDraftStateCode(draftId, DraftStateCode.NOT_VALID);
     }
+
+    public DraftResponseDto getDraft(Long draftId){
+        return DraftResponseDto.convertToDto(draftRepository.findById(draftId).orElseThrow(()->new IllegalArgumentException()));
+    }
 }
