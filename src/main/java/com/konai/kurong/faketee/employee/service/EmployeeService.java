@@ -22,10 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.TableGenerator;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -272,5 +274,21 @@ public class EmployeeService {
 
         List<EmployeeSchResponseDto> dtoList = EmployeeSchResponseDto.convertToDtoList(emp);
         return dtoList;
+    }
+
+    /**
+     * user아이디와 회사로 회원 가져오기
+     * @param userId
+     * @param corId
+     * @return
+     * @throws Exception
+     */
+
+    public Employee getEmpByUserAndCor(Long userId, Long corId) throws Exception {
+        Optional<Employee> employee = employeeRepository.findByUserIdAndCorporationIdAndVal(userId, corId, "T");
+        if(employee.isEmpty()){
+            throw new Exception();
+        }
+        return employee.get();
     }
 }
