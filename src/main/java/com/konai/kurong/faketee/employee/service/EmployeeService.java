@@ -32,6 +32,7 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,7 +46,6 @@ public class EmployeeService {
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
-    private final VacGroupRepository vacGroupRepository;
 
     /**
      * 직원 등록하기
@@ -102,7 +102,7 @@ public class EmployeeService {
                 .build();
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
-        addVacationInfo(employee, corId);
+        vacInfoService.addVacationInfo(employee, corId);
     }
 
     /**
@@ -268,14 +268,19 @@ public class EmployeeService {
         return employeeResponseDto;
     }
 
-    private void addVacationInfo(Employee employee, Long corId){
+    public List<EmployeeResponseDto> findByDepId(Long depId){
 
-        for(VacGroup group : vacGroupRepository.findAllByCorId(corId)){
-            vacInfoService.save(VacInfoSaveRequestDto.builder()
-                    .remain(0D)
-                    .employee(employee)
-                    .vacGroup(group)
-                    .build());
-        }
+        return employeeRepository.findByDepId(depId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeResponseDto> findByUserId(Long userId){
+
+        return employeeRepository.findByUserId(userId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
     }
 }

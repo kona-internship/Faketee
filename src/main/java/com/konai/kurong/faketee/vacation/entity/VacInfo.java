@@ -30,8 +30,11 @@ public class VacInfo extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "REMAIN")
-    private Double remain;
+    @Column(name = "REMAINING")
+    private Double remaining;
+
+    @Column(name = "USED")
+    private Double used;
 
     @ManyToOne
     @JoinColumn(name = "EMP_ID")

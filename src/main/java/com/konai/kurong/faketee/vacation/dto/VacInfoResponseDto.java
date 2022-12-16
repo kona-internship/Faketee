@@ -15,15 +15,18 @@ import lombok.NoArgsConstructor;
 public class VacInfoResponseDto {
 
     private Long id;
-    private Double remain;
+    private Double remaining;
+    private Double used;
+    private Double total;
     private EmployeeResponseDto employeeResponseDto;
     private VacGroupResponseDto vacGroupResponseDto;
 
-    @QueryProjection
     public VacInfoResponseDto(VacInfo vacInfo){
 
         this.id = vacInfo.getId();
-        this.remain = vacInfo.getRemain();
+        this.remaining = vacInfo.getRemaining();
+        this.used = vacInfo.getUsed();
+        this.total = vacInfo.getRemaining() + vacInfo.getUsed();
         this.employeeResponseDto = EmployeeResponseDto.convertToDto(vacInfo.getEmployee());
         this.vacGroupResponseDto = VacGroupResponseDto.convertToDto(vacInfo.getVacGroup());
     }
@@ -32,7 +35,9 @@ public class VacInfoResponseDto {
 
         return VacInfoResponseDto.builder()
                 .id(vacInfo.getId())
-                .remain(vacInfo.getRemain())
+                .remaining(vacInfo.getRemaining())
+                .used(vacInfo.getUsed())
+                .total(vacInfo.getRemaining() + vacInfo.getUsed())
                 .employeeResponseDto(EmployeeResponseDto.convertToDto(vacInfo.getEmployee()))
                 .vacGroupResponseDto(VacGroupResponseDto.convertToDto(vacInfo.getVacGroup()))
                 .build();

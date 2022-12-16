@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.vacation.controller;
 
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.vacation.dto.VacTypeSaveRequestDto;
 import com.konai.kurong.faketee.vacation.service.VacTypeService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ public class VacTypeApiController {
 
     private final VacTypeService vacTypeService;
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping(produces = "application/json; charset=utf-8")
     public ResponseEntity<?> newType(@RequestBody VacTypeSaveRequestDto requestDto,
                                      @RequestParam Long vacGroupId){
@@ -22,18 +25,21 @@ public class VacTypeApiController {
         return ResponseEntity.ok(vacTypeService.save(requestDto, vacGroupId));
     }
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping("/delete")
     public void delete(@RequestParam Long vacTypeId){
 
         vacTypeService.delete(vacTypeId);
     }
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @GetMapping("/by-cor")
     public ResponseEntity<?> listByCorId(@PathVariable(name = "corId") Long corId){
 
         return ResponseEntity.ok(vacTypeService.loadByCorId(corId));
     }
 
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @GetMapping("/by-vacgroup")
     public ResponseEntity<?> listByVacGroupId(@RequestParam Long vacGroupId){
 

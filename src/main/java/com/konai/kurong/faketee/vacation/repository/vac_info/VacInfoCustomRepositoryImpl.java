@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import static com.konai.kurong.faketee.vacation.entity.QVacInfo.vacInfo;
+import static com.konai.kurong.faketee.vacation.entity.QVacGroup.vacGroup;
 
 @RequiredArgsConstructor
 @Repository
@@ -15,11 +17,17 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
 
     @Override
     public List<VacInfo> findAllByEmpId(Long empId) {
-        return null;
+
+        return jpaQueryFactory
+                .selectFrom(vacInfo)
+                .where(vacInfo.employee.id.eq(empId))
+                .orderBy(vacInfo.CRE_DTTM.asc())
+                .fetch();
     }
 
     @Override
     public List<VacInfo> findAllByCorId(Long corId) {
+
         return null;
     }
 
