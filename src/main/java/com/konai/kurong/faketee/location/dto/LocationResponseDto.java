@@ -25,7 +25,7 @@ public class LocationResponseDto {
                 .build();
     }
 
-    public static List<LocationResponseDto> converToDtoList(List<Location> locationList) {
+    public static List<LocationResponseDto> convertToDtoList(List<Location> locationList) {
         Stream<Location> stream = locationList.stream();
 
         return stream.map(location -> convertToDto(location)).collect(Collectors.toList());
