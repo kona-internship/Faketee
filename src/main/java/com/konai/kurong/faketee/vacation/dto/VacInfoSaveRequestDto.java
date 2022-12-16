@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class VacInfoSaveRequestDto {
 
     private Long id;
-    private Double remain;
+    private Double remaining;
     private Employee employee;
     private VacGroup vacGroup;
 
     public VacInfo toEntity(){
 
         return VacInfo.builder()
-                .remain(remain)
+                .remaining(remaining)
                 .employee(employee)
                 .vacGroup(vacGroup)
                 .build();

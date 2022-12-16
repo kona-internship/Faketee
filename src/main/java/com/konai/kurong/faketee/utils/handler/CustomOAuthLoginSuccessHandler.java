@@ -3,6 +3,7 @@ package com.konai.kurong.faketee.utils.handler;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -28,15 +29,18 @@ import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
 public class CustomOAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
+    private final EmployeeService employeeService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+        User loginUser = userRepository.findByEmail(oAuth2User.getAttributes().get("email").toString()).orElseThrow(NoUserFoundException::new);
 
-        User loginUser = userRepository.findByEmail(oAuth2User.getAttributes().get("email").toString()).orElseThrow(() -> new NoUserFoundException());
+        SessionUser sessionUser = new SessionUser(loginUser);
+        sessionUser.setEmployeeIdList(employeeService.findByUserId(loginUser.getId()));
+        request.getSession().setAttribute("user", sessionUser);
 
-        request.getSession().setAttribute("user", new SessionUser(loginUser));
         response.sendRedirect(LOGIN_REDIRECT_URI);
     }
 }

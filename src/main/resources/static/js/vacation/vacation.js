@@ -232,3 +232,45 @@ function deleteVacationType(typeId){
         }
     });
 }
+
+function loadVacationInfo(empId){
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO + "?empId=" + empId,
+        contentType: "application/json",
+        dataType: "json",
+
+        success : function (list){
+            drawVacationInfo(list);
+        },
+        error : function (error){
+            alert('휴가 정보를 불러오는데 실패했습니다. ' + JSON.stringify(error));
+        }
+    })
+}
+
+function drawVacationInfo(list){
+
+    if(list.entries().next().value == null){
+        $('#vacation-info').append('<div>' + '휴가 정보가 없습니다. 관리자에게 문의하세요' + '</div>');
+    }
+    for(let[index, info] of list.entries()){
+        let msg = '<div>'
+            + (index+1)
+            + '. '
+            + info.vacGroupResponseDto.name
+            + '<br>'
+            + '총: '
+            + info.total
+            + '&nbsp;'
+            + '사용: '
+            + info.used
+            + '&nbsp;'
+            + '잔여: '
+            + info.remaining
+            + '</div>'
+        $('#vacation-info').append(msg + '<br>');
+    }
+}

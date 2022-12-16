@@ -29,4 +29,22 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
                 .where(employee.user.id.eq(usrId), employee.corporation.id.eq(corId), employee.val.eq(val))
                 .fetch();
     }
+
+    @Override
+    public List<Employee> findByDepId(Long depId) {
+
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.department.id.eq(depId), employee.val.eq("T"))
+                .fetch();
+    }
+
+    @Override
+    public List<Employee> findByUserId(Long userId) {
+
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.user.id.eq(userId))
+                .fetch();
+    }
 }
