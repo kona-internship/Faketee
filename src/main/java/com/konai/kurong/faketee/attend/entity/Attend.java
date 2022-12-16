@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -46,7 +46,7 @@ public class Attend extends BaseEntity {
     private String val;
 
     @Column(name = "ATD_DATE", nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "SCH_INFO_ID", nullable = false)
