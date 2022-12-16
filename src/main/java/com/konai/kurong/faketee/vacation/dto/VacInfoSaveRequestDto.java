@@ -23,6 +23,7 @@ public class VacInfoSaveRequestDto {
 
         return VacInfo.builder()
                 .remaining(remaining)
+                .used(0D)
                 .employee(employee)
                 .vacGroup(vacGroup)
                 .build();

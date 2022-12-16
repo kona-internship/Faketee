@@ -276,11 +276,11 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public List<EmployeeResponseDto> findByUserId(Long userId){
+    public List<EmployeeSessionResponseDto> findByUserId(Long userId){
 
         return employeeRepository.findByUserId(userId)
                 .stream()
-                .map(EmployeeResponseDto::convertToDto)
+                .map(EmployeeSessionResponseDto::convertToDto)
                 .collect(Collectors.toList());
     }
 }

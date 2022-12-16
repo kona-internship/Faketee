@@ -12,9 +12,11 @@ import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.account.util.Type;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
+import com.konai.kurong.faketee.employee.dto.EmployeeSessionResponseDto;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoEmailAuthFoundException;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -181,8 +184,12 @@ public class UserService {
      */
     public Long findEmployeeId(SessionUser sessionUser, Long corId){
 
-        for(EmployeeResponseDto dto : sessionUser.getEmployeeList()){
-            if (Objects.equals(dto.getCorporationId(), corId))
+//        log.info(corId.toString());
+//        log.info(sessionUser.getEmployeeList().get(0).getCorId().toString());
+        for(EmployeeSessionResponseDto dto : sessionUser.getEmployeeList()){
+            log.info(dto.getId().toString());
+            log.info(dto.getCorId().toString());
+            if (Objects.equals(dto.getCorId(), corId))
                 return dto.getId();
         }
         throw new RuntimeException("잘못된 접근");

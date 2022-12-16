@@ -7,6 +7,7 @@ import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
 import static com.konai.kurong.faketee.utils.Uri.USER_UNAUTHORIZED_URI;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -49,6 +51,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         SessionUser sessionUser = new SessionUser(loginUser);
         sessionUser.setEmployeeIdList(employeeService.findByUserId(loginUser.getId()));
         request.getSession().setAttribute("user", sessionUser);
+
+//        log.info(sessionUser.getEmployeeList().get(0).getId().toString());
 
         response.sendRedirect(LOGIN_REDIRECT_URI);
     }
