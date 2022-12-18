@@ -28,20 +28,27 @@ function showTodaySchedule(data) {
 
     } else {
         console.log(data);
-        if (data.atdStartTime == null) {
+        if (data.atdStartTime === "null") {
             msg += "<p id='atd-before'>" + data.state + "</p><br>";
             msg += showSchDetail(data);
             msg += "<button type='button' id='on' onclick='goClickAtd(\"on\")'> 출근하기 </button>";
-        } else {
+        } else if(data.atdEndTime === "null"){
             msg += "<p id='atd-after'>" + data.state + "</p><br>";
             msg += showSchDetail(data);
             msg += "<button type='button' id='off' onclick='goClickAtd(\"off\")'> 퇴근하기 </button>";
+            msg += "<hr> 출근 : " + data.atdStartTime + "<br>";
+        } else {
+            msg += "<p id='atd-before'>" + data.state + "</p><br>";
+            msg += showSchDetail(data);
+            msg += "<button type='button' id='on' onclick='goClickAtd(\"on\")'> 출근하기 </button>";
+            msg += "<hr> 출근 : " + data.atdStartTime + "<br>";
+            msg += "<hr> 퇴근 : " + data.atdEndTime + "<br>";
         }
 
     }
     $('#today-schedule').append(msg);
 
-    if(data.state == '결근'){
+    if(data.state === '결근' || data.state === '퇴근완료'){
         $('#on').attr('disabled', true);
     }
 }
