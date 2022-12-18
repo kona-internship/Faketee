@@ -31,12 +31,14 @@ public enum ExceptionId {
     EMP_AUTH_COR_DIFF("400_006_001"),
     EMP_AUTH_NOT_PERMIT("400_006_002"),
     EMP_AUTH_DEP_DIFF("400_006_003"),
+
 //    ===============EMP=================
     EMP_JOIN_EMAIL_DIFF("400_007_001"),
     EMP_USER_DUPL("400_007_002"),
-    EMP_JOIN_CODE_DIFF("400_007_003");
+    EMP_JOIN_CODE_DIFF("400_007_003"),
 
-
+//    ===============ATTEND_REQUEST=================
+    ATTEND_REQUEST_DRAFT_NOT_WAIT("400_010_001");
 
     private final String exceptionId;
 

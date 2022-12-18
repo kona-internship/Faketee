@@ -10,13 +10,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AttendRequestUpdateDto {
+public class AttendRequestDeleteDto {
     private String requestMessage;
     private Long apvEmpFinId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date atdReqDate;
-    private String startTime;
-    private String endTime;
     private Long reqEmpId;
 }

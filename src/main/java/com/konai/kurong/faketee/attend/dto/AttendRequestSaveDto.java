@@ -12,14 +12,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 public class AttendRequestSaveDto {
+    private String requestMessage;
+    private Long apvEmpFinId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date atdReqDate;
     private String startTime;
     private String endTime;
     private Long reqEmpId;
-
-    private String requestMessage;
-    private Long apvEmp1Id;
-    private Long apvEmpFinId;
 }

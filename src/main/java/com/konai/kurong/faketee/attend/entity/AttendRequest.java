@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.attend.entity;
 
+import com.konai.kurong.faketee.attend.utils.AttendRequestVal;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
@@ -37,10 +38,10 @@ public class AttendRequest extends BaseEntity {
     private Long id;
 
     @Column(name = "ATD_REQ_DATE", nullable = false)
-    private LocalDate date;
+    private LocalDate atdReqDate;
 
     @Column(nullable = false)
-    private String val;
+    private AttendRequestVal val;
 
     @Column(name = "START_TIME")
     private LocalTime startTime;
@@ -55,4 +56,8 @@ public class AttendRequest extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "DRAFT_ID", nullable = false)
     private Draft draft;
+
+    public void updateVal() {
+        this.val = AttendRequestVal.U;
+    }
 }
