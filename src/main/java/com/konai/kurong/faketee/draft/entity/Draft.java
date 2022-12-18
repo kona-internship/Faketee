@@ -78,4 +78,11 @@ public class Draft extends BaseEntity {
     @Builder.Default
     private List<VacDateRequest> vacDateRequestList = new ArrayList<>();
 
+    public void updateCrudType(DraftCrudType crudType) {
+        this.crudType = crudType;
+    }
+
+    public void updateStateCode(DraftStateCode stateCode) {
+        this.stateCode = stateCode;
+    }
 }
