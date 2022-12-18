@@ -32,4 +32,11 @@ public class VacInfoController {
         model.addAttribute("empId", userService.findEmployeeId(sessionUser, corId));
         return "/vacation/vinfo-my";
     }
+
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
+    @GetMapping("/dep")
+    public String vacInfoDep(@PathVariable(name = "corId") Long corId){
+
+        return "/vacation/vinfo-dep";
+    }
 }
