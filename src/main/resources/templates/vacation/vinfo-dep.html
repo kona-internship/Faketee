@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>직원 휴가 관리</title>
+</head>
+<body>
+<h1>직원 휴가 관리</h1>
+<hr>
+조직 : <div id="dep-list"></div><br>
+<p>&copy; faketee2022</p>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+<script src="/js/department/department.js"></script>
+<script>
+  loadDepList("button");
+</script>
+</html>

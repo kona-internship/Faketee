@@ -85,7 +85,7 @@ public class UserService {
      */
     public User findUserByEmail(String email) {
 
-        return userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException());
+        return userRepository.findByEmail(email).orElseThrow(NoUserFoundException::new);
     }
 
     /**
@@ -100,7 +100,7 @@ public class UserService {
     @Transactional
     public Long updatePassword(Long id, UserUpdateRequestDto requestDto) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new NoUserFoundException());
+        User user = userRepository.findById(id).orElseThrow(NoUserFoundException::new);
 
         String rawPassword = requestDto.getNewPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -147,7 +147,7 @@ public class UserService {
      */
     public boolean validateEmail(String email) {
 
-        return userRepository.findByEmail(email).orElse(null) == null? true : false;
+        return userRepository.findByEmail(email).orElse(null) == null ? true : false;
     }
 
     /**
@@ -185,14 +185,13 @@ public class UserService {
     public Long findEmployeeId(SessionUser sessionUser, Long corId){
 
 //        log.info(corId.toString());
-//        log.info(sessionUser.getEmployeeList().get(0).getCorId().toString());
+        log.info(sessionUser.getEmployeeList().get(0).getCorId().toString());
         for(EmployeeSessionResponseDto dto : sessionUser.getEmployeeList()){
-            log.info(dto.getId().toString());
-            log.info(dto.getCorId().toString());
+//            log.info(dto.getId().toString());
+//            log.info(dto.getCorId().toString());
             if (Objects.equals(dto.getCorId(), corId))
                 return dto.getId();
         }
         throw new RuntimeException("잘못된 접근");
     }
-
 }
