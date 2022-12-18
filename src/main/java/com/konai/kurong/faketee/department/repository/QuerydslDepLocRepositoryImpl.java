@@ -28,4 +28,18 @@ public class QuerydslDepLocRepositoryImpl implements QuerydslDepLocRepository{
                 .where(depLoc.department.id.in(depIdList))
                 .execute();
     }
+
+    /**
+     * 조직에 해당하는 출퇴든장소 리스트 가져오기
+     * @param depId
+     * @return
+     */
+
+    @Override
+    public List<DepLoc> getDepLocsByDepIdAndCorId(Long depId) {
+        return jpaQueryFactory
+                .selectFrom(depLoc)
+                .where(depLoc.department.id.eq(depId))
+                .fetch();
+    }
 }

@@ -1,7 +1,6 @@
 let todayDate;
 
 function loadTodaySchedule() {
-    // $('#today-schedule').remove();
     $('#today-schedule').append(getToday());
 
     $.ajax({
@@ -16,22 +15,47 @@ function loadTodaySchedule() {
             showTodaySchedule(data);
         },
         error: function () {
-            alert('근무일정 유형 목록 불러오기 실패!');
+            alert('근무일정 불러오기 실패!');
         }
     });
 }
 
 function showTodaySchedule(data) {
+    let msg = '';
     if (data === "") {
-        $('#today-schedule').append("일정 없음");
+        msg += "일정 없음 <p id='sch-nothing'>무일정</p><br>" +
+            "<button type='button' disabled>근무 일정 없음</button>";
+
     } else {
         console.log(data);
-        let msg = data.startTime + "-" + data.endTime;
-        if (data.depName !== "") {
-            msg += " | " + data.depName;
+        if (data.atdStartTime == null) {
+            msg += "<p id='atd-before'>" + data.state + "</p><br>";
+            msg += showSchDetail(data);
+            msg += "<button type='button' id='on' onclick='goClickAtd(\"on\")'> 출근하기 </button>";
+        } else {
+            msg += "<p id='atd-after'>" + data.state + "</p><br>";
+            msg += showSchDetail(data);
+            msg += "<button type='button' id='off' onclick='goClickAtd(\"off\")'> 퇴근하기 </button>";
         }
-        $('#today-schedule').append(msg);
+
     }
+    $('#today-schedule').append(msg);
+
+    if(data.state == '결근'){
+        $('#on').attr('disabled', true);
+    }
+}
+
+function goClickAtd(flag) {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD + "/reg?flag="+flag;
+}
+
+function showSchDetail(data) {
+    let msg = data.schStartTime + "-" + data.schEndTime;
+    if (data.depName !== "") {
+        msg += " | " + data.depName;
+    }
+    return msg + '<br>';
 }
 
 function getToday() {

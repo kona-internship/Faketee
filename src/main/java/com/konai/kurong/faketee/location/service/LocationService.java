@@ -3,6 +3,8 @@ package com.konai.kurong.faketee.location.service;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.department.service.DepLocService;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
+import com.konai.kurong.faketee.location.dto.LocationMapResponseDto;
 import com.konai.kurong.faketee.location.dto.LocationResponseDto;
 import com.konai.kurong.faketee.location.dto.LocationSaveRequestDto;
 import com.konai.kurong.faketee.location.entity.Location;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -21,6 +24,7 @@ public class LocationService {
     private final CorporationRepository corporationRepository;
     private final LocationRepository locationRepository;
     private final DepLocService depLocService;
+    private final EmployeeService employeeService;
 
     /**
      * 출퇴근 장소 등록
@@ -44,7 +48,7 @@ public class LocationService {
      * @return Location에서 LocationResponseDto로 변환된 리스트 반환
      */
     public List<LocationResponseDto> getLocList(Long corId){
-        return LocationResponseDto.converToDtoList(locationRepository.findLocationByCorporationIdOrderById(corId));
+        return LocationResponseDto.convertToDtoList(locationRepository.findLocationByCorporationIdOrderById(corId));
     }
 
     /**
@@ -64,5 +68,21 @@ public class LocationService {
             locationRepository.deleteById(locId);
             return true;
         }
+    }
+
+    /**
+     * 직원의 조직에 해당되는 출퇴근 장소리스트만
+     * 가지고 dto로 변경 후 반환
+     *
+     * @param corId
+     * @param empId
+     * @return
+     */
+
+    @Transactional
+    public List<LocationMapResponseDto> getAtdLocList(Long corId, Long empId){
+        Long depId = employeeService.findByEmployeeById(empId).getDepartment().getId();
+        List<Location> locations = depLocService.getLocationByCorAndDep(corId, depId);
+        return LocationMapResponseDto.convertToDtoList(locations);
     }
 }
