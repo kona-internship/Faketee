@@ -3,6 +3,16 @@ function newVacationGroup(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_GROUP + "/form";
 }
 
+function toEmpVacInfo(empId){
+
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO + "/emp/" + empId;
+}
+
+function toEmpVacMod(empId){
+
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO + "/emp/" + empId + "/mod";
+}
+
 function loadVacationGroups(){
 
     $.ajax({
@@ -273,4 +283,72 @@ function drawVacationInfo(list){
             + '</div>'
         $('#vacation-info').append(msg + '<br>');
     }
+}
+
+function loadDepListForVacInfo(){
+
+    $.ajax({
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP + "/list",
+        type: "GET",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            drawDepList(data);
+        },
+        error: function (jqXHR) {
+            alert('조직 목록 불러오기 실패!');
+            let result = getErrors(jqXHR);
+            showError(result);
+        }
+    });
+}
+
+function drawDepList(list){
+
+    $("#dep-list *").remove();
+
+    const levelMap = makeDepIdMap(list);
+    console.log(levelMap);
+
+    drawDepHierarchy(levelMap.root, levelMap.depMap, levelMap.minLevel);
+}
+
+function drawDepHierarchy(superId, depMap, minLevel) {
+
+    if (!depMap.has(superId)) {
+        return;
+    }
+    for (let dep of depMap.get(superId)) {
+        let spaces = "&emsp;&emsp;"
+        $('#dep-list').append(
+            '<div>' +
+            '<a href="http://localhost:8080/corporation'+ getNextPath(window.location.href, PATH_COR) +'/vac/info/dep/' + dep.id + '">' + (spaces.repeat(dep.level-minLevel)) + (dep.level-minLevel > 0 ? 'ㄴ' : '') + dep.name + ' </a>' +
+            '</div>'
+        );
+        drawDepHierarchy(dep.id, depMap, minLevel);
+    }
+}
+
+function modVacation(empId){
+
+    let data = {
+        add : $('#credit').val(),
+        vacGroupId : $('#vacation-group-list option:selected').val(),
+        empId : empId
+    }
+
+    $.ajax({
+        type: "POST",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(data),
+
+        success : function (){
+            alert("휴가부여 완료");
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
 }

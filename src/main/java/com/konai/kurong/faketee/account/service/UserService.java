@@ -184,11 +184,7 @@ public class UserService {
      */
     public Long findEmployeeId(SessionUser sessionUser, Long corId){
 
-//        log.info(corId.toString());
-        log.info(sessionUser.getEmployeeList().get(0).getCorId().toString());
         for(EmployeeSessionResponseDto dto : sessionUser.getEmployeeList()){
-//            log.info(dto.getId().toString());
-//            log.info(dto.getCorId().toString());
             if (Objects.equals(dto.getCorId(), corId))
                 return dto.getId();
         }

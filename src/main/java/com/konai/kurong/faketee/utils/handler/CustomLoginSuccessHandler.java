@@ -50,7 +50,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         SessionUser sessionUser = new SessionUser(loginUser);
         sessionUser.setEmployeeIdList(employeeService.convertToSessionDto(employeeService.findByUserId(loginUser.getId())));
         request.getSession().setAttribute("user", sessionUser);
-//        log.info(sessionUser.getEmployeeList().get(0).getId().toString());
 
         response.sendRedirect(LOGIN_REDIRECT_URI);
     }
