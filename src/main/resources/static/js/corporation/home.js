@@ -35,11 +35,11 @@ function showTodaySchedule(data) {
 
     } else {
         console.log(data);
-        if (data.atdStartTime === null) {
+        if (data.atdStartTime === 'null') {
             msg += "<p id='atd-before'>" + data.state + "</p><br>";
             msg += showSchDetail(data);
             msg += "<button type='button' id='on' onclick='goClickAtd(\"on\")'> 출근하기 </button>";
-        } else if(data.atdEndTime === null){
+        } else if(data.atdEndTime === 'null'){
             msg += "<p id='atd-after'>" + data.state + "</p><br>";
             msg += showSchDetail(data);
             msg += "<button type='button' id='off' onclick='goClickAtd(\"off\")'> 퇴근하기 </button>";
