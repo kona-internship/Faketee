@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>출퇴근기록 생성 요청</title>
@@ -10,20 +11,32 @@
 
 <form name="create-setApvl" id="create-setApvl">
     <!--    승인권자 목록 가져와야 함  -->
-    승인권자 : <input type="text" id="date" name="date" readonly><br>
+    승인권자 : <input type="text" id="apvEmp" name="apvEmp"><br><hr>
 
-    사유 : <input type="text" id="msg" name="msg"><br>
+    사유 : <input type="text" id="msg" name="msg"><br><hr>
 
     <!--  직원이 직전 페이지에 보냈던 요청사항 내용들을 출력  -->
-    요청사항
+    요청사항<br><br>
 
-    날짜 : <input type="time" id="tmp-startTime"><br>
+    날짜 : <input type="text" id="date" name="date" readonly><br><br>
 
-    출근/퇴근시간 : <input type="time" id="tmp-endTime"><br>
+    출근/퇴근시간 : <input type="text" id="time" name="time" readonly><br><br>
 
-    근무일정 :
+    근무일정 : <input type="text" id="sch" name="sch" readonly><br><br>
 
     <button type="button" onclick="">보내기</button>
+
+    <input type="hidden" id="selectedDate" name="selectedDate" th:value="${selectedDate}">
+    <input type="hidden" id="startTime" name="startTime" th:value="${startTime}">
+    <input type="hidden" id="endTime" name="endTime" th:value="${endTime}">
+    <input type="hidden" id="schInfoId" name="schInfoId" th:value="${schInfoId}">
+    <input type="hidden" id="schInfo" name="schInfo" th:value="${schInfo}">
 </form>
 </body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/attend/request/request.js"></script>
+<script>createSetApvlShow();</script>
+
 </html>
