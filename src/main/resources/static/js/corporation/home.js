@@ -1,5 +1,8 @@
 let todayDate;
 
+/**
+ * 근무일정 가져오는 ajax
+ */
 function loadTodaySchedule() {
     $('#today-schedule').append(getToday());
 
@@ -20,6 +23,10 @@ function loadTodaySchedule() {
     });
 }
 
+/**
+ * 근무일정, 상태, 근태를 화면에 나타내기
+ * @param data
+ */
 function showTodaySchedule(data) {
     let msg = '';
     if (data === "") {
@@ -53,10 +60,19 @@ function showTodaySchedule(data) {
     }
 }
 
+/**
+ * 근태버튼 클릭하면 페이지 이동
+ * @param flag
+ */
 function goClickAtd(flag) {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD + "/reg?flag="+flag;
 }
 
+/**
+ * 근무일정 시간 반환
+ * @param data
+ * @returns {string}
+ */
 function showSchDetail(data) {
     let msg = data.schStartTime + "-" + data.schEndTime;
     if (data.depName !== "") {
@@ -65,6 +81,10 @@ function showSchDetail(data) {
     return msg + '<br>';
 }
 
+/**
+ * 요일과 날짜 반환
+ * @returns {string}
+ */
 function getToday() {
     let today = new Date();
     let date = today.getDate();

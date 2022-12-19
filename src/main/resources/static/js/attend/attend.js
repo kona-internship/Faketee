@@ -13,6 +13,10 @@ $.ajax({
     }
 });
 
+/**
+ * 위도 경도 가져오기
+ * @returns {Promise<unknown>}
+ */
 function getL() {
     return new Promise(function (resolve) {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -24,6 +28,14 @@ function getL() {
     });
 }
 
+/**
+ * 동기로 위도 경도 가져온 다음
+ * 카카오 map으로 현재위치 지도를 그려준다.
+ * 조직에 해당하는 위치의 반경도 나타내준다.
+ *
+ * @param data
+ * @returns {Promise<void>}
+ */
 async function getLocation(data) {
     await getL();
 
@@ -82,6 +94,10 @@ async function getLocation(data) {
     drawLocList(data);
 }
 
+/**
+ * 출퇴근 장소의 리스트를 화면에 출력한다.
+ * @param data
+ */
 function drawLocList(data) {
     for (let [index, loc] of data.entries()) {
         let distance = getDistance(loc.lat, loc.lng);
@@ -94,6 +110,12 @@ function drawLocList(data) {
     $("#" + data[0].id).attr("checked", true);
 }
 
+/**
+ * 현재위치와 클릭한 출퇴근 장소와의 거리 반환한다.
+ * @param loc_lat
+ * @param loc_lng
+ * @returns {number}
+ */
 function getDistance(loc_lat, loc_lng) {
     let clickLine = new kakao.maps.Polyline({
         path: [
@@ -106,6 +128,10 @@ function getDistance(loc_lat, loc_lng) {
     return Math.floor(distance);
 }
 
+/**
+ * 출퇴근 장소와 현재위치가 반경보다 작으면
+ * 해당 시간을 저장하고 그렇지 않으면 alert를 내보낸다.
+ */
 function saveAtdInfo() {
     //선택한 장소와 현재 위치와의 반경 차이가 있으면 오류 없으면 등록하기이ㅣ
     let state = $("input:hidden[name='atd-state']").val();
