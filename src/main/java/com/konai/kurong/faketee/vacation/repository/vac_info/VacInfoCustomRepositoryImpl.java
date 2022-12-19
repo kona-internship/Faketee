@@ -35,4 +35,13 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
     public List<VacInfo> findAllByDepId(Long depId) {
         return null;
     }
+
+    @Override
+    public VacInfo updateByEmpAndVacGroupId(Long empId, Long vacGroupId) {
+
+        return jpaQueryFactory
+                .selectFrom(vacInfo)
+                .where(vacInfo.employee.id.eq(empId), vacInfo.vacGroup.id.eq(vacGroupId))
+                .fetchOne();
+    }
 }

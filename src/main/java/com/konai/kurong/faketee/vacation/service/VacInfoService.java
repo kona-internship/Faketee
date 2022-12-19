@@ -4,6 +4,7 @@ import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationInfoNotFoundException;
 import com.konai.kurong.faketee.vacation.dto.VacInfoResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacInfoSaveRequestDto;
+import com.konai.kurong.faketee.vacation.dto.VacInfoUpdateRequestDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
@@ -68,5 +69,10 @@ public class VacInfoService {
                     .vacGroup(group)
                     .build());
         }
+    }
+
+    public Long updateInfo(VacInfoUpdateRequestDto requestDto){
+
+        return vacInfoRepository.updateByEmpAndVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
     }
 }

@@ -285,4 +285,9 @@ public class EmployeeService {
                 .map(EmployeeSessionResponseDto::convertToSessionDto)
                 .collect(Collectors.toList());
     }
+
+    public EmployeeResponseDto findById(Long empId){
+
+        return EmployeeResponseDto.convertToDto(employeeRepository.findById(empId).orElseThrow());
+    }
 }
