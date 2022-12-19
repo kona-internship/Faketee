@@ -15,14 +15,7 @@ import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
-import com.konai.kurong.faketee.utils.exception.custom.employee.EmpJoinEmailDiffException;
 import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplException;
-import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
-import com.konai.kurong.faketee.vacation.dto.VacGroupSaveRequestDto;
-import com.konai.kurong.faketee.vacation.dto.VacInfoSaveRequestDto;
-import com.konai.kurong.faketee.vacation.entity.VacGroup;
-import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
-import com.konai.kurong.faketee.vacation.service.VacGroupService;
 import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -276,11 +269,20 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public List<EmployeeSessionResponseDto> findByUserId(Long userId){
+    @Transactional
+    public List<EmployeeResponseDto> findByUserId(Long userId){
 
         return employeeRepository.findByUserId(userId)
                 .stream()
-                .map(EmployeeSessionResponseDto::convertToDto)
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeSessionResponseDto> convertToSessionDto(List<EmployeeResponseDto> list){
+
+        return list
+                .stream()
+                .map(EmployeeSessionResponseDto::convertToSessionDto)
                 .collect(Collectors.toList());
     }
 }
