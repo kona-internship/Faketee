@@ -91,7 +91,7 @@ public class AttendService {
      */
     public String checkAtdState(LocalTime atdEndTime, LocalTime schEndTime) {
         LocalTime present = LocalTime.now();
-        if (String.valueOf(atdEndTime) != null) {
+        if (!String.valueOf(atdEndTime).equals("null")) {
             return AtdState.OFF_WORK.state();
         } else if (present.isBefore(schEndTime)) {
             return AtdState.AT_WORK.state();
