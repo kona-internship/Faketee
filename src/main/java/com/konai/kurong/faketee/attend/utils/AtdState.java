@@ -1,6 +1,5 @@
-package com.konai.kurong.faketee.employee.utils;
+package com.konai.kurong.faketee.attend.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
