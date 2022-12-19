@@ -5,7 +5,7 @@ import com.konai.kurong.faketee.attend.entity.Attend;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
-import com.konai.kurong.faketee.employee.utils.AtdState;
+import com.konai.kurong.faketee.attend.utils.AtdState;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
 import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;
@@ -27,6 +27,16 @@ public class AttendService {
     private final EmployeeService employeeService;
     private final AttendRepository attendRepository;
 
+    /**
+     * 홈페이지에서 사용자의 근태에 대한 현재 상태
+     * 관련 데이터를 모두 가져온다.
+     *
+     * @param corId
+     * @param date
+     * @param userId
+     * @return
+     * @throws Exception
+     */
     @Transactional
     public AttendResponseDto getUserScheduleInfo(Long corId, String date, Long userId) throws Exception {
         Employee emp = employeeService.getEmpByUserAndCor(userId, corId);
@@ -71,6 +81,14 @@ public class AttendService {
         return attendResponseDto;
     }
 
+    /**
+     * 출근버튼을 찍은 상태에서
+     * 사용자가 현재 근무 중인지 초과근무인지 퇴근완료인지
+     * 상태값을 반환해준다.
+     * @param atdEndTime
+     * @param schEndTime
+     * @return
+     */
     public String checkAtdState(LocalTime atdEndTime, LocalTime schEndTime) {
         LocalTime present = LocalTime.now();
         if (String.valueOf(atdEndTime) != null) {
@@ -82,6 +100,14 @@ public class AttendService {
         }
     }
 
+    /**
+     * 출근버튼을 찍지 않은 상태에서
+     * 사용자가 현재 근무 전인지 지각인지 결근이지를 보고
+     * 상태값을 반환해준다.
+     * @param schStartTime
+     * @param schEndTime
+     * @return
+     */
     public String checkState(LocalTime schStartTime, LocalTime schEndTime) {
         LocalTime present = LocalTime.now();
 
@@ -94,6 +120,16 @@ public class AttendService {
         }
     }
 
+    /**
+     * 출근/퇴근 버튼을 클릭하여
+     * 출근 시에는 attend 새로 생성,
+     * 퇴근 시에는 기존 attend를 update한다.
+     *
+     * @param corId
+     * @param userId
+     * @param onOff
+     * @throws Exception
+     */
     @Transactional
     public void clickAtd(Long corId, Long userId, String onOff) throws Exception {
         Employee emp = employeeService.getEmpByUserAndCor(userId, corId);
