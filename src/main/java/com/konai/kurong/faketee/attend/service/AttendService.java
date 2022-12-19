@@ -5,7 +5,7 @@ import com.konai.kurong.faketee.attend.entity.Attend;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
-import com.konai.kurong.faketee.employee.utils.AtdState;
+import com.konai.kurong.faketee.attend.utils.AtdState;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
 import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;

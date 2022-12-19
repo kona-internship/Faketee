@@ -49,7 +49,7 @@ function showTodaySchedule(data) {
             msg += showSchDetail(data);
             msg += "<button type='button' id='on' onclick='goClickAtd(\"on\")'> 출근하기 </button>";
             msg += "<hr> 출근 : " + data.atdStartTime + "<br>";
-            msg += "<hr> 퇴근 : " + data.atdEndTime + "<br>";
+            msg += " 퇴근 : " + data.atdEndTime + "<br>";
         }
 
     }
