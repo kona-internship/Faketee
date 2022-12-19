@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 휴가 관리</title>
+</head>
+<body>
+<h1>휴가 부여하기</h1>
+<form name="vacation-mod">
+    <div>
+        휴가그룹: <select id="vacation-group-list"></select><br><br>
+    </div>
+    <div>
+        부여일수: <input type="text" id="credit"><br><br>
+    </div>
+    <button type="button" th:id="${empId}" th:onclick="modVacation(this.getAttribute(id))">부여하기</button>
+</form>
+
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+<script>
+    listVacationGroup();
+</script>
+</html>
