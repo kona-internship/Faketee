@@ -38,7 +38,7 @@ public class CustomOAuthLoginSuccessHandler implements AuthenticationSuccessHand
         User loginUser = userRepository.findByEmail(oAuth2User.getAttributes().get("email").toString()).orElseThrow(NoUserFoundException::new);
 
         SessionUser sessionUser = new SessionUser(loginUser);
-        sessionUser.setEmployeeIdList(employeeService.findByUserId(loginUser.getId()));
+        sessionUser.setEmployeeIdList(employeeService.convertToSessionDto(employeeService.findByUserId(loginUser.getId())));
         request.getSession().setAttribute("user", sessionUser);
 
         response.sendRedirect(LOGIN_REDIRECT_URI);

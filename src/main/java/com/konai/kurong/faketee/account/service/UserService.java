@@ -74,7 +74,7 @@ public class UserService {
      */
     public UserResponseDto findByEmail(String email) {
 
-        return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException()));
+        return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(NoUserFoundException::new));
     }
 
     /**

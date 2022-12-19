@@ -3,7 +3,6 @@ package com.konai.kurong.faketee.utils.handler;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
-import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +48,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
          * SessionUser 를 이용하여 user 정보를 직렬화해서 저장
          */
         SessionUser sessionUser = new SessionUser(loginUser);
-        sessionUser.setEmployeeIdList(employeeService.findByUserId(loginUser.getId()));
+        sessionUser.setEmployeeIdList(employeeService.convertToSessionDto(employeeService.findByUserId(loginUser.getId())));
         request.getSession().setAttribute("user", sessionUser);
-
 //        log.info(sessionUser.getEmployeeList().get(0).getId().toString());
 
         response.sendRedirect(LOGIN_REDIRECT_URI);

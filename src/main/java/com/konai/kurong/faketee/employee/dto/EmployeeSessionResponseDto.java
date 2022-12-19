@@ -22,4 +22,12 @@ public class EmployeeSessionResponseDto implements Serializable {
                 .corId(employee.getCorporation().getId())
                 .build();
     }
+
+    public static EmployeeSessionResponseDto convertToSessionDto(EmployeeResponseDto employeeResponseDto){
+
+        return EmployeeSessionResponseDto.builder()
+                .id(employeeResponseDto.getId())
+                .corId(employeeResponseDto.getCorporationId())
+                .build();
+    }
 }
