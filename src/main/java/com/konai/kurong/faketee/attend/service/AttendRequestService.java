@@ -4,6 +4,7 @@ import com.konai.kurong.faketee.attend.dto.AttendRequestDeleteDto;
 import com.konai.kurong.faketee.attend.dto.AttendRequestSaveDto;
 import com.konai.kurong.faketee.attend.dto.AttendRequestUpdateDto;
 import com.konai.kurong.faketee.attend.entity.AttendRequest;
+import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.attend.repository.AttendRequestRepository;
 import com.konai.kurong.faketee.attend.utils.AttendRequestVal;
 import com.konai.kurong.faketee.draft.entity.Draft;
@@ -32,6 +33,7 @@ public class AttendRequestService {
     private final AttendRequestRepository attendRequestRepository;
     private final EmployeeRepository employeeRepository;
     private final DraftRepository draftRepository;
+    private final AttendRepository attendRepository;
 
     //출퇴근기록 생성 요청
     public void createAttendRequest(AttendRequestSaveDto requestDto) {
@@ -176,4 +178,13 @@ public class AttendRequestService {
         }
     }
 
+    /**
+     * 출퇴근기록 생성 요청 시, 선택한 날짜에 기록이 있는지 없는지 확인
+     * @param date : 선택한 날짜
+     * @return 기록이 없으면 true 생성 요청 가능
+     * @return 기록이 있으면 false 생성 요청 불가능
+     */
+    public boolean checkAtdRecord(LocalDate date) {
+        return attendRepository.findByDate(date).orElse(null) == null ? true : false;
+    }
 }
