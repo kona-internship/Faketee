@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>출퇴근기록 생성 요청</title>
@@ -10,25 +11,30 @@
 <h1>시간 설정하기</h1>
 
 <form name="create-setTime" id="create-setTime">
-    날짜 : <input type="text" id="date" name="date" readonly><br>
+    날짜 : <input type="date" id="showDate" name="showDate" readonly><br><br>
 
     <!--    해당 날짜의 그 직원의 근무 일정을 가져와야 함
             근무 일정의 출근 시간과 퇴근 시간 설정 해주고 선택 가능    -->
-    근무일정 :
+    근무일정 : <input type="text" id="showSch" name="showSch" readonly><br><hr>
 
-    출근시간 : <input type="time" id="tmp-startTime"><br>
+    출근시간 : <input type="time" id="sch-startTime" name="sch-startTime"><br><br>
 
-    퇴근시간 : <input type="time" id="tmp-endTime"><br>
+    퇴근시간 : <input type="time" id="sch-endTime" name="sch-endTime"><br><br>
 
-    <!--    현재 근무 선택 시 퇴근 시간은 수정 안해도 된다 -->
-    현재근무중 :
+    <!--    현재 근무 선택 시 퇴근 시간은 수정 안해도 된다
+            이건 나중에 시간 남으면 기능 추가 하겠음     -->
+<!--    현재근무중 :-->
 
-    <button type="button" onclick="">다음</button>
+    <button type="button" onclick="createSelectTime()">다음</button>
+
+    <input type="hidden" id="selectedDate" name="selectedDate" th:value="${selectedDate}">
+    <input type="hidden" id="schInfoId" name="schInfoId">
 </form>
 </body>
 
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src="/js/utils/url.js"></script>
 <script type="text/javascript" src="/js/attend/request/request.js"></script>
+<script>createSetTimeShow();</script>
 
 </html>
