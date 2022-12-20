@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.draft.entity;
 
+import com.konai.kurong.faketee.attend.entity.AttendRequest;
 import com.konai.kurong.faketee.draft.utils.*;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
@@ -77,6 +78,10 @@ public class Draft extends BaseEntity {
     @OneToMany(fetch = LAZY, mappedBy = "draft")
     @Builder.Default
     private List<VacRequest> vacRequestList = new ArrayList<>();
+
+    @OneToMany(fetch = LAZY, mappedBy = "draft")
+    @Builder.Default
+    private List<AttendRequest> atdRequestList = new ArrayList<>();
 
     public void updateCrudType(DraftCrudType crudType) {
         this.crudType = crudType;

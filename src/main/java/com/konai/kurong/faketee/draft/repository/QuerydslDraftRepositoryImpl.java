@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.draft.repository;
 
 import com.konai.kurong.faketee.draft.entity.Draft;
+import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,16 +27,21 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
                 .join(draft.requestEmployee, employee)
                 .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmpFin.id.eq(apvlEmpId))).and(draft.stateCode.in(draftStateCodeList)))
                 .fetch();
-        draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
         log.info(">>>>>>>>>>>>>>>>querydsl repo: "+draftList);
-        draftList.stream().map(Draft::getVacRequestList).forEach(vac->{log.info(">>>>>>>>>>>>>>>>querydsl repo: "+vac);});
-        draftList.stream().forEach(draft1 -> {log.info(">>>>>>>>>>>>>>>>querydsl repo: "+draft1.getVacRequestList());});
+//        draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
+//        draftList.stream().map(Draft::getVacRequestList).forEach(vac->{log.info(">>>>>>>>>>>>>>>>querydsl repo: "+vac);});
+//        draftList.stream().forEach(draft1 -> {log.info(">>>>>>>>>>>>>>>>querydsl repo: "+draft1.getVacRequestList());});
         for(Draft draft : draftList){
-            Hibernate.initialize(draft.getVacRequestList());
-            for(VacRequest request : draft.getVacRequestList()){
-                Hibernate.initialize(request.getVacType());
-                log.info(">>>>>>>>>>>>>>>>querydsl repo vac: "+request);
+            if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){
+                Hibernate.initialize(draft.getAtdRequestList());
+            } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {
+                Hibernate.initialize(draft.getVacRequestList());
+                for(VacRequest request : draft.getVacRequestList()){
+                    Hibernate.initialize(request.getVacType());
+                    log.info(">>>>>>>>>>>>>>>>querydsl repo vac: "+request);
+                }
             }
+
         }
         return draftList;
     }
