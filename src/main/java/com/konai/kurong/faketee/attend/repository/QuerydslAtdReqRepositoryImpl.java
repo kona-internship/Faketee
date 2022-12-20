@@ -17,14 +17,14 @@ public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<AttendRequest> findAttendRequestByEmpDateVal(Long empId, LocalDate atdReqDate, Long draftId) {
+    public Optional<AttendRequest> findAttendRequestByEmpDateVal(Long empId, LocalDate atdReqDate) {
         return Optional.ofNullable(jpaQueryFactory
                 .select(attendRequest)
                 .from(attendRequest)
                 .where(attendRequest.employee.id.eq(empId),
                         attendRequest.atdReqDate.eq(atdReqDate),
-                        attendRequest.draft.id.eq(draftId),
-                        attendRequest.val.eq(AttendRequestVal.C))
+//                        attendRequest.draft.id.eq(draftId),
+                        attendRequest.val.eq(AttendRequestVal.T))
                 .fetchOne());
     }
 
@@ -34,7 +34,7 @@ public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
                 .select(attendRequest)
                 .from(attendRequest)
                 .where(attendRequest.draft.id.eq(draftId),
-                        attendRequest.val.eq(AttendRequestVal.C))
+                        attendRequest.val.eq(AttendRequestVal.T))
                 .fetchOne());
     }
 }
