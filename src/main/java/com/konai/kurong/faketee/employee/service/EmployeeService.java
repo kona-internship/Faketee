@@ -279,22 +279,6 @@ public class EmployeeService {
         return dtoList;
     }
 
-    /**
-     * user아이디와 회사로 회원 가져오기
-     * @param userId
-     * @param corId
-     * @return
-     * @throws Exception
-     */
-
-    public Employee getEmpByUserAndCor(Long userId, Long corId) throws Exception {
-        Optional<Employee> employee = employeeRepository.findByUserIdAndCorporationIdAndVal(userId, corId, "T");
-        if(employee.isEmpty()){
-            throw new Exception();
-        }
-        return employee.get();
-    }
-
     public List<EmployeeResponseDto> findByDepId(Long depId){
 
         return employeeRepository.findByDepId(depId)

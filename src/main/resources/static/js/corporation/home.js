@@ -27,6 +27,10 @@ function loadTodaySchedule() {
  * 근무일정, 상태, 근태를 화면에 나타내기
  * @param data
  */
+const ATTEND = {
+    ABSENCE : "결근",
+    OFF_WORK : "퇴근완료",
+};
 function showTodaySchedule(data) {
     let msg = '';
     if (data === "") {
@@ -55,7 +59,7 @@ function showTodaySchedule(data) {
     }
     $('#today-schedule').append(msg);
 
-    if(data.state === '결근' || data.state === '퇴근완료'){
+    if(data.state === ATTEND.ABSENCE || data.state === ATTEND.OFF_WORK){
         $('#on').attr('disabled', true);
     }
 }

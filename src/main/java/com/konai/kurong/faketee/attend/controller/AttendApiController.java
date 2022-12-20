@@ -3,6 +3,8 @@ package com.konai.kurong.faketee.attend.controller;
 import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.utils.ReqEmp;
+import com.konai.kurong.faketee.employee.utils.ReqEmpInfo;
 import com.konai.kurong.faketee.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +22,9 @@ public class AttendApiController {
 
     @GetMapping("/load")
     public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId,
-                                      @RequestParam("date") String date,
-                                      @LoginUser SessionUser user) throws Exception {
+                                      @RequestParam("date") String date, @ReqEmp ReqEmpInfo empInfo) {
 
-        return new ResponseEntity<>(attendService.getUserScheduleInfo(corId, date, user.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(attendService.getUserScheduleInfo(corId, date, empInfo.getId()), HttpStatus.OK);
     }
     @GetMapping("/load/atd/loc")
     public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId, @LoginUser SessionUser user) {
@@ -34,9 +35,9 @@ public class AttendApiController {
     @GetMapping("/reg")
     public ResponseEntity<?> clickAtd(@PathVariable(name = "corId") Long corId,
                                          @RequestParam("onoff") String onOff,
-                                         @LoginUser SessionUser user) throws Exception {
+                                      @ReqEmp ReqEmpInfo empInfo) throws Exception {
 
-        attendService.clickAtd(corId, user.getId(), onOff);
+        attendService.clickAtd(corId, empInfo.getId(), onOff);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
