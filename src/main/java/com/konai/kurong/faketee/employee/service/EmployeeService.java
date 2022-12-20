@@ -21,11 +21,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.TableGenerator;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -240,7 +244,7 @@ public class EmployeeService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 //        EmployeeResponseDto 만들기
-        EmployeeResponseDto employeeResponseDto = EmployeeResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
                 .role(role.getRole())
@@ -257,8 +261,38 @@ public class EmployeeService {
 
                 .val(employee.getVal())
                 .build();
+    }
 
-        return employeeResponseDto;
+    /**
+     * 조직리스트와 직무리스트를 매개변수로 받아
+     * 모두 해당되는 직원의 리스트를 반환한다.
+     *
+     * @param depIds
+     * @param posIds
+     * @return
+     */
+    @Transactional
+    public List<EmployeeSchResponseDto> getEmpByDepAndPos(List<Long> depIds, List<Long> posIds){
+        List<Employee> emp = employeeRepository.getEmployeeByDepAndPos(depIds, posIds);
+
+        List<EmployeeSchResponseDto> dtoList = EmployeeSchResponseDto.convertToDtoList(emp);
+        return dtoList;
+    }
+
+    /**
+     * user아이디와 회사로 회원 가져오기
+     * @param userId
+     * @param corId
+     * @return
+     * @throws Exception
+     */
+
+    public Employee getEmpByUserAndCor(Long userId, Long corId) throws Exception {
+        Optional<Employee> employee = employeeRepository.findByUserIdAndCorporationIdAndVal(userId, corId, "T");
+        if(employee.isEmpty()){
+            throw new Exception();
+        }
+        return employee.get();
     }
 
     public List<EmployeeResponseDto> findByDepId(Long depId){

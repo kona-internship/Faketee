@@ -17,6 +17,11 @@ function loadSchList() {
     });
 }
 
+/**
+ * 근무일정 유형 리스트
+ *
+ * @param scheduleTypeList
+ */
 function showSchTypeList(scheduleTypeList) {
     $('#sch-type-list *').remove();
 
@@ -27,14 +32,24 @@ function showSchTypeList(scheduleTypeList) {
     }
 }
 
+/**
+ * 근무 일정 유형 추가 페이지로 이동
+ */
 function goAddSchTypePage() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH;
 }
 
+/**
+ * 근무 일정 유형 리스트 페이지로 이동
+ */
 function goTypeList() {
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type";
 }
 
+/**
+ * 근무일정 유형 입력값 검사
+ * @returns {boolean}
+ */
 function checkSchTypeRegister() {
     if (!checkExistData($("#name").val(), "유형명을")) {
 
@@ -43,6 +58,13 @@ function checkSchTypeRegister() {
     }
 }
 
+/**
+ * 근무일정 유형 등록
+ *
+ * @param value
+ * @param dataName
+ * @returns {boolean}
+ */
 function checkExistData(value, dataName) {
     value = value.trim();
     if (value == "") {
@@ -71,6 +93,11 @@ function checkExistData(value, dataName) {
     return true;
 }
 
+/**
+ * 근무일정 유형 삭제
+ *
+ * @param typeId
+ */
 function deleteSchType(typeId) {
     $.ajax({
         async: true,
@@ -400,4 +427,77 @@ function drawPositionList(list){
         + '</div>';
         $('#positions').append(msg + '<br>');
     }
+}
+
+/**
+ * 날짜에 해당하는 근무일정 데이터를 가져온다.
+ *
+ */
+function loadSchedules() {
+    let selectedDate = document.querySelector('#selectedDate').value;
+
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/list",
+        type: "get",
+        contentType: "application/json",
+        data: {
+            selectedDate : selectedDate
+        },
+        success: function (data) {
+            drawScheduleList(data);
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+/**
+ * 데이터에 해당하는 근무일정 유형을 화면에 나타내준다.
+ *
+ * @param schList
+ */
+function drawScheduleList(schList) {
+
+    $('#sch-list *').remove();
+    if (schList.entries().next().value == null) {
+        $('#sch-list').append('<div>' + '해당 날짜에 근무 일정이 없습니다' + '</div>');
+    }
+    for (let [index, sch] of schList.entries()) {
+        let msg = '<div>' + (index + 1) + '. 이름: ' + sch.empName
+            + '<br>'
+            + '/  시작시간: '
+            + sch.startTime
+            + ' /  종료시간: '
+            + sch.endTime
+            + '<br> 상태: '
+            + sch.state
+            + ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
+            + '</div>';
+        $('#sch-list').append(msg);
+    }
+}
+
+/**
+ * 선택된 근무일정을 삭제한다.
+ *
+ * @param scheduleId
+ */
+function deleteSchedule(scheduleId) {
+
+    $.ajax({
+        async : true,
+        type : "POST",
+        url : URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/delete?id=" + scheduleId,
+        contentType : "application/json",
+        success : function (){
+            alert("근무 일정이 삭제되었습니다.");
+            loadSchedules();
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+            loadSchedules();
+        }
+    });
 }

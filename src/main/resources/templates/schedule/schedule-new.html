@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <title>근무 일정 추가</title>
     <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"
+            integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style type="text/css">
         .multiselect {
-            width: 200px;
+            width: 50%;
         }
 
         .selectBox {
@@ -30,16 +37,16 @@
             bottom: 0;
         }
 
-        #dep-list {
+        #dep-list, #emp-list {
             display: none;
             border: 1px #dadada solid;
         }
 
-        #dep-list input {
+        #dep-list input, #emp-list input{
             display: block;
         }
 
-        #dep-list input:hover {
+        #dep-list input:hover, #emp-list input:hover{
             background-color: #1e90ff;
         }
     </style>
@@ -50,25 +57,34 @@
 <select id="selectTmp" onchange="selectTmpChange()"></select>
 <br>
 조직들
-<form>
-    <div class="multiselect">
-        <div class="selectBox" onclick="showCheckboxes()">
-            <select>
-                <option>조직 선택</option>
-            </select>
-            <div class="overSelect"></div>
-        </div>
-        <div id="dep-list">
 
-        </div>
+<div class="multiselect">
+    <div class="selectBox" onclick="showCheckboxes()">
+        <select>
+            <option>조직 선택</option>
+        </select>
+        <div class="overSelect"></div>
     </div>
-</form>
+    <div id="dep-list"></div>
+</div>
+<button type="button" onclick="loadEmp()">조직 설정</button>
 <br>
-
+직원들
+<div class="multiselect">
+    <div class="selectBox" onclick="showEmpCheckboxes()">
+        <select>
+            <option>직원 선택</option>
+        </select>
+        <div class="overSelect"></div>
+    </div>
+    <div id="emp-list"></div>
+</div>
+<br>
 달력
 <input type="text" id="datepicker">
 <br>
 <button type="button" onclick="checkSchRegister()">근무 일정 등록</button>
+
 
 </body>
 <script src="/js/utils/url.js"></script>

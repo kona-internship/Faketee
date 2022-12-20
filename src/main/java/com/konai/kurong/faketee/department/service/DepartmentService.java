@@ -171,7 +171,7 @@ public class DepartmentService {
         //해당 부서 하위 조직들
         List<Department> subs = getSubDepList(dep);
 
-        return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.converToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
+        return new Result<>(DepartmentResponseDto.convertToDto(dep), LocationResponseDto.convertToDtoList(loc), DepartmentResponseDto.convertToDtoList(subs));
     }
 
     @Transactional(readOnly = true)

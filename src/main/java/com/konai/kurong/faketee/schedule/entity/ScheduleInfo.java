@@ -1,6 +1,6 @@
 package com.konai.kurong.faketee.schedule.entity;
 
-import com.konai.kurong.faketee.corporation.entity.Corporation;
+import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -22,15 +23,20 @@ public class ScheduleInfo extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SCH_INFO_ID_GENERATOR")
     private Long id;
 
-    private LocalDateTime date;
+    @Column(name = "SCH_DATE")
+    private LocalDate date;
 
+    @Column(name = "SCH_STATE")
     private String state;
 
-    private LocalDateTime startTime;
+    @Column(name = "START_TIME")
+    private LocalTime startTime;
 
-    private LocalDateTime endTime;
-//    @ManyToOne
-//    @JoinColumn(name = "EMP_ID")
-//    private Employee employee;
+    @Column(name = "END_TIME")
+    private LocalTime endTime;
+
+    @ManyToOne
+    @JoinColumn(name = "EMP_ID")
+    private Employee employee;
 
 }

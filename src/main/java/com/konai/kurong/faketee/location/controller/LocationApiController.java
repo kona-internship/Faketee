@@ -1,5 +1,7 @@
 package com.konai.kurong.faketee.location.controller;
 
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.location.dto.LocationSaveRequestDto;
 import com.konai.kurong.faketee.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class LocationApiController {
      * @param requestDto
      * @return
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping()
     public ResponseEntity<?> registerLocation(@PathVariable(name = "corId") Long corId,
                                               @Valid @RequestBody LocationSaveRequestDto requestDto) {
@@ -39,6 +42,7 @@ public class LocationApiController {
      * @param corId
      * @return
      */
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @PostMapping("/list")
     public ResponseEntity<?> getLocList(@PathVariable(name = "corId") Long corId) {
 
@@ -53,6 +57,7 @@ public class LocationApiController {
      * @param locId
      * @return
      */
+    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
     @PostMapping("/delete/{locId}")
     public ResponseEntity<?> removeLoc(@PathVariable(name = "corId") Long corId,
                                        @PathVariable(name = "locId") Long locId) {
