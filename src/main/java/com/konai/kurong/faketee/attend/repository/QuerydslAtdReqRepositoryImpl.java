@@ -23,7 +23,8 @@ public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
                 .from(attendRequest)
                 .where(attendRequest.employee.id.eq(empId),
                         attendRequest.atdReqDate.eq(atdReqDate),
-                        attendRequest.val.eq(AttendRequestVal.C))
+//                        attendRequest.draft.id.eq(draftId),
+                        attendRequest.val.eq(AttendRequestVal.T))
                 .fetchOne());
     }
 
@@ -33,7 +34,7 @@ public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
                 .select(attendRequest)
                 .from(attendRequest)
                 .where(attendRequest.draft.id.eq(draftId),
-                        attendRequest.val.eq(AttendRequestVal.C))
+                        attendRequest.val.eq(AttendRequestVal.T))
                 .fetchOne());
     }
 }

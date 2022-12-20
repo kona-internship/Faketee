@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AttendRequestVal {
 
-    C("그냥, 수정 이외 다"),
-    U("수정");
+    T("그냥, 수정 이외 다"),
+    F("수정");
 
    private final String val;
 }

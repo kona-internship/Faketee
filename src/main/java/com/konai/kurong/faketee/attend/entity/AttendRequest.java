@@ -58,6 +58,6 @@ public class AttendRequest extends BaseEntity {
     private Draft draft;
 
     public void updateVal() {
-        this.val = AttendRequestVal.U;
+        this.val = AttendRequestVal.F;
     }
 }
