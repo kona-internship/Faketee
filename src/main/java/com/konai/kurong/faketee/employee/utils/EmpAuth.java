@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface EmpAuth {
     EmpRole role() default EmpRole.EMPLOYEE;
+    EmpAuthParamType paramCheckType() default EmpAuthParamType.NO_CHECK;
 
     boolean onlyLowDep() default true;
 }

@@ -1,17 +1,14 @@
 package com.konai.kurong.faketee.employee.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.service.DepartmentService;
-import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
-import com.konai.kurong.faketee.employee.utils.DepIdsDto;
-import com.konai.kurong.faketee.employee.utils.EmpRole;
+import com.konai.kurong.faketee.employee.utils.AuthIdsDto;
+import com.konai.kurong.faketee.employee.utils.EmpAuthCheckList;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EmployeeSaveRequestDto implements DepIdsDto {
+public class EmployeeSaveRequestDto implements AuthIdsDto {
     private static DepartmentService departmentService;
 
     @NotBlank
@@ -51,14 +48,16 @@ public class EmployeeSaveRequestDto implements DepIdsDto {
     private String email;
 
     @Override
-    public List<Long> getDepIds() {
+    public EmpAuthCheckList getEmpAuthCheckList() {
         Department department = departmentService.findDepartmentById(departmentId);
         List<Department> depList = departmentService.getSubDepList(department);
         List<Long> depIdList = new ArrayList<>();
         for(Department dep : depList) {
             depIdList.add(dep.getId());
         }
-        return depIdList;
+        return EmpAuthCheckList.builder()
+                .idList(depIdList)
+                .build();
     }
 
 //    public EmployeeInfo toEmployeeInfoEntity(String joinCode) {
