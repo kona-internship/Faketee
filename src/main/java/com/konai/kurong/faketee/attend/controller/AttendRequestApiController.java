@@ -5,6 +5,7 @@ import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
 import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;
+import com.konai.kurong.faketee.utils.exception.custom.attend.request.NoSchInfoException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,6 @@ public class AttendRequestApiController {
 
     @GetMapping("/create/check-date")
     public ResponseEntity<?> createAtdRecord(@RequestParam("selectedDate") String date) {
-        log.info("###########AttendRequestApiController createAtdRecord date : " + date);
         return ResponseEntity.ok(attendRequestService.checkAtdRecord(date));
     }
 
@@ -34,6 +34,11 @@ public class AttendRequestApiController {
     public ResponseEntity<?> createSetTimeSchInfo(String date,
                                                   @PathVariable(name = "corId") Long corId,
                                                   @LoginUser SessionUser user) {
-        return new ResponseEntity<>(ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getSchByDateAndEmp(date, corId, user.getId())), HttpStatus.OK);
+        ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getSchByDateAndEmp(date, corId, user.getId()));
+        if(responseDto == null) {
+            throw new NoSchInfoException();
+        } else {
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        }
     }
 }

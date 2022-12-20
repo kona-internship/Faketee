@@ -137,25 +137,23 @@ public class AttendRequestService {
     }
 
 //    ATD_REQ 이 새로 들어올 때마다 같은 직원이 같은 날짜에 대해서 ATD_REQ 을 보냈었는지 확인
-//    null 이면 직원이 해당 날짜에 처음으로 ATD_REQ 을 보낸 것이므로 바로 CREATE
-//    존재하는 Entity 가 있다면 이미 ATD_REQ 을 보냈으므로 과거의 ATD_REQ val 'U'로 UPDATE
-//    만약 ATD_REQ 의 DRAFT 의 StateCode 가 'APVL_FIN' 이거나 'REJ_FIN' 이면 CREATE 가능하다
-//    Draft StateCode 'WAIT' 일 때만 ATD_REQ 변경 가능 아닌 상태면 throw custom exception
+//    null 이면 직원이 해당 날짜에 처음으로 ATD_REQ 을 보낸 것이므로 Draft CREATE
+//    존재하는 Entity 가 있고 Draft StateCode 'WAIT' 이면 이미 ATD_REQ 을 보냈으므로 과거의 ATD_REQ val 'F'로 UPDATE
 //    Draft CrudType 새로운 ATD_REQ 에 맞게 UPDATE
-//    Draft 찾아서 반환하기
-//    후 새로운 ATD_REQ CREATE
+//    Draft 반환
+//    나머지 Draft StateCode 인 경우(최종승인, 최종반려, 비활성화) 는 Draft CREATE
     @Transactional
     public Draft setOldAttendRequest(Long empId, LocalDate atdReqDate, DraftCrudType crudType) {
         AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate).orElseThrow();
-        if (oldAttendRequest != null) {
-            oldAttendRequest.updateVal();
-            Draft draft = draftRepository.findById(oldAttendRequest.getDraft().getId()).orElseThrow();
 
+        if (oldAttendRequest != null) {
+            Draft draft = draftRepository.findById(oldAttendRequest.getDraft().getId()).orElseThrow();
             if(draft.getStateCode() == DraftStateCode.WAIT) {
+                oldAttendRequest.updateVal();
                 draft.updateCrudType(crudType);
                 return draft;
             } else {
-                throw new DraftNotWaitException();
+                return null;
             }
         } else {
             return null;
