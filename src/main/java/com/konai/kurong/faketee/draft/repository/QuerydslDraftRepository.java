@@ -9,4 +9,5 @@ public interface QuerydslDraftRepository {
     List<Draft> getDraftsWithRequestsByApproverAndStateCode(Long apvlEmpId, List<DraftStateCode> draftStateCodeList);
     List<Draft> getDraftsWithRequestsByEmployeeAndStateCode(Long empId, List<DraftStateCode> draftStateCodeList);
     void updateDraftStateCode(Long draftId, DraftStateCode draftStateCode);
+    List<Long> getDraftIdsByEmployeeId(Long empId);
 }

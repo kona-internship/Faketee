@@ -50,4 +50,23 @@ public class EmployeeResponseDto {
 //        this.departmentId = employee.getDepartment().getId();
 //        this.joinDate = employee
 //    }
+
+    public static EmployeeResponseDto convertToDto(Employee employee){
+
+        return EmployeeResponseDto.builder()
+                .id(employee.getId())
+                .name(employee.getName())
+                .role(employee.getRole().toString())
+                .corporationId(employee.getCorporation().getId())
+                .positionId(employee.getPosition().getId())
+                .departmentId(employee.getDepartment().getId())
+                .val(employee.getVal())
+                .joinDate(String.valueOf(employee.getEmployeeInfo().getJoinDate()))
+                .freeDate(String.valueOf(employee.getEmployeeInfo().getFreeDate()))
+                .empNo(employee.getEmployeeInfo().getEmpNo())
+                .major(employee.getEmployeeInfo().getMajor())
+                .cert(employee.getEmployeeInfo().getCert())
+                .info(employee.getEmployeeInfo().getInfo())
+                .build();
+    }
 }

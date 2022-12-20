@@ -4,7 +4,7 @@ import com.konai.kurong.faketee.draft.dto.DraftResponseDto;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.draft.repository.DraftRepository;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
-import com.konai.kurong.faketee.vacation.repository.VacDateRequestRepository;
+import com.konai.kurong.faketee.vacation.repository.VacRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DraftService {
 
-    private final VacDateRequestRepository vacDateRequestRepository;
+    private final VacRequestRepository vacDateRequestRepository;
     private final DraftRepository draftRepository;
 
     /**
@@ -54,5 +54,9 @@ public class DraftService {
 
     public void cancelDraft(Long draftId){
         draftRepository.updateDraftStateCode(draftId, DraftStateCode.NOT_VALID);
+    }
+
+    public DraftResponseDto getDraft(Long draftId){
+        return DraftResponseDto.convertToDto(draftRepository.findById(draftId).orElseThrow(()->new IllegalArgumentException()));
     }
 }

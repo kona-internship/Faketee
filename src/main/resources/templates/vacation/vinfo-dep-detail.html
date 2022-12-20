@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 휴가 관리</title>
+</head>
+<body>
+<h1>직원 휴가 관리</h1>
+<hr>
+<table>
+    <tr>
+        <th>NAME&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</th>
+        <th>ROLE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</th>
+        <th>JOIN_DATE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</th>
+        <th>FREE_DATE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</th>
+        <th>EMP_NO&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</th>
+    </tr>
+    <tr th:each = "employee : ${employeeList}" role="button" th:empId = "${employee.id}"  th:onclick="toEmpVacInfo(this.getAttribute('empId'))">
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.role}"></td>
+        <td th:text="${employee.joinDate}"></td>
+        <td th:text="${employee.freeDate}"></td>
+        <td th:text="${employee.empNo}"></td>
+    </tr>
+</table>
+<br>
+<p>&copy; faketee2022</p>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+</html>

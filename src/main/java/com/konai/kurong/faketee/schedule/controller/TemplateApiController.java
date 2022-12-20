@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/corporation/{corId}/template")
+@RequestMapping("/api/corporation/{corId}/temp")
 @RestController
 public class TemplateApiController {
 
@@ -53,8 +53,8 @@ public class TemplateApiController {
     @GetMapping("/list")
     public ResponseEntity<?> loadTemplates(@PathVariable(name = "corId") Long corId){
 
-        List<TemplateResponseDto> responseDtos = templateService.loadTemplates(corId);
-        return ResponseEntity.ok(responseDtos);
+//        List<TemplateResponseDto> responseDtos = templateService.loadTemplates(corId);
+        return ResponseEntity.ok(templateService.loadTemplates(corId));
     }
 
     /**

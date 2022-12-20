@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 )
 @Table(name = "VAC_DATE_REQ")
 @Entity
-public class VacDateRequest extends BaseEntity {
+public class VacRequest extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
@@ -42,10 +42,11 @@ public class VacDateRequest extends BaseEntity {
     private VacType vacType;
 
     @ManyToOne
-    @JoinColumn(name = "ITG_DRAFT_ID")
+    @JoinColumn(name = "DRAFT_ID")
     private Draft draft;
 
     @ManyToOne
     @JoinColumn(name = "EMP_ID")
     private Employee employee;
+
 }

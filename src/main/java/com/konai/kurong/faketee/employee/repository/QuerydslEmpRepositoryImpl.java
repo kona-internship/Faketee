@@ -31,11 +31,27 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
     }
 
     @Override
+    public List<Employee> findByDepId(Long depId) {
+
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.department.id.eq(depId), employee.val.eq("T"))
+                .fetch();
+    }
+
+    @Override
+    public List<Employee> findByUserId(Long userId) {
+
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.user.id.eq(userId))
+                .fetch();
+    }
+
     public List<Employee> getEmployeeByDepAndPos(List<Long> deps, List<Long> pos) {
         return jpaQueryFactory
                 .selectFrom(employee)
                 .where(employee.department.id.in(deps).and(employee.position.id.in(pos)))
                 .fetch();
     }
-
 }

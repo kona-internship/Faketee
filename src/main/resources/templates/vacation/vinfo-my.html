@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 휴가</title>
+</head>
+<body>
+<h1>내 휴가</h1>
+<hr>
+<div id="vacation-info"></div>
+<p>&copy; faketee2022</p>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    loadVacationInfo(/*[[${empId}]]*/)
+    /*]]>*/
+</script>
+</html>

@@ -353,7 +353,7 @@ function loadDepartments(tempId) {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            showTextDeptList(data);
+            showTextDepList(data);
         },
         error: function (error) {
             alert(JSON.stringify(error));

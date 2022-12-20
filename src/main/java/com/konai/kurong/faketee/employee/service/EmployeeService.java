@@ -15,8 +15,8 @@ import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
-import com.konai.kurong.faketee.utils.exception.custom.employee.EmpJoinEmailDiffException;
 import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplException;
+import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,8 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Slf4j
@@ -36,6 +38,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeInfoRepository employeeInfoRepository;
     private final EmailAuthService emailAuthService;
+    private final VacInfoService vacInfoService;
     private final CorporationRepository corporationRepository;
     private final PositionRepository positionRepository;
     private final DepartmentRepository departmentRepository;
@@ -94,9 +97,9 @@ public class EmployeeService {
                 .department(department)
                 .employeeInfo(employeeInfo)
                 .build();
-        log.info(">>>>>>>>>>>>>>>>>"+employeeInfo);
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
+        vacInfoService.addVacationInfo(employee, corId);
     }
 
     /**
@@ -290,5 +293,35 @@ public class EmployeeService {
             throw new Exception();
         }
         return employee.get();
+    }
+
+    public List<EmployeeResponseDto> findByDepId(Long depId){
+
+        return employeeRepository.findByDepId(depId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<EmployeeResponseDto> findByUserId(Long userId){
+
+        return employeeRepository.findByUserId(userId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeSessionResponseDto> convertToSessionDto(List<EmployeeResponseDto> list){
+
+        return list
+                .stream()
+                .map(EmployeeSessionResponseDto::convertToSessionDto)
+                .collect(Collectors.toList());
+    }
+
+    public EmployeeResponseDto findById(Long empId){
+
+        return EmployeeResponseDto.convertToDto(employeeRepository.findById(empId).orElseThrow());
     }
 }

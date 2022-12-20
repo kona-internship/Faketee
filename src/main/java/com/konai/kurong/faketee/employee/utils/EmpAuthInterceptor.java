@@ -74,9 +74,9 @@ public class EmpAuthInterceptor implements HandlerInterceptor {
         request.setAttribute(AUTH_EMP_KEY, reqEmpInfo);
 
         // 요청한 사람이 조직 관리자일 경우 + 메서드의 권한이 조직관리사 이상의 권한 요구할 시 + 하위 조직인지 여부를 확인해야 할 시 (어노테이션에 속성으로 체크)
-        if(reqEmpInfo.getRole().equals(EmpRole.GROUP_MANAGER) && empAuth.role().compareTo(EmpRole.GROUP_MANAGER)<=0 && empAuth.onlyLowDep()){
-            request.setAttribute(AUTH_LOW_DEP_KEY, true);
-        }
+//        if(reqEmpInfo.getRole().equals(EmpRole.GROUP_MANAGER) && empAuth.role().compareTo(EmpRole.GROUP_MANAGER)<=0 && empAuth.onlyLowDep()){
+//            request.setAttribute(AUTH_LOW_DEP_KEY, true);
+//        }
 
         log.info("==================end=========================");
         return true;

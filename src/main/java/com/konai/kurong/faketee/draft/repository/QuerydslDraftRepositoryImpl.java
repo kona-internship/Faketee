@@ -17,29 +17,41 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    @Override
     public List<Draft> getDraftsWithRequestsByApproverAndStateCode(Long apvlEmpId, List<DraftStateCode> draftStateCodeList) {
         List<Draft> draftList =  jpaQueryFactory
                 .selectFrom(draft)
                 .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmpFin.id.eq(apvlEmpId))).and(draft.stateCode.in(draftStateCodeList)))
                 .fetch();
-        draftList.stream().map(Draft::getVacDateRequestList).forEach(Hibernate::initialize);
+        draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
         return draftList;
     }
 
+    @Override
     public List<Draft> getDraftsWithRequestsByEmployeeAndStateCode(Long empId, List<DraftStateCode> draftStateCodeList){
         List<Draft> draftList =  jpaQueryFactory
                 .selectFrom(draft)
                 .where(draft.requestEmployee.id.eq(empId).and(draft.stateCode.in(draftStateCodeList)))
                 .fetch();
-        draftList.stream().map(Draft::getVacDateRequestList).forEach(Hibernate::initialize);
+        draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
         return draftList;
     }
 
+    @Override
     public void updateDraftStateCode(Long draftId, DraftStateCode draftStateCode){
         jpaQueryFactory
                 .update(draft)
                 .set(draft.stateCode, draftStateCode)
                 .where(draft.id.eq(draftId))
                 .execute();
+    }
+
+    @Override
+    public List<Long> getDraftIdsByEmployeeId(Long empId){
+        return jpaQueryFactory
+                .select(draft.id)
+                .from(draft)
+                .where(draft.requestEmployee.id.eq(empId))
+                .fetch();
     }
 }

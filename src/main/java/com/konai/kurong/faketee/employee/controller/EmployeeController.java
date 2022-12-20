@@ -24,6 +24,7 @@ public class EmployeeController {
 
     @GetMapping("/register")
     public String registerEmp() {
+
         return "employee/register";
     }
 

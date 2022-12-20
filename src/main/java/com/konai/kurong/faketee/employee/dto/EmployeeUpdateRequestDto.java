@@ -3,7 +3,8 @@ package com.konai.kurong.faketee.employee.dto;
 import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.department.service.DepartmentService;
 import com.konai.kurong.faketee.employee.entity.EmployeeInfo;
-import com.konai.kurong.faketee.employee.utils.DepIdsDto;
+import com.konai.kurong.faketee.employee.utils.AuthIdsDto;
+import com.konai.kurong.faketee.employee.utils.EmpAuthCheckList;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class EmployeeUpdateRequestDto implements DepIdsDto {
+public class EmployeeUpdateRequestDto implements AuthIdsDto {
     private static DepartmentService departmentService;
 
     @NotBlank
@@ -45,14 +46,16 @@ public class EmployeeUpdateRequestDto implements DepIdsDto {
     private String info;
 
     @Override
-    public List<Long> getDepIds() {
+    public EmpAuthCheckList getEmpAuthCheckList() {
         Department department = departmentService.findDepartmentById(departmentId);
         List<Department> depList = departmentService.getSubDepList(department);
         List<Long> depIdList = new ArrayList<>();
         for(Department dep : depList) {
             depIdList.add(dep.getId());
         }
-        return depIdList;
+        return EmpAuthCheckList.builder()
+                .idList(depIdList)
+                .build();
     }
 
 //    public EmployeeInfo toEmployeeInfoEntity() {
