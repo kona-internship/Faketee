@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.utils.jpa_auditing;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  * @EntityListeners(AuditingEntityListener.class) 해당 클래스에 Auditing 기능을 포함
  */
 @Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
