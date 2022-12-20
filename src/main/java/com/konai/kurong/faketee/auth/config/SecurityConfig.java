@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableWebSecurity
@@ -113,6 +115,12 @@ public class SecurityConfig {
                 .and()
                     .logout()
                         .logoutUrl("/logout")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            HttpSession session = request.getSession();
+                            if(session != null){
+                                session.invalidate();
+                            }
+                        })
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true) // 세션 날리기
 //                        .permitAll()
