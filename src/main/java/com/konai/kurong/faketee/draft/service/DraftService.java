@@ -9,8 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-
+@Transactional
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -53,6 +54,7 @@ public class DraftService {
     }
 
     public void cancelDraft(Long draftId){
+        // 캔슬 할 때 상태 확인(대기중일 때만)
         draftRepository.updateDraftStateCode(draftId, DraftStateCode.NOT_VALID);
     }
 
