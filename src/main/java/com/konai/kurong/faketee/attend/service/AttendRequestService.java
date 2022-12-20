@@ -25,6 +25,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Service
@@ -144,7 +145,8 @@ public class AttendRequestService {
 //    후 새로운 ATD_REQ CREATE
     @Transactional
     public Draft setOldAttendRequest(Long empId, LocalDate atdReqDate, DraftCrudType crudType) {
-        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate).orElseThrow();
+        Long draftId = 1L;
+        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate, draftId).orElseThrow();
         if (oldAttendRequest != null) {
             oldAttendRequest.updateVal();
             Draft draft = draftRepository.findById(oldAttendRequest.getDraft().getId()).orElseThrow();
@@ -184,7 +186,9 @@ public class AttendRequestService {
      * @return 기록이 없으면 true 생성 요청 가능
      * @return 기록이 있으면 false 생성 요청 불가능
      */
-    public boolean checkAtdRecord(LocalDate date) {
-        return attendRepository.findByDate(date).orElse(null) == null ? true : false;
+    public boolean checkAtdRecord(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        return attendRepository.findByDate(localDate).orElse(null) == null ? true : false;
     }
 }
