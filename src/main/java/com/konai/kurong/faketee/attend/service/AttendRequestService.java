@@ -25,6 +25,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Service
@@ -125,7 +126,7 @@ public class AttendRequestService {
     public AttendRequest saveAttendRequest(LocalDate atdReqDate, LocalTime startTime, LocalTime endTime, Employee requestEmployee, Draft draft) {
         AttendRequest attendRequest = AttendRequest.builder()
                 .atdReqDate(atdReqDate)
-                .val(AttendRequestVal.C)    //  'Common'
+                .val(AttendRequestVal.T)    //  'Common'
                 .startTime(startTime)
                 .endTime(endTime)
                 .employee(requestEmployee)
@@ -138,6 +139,7 @@ public class AttendRequestService {
 //    ATD_REQ 이 새로 들어올 때마다 같은 직원이 같은 날짜에 대해서 ATD_REQ 을 보냈었는지 확인
 //    null 이면 직원이 해당 날짜에 처음으로 ATD_REQ 을 보낸 것이므로 바로 CREATE
 //    존재하는 Entity 가 있다면 이미 ATD_REQ 을 보냈으므로 과거의 ATD_REQ val 'U'로 UPDATE
+//    만약 ATD_REQ 의 DRAFT 의 StateCode 가 'APVL_FIN' 이거나 'REJ_FIN' 이면 CREATE 가능하다
 //    Draft StateCode 'WAIT' 일 때만 ATD_REQ 변경 가능 아닌 상태면 throw custom exception
 //    Draft CrudType 새로운 ATD_REQ 에 맞게 UPDATE
 //    Draft 찾아서 반환하기
@@ -184,7 +186,9 @@ public class AttendRequestService {
      * @return 기록이 없으면 true 생성 요청 가능
      * @return 기록이 있으면 false 생성 요청 불가능
      */
-    public boolean checkAtdRecord(LocalDate date) {
-        return attendRepository.findByDate(date).orElse(null) == null ? true : false;
+    public boolean checkAtdRecord(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        return attendRepository.findByDate(localDate).orElse(null) == null ? true : false;
     }
 }
