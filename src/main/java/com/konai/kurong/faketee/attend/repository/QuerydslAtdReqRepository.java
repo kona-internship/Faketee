@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface QuerydslAtdReqRepository {
-    Optional<AttendRequest> findAttendRequestByEmpDateVal(Long empId, LocalDate atdReqDate, Long draftId);
+    Optional<AttendRequest> findAttendRequestByEmpDateVal(Long empId, LocalDate atdReqDate);
 
     Optional<AttendRequest> findAttendRequestByDraftVal(Long draftId);
 }
