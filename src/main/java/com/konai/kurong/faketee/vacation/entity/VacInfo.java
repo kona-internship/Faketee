@@ -2,6 +2,7 @@ package com.konai.kurong.faketee.vacation.entity;
 
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
+import com.konai.kurong.faketee.vacation.dto.VacInfoUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @SequenceGenerator(
         name = "VAC_INFO_SEQUENCE_GENERATOR",
-        sequenceName = "VAC_INFO",
+        sequenceName = "VAC_INFO_SEQUENCE",
         initialValue = 1,
         allocationSize = 1
 )
@@ -30,8 +31,11 @@ public class VacInfo extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "REMAIN")
-    private Long remain;
+    @Column(name = "REMAINING")
+    private Double remaining;
+
+    @Column(name = "USED")
+    private Double used;
 
     @ManyToOne
     @JoinColumn(name = "EMP_ID")
@@ -40,4 +44,10 @@ public class VacInfo extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "VAC_GROUP_ID")
     private VacGroup vacGroup;
+
+    public Long updateVacInfo(VacInfoUpdateRequestDto requestDto){
+
+        this.remaining += requestDto.getAdd();
+        return id;
+    }
 }

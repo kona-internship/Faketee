@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @SequenceGenerator(
         name = "VAC_GROUP_SEQUENCE_GENERATOR",
-        sequenceName = "VAC_GROUP",
+        sequenceName = "VAC_GROUP_SEQUENCE",
         initialValue = 1,
         allocationSize = 1
 )
@@ -32,6 +32,9 @@ public class VacGroup extends BaseEntity {
 
     @Column(name = "NAME")
     private String name;
+
+    @Column(name = "APVL_LVL")
+    private String approvalLevel;
 
     @ManyToOne
     @JoinColumn(name = "COR_ID")

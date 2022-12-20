@@ -17,13 +17,20 @@ public class VacGroupSaveRequestDto {
 
     private Long id;
     private String name;
+    private String approvalLevel;
     private Corporation corporation;
 
     public VacGroup toEntity(){
 
         return VacGroup.builder()
                 .name(name)
+                .approvalLevel(approvalLevel)
                 .corporation(corporation)
                 .build();
+    }
+
+    public void setCorporation(Corporation corporation){
+
+        this.corporation = corporation;
     }
 }

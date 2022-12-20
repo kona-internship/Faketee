@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>휴가유형</title>
+</head>
+<body>
+<h1>휴가유형 상세</h1>
+<button type="button" th:typeId = "${responseDto.id}" th:onclick="deleteVacationType(this.getAttribute('typeId'))">삭제하기</button>
+<hr>
+<h3>휴가유형 이름: </h3>
+<div th:text="${responseDto.name}"></div><br>
+<h3>소속 휴가그룹: </h3>
+<div th:text="${responseDto.vacGroupResponseDto.name}"></div><br>
+<h3>차감일수: </h3>
+<div th:text="${responseDto.sub} + 일"></div><br>
+<h3>휴가시간: </h3>
+<!--<div th:text="${responseDto.startTime} + 시부터 + ${responseDto.endTime} + 시">-->
+<div>
+    <span th:text="${responseDto.startTime}"></span>
+    시 ~
+    <span th:text="${responseDto.endTime}"></span>
+    시
+</div><br>
+<p>&copy; faketee2022</p>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation.js"></script>
+<script type="text/javascript" src="/js/department/department.js"></script>
+</html>

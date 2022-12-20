@@ -11,16 +11,22 @@ import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.util.Role;
 import com.konai.kurong.faketee.account.util.Type;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
+import com.konai.kurong.faketee.employee.dto.EmployeeSessionResponseDto;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoEmailAuthFoundException;
 import com.konai.kurong.faketee.utils.exception.custom.auth.NoUserFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -68,7 +74,7 @@ public class UserService {
      */
     public UserResponseDto findByEmail(String email) {
 
-        return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException()));
+        return new UserResponseDto(userRepository.findByEmail(email).orElseThrow(NoUserFoundException::new));
     }
 
     /**
@@ -79,7 +85,7 @@ public class UserService {
      */
     public User findUserByEmail(String email) {
 
-        return userRepository.findByEmail(email).orElseThrow(() -> new NoUserFoundException());
+        return userRepository.findByEmail(email).orElseThrow(NoUserFoundException::new);
     }
 
     /**
@@ -94,7 +100,7 @@ public class UserService {
     @Transactional
     public Long updatePassword(Long id, UserUpdateRequestDto requestDto) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new NoUserFoundException());
+        User user = userRepository.findById(id).orElseThrow(NoUserFoundException::new);
 
         String rawPassword = requestDto.getNewPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
@@ -141,7 +147,7 @@ public class UserService {
      */
     public boolean validateEmail(String email) {
 
-        return userRepository.findByEmail(email).orElse(null) == null? true : false;
+        return userRepository.findByEmail(email).orElse(null) == null ? true : false;
     }
 
     /**
@@ -169,4 +175,19 @@ public class UserService {
         return true;
     }
 
+    /**
+     * 현재 로그인 되어 있는 회사에서 EMP ID 를 find 해준다.
+     *
+     * @param sessionUser controller 에서 @LoginUser 로 받아올 것
+     * @param corId URI 의 corId 를 받아올 것
+     * @return
+     */
+    public Long findEmployeeId(SessionUser sessionUser, Long corId){
+
+        for(EmployeeSessionResponseDto dto : sessionUser.getEmployeeList()){
+            if (Objects.equals(dto.getCorId(), corId))
+                return dto.getId();
+        }
+        throw new RuntimeException("잘못된 접근");
+    }
 }

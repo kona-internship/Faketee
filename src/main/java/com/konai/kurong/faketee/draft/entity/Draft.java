@@ -3,7 +3,7 @@ package com.konai.kurong.faketee.draft.entity;
 import com.konai.kurong.faketee.draft.utils.*;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
-import com.konai.kurong.faketee.vacation.entity.VacDateRequest;
+import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -76,7 +76,7 @@ public class Draft extends BaseEntity {
     @BatchSize(size = 10)
     @OneToMany(fetch = LAZY, mappedBy = "draft")
     @Builder.Default
-    private List<VacDateRequest> vacDateRequestList = new ArrayList<>();
+    private List<VacRequest> vacRequestList = new ArrayList<>();
 
     public void updateCrudType(DraftCrudType crudType) {
         this.crudType = crudType;
