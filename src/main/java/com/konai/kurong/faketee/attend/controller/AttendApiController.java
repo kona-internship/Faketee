@@ -26,7 +26,6 @@ public class AttendApiController {
     @GetMapping("/load")
     public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId,
                                       @RequestParam("date") String date, @ReqEmp ReqEmpInfo empInfo) {
-        log.info("dsd");
 
         return new ResponseEntity<>(attendService.getUserScheduleInfo(corId, date, empInfo.getId()), HttpStatus.OK);
     }
