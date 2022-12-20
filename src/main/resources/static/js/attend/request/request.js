@@ -72,16 +72,17 @@ function createSetTimeShow() {
 }
 
 /**
- * 출퇴근기록 생성 요청 시, 선택한 날짜와 시간을 다음 페이지로 이동시킨다
+ * 출퇴근기록 생성 요청에서 시간 설정 시,
+ * 선택한 날짜와 시간을 승인권자 설정 페이지로 이동시킨다
  */
 function createSelectTime() {
     let selectedDate = $('#showDate').val()
-    let startTime = $('#startTime').val()
-    let endTime = $('#endTime').val()
+    let startTime = $('#sch-startTime').val()
+    let endTime = $('#sch-endTime').val()
     let schInfoId = $('#schInfoId').val()
     let schInfo = $('#showSch').val()
 
-    location.href = `create/set-time?selectedDate=${selectedDate}&startTime=${startTime}&endTime=${endTime}&schInfoId=${schInfoId}&schInfo=${schInfo}`;
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ  + `/create/set-apvl?selectedDate=${selectedDate}&startTime=${startTime}&endTime=${endTime}&schInfoId=${schInfoId}&schInfo=${schInfo}`;
 }
 
 /**
@@ -97,11 +98,6 @@ function createSetApvlShow() {
     $('input[name=date]').attr('value', selectedDate);
     $('input[name=time]').attr('value', startTime + " ~ " + endTime);
     $('input[name=sch]').attr('value', schInfo);
-}
 
-/**
- * 사유와 승인권자를 입력했는지 확인한다
- */
-function checkCreateForm() {
 
 }
