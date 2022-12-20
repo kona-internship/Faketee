@@ -45,5 +45,4 @@ public class VacType extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "VAC_GROUP_ID")
     private VacGroup vacGroup;
-
 }

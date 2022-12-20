@@ -39,4 +39,7 @@ public class VacGroup extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
+
+    @Column(name = "APVL_LVL")
+    private Boolean apvlLevel;
 }

@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 public class DraftResponseDto {
     private Long id;
 
+    private String requestEmployee;
+
     private LocalDateTime approvalDate;
 
     private LocalDateTime requestDate;
@@ -29,11 +31,12 @@ public class DraftResponseDto {
 
     private String crudType;
 
-    private List<ReqDateResponseDto> dateList;
+    private List<ReqResponseDto> reqList;
 
     public static DraftResponseDto convertToDto(Draft draft){
         DraftResponseDto.DraftResponseDtoBuilder builder =  DraftResponseDto.builder()
                 .id(draft.getId())
+                .requestEmployee(draft.getRequestEmployee().getName())
                 .approvalDate(draft.getApprovalDate())
                 .requestDate(draft.getRequestDate())
                 .approvalMessage(draft.getApprovalMessage())
@@ -45,7 +48,7 @@ public class DraftResponseDto {
         if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){
 //            return builder.dateList(draft.getAtd()).build();
         } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {
-            return builder.dateList(ReqDateResponseDto.convertToDtoList(draft.getVacRequestList())).build();
+            return builder.reqList(ReqResponseDto.convertToDtoList(draft.getVacRequestList())).build();
         }
         return null;
     }

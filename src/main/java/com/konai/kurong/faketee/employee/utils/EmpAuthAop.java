@@ -65,7 +65,7 @@ public class EmpAuthAop {
             case DEP_LOW:
                 empAuthParamValidator.validateDepartment(reqEmpInfo.getId(), idList);
                 break;
-            case DRAFT:
+            case DRAFT_REQ:
                 empAuthParamValidator.validateDraft(reqEmpInfo.getId(), idList);
                 break;
         }

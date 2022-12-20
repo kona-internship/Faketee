@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
         initialValue = 1,
         allocationSize = 1
 )
-@Table(name = "VAC_DATE_REQ")
+@Table(name = "VAC_REQ")
 @Entity
 public class VacRequest extends BaseEntity {
 
@@ -31,7 +31,7 @@ public class VacRequest extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DATE")
+    @Column(name = "VAC_REQ_DATE")
     private LocalDateTime date;
 
     @Column(name = "VAL")
