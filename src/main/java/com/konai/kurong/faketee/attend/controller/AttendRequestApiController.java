@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +25,8 @@ public class AttendRequestApiController {
     private final ScheduleInfoService scheduleInfoService;
 
     @GetMapping("/create/check-date")
-    public ResponseEntity<?> createAtdRecord(LocalDate date) {
+    public ResponseEntity<?> createAtdRecord(@RequestParam("selectedDate") String date) {
+        log.info("###########AttendRequestApiController createAtdRecord date : " + date);
         return ResponseEntity.ok(attendRequestService.checkAtdRecord(date));
     }
 
