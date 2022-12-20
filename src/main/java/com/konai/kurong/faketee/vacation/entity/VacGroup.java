@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -39,4 +41,20 @@ public class VacGroup extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "COR_ID")
     private Corporation corporation;
+
+    @OneToMany(
+            mappedBy = "vacGroup",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
+    private List<VacType> vacTypes = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "vacGroup",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
+    private List<VacInfo> vacInfos = new ArrayList<>();
 }

@@ -11,5 +11,6 @@ public interface VacInfoCustomRepository {
     List<VacInfo> findAllByCorId(@Param("corId") Long corId);
     List<VacInfo> findAllByDepId(@Param("depId") Long depId);
     VacInfo updateByEmpAndVacGroupId(@Param("empId") Long empId, @Param("vacGroupId") Long vacGroupId);
+    void deleteByVacGroupId(@Param("vacGroupId") Long vacGroupId);
 
 }
