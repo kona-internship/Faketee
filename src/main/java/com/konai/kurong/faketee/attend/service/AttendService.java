@@ -33,52 +33,48 @@ public class AttendService {
      *
      * @param corId
      * @param date
-     * @param userId
      * @return
      * @throws Exception
      */
     @Transactional
-    public AttendResponseDto getUserScheduleInfo(Long corId, String date, Long userId) throws Exception {
-        Employee emp = employeeService.getEmpByUserAndCor(userId, corId);
-        ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(date, corId, emp.getId());
+    public AttendResponseDto getUserScheduleInfo(Long corId, String date, Long empId) {
+        Employee emp = employeeService.findByEmployeeById(empId);
+        ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(date, corId, empId);
         String department = emp.getDepartment().getName();
 
         if (scheduleInfo == null) {
             return null;
         }
         Optional<Attend> attend = attendRepository.findAllByScheduleInfoId(scheduleInfo.getId());
-        AttendResponseDto attendResponseDto;
+        AttendResponseDto.AttendResponseDtoBuilder builder = AttendResponseDto.builder()
+                .schStartTime(scheduleInfo.getStartTime().toString())
+                .schEndTime(scheduleInfo.getEndTime().toString())
+                .depName(department);
         String state;
         if (attend.isPresent()) {
             //출근버튼을 찍었다는 말. 근무 중/초과근로 or 퇴근 완료
             Attend todayAtd = attend.get();
             state = checkAtdState(todayAtd.getEndTime(), scheduleInfo.getEndTime());
             log.info(state);
-            attendResponseDto = AttendResponseDto.builder()
-                    .schStartTime(scheduleInfo.getStartTime().toString())
-                    .schEndTime(scheduleInfo.getEndTime().toString())
-                    .depName(department)
+             builder
                     .todaySch(scheduleInfo.getState())
                     .state(state)
                     .atdStartTime(todayAtd.getStartTime().toString())
-                    .atdEndTime(String.valueOf(todayAtd.getEndTime()))
-                    .build();
+                    .atdEndTime(String.valueOf(todayAtd.getEndTime()));
 
         } else {
             //출근버튼을 찍지않았다. 근무 전 or 지각 or 결근
             state = checkState(scheduleInfo.getStartTime(), scheduleInfo.getEndTime());
             log.info(state);
 
-            attendResponseDto = AttendResponseDto.builder()
-                    .schStartTime(scheduleInfo.getStartTime().toString())
-                    .schEndTime(scheduleInfo.getEndTime().toString())
-                    .depName(department)
+             builder
                     .todaySch(ScheduleInfoResponseDto.schState(scheduleInfo))
                     .state(state)
-                    .build();
+                    .atdStartTime("null")
+                    .atdEndTime("null");
         }
 
-        return attendResponseDto;
+        return builder.build();
     }
 
     /**
@@ -126,16 +122,15 @@ public class AttendService {
      * 퇴근 시에는 기존 attend를 update한다.
      *
      * @param corId
-     * @param userId
      * @param onOff
      * @throws Exception
      */
     @Transactional
-    public void clickAtd(Long corId, Long userId, String onOff) throws Exception {
-        Employee emp = employeeService.getEmpByUserAndCor(userId, corId);
+    public void clickAtd(Long corId, Long empId, String onOff) {
+        Employee emp = employeeService.findByEmployeeById(empId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(LocalDate.now().format(formatter), corId, emp.getId());
+        ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(LocalDate.now().format(formatter), corId, empId);
         if(onOff.equals("on")){
             //행 새로 생성
             Attend attend = Attend.builder()
