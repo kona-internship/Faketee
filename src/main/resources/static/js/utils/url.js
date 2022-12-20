@@ -29,6 +29,12 @@ const PATH_TMP = "/template";
  */
 const PATH_EMP = "/emp";
 
+/**
+ * 기안 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_DRAFT = "/draft";
 
 /**
  * 회사 선택 후 url에 들어가는 prefix이다.
