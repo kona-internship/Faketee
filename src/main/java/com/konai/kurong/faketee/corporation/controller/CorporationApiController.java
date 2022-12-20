@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -43,9 +44,10 @@ public class CorporationApiController {
      */
     @PostMapping("/api/join-corporation")
     public ResponseEntity<?> joinCorporation(@LoginUser SessionUser user,
-                                             @Valid @RequestBody EmployeeJoinRequestDto requestDto) {
+                                             @Valid @RequestBody EmployeeJoinRequestDto requestDto,
+                                             HttpServletRequest httpServletRequest) {
 
-        employeeService.joinEmployee(user.getId(), requestDto);
+        employeeService.joinEmployee(user.getId(), requestDto, user, httpServletRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
