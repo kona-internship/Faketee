@@ -69,7 +69,7 @@ public class EmployeeService {
 //        직원 상세정보(EMP_INFO) Entity 만들어서 먼저 저장하기
         EmployeeInfo employeeInfo = EmployeeInfo.builder()
                 .joinDate(new java.sql.Timestamp(requestDto.getJoinDate().getTime()).toLocalDateTime())
-                .freeDate(new java.sql.Timestamp(requestDto.getJoinDate().getTime()).toLocalDateTime())
+                .freeDate(new java.sql.Timestamp(requestDto.getFreeDate().getTime()).toLocalDateTime())
                 .major(requestDto.getMajor())
                 .cert(requestDto.getCert())
                 .info(requestDto.getInfo())
