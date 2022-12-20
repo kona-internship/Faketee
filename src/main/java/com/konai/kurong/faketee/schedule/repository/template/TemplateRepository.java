@@ -8,6 +8,5 @@ import java.util.List;
 public interface TemplateRepository extends JpaRepository<Template, Long>, TemplateCustomRepository {
 
     Long countTemplateByScheduleTypeId(Long typeId);
-    List<Template> findTemplatesByScheduleTypeCorporationIdOrderById(Long corId);
 
 }

@@ -44,7 +44,11 @@ public enum ExceptionId {
     VAC_TYPE_NOT_FOUND("400_008_001"),
     VAC_GROUP_NOT_FOUND("400_008_002"),
     VAC_INFO_NOT_FOUND("400_008_003"),
-    VAC_DATE_REQUEST_NOT_FOUND("400_008_004");
+    VAC_DATE_REQUEST_NOT_FOUND("400_008_004"),
+
+//    ===============ATTEND_REQUEST=================
+    ATTEND_REQUEST_DRAFT_NOT_WAIT("400_010_001");
+
 
     private final String exceptionId;
 

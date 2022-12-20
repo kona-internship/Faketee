@@ -1,7 +1,7 @@
 package com.konai.kurong.faketee.employee.repository;
 
+import com.konai.kurong.faketee.department.entity.Department;
 import com.konai.kurong.faketee.employee.entity.Employee;
-import com.konai.kurong.faketee.employee.entity.QEmployee;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +45,13 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
         return jpaQueryFactory
                 .selectFrom(employee)
                 .where(employee.user.id.eq(userId))
+                .fetch();
+    }
+
+    public List<Employee> getEmployeeByDepAndPos(List<Long> deps, List<Long> pos) {
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.department.id.in(deps).and(employee.position.id.in(pos)))
                 .fetch();
     }
 }
