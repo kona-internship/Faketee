@@ -46,9 +46,9 @@ public class DraftResponseDto {
                 .crudType(draft.getCrudType().getType());
 
         if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){
-//            return builder.dateList(draft.getAtd()).build();
+            return builder.reqList(ReqResponseDto.convertToAtdDtoList(draft.getAtdRequestList())).build();
         } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {
-            return builder.reqList(ReqResponseDto.convertToDtoList(draft.getVacRequestList())).build();
+            return builder.reqList(ReqResponseDto.convertToVacDtoList(draft.getVacRequestList())).build();
         }
         return null;
     }
