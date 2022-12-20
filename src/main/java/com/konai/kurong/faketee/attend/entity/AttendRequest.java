@@ -53,7 +53,7 @@ public class AttendRequest extends BaseEntity {
     @JoinColumn(name = "EMP_ID", nullable = false)
     private Employee employee;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "DRAFT_ID", nullable = false)
     private Draft draft;
 
