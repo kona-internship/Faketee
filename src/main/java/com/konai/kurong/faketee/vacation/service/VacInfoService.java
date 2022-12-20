@@ -1,12 +1,12 @@
 package com.konai.kurong.faketee.vacation.service;
 
 import com.konai.kurong.faketee.employee.entity.Employee;
+import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationInfoNotFoundException;
 import com.konai.kurong.faketee.vacation.dto.VacInfoResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacInfoSaveRequestDto;
 import com.konai.kurong.faketee.vacation.dto.VacInfoUpdateRequestDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
-import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
 import com.konai.kurong.faketee.vacation.repository.vac_info.VacInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class VacInfoService {
 
     private final VacInfoRepository vacInfoRepository;
     private final VacGroupRepository vacGroupRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Transactional
     public Long save(VacInfoSaveRequestDto requestDto){
@@ -61,7 +62,7 @@ public class VacInfoService {
     }
 
     @Transactional
-    public void addVacationInfo(Employee employee, Long corId){
+    public void initVacInfo(Employee employee, Long corId){
 
         for(VacGroup group : vacGroupRepository.findAllByCorId(corId)){
                     this.save(VacInfoSaveRequestDto.builder()
@@ -71,10 +72,20 @@ public class VacInfoService {
                     .build());
         }
     }
+    @Transactional
+    public void newVacGroup(Long empId, VacGroup vacGroup){
+
+        this.save(VacInfoSaveRequestDto.builder()
+                .remaining(0D)
+                .employee(employeeRepository.findById(empId).orElseThrow(() -> new RuntimeException("Employee Not Found")))
+                .vacGroup(vacGroup)
+                .build());
+    }
 
     @Transactional
     public Long updateInfo(VacInfoUpdateRequestDto requestDto){
 
         return vacInfoRepository.updateByEmpAndVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
     }
+
 }
