@@ -39,6 +39,16 @@ public class VacInfoService {
     }
 
     /**
+     * VacGroup 에 해당되는 휴가 정보(들)을 삭제
+     * @param vacGroupId
+     */
+    @Transactional
+    public void deleteByVacGroupId(Long vacGroupId){
+
+        vacInfoRepository.deleteByVacGroupId(vacGroupId);
+    }
+
+    /**
      * 직원이 가지고 있는 휴가 정보(들)을 반환한다.
      *
      * @param empId

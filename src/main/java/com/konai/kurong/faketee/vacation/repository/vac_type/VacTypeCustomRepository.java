@@ -10,4 +10,5 @@ public interface VacTypeCustomRepository {
 
     List<VacType> findAllByCorId(@Param("corId") Long corId);
     List<VacType> findAllByVacGroupId(@Param("vacGroupId") Long vacGroupId);
+    void deleteByVacGroupId(@Param("vacGroupId") Long vacGroupId);
 }

@@ -26,6 +26,7 @@ public class VacGroupService {
     private final CorporationRepository corporationRepository;
     private final EmployeeService employeeService;
     private final VacInfoService vacInfoService;
+    private final VacTypeService vacTypeService;
 
     /**
      * 휴가 그룹 생성
@@ -51,13 +52,16 @@ public class VacGroupService {
     /**
      * 휴가 그룹 삭제
      *
-     * @param id
+     * @param vacGroupId
      */
     @Transactional
-    public void delete(Long id){
+    public void delete(Long vacGroupId){
         // TODO: vac_info 랑 vac_type에서 vac_group을 연관관계로 가지는 데이터 삭제 후 그룹 삭제해야 함
+        // jpa 의 orphanremoval 로 해결
 
-        vacGroupRepository.deleteById(id);
+//        vacInfoService.deleteByVacGroupId(vacGroupId);
+//        vacTypeService.deleteByVacGroupId(vacGroupId);
+        vacGroupRepository.deleteById(vacGroupId);
     }
 
     /**

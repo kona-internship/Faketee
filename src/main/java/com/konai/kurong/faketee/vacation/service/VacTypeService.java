@@ -49,6 +49,17 @@ public class VacTypeService {
     }
 
     /**
+     * VacGroup 에 해당하는 휴가 유형(들)을 삭제
+     *
+     * @param vacGroupId
+     */
+    @Transactional
+    public void deleteByVacGroupId(Long vacGroupId){
+
+        vacTypeRepository.deleteByVacGroupId(vacGroupId);
+    }
+
+    /**
      * 회사의 휴가 유형(들)을 반환한다.
      *
      * URL 에 있는 corId 를 사용하여 해당 corporation 의 vac type 들을 찾는다.
