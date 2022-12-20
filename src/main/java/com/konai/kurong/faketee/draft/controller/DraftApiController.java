@@ -44,7 +44,7 @@ public class DraftApiController {
     }
 
     @EmpAuth(role = EmpRole.EMPLOYEE)
-    @PostMapping("/done-list")
+    @PostMapping("/cancel")
     public ResponseEntity<?> cancelDraft(
             @Valid @RequestBody DraftCancelRequestDto requestDto) {
         draftService.cancelDraft(requestDto.getDraftId());
