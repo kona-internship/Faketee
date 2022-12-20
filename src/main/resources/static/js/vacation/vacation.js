@@ -337,6 +337,10 @@ function modVacation(empId){
         empId : empId
     }
 
+    alert(data.add);
+    alert(data.vacGroupId);
+    alert(data.empId);
+
     $.ajax({
         type: "POST",
         url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO,
