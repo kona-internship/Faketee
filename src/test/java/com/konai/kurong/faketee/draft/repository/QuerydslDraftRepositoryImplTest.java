@@ -17,18 +17,19 @@ import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.position.entity.Position;
 import com.konai.kurong.faketee.position.repository.PositionRepository;
-import com.konai.kurong.faketee.vacation.entity.VacDateRequest;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
+import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import com.konai.kurong.faketee.vacation.entity.VacType;
-import com.konai.kurong.faketee.vacation.repository.VacDateRequestRepository;
-import com.konai.kurong.faketee.vacation.repository.VacGroupRepository;
-import com.konai.kurong.faketee.vacation.repository.VacTypeRepository;
+import com.konai.kurong.faketee.vacation.repository.VacRequestRepository;
+import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
+import com.konai.kurong.faketee.vacation.repository.vac_type.VacTypeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -53,7 +54,7 @@ class QuerydslDraftRepositoryImplTest {
     @Autowired
     private EmployeeInfoRepository employeeInfoRepository;
     @Autowired
-    private VacDateRequestRepository vacDateRequestRepository;
+    private VacRequestRepository vacDateRequestRepository;
     @Autowired
     private VacGroupRepository vacGroupRepository;
     @Autowired
@@ -106,7 +107,7 @@ class QuerydslDraftRepositoryImplTest {
         VacGroup vacGroup = VacGroup.builder()
                 .name("test_vac_group")
                 .corporation(savedCor)
-                .apvlLevel(false)
+                .approvalLevel("1")
                 .build();
         vacGroup.setCRE_ID(1L);
         vacGroup.setCRE_DTTM(LocalDateTime.now());
@@ -114,9 +115,9 @@ class QuerydslDraftRepositoryImplTest {
         VacType vacType = VacType.builder()
                 .name("test_vac_type")
                 .vacGroup(vacGroup)
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now())
-                .sub(3L)
+                .startTime(LocalTime.now())
+                .endTime(LocalTime.now())
+                .sub(3.)
                 .build();
         vacType.setCRE_ID(1L);
         vacType.setCRE_DTTM(LocalDateTime.now());
@@ -135,7 +136,7 @@ class QuerydslDraftRepositoryImplTest {
             draft.setCRE_DTTM(LocalDateTime.now());
             Draft saveDraft = draftRepository.save(draft);
             for(int j=0; j<10;j++) {
-                VacDateRequest vacDateRequest = VacDateRequest.builder()
+                VacRequest vacDateRequest = VacRequest.builder()
                         .date(LocalDateTime.now())
                         .vacType(vacType)
                         .draft(saveDraft)
@@ -144,7 +145,7 @@ class QuerydslDraftRepositoryImplTest {
                         .build();
                 vacDateRequest.setCRE_ID(1L);
                 vacDateRequest.setCRE_DTTM(LocalDateTime.now());
-                VacDateRequest saveVac = vacDateRequestRepository.save(vacDateRequest);
+                VacRequest saveVac = vacDateRequestRepository.save(vacDateRequest);
                 System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+saveVac);
                 System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+vacDateRequest.getEmployee().getId());
             }
