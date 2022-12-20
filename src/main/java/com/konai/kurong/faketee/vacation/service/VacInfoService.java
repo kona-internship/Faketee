@@ -60,6 +60,7 @@ public class VacInfoService {
         return new VacInfoResponseDto(vacInfoRepository.findById(infoId).orElseThrow(VacationInfoNotFoundException::new));
     }
 
+    @Transactional
     public void addVacationInfo(Employee employee, Long corId){
 
         for(VacGroup group : vacGroupRepository.findAllByCorId(corId)){
@@ -71,6 +72,7 @@ public class VacInfoService {
         }
     }
 
+    @Transactional
     public Long updateInfo(VacInfoUpdateRequestDto requestDto){
 
         return vacInfoRepository.updateByEmpAndVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);

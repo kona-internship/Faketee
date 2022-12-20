@@ -31,5 +31,4 @@ public class VacInfoApiController {
         return ResponseEntity.ok(vacInfoService.updateInfo(requestDto));
     }
 
-
 }
