@@ -3,6 +3,8 @@ package com.konai.kurong.faketee.employee.service;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.service.EmailAuthService;
+import com.konai.kurong.faketee.auth.LoginUser;
+import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.department.entity.Department;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.TableGenerator;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
@@ -150,7 +153,7 @@ public class EmployeeService {
      * @param requestDto
      */
     @Transactional
-    public Long joinEmployee(Long userId, EmployeeJoinRequestDto requestDto){
+    public Long joinEmployee(Long userId, EmployeeJoinRequestDto requestDto, SessionUser sessionUser, HttpServletRequest httpServletRequest){
         EmployeeInfo employeeInfo = employeeInfoRepository.findByJoinCode(requestDto.getJoinCode()).orElseThrow(()->new IllegalArgumentException());
         Employee employee = employeeRepository.findByEmployeeInfoId(employeeInfo.getId()).orElseThrow(()->new IllegalArgumentException());
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException());
@@ -166,6 +169,8 @@ public class EmployeeService {
             throw new RuntimeException();
         }
         employee.join(user);
+        sessionUser.setEmployeeIdList(convertToSessionDto(findByUserId(sessionUser.getId())));
+        httpServletRequest.getSession().setAttribute("user", sessionUser);
         return employee.getCorporation().getId();
     }
 
