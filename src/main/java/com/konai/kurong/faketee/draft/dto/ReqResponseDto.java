@@ -11,18 +11,20 @@ import java.util.stream.Stream;
 
 @Getter
 @Builder
-public class ReqDateResponseDto {
+public class ReqResponseDto {
     private Long id;
     private LocalDateTime date;
+    private String vacType;
 
-    public static ReqDateResponseDto convertToDto(VacDateRequest vacDateRequest){
-        return ReqDateResponseDto.builder()
+    public static ReqResponseDto convertToDto(VacDateRequest vacDateRequest){
+        return ReqResponseDto.builder()
                 .id(vacDateRequest.getId())
                 .date(vacDateRequest.getDate())
+                .vacType(vacDateRequest.getVacType().getName())
                 .build();
     }
 
-    public static List<ReqDateResponseDto> convertToDtoList(List<VacDateRequest> vacDateRequestList) {
+    public static List<ReqResponseDto> convertToDtoList(List<VacDateRequest> vacDateRequestList) {
         Stream<VacDateRequest> stream = vacDateRequestList.stream();
         return stream.map((request) -> convertToDto(request)).collect(Collectors.toList());
     }
