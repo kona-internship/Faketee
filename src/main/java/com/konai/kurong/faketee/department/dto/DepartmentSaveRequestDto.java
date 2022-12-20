@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.department.dto;
 
-import com.konai.kurong.faketee.employee.utils.DepIdsDto;
+import com.konai.kurong.faketee.employee.utils.AuthIdsDto;
+import com.konai.kurong.faketee.employee.utils.EmpAuthCheckList;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentSaveRequestDto implements DepIdsDto {
+public class DepartmentSaveRequestDto implements AuthIdsDto {
 
     @NotBlank
     private String name;
@@ -22,10 +23,12 @@ public class DepartmentSaveRequestDto implements DepIdsDto {
     private List<Long> locationIdList;
 
     @Override
-    public List<Long> getDepIds() {
+    public EmpAuthCheckList getEmpAuthCheckList() {
         List<Long> superIds = new ArrayList<>();
         superIds.add(getSuperId());
-        return superIds;
+        return EmpAuthCheckList.builder()
+                .idList(superIds)
+                .build();
     }
 
 
