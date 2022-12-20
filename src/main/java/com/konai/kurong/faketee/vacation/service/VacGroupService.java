@@ -27,6 +27,14 @@ public class VacGroupService {
     private final EmployeeService employeeService;
     private final VacInfoService vacInfoService;
 
+    /**
+     * 휴가 그룹 생성
+     *
+     * 관리자가 새로운 휴가 그룹을 추가할 때 작동된다.
+     * @param requestDto
+     * @param corId
+     * @return
+     */
     @Transactional
     public Long save(VacGroupSaveRequestDto requestDto, Long corId){
 
@@ -37,10 +45,14 @@ public class VacGroupService {
         for(EmployeeResponseDto employee : employeeList){
             vacInfoService.newVacGroup(employee.getId(), vacGroup);
         }
-
         return vacGroup.getId();
     }
 
+    /**
+     * 휴가 그룹 삭제
+     *
+     * @param id
+     */
     @Transactional
     public void delete(Long id){
         // TODO: vac_info 랑 vac_type에서 vac_group을 연관관계로 가지는 데이터 삭제 후 그룹 삭제해야 함
@@ -48,6 +60,12 @@ public class VacGroupService {
         vacGroupRepository.deleteById(id);
     }
 
+    /**
+     * 회사에 등록되어 있는 휴가 그룹(들)을 반환한다.
+     *
+     * @param corId
+     * @return
+     */
     public List<VacGroupResponseDto> loadVacGroups(Long corId){
 
         return vacGroupRepository.findAllByCorId(corId)
@@ -56,6 +74,12 @@ public class VacGroupService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 특정 휴가 그룹을 반환한다.
+     *
+     * @param groupId
+     * @return
+     */
     public VacGroupResponseDto findById(Long groupId){
 
         return new VacGroupResponseDto(vacGroupRepository.findById(groupId).orElseThrow(VacationGroupNotFoundException::new));
