@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.attend.controller;
 
+import com.konai.kurong.faketee.attend.dto.AttendRequestSaveDto;
 import com.konai.kurong.faketee.attend.service.AttendRequestService;
 import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
@@ -39,13 +40,21 @@ public class AttendRequestApiController {
     @GetMapping("/create/set-time/sch-info")
     public ResponseEntity<?> createSetTimeSchInfo(String date,
                                                   @PathVariable(name = "corId") Long corId,
-                                                  @LoginUser SessionUser user) {
-        ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getScheduleByDateAndEmp(date, corId, user.getId()));
+                                                  @ReqEmp ReqEmpInfo empInfo) {
+        ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getScheduleByDateAndEmp(date, corId, empInfo.getId()));
         if(responseDto == null) {
             throw new NoSchInfoException();
         } else {
             return new ResponseEntity<>(responseDto, HttpStatus.OK);
         }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createAtdReq(@RequestBody AttendRequestSaveDto requestDto,
+                                          @ReqEmp ReqEmpInfo empInfo) {
+        requestDto.setReqEmpId(empInfo.getId());
+        attendRequestService.createAttendRequest(requestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/update/set-month")
@@ -60,5 +69,4 @@ public class AttendRequestApiController {
         attendRequestService.loadApvlEmp(empInfo.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
