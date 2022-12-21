@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>승인대기 목록</title>
 </head>
 <body>
-
+<h1>승인대기 목록</h1>
+<div>
+    <button type="button" onclick="goApvlWaitList()">승인대기</button>
+    <button type="button" onclick="goReqList()">내요청</button>
+    <button type="button" onclick="goReqDoneList()">완료</button>
+</div>
+<div>
+    <button type="button" onclick="loadDraftList()">승인대기 목록 조회</button>
+    <div id="draft-list" value="req-list"></div>
+</div>
 </body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="/js/utils/exception.js"></script>
+<script type="text/javascript" src="/js/draft/draft.js"></script>
 </html>

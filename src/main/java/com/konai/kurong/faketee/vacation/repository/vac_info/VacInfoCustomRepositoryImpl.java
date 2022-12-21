@@ -44,4 +44,13 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
                 .where(vacInfo.employee.id.eq(empId), vacInfo.vacGroup.id.eq(vacGroupId))
                 .fetchOne();
     }
+
+    @Override
+    public void deleteByVacGroupId(Long vacGroupId) {
+
+        jpaQueryFactory
+                .delete(vacInfo)
+                .where(vacInfo.vacGroup.id.eq(vacGroupId))
+                .execute();
+    }
 }

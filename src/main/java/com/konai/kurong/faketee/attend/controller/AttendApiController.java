@@ -29,10 +29,11 @@ public class AttendApiController {
 
         return new ResponseEntity<>(attendService.getUserScheduleInfo(corId, date, empInfo.getId()), HttpStatus.OK);
     }
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/load/atd/loc")
-    public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId, @LoginUser SessionUser user) {
+    public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId, @ReqEmp ReqEmpInfo empInfo) {
 
-        return new ResponseEntity<>(locationService.getAtdLocList(corId, user.getId()), HttpStatus.OK);
+        return new ResponseEntity<>(locationService.getAtdLocList(corId, empInfo.getId()), HttpStatus.OK);
     }
 
     @EmpAuth(role = EmpRole.EMPLOYEE)
