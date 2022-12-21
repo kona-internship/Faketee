@@ -1,5 +1,20 @@
 let todayDate;
 
+function toRequest(){
+
+}
+
+function toSchedule() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/list";
+}
+
+function toAttendance(){
+
+}
+
+function toVacation(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO;
+}
 /**
  * 근무일정 가져오는 ajax
  */

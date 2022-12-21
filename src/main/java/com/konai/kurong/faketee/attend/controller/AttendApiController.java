@@ -41,7 +41,7 @@ public class AttendApiController {
     @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/reg")
     public ResponseEntity<?> clickAtd(@PathVariable(name = "corId") Long corId,
-                                         @RequestParam("onoff") String onOff,
+                                      @RequestParam("onoff") String onOff,
                                       @ReqEmp ReqEmpInfo empInfo){
 
         attendService.clickAtd(corId, empInfo.getId(), onOff);
