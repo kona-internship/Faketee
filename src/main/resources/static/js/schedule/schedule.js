@@ -471,7 +471,7 @@ function drawScheduleList(schList) {
             + sch.startTime
             + ' /  종료시간: '
             + sch.endTime
-            + '<br> 상태: '
+            + '<br> 근무 일정 이름: '
             + sch.state
             + ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
             + '</div>';
