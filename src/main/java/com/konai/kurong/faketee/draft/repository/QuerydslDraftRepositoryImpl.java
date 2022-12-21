@@ -5,10 +5,12 @@ import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.konai.kurong.faketee.draft.entity.QDraft.draft;
@@ -73,5 +75,23 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
                 .from(draft)
                 .where(draft.requestEmployee.id.eq(empId))
                 .fetch();
+    }
+
+    @Override
+    public void updateDraftStateCodeAndDateAndMessageByApvlEmp(Long draftId, DraftStateCode draftStateCode, LocalDateTime dateTime, String apvlMsg){
+        JPAUpdateClause updateClause = jpaQueryFactory
+                .update(draft)
+                .set(draft.stateCode, draftStateCode)
+                .set(draft.approvalDate, dateTime)
+                .set(draft.approvalMessage, apvlMsg);
+        if(draftStateCode.equals(DraftStateCode.APVL_1) || draftStateCode.equals(DraftStateCode.REJ_1)){
+            updateClause
+                    .where(draft.approvalEmpFin.id.eq(draftId))
+                    .execute();
+        } else if (draftStateCode.equals(DraftStateCode.APVL_FIN) || draftStateCode.equals(DraftStateCode.REJ_FIN)) {
+            updateClause
+                    .where(draft.approvalEmp1.id.eq(draftId))
+                    .execute();
+        }
     }
 }
