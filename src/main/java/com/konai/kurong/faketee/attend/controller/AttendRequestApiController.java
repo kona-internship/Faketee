@@ -40,7 +40,7 @@ public class AttendRequestApiController {
     public ResponseEntity<?> createSetTimeSchInfo(String date,
                                                   @PathVariable(name = "corId") Long corId,
                                                   @LoginUser SessionUser user) {
-        ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getSchByDateAndEmp(date, corId, user.getId()));
+        ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getScheduleByDateAndEmp(date, corId, user.getId()));
         if(responseDto == null) {
             throw new NoSchInfoException();
         } else {
