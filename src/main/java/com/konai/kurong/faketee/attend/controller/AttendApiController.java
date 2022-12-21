@@ -32,6 +32,7 @@ public class AttendApiController {
 
         return new ResponseEntity<>(attendService.getUserScheduleInfo(corId, date, empInfo.getId()), HttpStatus.OK);
     }
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/load/atd/loc")
     public ResponseEntity<?> loadHome(@PathVariable(name = "corId") Long corId, @ReqEmp ReqEmpInfo empInfo) {
 

@@ -59,6 +59,28 @@ const PATH_ATD_REQ = "/atd/req";
 const PATH_DRAFT = "/draft";
 
 /**
+ * 기안의 승인 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_DRAFT_APVL = "/apvl";
+
+/**
+ * 기안의 요청 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_DRAFT_REQ = "/req";
+
+/**
+ * 기안의 완료 url path이다.
+ *
+ * @type {string}
+ */
+const PATH_DRAFT_DONE = "/done";
+
+
+/**
  * 회사 선택 후 url에 들어가는 prefix이다.
  *
  * @type {string}

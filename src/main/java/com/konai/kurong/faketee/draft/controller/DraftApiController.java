@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.draft.controller;
 
 import com.konai.kurong.faketee.draft.dto.DraftCancelRequestDto;
+import com.konai.kurong.faketee.draft.dto.DraftUpdateRequestDto;
 import com.konai.kurong.faketee.draft.service.DraftService;
 import com.konai.kurong.faketee.employee.utils.EmpAuth;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
@@ -48,6 +49,24 @@ public class DraftApiController {
     public ResponseEntity<?> cancelDraft(
             @Valid @RequestBody DraftCancelRequestDto requestDto) {
         draftService.cancelDraft(requestDto.getDraftId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
+    @PostMapping("/apvl")
+    public ResponseEntity<?> apvlDraft(
+            @Valid @RequestBody DraftUpdateRequestDto requestDto,
+            @ReqEmp ReqEmpInfo reqEmpInfo) {
+        draftService.apvlDraft(reqEmpInfo.getId(), requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @EmpAuth(role = EmpRole.GROUP_MANAGER)
+    @PostMapping("/reject")
+    public ResponseEntity<?> rejectDraft(
+            @Valid @RequestBody DraftUpdateRequestDto requestDto,
+            @ReqEmp ReqEmpInfo reqEmpInfo) {
+        draftService.rejectDraft(reqEmpInfo.getId(), requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
