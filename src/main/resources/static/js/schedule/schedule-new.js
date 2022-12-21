@@ -20,7 +20,7 @@ $(function() {
  */
 function loadSelectTmp(){
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + "/template/list",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + "/temp/list",
         type: "GET",
         contentType: "application/json",
         dataType: "json",
@@ -59,7 +59,7 @@ function selectTmpChange(){
     tempId = selectTempId.options[selectTempId.selectedIndex].value;
 
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + "/template/departments",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + "/temp/departments",
         type: "GET",
         contentType: "application/json",
         dataType: "json",
@@ -127,7 +127,7 @@ function loadEmp(){
         checkedDep : checkedDep
     });
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR)  + PATH_SCH +"/template/emp",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH +"/template/emp",
         type: "POST",
         contentType: "application/json",
         data: jsonData,

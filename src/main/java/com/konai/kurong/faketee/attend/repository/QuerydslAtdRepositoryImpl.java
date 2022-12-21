@@ -1,10 +1,13 @@
 package com.konai.kurong.faketee.attend.repository;
 
+import com.konai.kurong.faketee.attend.entity.Attend;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import static com.konai.kurong.faketee.attend.entity.QAttend.attend;
 
@@ -26,5 +29,15 @@ public class QuerydslAtdRepositoryImpl implements QuerydslAtdRepository{
                  .set(attend.endTime, endTime)
                  .where(attend.scheduleInfo.id.eq(scheInfoId))
                  .execute();
+    }
+
+    @Override
+    public List<Attend> getAttendByMonth(LocalDate startDate, LocalDate lastDate) {
+        return jpaQueryFactory
+                    .select(attend)
+                    .from(attend)
+                    .where(attend.date.between(startDate, lastDate))
+                    .orderBy(attend.date.asc())
+                    .fetch();
     }
 }

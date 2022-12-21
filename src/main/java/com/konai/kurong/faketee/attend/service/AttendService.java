@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.attend.service;
 
 import com.konai.kurong.faketee.attend.dto.AttendResponseDto;
+import com.konai.kurong.faketee.attend.dto.AttendResponseRecordDto;
 import com.konai.kurong.faketee.attend.entity.Attend;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.employee.entity.Employee;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -147,5 +151,29 @@ public class AttendService {
             //행 업데이트
             attendRepository.updateAtdEndTime(scheduleInfo.getId(), LocalTime.now());
         }
+    }
+
+    /**
+     * 달에 해당하는 attendRecord list 반환
+     * @param month
+     * @return
+     */
+    public List<AttendResponseRecordDto> getAttendByMonth(int month) {
+        int lastDate = getLastDate(month);
+        LocalDate startDate = LocalDate.of(2022, month, 1);
+        LocalDate endDate = LocalDate.of(2022, month, lastDate);
+        return AttendResponseRecordDto.convertToDtoList(attendRepository.getAttendByMonth(startDate, endDate));
+    }
+
+    /**
+     * 달의 마지막 날 계산
+     * @param month
+     * @return
+     */
+    public int getLastDate(int month) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, month - 1, 1);
+        int endDay = (cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return endDay;
     }
 }
