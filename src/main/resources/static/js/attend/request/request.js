@@ -100,6 +100,20 @@ function createSetApvlShow() {
     $('input[name=date]').attr('value', selectedDate);
     $('input[name=time]').attr('value', startTime + " ~ " + endTime);
     $('input[name=sch]').attr('value', schInfo);
+
+
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/load/apv-emp",
+        type: "get",
+        contentType: "application/json",
+        success: function (data) {
+            //여기 작성
+        },
+        error: function () {
+            alert('승인권자 불러오기 실패!');
+        }
+    });
 }
 
 /**
