@@ -292,3 +292,32 @@ function deleteSetApvlShow() {
 
     $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
 }
+
+/**
+ * 출퇴근기록 생성 요청 보내기
+ */
+function createAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('#apvEmp').val(),
+            atdReqDate: $('#selectedDate').val(),
+            startTime: $('#startTime').val(),
+            endTime: $('#endTime').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 생성 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근 생성 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+/**
+ * 출퇴근기록
+ */
