@@ -446,7 +446,8 @@ function loadSchedules() {
         },
         success: function (data) {
             //지금 사람이 직원일 경우, 관리자일 경우
-            drawScheduleList(data);
+            console.log(data)
+            drawScheduleList(data.scheduleInfo, data.role);
         },
         error : function (error){
             alert(JSON.stringify(error));
@@ -459,7 +460,7 @@ function loadSchedules() {
  *
  * @param schList
  */
-function drawScheduleList(schList) {
+function drawScheduleList(schList, role) {
 
     $('#sch-list *').remove();
     if (schList.entries().next().value == null) {
@@ -473,9 +474,13 @@ function drawScheduleList(schList) {
             + ' /  종료시간: '
             + sch.endTime
             + '<br> 근무 일정 이름: '
-            + sch.state
-            + ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
-            + '</div>';
+            + sch.state;
+        if(role === '직원') {
+            msg +='</div>';
+        } else{
+            msg += ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
+                + '</div>';
+        }
         $('#sch-list').append(msg);
     }
 }
