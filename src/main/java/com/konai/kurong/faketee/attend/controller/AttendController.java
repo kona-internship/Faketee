@@ -2,6 +2,8 @@ package com.konai.kurong.faketee.attend.controller;
 
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/corporation/{corId}/atd")
 public class AttendController {
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/reg")
     public String goRegisterAtd(Model model, @RequestParam String flag){
         if(flag.equals("on")){

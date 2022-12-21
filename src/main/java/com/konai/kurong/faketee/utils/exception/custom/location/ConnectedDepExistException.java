@@ -7,7 +7,4 @@ public class ConnectedDepExistException extends CustomRuntimeException {
     public ConnectedDepExistException(){
         super(ExceptionId.CONNECT_DEP_EXIST.getExceptionId());
     }
-    public ConnectedDepExistException(String msg){
-        super(msg);
-    }
 }

@@ -1,5 +1,8 @@
 package com.konai.kurong.faketee.schedule.service;
 
+import com.konai.kurong.faketee.attend.entity.Attend;
+import com.konai.kurong.faketee.attend.repository.AttendRepository;
+import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.employee.dto.EmployeeSchResponseDto;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
@@ -11,6 +14,7 @@ import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleInfoRepository;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.NoSchInfoException;
+import com.konai.kurong.faketee.utils.exception.custom.schedule.ConnectedAtdExistException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,6 +33,7 @@ public class ScheduleInfoService {
     private final TemplateService templateService;
     private final EmployeeService employeeService;
     private final ScheduleInfoRepository scheduleInfoRepository;
+    private final AttendRepository attendRepository;
 
     private static final String SCH_PREFIX = "SCH_";
     private static final String VAC_PREFIX = "VAC_";
@@ -131,10 +137,29 @@ public class ScheduleInfoService {
     /**
      * 근무일정 삭제
      *
+     * 출퇴근 기록이 존재하면 근무일정 삭제가 불가합니다.
      * @param schId 삭제할 근무일정 id
      */
     @Transactional
     public void deleteSchedule(Long schId) {
+        if(attendExist(schId)) {
+            throw new ConnectedAtdExistException();
+        }
         scheduleInfoRepository.deleteById(schId);
+    }
+
+    /**
+     * 근무일정에 해당하는 출퇴근 기록이 존재하는가 안하는가
+     * @param schInfoId
+     * @return
+     */
+    public boolean attendExist(Long schInfoId) {
+        Optional<Attend> attend = attendRepository.findAllByScheduleInfoId(schInfoId);
+        if(attend.isPresent()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
