@@ -2,6 +2,8 @@ package com.konai.kurong.faketee.schedule.controller;
 
 import com.konai.kurong.faketee.employee.utils.EmpAuth;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
+import com.konai.kurong.faketee.employee.utils.ReqEmp;
+import com.konai.kurong.faketee.employee.utils.ReqEmpInfo;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoDepRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoSaveRequestDto;
 import com.konai.kurong.faketee.schedule.dto.ScheduleTypeSaveRequestDto;
@@ -72,9 +74,11 @@ public class ScheduleApiController {
 
     @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/list")
-    public ResponseEntity<?> getSchList(@PathVariable(name = "corId") Long corId, @RequestParam("selectedDate") String date) {
+    public ResponseEntity<?> getSchList(@PathVariable(name = "corId") Long corId,
+                                        @RequestParam("selectedDate") String date,
+                                        @ReqEmp ReqEmpInfo empInfo) {
 
-        return new ResponseEntity<>(scheduleInfoService.getSchListByDate(date, corId), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleInfoService.getSchListByDate(date, corId, empInfo.getId()), HttpStatus.OK);
     }
 
     @EmpAuth(role = EmpRole.GROUP_MANAGER)
