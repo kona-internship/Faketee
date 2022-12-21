@@ -10,16 +10,26 @@
 
 <form name="delete-setApvl" id="delete-setApvl">
     <!--    승인권자 목록 가져와야 함  -->
-    승인권자 : <input type="text" id="date" name="date" readonly><br>
+    승인권자 : <input type="text" id="apvEmp" name="apvEmp"><br><hr>
 
-    사유 : <input type="text" id="msg" name="msg"><br>
+    사유 : <input type="text" id="msg" name="msg"><br><hr>
 
     <!--  직원이 직전 페이지에 보냈던 요청사항 내용들을 출력  -->
-    요청사항
+    요청사항<br>
 
-    출퇴근기록: <input type="time" id="tmp-startTime"><br>
+    출퇴근기록: <input type="text" id="record" name="record" readonly size="60"><br><br>
 
     <button type="button" onclick="">보내기</button>
+
+    <input type="hidden" id="date" name="date" th:value="${date}">
+    <input type="hidden" id="startTime" name="startTime" th:value="${startTime}">
+    <input type="hidden" id="endTime" name="endTime" th:value="${endTime}">
 </form>
 </body>
+
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/attend/request/request.js"></script>
+<script>deleteSetApvlShow();</script>
+
 </html>
