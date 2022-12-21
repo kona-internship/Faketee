@@ -113,6 +113,14 @@ public class ScheduleInfoService {
     public ScheduleInfo getSchByDateAndEmp(String date, Long corId, Long empId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateTime = LocalDate.parse(date, formatter);
+
+        return scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
+    }
+
+    @Transactional
+    public ScheduleInfo getScheduleByDateAndEmp(String date, Long corId, Long empId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateTime = LocalDate.parse(date, formatter);
         ScheduleInfo scheduleInfo =  scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
         if(scheduleInfo == null) {
             throw new NoSchInfoException();
