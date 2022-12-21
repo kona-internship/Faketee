@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.corporation.controller;
 
 import com.konai.kurong.faketee.corporation.service.CorporationService;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ public class CorporationController {
     }
 
     @GetMapping("/corporation/{corId}")
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     public String home(@PathVariable(name = "corId") Long corId,
                        Model model){
 
