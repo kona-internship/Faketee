@@ -313,10 +313,13 @@ public class EmployeeService {
     /**
      * 출퇴근 기록 승인권자 가져오기
      * 1. empId의 role이 직원일 경우
-     * 소속되어있는 dept의 관리자부터 가져온다.
+     * 소속되어있는 dept의 관리자부터 가져온다. 그 후로 소속된 DEPT 의 상위 DEPT 의 상위관리자(들을 계속해서 가져온다
      *
-     * 2. empId의 role이 직원이 아닐 경우
-     * 소속되어있는 dept의 상위 dept의 관리자부터 가져온다.
+     * 2. empId의 role이 직원이 아닐 경우(조직관리자, 총괄관리자)
+     * 소속되어있는 dept의 상위 dept의 상위 관리자부터 가져온다.(조직관리자 - 총괄관리자에게, 총괄관리자 - 최고관리자에게)
+     *
+     * 3. empId의 role 이 최고관리자인 경우
+     * 승인을 받지 않는다
      *
      * @param empId
      * @return
@@ -327,7 +330,7 @@ public class EmployeeService {
         if(emp.getRole().equals(EmpRole.EMPLOYEE)) {
             //직원일 경우
 
-       }else {
+       } else {
             //관리자일 경우
 
         }
