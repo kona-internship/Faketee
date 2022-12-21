@@ -85,4 +85,9 @@ public class CorporationService {
 
         return CorporationResponseDto.convertToDto(corporationRepository.findById(corId).orElseThrow(() -> new IllegalArgumentException()));
     }
+
+    public CorporationResponseDto findByEmpId(Long empId){
+
+        return CorporationResponseDto.convertToDto(corporationRepository.findByEmpId(empId));
+    }
 }

@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
-import static com.konai.kurong.faketee.utils.Uri.USER_UNAUTHORIZED_URI;
+import static com.konai.kurong.faketee.utils.URL.INIT_USR_LOGIN_REDIRECT_URL;
+import static com.konai.kurong.faketee.utils.URL.USER_UNAUTHORIZED_URL;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
          */
         if (loginUser.getEmailAuthStatus().equals("F")) {
 
-            response.sendRedirect(USER_UNAUTHORIZED_URI);
+            response.sendRedirect(USER_UNAUTHORIZED_URL);
             return;
         }
 
@@ -51,6 +51,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         sessionUser.setEmployeeIdList(employeeService.convertToSessionDto(employeeService.findByUserId(loginUser.getId())));
         request.getSession().setAttribute("user", sessionUser);
 
-        response.sendRedirect(LOGIN_REDIRECT_URI);
+        response.sendRedirect("/");
     }
 }

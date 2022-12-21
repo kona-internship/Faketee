@@ -10,6 +10,7 @@ import com.konai.kurong.faketee.schedule.dto.TemplatePositionResponseDto;
 import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleInfoRepository;
+import com.konai.kurong.faketee.utils.exception.custom.attend.request.NoSchInfoException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -112,8 +113,11 @@ public class ScheduleInfoService {
     public ScheduleInfo getSchByDateAndEmp(String date, Long corId, Long empId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateTime = LocalDate.parse(date, formatter);
-
-        return scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
+        ScheduleInfo scheduleInfo =  scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
+        if(scheduleInfo == null) {
+            throw new NoSchInfoException();
+        }
+        return scheduleInfo;
     }
 
     /**

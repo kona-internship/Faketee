@@ -32,8 +32,11 @@
         <input type="text" name="name" id="name" placeholder="NAME">
     </div>
     <br>
-    <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button>
+    <button type="button" id="btn-register" onclick="register()" disabled>회원가입</button><br>
 </form>
+<br>
+<button type="button" onclick="location.href='/oauth2/authorization/google'">Google로 회원가입</button>
+<br>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src='/static/js/account/account.js'></script>
