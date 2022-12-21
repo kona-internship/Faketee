@@ -10,20 +10,25 @@
 
 <form name="update-setTime" id="update-setTime">
     <!--  선택한 출퇴근기록의 날짜, 출근시간, 퇴근시간 가져오기  -->
-    출퇴근기록 :
+    출퇴근기록 : <input type="text" id="record" name="record" readonly size="60"><br><br>
 
-    <!--    해당 날짜의 그 직원의 근무 일정을 가져와야 함
-            근무 일정의 출근 시간과 퇴근 시간 설정 해주고 선택 가능    -->
-    출근시간 : <input type="time" id="tmp-startTime"><br>
+    <!--    해당 날짜의 그 직원의 출퇴근기록을 가져와야 함
+            출퇴근기록의 출근 시간과 퇴근 시간 설정 해주고 선택 가능    -->
+    출근시간 : <input type="time" id="update-set-startTime" name="update-set-startTime"><br><br>
 
-    퇴근시간 : <input type="time" id="tmp-endTime"><br>
+    퇴근시간 : <input type="time" id="update-set-endTime" name="update-set-endTime"><br><br>
 
-    <button type="button" onclick="">다음</button>
+    <button type="button" onclick="updateSelectTime()">다음</button>
+
+    <input type="hidden" id="date" name="date" th:value="${date}">
+    <input type="hidden" id="startTime" name="startTime" th:value="${startTime}">
+    <input type="hidden" id="endTime" name="endTime" th:value="${endTime}">
 </form>
 </body>
 
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src="/js/utils/url.js"></script>
 <script type="text/javascript" src="/js/attend/request/request.js"></script>
+<script>updateSetTimeShow();</script>
 
 </html>
