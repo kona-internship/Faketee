@@ -6,7 +6,6 @@
  */
 function createSelectDate() {
     let selectedDate = document.querySelector('#selectedDate').value;
-    alert("날짜 : " + selectedDate);
     if(selectedDate == "") {
         alert("날짜를 선택하세요");
     } else {
@@ -65,8 +64,10 @@ function createSetTimeShow() {
             $('input[name=sch-endTime]').attr('value', data.endTime);
             $('input[name=schInfoId]').attr('value', data.id);
         },
-        error: function (error) {
-            alert(JSON.stringify(error));
+        error: function (jqXHR) {
+            let result = getErrors(jqXHR);
+            showError(result);
+            location.replace(URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create");
         }
     });
 }
@@ -98,6 +99,5 @@ function createSetApvlShow() {
     $('input[name=date]').attr('value', selectedDate);
     $('input[name=time]').attr('value', startTime + " ~ " + endTime);
     $('input[name=sch]').attr('value', schInfo);
-
 
 }

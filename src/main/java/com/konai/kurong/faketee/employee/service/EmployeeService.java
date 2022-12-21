@@ -3,7 +3,6 @@ package com.konai.kurong.faketee.employee.service;
 import com.konai.kurong.faketee.account.entity.User;
 import com.konai.kurong.faketee.account.repository.UserRepository;
 import com.konai.kurong.faketee.account.service.EmailAuthService;
-import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.corporation.entity.Corporation;
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
@@ -23,16 +22,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.TableGenerator;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.stream.Collectors;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -102,7 +98,7 @@ public class EmployeeService {
                 .build();
 //        직원(EMP) Entity 저장하기
         employeeRepository.save(employee);
-        vacInfoService.addVacationInfo(employee, corId);
+        vacInfoService.initVacInfo(employee, corId);
     }
 
     /**
