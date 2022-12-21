@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.attend.controller;
 
 import com.konai.kurong.faketee.attend.service.AttendRequestService;
+import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
@@ -24,6 +25,7 @@ public class AttendRequestApiController {
     private final AttendRequestService attendRequestService;
 
     private final ScheduleInfoService scheduleInfoService;
+    private final AttendService attendService;
 
     @GetMapping("/create/check-date")
     public ResponseEntity<?> createAtdRecord(@RequestParam("selectedDate") String date) {
@@ -40,5 +42,10 @@ public class AttendRequestApiController {
         } else {
             return new ResponseEntity<>(responseDto, HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/update/set-month")
+    public ResponseEntity<?> updateSetMonth(@RequestParam("month") int month) {
+        return ResponseEntity.ok(attendService.getAttendByMonth(month));
     }
 }

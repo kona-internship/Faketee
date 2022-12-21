@@ -1,5 +1,6 @@
 package com.konai.kurong.faketee.attend.dto;
 
+import com.konai.kurong.faketee.attend.entity.Attend;
 import lombok.Builder;
 import lombok.Data;
 
