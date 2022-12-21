@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
+import static com.konai.kurong.faketee.utils.URL.INIT_USR_LOGIN_REDIRECT_URL;
 
 @Slf4j
 @RequestMapping("/account")
@@ -36,7 +36,7 @@ public class RegisterController {
                             Model model){
 
         if(sessionUser != null && sessionUser.getRole().equals(Role.USER)){
-            return "redirect:http://localhost:8080" + LOGIN_REDIRECT_URI;
+            return "redirect:http://localhost:8080" + INIT_USR_LOGIN_REDIRECT_URL;
         }
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
