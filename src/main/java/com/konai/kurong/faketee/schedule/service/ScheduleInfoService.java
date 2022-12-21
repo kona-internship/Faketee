@@ -15,7 +15,9 @@ import com.konai.kurong.faketee.schedule.entity.Template;
 import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleInfoRepository;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.NoSchInfoException;
 import com.konai.kurong.faketee.utils.exception.custom.schedule.ConnectedAtdExistException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -97,13 +99,25 @@ public class ScheduleInfoService {
      * @return
      */
     @Transactional
-    public List<ScheduleInfoResponseDto> getSchListByDate(String date, Long corId) {
+    public Result<?> getSchListByDate(String date, Long corId, Long empId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateTime = LocalDate.parse(date, formatter);
 
         List<ScheduleInfo> scheduleInfoList = scheduleInfoRepository.findAllByDateAndEmployeeCorporationId(dateTime, corId);
 
-        return ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList);
+        Employee emp = employeeService.findByEmployeeById(empId);
+        return new Result<>(ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList), emp.getRole().getRole());
+    }
+    @Getter
+    @Setter
+    private class Result<T> {
+        private T scheduleInfo;
+        private T role;
+
+        public Result(T scheduleInfo, T role) {
+            this.scheduleInfo = scheduleInfo;
+            this.role = role;
+        }
     }
 
     /**
