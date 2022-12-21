@@ -497,7 +497,7 @@ function goDepModPage(){
 }
 
 /**
- * 조직 상세 화면(detail.html)에서 하위 조직들의 목록을 불러와 목록을 출력해주는 showDepList 함수를 호출한다.
+ * 조직 상세 화면(apvlDetail.html)에서 하위 조직들의 목록을 불러와 목록을 출력해주는 showDepList 함수를 호출한다.
  */
 function loadDetailDepPage(){
     $.ajax({
