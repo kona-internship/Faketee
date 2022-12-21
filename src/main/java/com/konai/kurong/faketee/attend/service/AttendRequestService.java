@@ -14,6 +14,7 @@ import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.DraftNotWaitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class AttendRequestService {
     private final EmployeeRepository employeeRepository;
     private final DraftRepository draftRepository;
     private final AttendRepository attendRepository;
+    private final EmployeeService employeeService;
 
     //출퇴근기록 생성 요청
     public void createAttendRequest(AttendRequestSaveDto requestDto) {
@@ -188,5 +190,14 @@ public class AttendRequestService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(date, formatter);
         return attendRepository.findByDate(localDate).orElse(null) == null ? true : false;
+    }
+
+    /**
+     * 출퇴근 기록 요청 승인권자 가져오기
+     *
+     * @param empId
+     */
+    public void loadApvlEmp(Long empId) {
+        employeeService.findApvlByEmp(empId);
     }
 }

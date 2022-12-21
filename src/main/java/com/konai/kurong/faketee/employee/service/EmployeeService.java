@@ -309,4 +309,27 @@ public class EmployeeService {
 
         return EmployeeResponseDto.convertToDto(employeeRepository.findById(empId).orElseThrow());
     }
+
+    /**
+     * 출퇴근 기록 승인권자 가져오기
+     * 1. empId의 role이 직원일 경우
+     * 소속되어있는 dept의 관리자부터 가져온다.
+     *
+     * 2. empId의 role이 직원이 아닐 경우
+     * 소속되어있는 dept의 상위 dept의 관리자부터 가져온다.
+     *
+     * @param empId
+     * @return
+     */
+    public void findApvlByEmp(Long empId) {
+        Employee emp = findByEmployeeById(empId);
+
+        if(emp.getRole().equals(EmpRole.EMPLOYEE)) {
+            //직원일 경우
+
+       }else {
+            //관리자일 경우
+
+        }
+    }
 }

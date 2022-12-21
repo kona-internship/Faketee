@@ -4,6 +4,10 @@ import com.konai.kurong.faketee.attend.service.AttendRequestService;
 import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.utils.EmpAuth;
+import com.konai.kurong.faketee.employee.utils.EmpRole;
+import com.konai.kurong.faketee.employee.utils.ReqEmp;
+import com.konai.kurong.faketee.employee.utils.ReqEmpInfo;
 import com.konai.kurong.faketee.schedule.dto.ScheduleInfoResponseDto;
 import com.konai.kurong.faketee.schedule.service.ScheduleInfoService;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.NoSchInfoException;
@@ -48,4 +52,13 @@ public class AttendRequestApiController {
     public ResponseEntity<?> updateSetMonth(@RequestParam("month") int month) {
         return ResponseEntity.ok(attendService.getAttendByMonth(month));
     }
+
+    @EmpAuth(role = EmpRole.EMPLOYEE)
+    @GetMapping("/load/apv-emp")
+    public ResponseEntity<?> loadApvlEmpList(@ReqEmp ReqEmpInfo empInfo) {
+        log.info("22");
+        attendRequestService.loadApvlEmp(empInfo.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
