@@ -445,9 +445,10 @@ function loadSchedules() {
             selectedDate : selectedDate
         },
         success: function (data) {
+            //지금 사람이 직원일 경우, 관리자일 경우
             drawScheduleList(data);
         },
-        error: function (error) {
+        error : function (error){
             alert(JSON.stringify(error));
         }
     });
@@ -495,8 +496,9 @@ function deleteSchedule(scheduleId) {
             alert("근무 일정이 삭제되었습니다.");
             loadSchedules();
         },
-        error : function (error){
-            alert(JSON.stringify(error));
+        error: function (jqXHR) {
+            let result = getErrors(jqXHR);
+            showError(result);
             loadSchedules();
         }
     });
