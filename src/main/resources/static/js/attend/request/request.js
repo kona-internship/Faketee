@@ -140,11 +140,17 @@ function updateSelectMonth() {
 function showAtdRecordList(data) {
     $('#atd-list *').remove();
 
-    for (let [index, atd] of data.entries()) {
-        let parameter = [atd.date, atd.startTime, atd.endTime];
-        let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
-            ' <button type="button" onclick=goUpdateAtdReqTimePage('+JSON.stringify(parameter)+')>선택</button></div>';
+    if(data.length === 0) {
+        let msg = '<div>출퇴근기록이 없습니다.</div>';
         $('#atd-list').append(msg);
+    }
+    else {
+        for (let [index, atd] of data.entries()) {
+            let parameter = [atd.date, atd.startTime, atd.endTime];
+            let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
+                ' <button type="button" onclick=goUpdateAtdReqTimePage(' + JSON.stringify(parameter) + ')>선택</button></div>';
+            $('#atd-list').append(msg);
+        }
     }
 }
 
@@ -240,11 +246,16 @@ function deleteSelectMonth() {
 function showUpdateAtdRecordList(data) {
     $('#atd-list *').remove();
 
-    for (let [index, atd] of data.entries()) {
-        let parameter = [atd.date, atd.startTime, atd.endTime];
-        let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
-            ' <button type="button" onclick=goDeleteAtdReqApvlPage('+JSON.stringify(parameter)+')>선택</button></div>';
+    if(data.length === 0) {
+        let msg = '<div>출퇴근기록이 없습니다.</div>';
         $('#atd-list').append(msg);
+    } else {
+        for (let [index, atd] of data.entries()) {
+            let parameter = [atd.date, atd.startTime, atd.endTime];
+            let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
+                ' <button type="button" onclick=goDeleteAtdReqApvlPage(' + JSON.stringify(parameter) + ')>선택</button></div>';
+            $('#atd-list').append(msg);
+        }
     }
 }
 
