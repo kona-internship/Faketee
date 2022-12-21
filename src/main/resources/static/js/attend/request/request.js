@@ -83,11 +83,12 @@ function createSelectTime() {
     let schInfoId = $('#schInfoId').val()
     let schInfo = $('#showSch').val()
 
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ  + `/create/set-apvl?selectedDate=${selectedDate}&startTime=${startTime}&endTime=${endTime}&schInfoId=${schInfoId}&schInfo=${schInfo}`;
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ
+        + `/create/set-apvl?selectedDate=${selectedDate}&startTime=${startTime}&endTime=${endTime}&schInfoId=${schInfoId}&schInfo=${schInfo}`;
 }
 
 /**
- * 출퇴근 생성 요청에서 승인권자 설정 시, 선택한 날짜와 출퇴근 시간을 보여준다
+ * 출퇴근기록 생성 요청에서 승인권자 설정 시, 선택한 날짜와 출퇴근 시간을 보여준다
  * 직원의 승인권자 목록을 보여준다
  */
 function createSetApvlShow() {
@@ -99,5 +100,170 @@ function createSetApvlShow() {
     $('input[name=date]').attr('value', selectedDate);
     $('input[name=time]').attr('value', startTime + " ~ " + endTime);
     $('input[name=sch]').attr('value', schInfo);
+}
 
+/**
+ * 출퇴근기록 수정 요청에서 달 선택 시, 선택한 달에 해당하는 출퇴근 기록들을 가져온다
+ */
+function updateSelectMonth() {
+    let selectedMonth = $('#selectedMonth').val()
+    let month = selectedMonth.split("-")[1];
+    console.log(month);
+    if(selectedMonth == "") {
+        alert("달 선택하세요");
+    } else {
+        $.ajax({
+            async: true,
+            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/update/set-month",
+            type: "get",
+            contentType: "application/json",
+            data: {
+                month: Number(month)
+            },
+            success: function (data) {
+                showAtdRecordList(data)
+            },
+            error: function (jqXHR) {
+                let result = getErrors(jqXHR);
+                showError(result);
+                location.replace(URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create");
+            }
+        });
+    }
+}
+
+/**
+ * 출퇴근 기록들을 보여준다
+ * 기록 선택 시, 해당 기록으로 출퇴근기록 수정 - 시간 설정하기 페이지로 이동한다
+ * @param data
+ */
+function showAtdRecordList(data) {
+    $('#atd-list *').remove();
+
+    for (let [index, atd] of data.entries()) {
+        let parameter = [atd.date, atd.startTime, atd.endTime];
+        let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
+            ' <button type="button" onclick=goUpdateAtdReqTimePage('+JSON.stringify(parameter)+')>선택</button></div>';
+        $('#atd-list').append(msg);
+    }
+}
+
+/**
+ * 출퇴근기록 수정 요청 - 시간 설정하기 페이지로 이동하는 함수
+ */
+function goUpdateAtdReqTimePage(parameter) {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ
+        + `/update/set-time?date=${parameter[0]}&startTime=${parameter[1]}&endTime=${parameter[2]}`;
+}
+
+/**
+ * 출퇴근기록 수정 요청에서 기록 선택 시,
+ * 해당 날짜의 그 직원의 출근시간과 퇴근시간을 보여준다
+ * 출근시간과 퇴근시간을 설정할 수 있다
+ */
+function updateSetTimeShow() {
+    let date = $('#date').val()
+    let startTime = $('#startTime').val()
+    let endTime = $('#endTime').val()
+
+    $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
+    $('input[name=update-set-startTime]').attr('value', startTime);
+    $('input[name=update-set-endTime]').attr('value', endTime);
+}
+
+/**
+ * 출퇴근기록 수정 요청에서 시간 설정 시,
+ * 선택한 날짜와 시간을 승인권자 설정 페이지로 이동시킨다
+ */
+function updateSelectTime() {
+    let date = $('#date').val()
+    let startTime = $('#startTime').val()
+    let endTime = $('#endTime').val()
+    let updateStartTime = $('#update-set-startTime').val()
+    let updateEndTime = $('#update-set-endTime').val()
+
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ
+        + `/update/set-apvl?date=${date}&startTime=${startTime}&endTime=${endTime}&updateStartTime=${updateStartTime}&updateEndTime=${updateEndTime}`;
+}
+
+/**
+ * 출퇴근기록 수정 요청에서 승인권자 설정 시, 수정한 출퇴근 시간을 보여준다
+ * 직원의 승인권자 목록을 보여준다
+ */
+function updateSetApvlShow() {
+    let date = $('#date').val()
+    let startTime = $('#startTime').val()
+    let endTime = $('#endTime').val()
+    let updateStartTime = $('#updateStartTime').val()
+    let updateEndTime = $('#updateEndTime').val()
+
+    $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
+    $('input[name=before-update]').attr('value', startTime + " ~ " + endTime);
+    $('input[name=after-update]').attr('value', updateStartTime + " ~ " + updateEndTime);
+}
+
+/**
+ * 출퇴근기록 삭제 요청에서 달 선택 시, 선택한 달에 해당하는 출퇴근 기록들을 가져온다
+ */
+function deleteSelectMonth() {
+    let selectedMonth = $('#selectedMonth').val()
+    let month = selectedMonth.split("-")[1];
+    console.log(month);
+    if(selectedMonth == "") {
+        alert("달 선택하세요");
+    } else {
+        $.ajax({
+            async: true,
+            url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/update/set-month",
+            type: "get",
+            contentType: "application/json",
+            data: {
+                month: Number(month)
+            },
+            success: function (data) {
+                showUpdateAtdRecordList(data)
+            },
+            error: function (jqXHR) {
+                let result = getErrors(jqXHR);
+                showError(result);
+                location.replace(URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create");
+            }
+        });
+    }
+}
+
+/**
+ * 출퇴근 기록들을 보여준다
+ * 기록 선택 시, 해당 기록으로 출퇴근기록 삭제 - 승인권자 설정하기 페이지로 이동한다
+ * @param data
+ */
+function showUpdateAtdRecordList(data) {
+    $('#atd-list *').remove();
+
+    for (let [index, atd] of data.entries()) {
+        let parameter = [atd.date, atd.startTime, atd.endTime];
+        let msg = '<div>' + (index + 1) + '. 날짜 : ' + atd.date + ' 출근시간 : ' + atd.startTime + ' 퇴근시간 : ' + atd.endTime +
+            ' <button type="button" onclick=goDeleteAtdReqApvlPage('+JSON.stringify(parameter)+')>선택</button></div>';
+        $('#atd-list').append(msg);
+    }
+}
+
+/**
+ * 출퇴근기록 삭제 요청 - 승인권자 설정하기 페이지로 이동하는 함수
+ */
+function goDeleteAtdReqApvlPage(parameter) {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ
+        + `/delete/set-apvl?date=${parameter[0]}&startTime=${parameter[1]}&endTime=${parameter[2]}`;
+}
+
+/**
+ * 출퇴근기록 삭제 요청에서 승인권자 설정 시, 삭제할 출퇴근기록을 보여준다
+ * 직원의 승인권자 목록을 보여준다
+ */
+function deleteSetApvlShow() {
+    let date = $('#date').val()
+    let startTime = $('#startTime').val()
+    let endTime = $('#endTime').val()
+
+    $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
 }

@@ -29,8 +29,9 @@ public class AttendRequestController {
     }
 
     @GetMapping("/create/set-apvl")
-    public String createSetApvl(Model model, @RequestParam String selectedDate, @RequestParam String startTime,
-                                @RequestParam String endTime, @RequestParam Long schInfoId, @RequestParam String schInfo) {
+    public String createSetApvl(Model model, @RequestParam String selectedDate,
+                                @RequestParam String startTime, @RequestParam String endTime,
+                                @RequestParam Long schInfoId, @RequestParam String schInfo) {
         model.addAttribute("selectedDate", selectedDate);
         model.addAttribute("startTime", startTime);
         model.addAttribute("endTime", endTime);
@@ -44,8 +45,38 @@ public class AttendRequestController {
         return "attend/request/update";
     }
 
+    @GetMapping("/update/set-time")
+    public String updateSetTime(Model model, @RequestParam String date, @RequestParam String startTime,
+                                @RequestParam String endTime) {
+        model.addAttribute("date", date);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        return "attend/request/update-setTime";
+    }
+
+    @GetMapping("/update/set-apvl")
+    public String updateSetApvl(Model model, @RequestParam String date,
+                                @RequestParam String startTime, @RequestParam String endTime,
+                                @RequestParam String updateStartTime, @RequestParam String updateEndTime) {
+        model.addAttribute("date", date);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        model.addAttribute("updateStartTime", updateStartTime);
+        model.addAttribute("updateEndTime", updateEndTime);
+        return "attend/request/update-setApvl";
+    }
+
     @GetMapping("/delete")
     public String delete() {
         return "attend/request/delete";
+    }
+
+    @GetMapping("/delete/set-apvl")
+    public String deleteSetApvl(Model model, @RequestParam String date,
+                                @RequestParam String startTime, @RequestParam String endTime) {
+        model.addAttribute("date", date);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        return "attend/request/delete-setApvl";
     }
 }
