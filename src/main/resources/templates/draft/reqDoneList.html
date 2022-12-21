@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>승인대기 목록</title>
@@ -7,8 +7,8 @@
 <body>
 <h1>승인대기 목록</h1>
 <div>
-    <button type="button" onclick="goApvlWaitList()">승인대기</button>
     <button type="button" onclick="goReqList()">내요청</button>
+    <button type="button" onclick="goApvlWaitList()" th:if="${isManager}">승인대기</button>
     <button type="button" onclick="goReqDoneList()">완료</button>
 </div>
 <div>
