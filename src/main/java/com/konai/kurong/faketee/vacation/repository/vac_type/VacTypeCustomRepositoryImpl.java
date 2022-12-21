@@ -38,4 +38,13 @@ public class VacTypeCustomRepositoryImpl implements VacTypeCustomRepository{
                 .orderBy(vacType.CRE_DTTM.asc())
                 .fetch();
     }
+
+    @Override
+    public void deleteByVacGroupId(Long vacGroupId) {
+
+        jpaQueryFactory
+                .delete(vacType)
+                .where(vacType.vacGroup.id.eq(vacGroupId))
+                .execute();
+    }
 }

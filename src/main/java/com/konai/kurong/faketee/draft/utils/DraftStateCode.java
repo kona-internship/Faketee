@@ -25,4 +25,11 @@ public enum DraftStateCode {
     public static List<DraftStateCode> getDoneApproval(){
         return Arrays.asList(DraftStateCode.APVL_FIN, DraftStateCode.REJ_1, DraftStateCode.REJ_FIN);
     }
+
+    public static DraftStateCode convertToType(String stringType){
+        return Arrays.stream(values())
+                .filter(code -> code.stateMessage.equals(stringType))
+                .findAny()
+                .orElse(null);
+    }
 }

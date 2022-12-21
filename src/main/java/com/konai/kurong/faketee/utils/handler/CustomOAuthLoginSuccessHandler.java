@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.konai.kurong.faketee.utils.Uri.LOGIN_REDIRECT_URI;
+import static com.konai.kurong.faketee.utils.URL.INIT_USR_LOGIN_REDIRECT_URL;
 
 /**
  * OAuth 로그인 성공시 로그인한 유저 정보를 세션에 저장하는 기능을 수행한다
@@ -41,6 +41,6 @@ public class CustomOAuthLoginSuccessHandler implements AuthenticationSuccessHand
         sessionUser.setEmployeeIdList(employeeService.convertToSessionDto(employeeService.findByUserId(loginUser.getId())));
         request.getSession().setAttribute("user", sessionUser);
 
-        response.sendRedirect(LOGIN_REDIRECT_URI);
+        response.sendRedirect("/");
     }
 }

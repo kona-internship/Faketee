@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>요청 상세</title>
+</head>
+<body>
+<h1>요청 상세</h1>
+<div id="draft-detail-head" th:text="|${draft.requestType} ${draft.crudType}|"></div>
+<div id="draft-detail-state" th:text="${draft.stateCode}"></div>
+<table>
+    <tbody>
+    <tr>
+        <th>
+            <span>직원</span>
+        </th>
+        <td>
+            <span id="draft-detail-emp" th:text="${draft.requestEmployee}"></span>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span>신청일자</span>
+        </th>
+        <td>
+            <span id="draft-detail-req-date" th:text="${draft.requestDate}"></span>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span>승인 현황</span>
+        </th>
+        <td id="draft-detail-apvl" th:each="apvlData : ${draft.apvlList}">
+            <div th:text="승인권자: |${apvlData.apvlEmpName} / 상태: ${apvlData.apvlState}"></div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<div>사유</div>
+<div id="draft-detail-req-msg" th:text="${draft.requestMessage}"></div>
+<br>
+<div>요청사항</div>
+<table>
+    <tbody>
+    <tr id="draft-req" th:each="reqData : ${draft.reqList}">
+
+    </tr>
+    <tr>
+        <th>
+            <span>요청 유형</span>
+        </th>
+        <td id="draft-detail-type" th:text="${draft.requestType}">
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span>날짜</span>
+        </th>
+        <td>
+            <span id="draft-detail-date" th:text="|날짜: ${reqData.date} ${reqData.vacType?}|"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<button onclick="cancelDraft()">요청 회수</button>
+<div id="draft-detail-left"></div>
+</body>
+</html>
