@@ -1,7 +1,7 @@
 let todayDate;
 
 function toRequest(){
-
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/req-list";
 }
 
 function toSchedule() {
@@ -10,6 +10,14 @@ function toSchedule() {
 
 function toAttendance(){
 
+}
+
+function toCorSelect(){
+    location.href = "/";
+}
+
+function toMyPage(){
+    location.href = "/account/mypage";
 }
 
 function toVacation(){
