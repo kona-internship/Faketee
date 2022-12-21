@@ -37,12 +37,16 @@
 <body>
 <h1 th:text="${corporation.name} + '에 오신것을 환영합니다.'"></h1>
 <hr>
-기대하고 들어왔겠지만 별 내용은 없다.
 <div class="my-box">
     <h3>오늘 근무</h3>
     <div id="today-schedule"></div>
 </div>
-
+<br><br>
+<button type="button" onclick="toRequest()">요청</button><br><br>
+<button type="button" onclick="toSchedule()">근무일정</button><br><br>
+<button type="button" onclick="toAttendance()">출퇴근기록</button><br><br>
+<button type="button" onclick="toVacation()">휴가</button><br><br>
+<p>&copy; faketee2022</p></form>
 </body>
 <script type="text/javascript" src="/js/corporation/home.js"/>
 <script type="text/javascript" src="/js/employee/employee.js"></script>
