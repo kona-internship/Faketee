@@ -7,7 +7,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-public class DraftCancelRequestDto {
+public class DraftUpdateRequestDto {
     @NotNull
     private Long draftId;
+    private String apvlMsg;
 }

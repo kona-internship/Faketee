@@ -2,10 +2,12 @@ package com.konai.kurong.faketee.draft.dto;
 
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.draft.utils.DraftRequestType;
+import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,9 +33,42 @@ public class DraftResponseDto {
 
     private String crudType;
 
+    private List<ApvlResponseDto> apvlList;
+
     private List<ReqResponseDto> reqList;
 
     public static DraftResponseDto convertToDto(Draft draft){
+        List<ApvlResponseDto> apvlResponseDtos = new ArrayList<>();
+        DraftStateCode draftState = draft.getStateCode();
+        switch (draftState){
+            case WAIT:
+                if(draft.getApprovalEmp1()!=null) {
+                    apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("대기").build());
+                }
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("대기").build());
+                break;
+            case APVL_1:
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("승인").build());
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("대기").build());
+                break;
+            case APVL_FIN:
+                if(draft.getApprovalEmp1()!=null) {
+                    apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("승인").build());
+                }
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("승인").build());
+                break;
+            case REJ_1:
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("거절").build());
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("").build());
+                break;
+            case REJ_FIN:
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("승인").build());
+                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("거절").build());
+                break;
+            default:
+                break;
+        }
+
         DraftResponseDto.DraftResponseDtoBuilder builder =  DraftResponseDto.builder()
                 .id(draft.getId())
                 .requestEmployee(draft.getRequestEmployee().getName())
@@ -43,7 +78,8 @@ public class DraftResponseDto {
                 .stateCode(draft.getStateCode().getStateMessage())
                 .requestMessage(draft.getRequestMessage())
                 .requestType(draft.getRequestType().getType())
-                .crudType(draft.getCrudType().getType());
+                .crudType(draft.getCrudType().getType())
+                .apvlList(apvlResponseDtos);
 
         if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){
             return builder.reqList(ReqResponseDto.convertToAtdDtoList(draft.getAtdRequestList())).build();
