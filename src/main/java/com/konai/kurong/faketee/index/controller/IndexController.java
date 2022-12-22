@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     private final IndexService indexService;
-    private final EmployeeService employeeService;
 
     @GetMapping("/")
     public String index(@LoginUser SessionUser sessionUser){
