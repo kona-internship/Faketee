@@ -49,6 +49,9 @@ public class AttendRequest extends BaseEntity {
     @Column(name = "END_TIME")
     private LocalTime endTime;
 
+    @Column(name = "ORG_START_TIME")
+    private LocalTime orgStartTime;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "EMP_ID", nullable = false)
     private Employee employee;

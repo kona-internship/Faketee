@@ -303,7 +303,8 @@ function createAtdReq() {
         type: "post",
         data: JSON.stringify({
             requestMessage: $('#msg').val(),
-            apvEmpFinId: $('#apvEmp').val(),
+            // apvEmpFinId: $('#apvEmp').val(),
+            apvEmpFinId: 1,
             atdReqDate: $('#selectedDate').val(),
             startTime: $('#startTime').val(),
             endTime: $('#endTime').val(),
@@ -328,7 +329,8 @@ function updateAtdReq() {
         type: "post",
         data: JSON.stringify({
             requestMessage: $('#msg').val(),
-            apvEmpFinId: $('#apvEmp').val(),
+            // apvEmpFinId: $('#apvEmp').val(),
+            apvEmpFinId: 1,
             atdReqDate: $('#date').val(),
             startTime: $('#updateStartTime').val(),
             endTime: $('#updateEndTime').val(),
@@ -353,7 +355,8 @@ function deleteAtdReq() {
         type: "post",
         data: JSON.stringify({
             requestMessage: $('#msg').val(),
-            apvEmpFinId: $('#apvEmp').val(),
+            // apvEmpFinId: $('#apvEmp').val(),
+            apvEmpFinId: 1,
             atdReqDate: $('#date').val(),
         }),
         contentType: "application/json; charset=UTF-8",
