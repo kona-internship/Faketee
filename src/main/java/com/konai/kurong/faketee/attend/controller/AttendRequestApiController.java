@@ -1,6 +1,8 @@
 package com.konai.kurong.faketee.attend.controller;
 
+import com.konai.kurong.faketee.attend.dto.AttendRequestDeleteDto;
 import com.konai.kurong.faketee.attend.dto.AttendRequestSaveDto;
+import com.konai.kurong.faketee.attend.dto.AttendRequestUpdateDto;
 import com.konai.kurong.faketee.attend.service.AttendRequestService;
 import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
@@ -38,6 +40,7 @@ public class AttendRequestApiController {
     }
 
     @GetMapping("/create/set-time/sch-info")
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
     public ResponseEntity<?> createSetTimeSchInfo(String date,
                                                   @PathVariable(name = "corId") Long corId,
                                                   @ReqEmp ReqEmpInfo empInfo) {
@@ -50,10 +53,29 @@ public class AttendRequestApiController {
     }
 
     @PostMapping("/create")
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
     public ResponseEntity<?> createAtdReq(@RequestBody AttendRequestSaveDto requestDto,
                                           @ReqEmp ReqEmpInfo empInfo) {
         requestDto.setReqEmpId(empInfo.getId());
         attendRequestService.createAttendRequest(requestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/update")
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
+    public ResponseEntity<?> updateAtdReq(@RequestBody AttendRequestUpdateDto requestDto,
+                                          @ReqEmp ReqEmpInfo empInfo) {
+        requestDto.setReqEmpId(empInfo.getId());
+        attendRequestService.updateAttendRequest(requestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete")
+    @EmpAuth(role = EmpRole.EMPLOYEE, onlyLowDep = false)
+    public ResponseEntity<?> deleteAtdReq(@RequestBody AttendRequestDeleteDto requestDto,
+                                          @ReqEmp ReqEmpInfo empInfo) {
+        requestDto.setReqEmpId(empInfo.getId());
+        attendRequestService.deleteAttendRequest(requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
