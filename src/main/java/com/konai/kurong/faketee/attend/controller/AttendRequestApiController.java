@@ -7,6 +7,9 @@ import com.konai.kurong.faketee.attend.service.AttendRequestService;
 import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
+import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
+import com.konai.kurong.faketee.employee.entity.Employee;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.employee.utils.EmpAuth;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.konai.kurong.faketee.employee.utils.ReqEmp;
@@ -95,9 +98,9 @@ public class AttendRequestApiController {
 
     @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/load/apv-emp")
-    public ResponseEntity<?> loadApvlEmpList(@ReqEmp ReqEmpInfo empInfo) {
+    public ResponseEntity<?> loadApvlEmpList(@PathVariable(name = "corId") Long corId, @ReqEmp ReqEmpInfo empInfo) {
         log.info("22");
-        attendRequestService.loadApvlEmp(empInfo.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<EmployeeResponseDto> responseDtos = attendRequestService.loadApvlEmp(corId, empInfo.getId());
+        return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
 }
