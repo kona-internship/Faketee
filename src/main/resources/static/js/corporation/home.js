@@ -23,6 +23,32 @@ function toMyPage(){
 function toVacation(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO;
 }
+
+function newAttend(){
+
+}
+
+function modAttend(){
+
+}
+
+function deleteAttend(){
+
+}
+
+function newVac(){
+
+}
+
+function modVac(){
+
+}
+
+function deleteVac(){
+
+}
+
+
 /**
  * 근무일정 가져오는 ajax
  */
