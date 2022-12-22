@@ -313,11 +313,55 @@ function createAtdReq() {
             alert("출퇴근기록 생성 요청이 완료되었습니다.");
         },
         error: function (request, status, error) {
-            alert("출퇴근 생성 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+            alert("출퇴근기록 생성 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
         }
     });
 }
 
 /**
- * 출퇴근기록
+ * 출퇴근기록 수정 요청 보내기
  */
+function updateAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/update",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('#apvEmp').val(),
+            atdReqDate: $('#date').val(),
+            startTime: $('#updateStartTime').val(),
+            endTime: $('#updateEndTime').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 수정 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근기록 수정 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+/**
+ * 출퇴근기록 삭제 요청 보내기
+ */
+function deleteAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/delete",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('#apvEmp').val(),
+            atdReqDate: $('#date').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 삭제 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근기록 삭제 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
