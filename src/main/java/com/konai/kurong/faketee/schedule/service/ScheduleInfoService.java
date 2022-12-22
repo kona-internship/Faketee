@@ -137,6 +137,17 @@ public class ScheduleInfoService {
         return scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
     }
 
+//    @Transactional
+//    public List<ScheduleInfo> getScheduleByDateAndEmp(String date, Long corId, Long empId) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate dateTime = LocalDate.parse(date, formatter);
+//        List<ScheduleInfo> scheduleInfoList = scheduleInfoRepository.findAllByDateAndEmployeeCorporationIdAndEmployeeId(dateTime, corId, empId);
+//        if(scheduleInfoList == null) {
+//            throw new NoSchInfoException();
+//        }
+//        return scheduleInfoList;
+//    }
+
     @Transactional
     public ScheduleInfo getScheduleByDateAndEmp(String date, Long corId, Long empId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
