@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,7 +46,14 @@ public class AttendRequestApiController {
     public ResponseEntity<?> createSetTimeSchInfo(String date,
                                                   @PathVariable(name = "corId") Long corId,
                                                   @ReqEmp ReqEmpInfo empInfo) {
+//
+//        List<ScheduleInfoResponseDto> responseDto = scheduleInfoService.getScheduleByDateAndEmp(date, corId, empInfo.getId())
+//                .stream()
+//                .map(ScheduleInfoResponseDto::convertToDto)
+//                .collect(Collectors.toList());
+
         ScheduleInfoResponseDto responseDto = ScheduleInfoResponseDto.convertToDto(scheduleInfoService.getScheduleByDateAndEmp(date, corId, empInfo.getId()));
+
         if(responseDto == null) {
             throw new NoSchInfoException();
         } else {

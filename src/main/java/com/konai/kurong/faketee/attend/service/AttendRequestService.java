@@ -39,6 +39,7 @@ public class AttendRequestService {
     private final EmployeeService employeeService;
 
     //출퇴근기록 생성 요청
+    @Transactional
     public void createAttendRequest(AttendRequestSaveDto requestDto) {
 //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
@@ -62,6 +63,7 @@ public class AttendRequestService {
     }
 
     //    출퇴근기록 수정 요청
+    @Transactional
     public void updateAttendRequest(AttendRequestUpdateDto requestDto) {
 //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
@@ -85,6 +87,7 @@ public class AttendRequestService {
     }
 
     //    출퇴근기록 삭제 요청
+    @Transactional
     public void deleteAttendRequest(AttendRequestDeleteDto requestDto) {
         //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
@@ -146,9 +149,10 @@ public class AttendRequestService {
 //    나머지 Draft StateCode 인 경우(최종승인, 최종반려, 비활성화) 는 Draft CREATE
     @Transactional
     public Draft setOldAttendRequest(Long empId, LocalDate atdReqDate, DraftCrudType crudType) {
-        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate).orElseThrow();
-
-        if (oldAttendRequest != null) {
+        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate);
+        if (oldAttendRequest == null) {
+            return null;
+        } else {
             Draft draft = draftRepository.findById(oldAttendRequest.getDraft().getId()).orElseThrow();
             if(draft.getStateCode() == DraftStateCode.WAIT) {
                 oldAttendRequest.updateVal();
@@ -157,8 +161,6 @@ public class AttendRequestService {
             } else {
                 return null;
             }
-        } else {
-            return null;
         }
     }
 
