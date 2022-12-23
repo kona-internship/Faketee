@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.konai.kurong.faketee.employee.entity.QEmployee.employee;
 import static com.konai.kurong.faketee.department.entity.QDepartment.department;
@@ -68,13 +67,13 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
     @Override
     public List<Employee> findApprovalLine(Long corId, Long depId){
 
-        List<Employee> managerList = findManagersList(corId);
+        List<Employee> managerList = findManagerList(corId);
         List<Long> upperDepartmentsId = findUpperDepartmentsId(depId);
         List<Employee> approvalLine = new ArrayList<>();
 
         for(Employee managers : managerList){
             for(Long departmentId : upperDepartmentsId){
-                if(managers.getDepartment().getId().equals(departmentId)){
+                if(managers.getDepartment().getId().equals(departmentId)) {
                     approvalLine.add(managers);
                 }
             }
@@ -82,7 +81,7 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
         return approvalLine;
     }
 
-    private List<Employee> findManagersList(Long corId){
+    private List<Employee> findManagerList(Long corId){
 
         return jpaQueryFactory
                 .selectFrom(employee)

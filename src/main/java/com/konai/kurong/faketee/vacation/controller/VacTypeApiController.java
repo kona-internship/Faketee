@@ -32,7 +32,7 @@ public class VacTypeApiController {
         vacTypeService.delete(vacTypeId);
     }
 
-    @EmpAuth(role = EmpRole.GENERAL_MANAGER)
+    @EmpAuth(role = EmpRole.EMPLOYEE)
     @GetMapping("/by-cor")
     public ResponseEntity<?> listByCorId(@PathVariable(name = "corId") Long corId){
 

@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.vacation.repository.vac_info;
+package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import static com.konai.kurong.faketee.vacation.entity.QVacInfo.vacInfo;
-import static com.konai.kurong.faketee.vacation.entity.QVacGroup.vacGroup;
 
 @RequiredArgsConstructor
 @Repository

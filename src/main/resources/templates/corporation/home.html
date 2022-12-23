@@ -43,8 +43,8 @@
     <h3>오늘 근무</h3>
     <div id="today-schedule"></div>
     <br>
-    <select name="req" style="color: darkgreen">
-        <option value="">요청</option>
+    <select name="req" style="color: darkgreen" onchange="location.href = sendRequest(this.value)">
+        <option value="요청">요청</option>
         <option value="출퇴근기록 생성" id="option-attend-new" onclick="newAttend()">출퇴근기록 생성</option>
         <option value="출퇴근기록 수정" id="option-attend-mod" onclick="modAttend()">출퇴근기록 수정</option>
         <option value="출퇴근기록 삭제" id="option-attend-delete" onclick="deleteAttend()">출퇴근기록 삭제</option>

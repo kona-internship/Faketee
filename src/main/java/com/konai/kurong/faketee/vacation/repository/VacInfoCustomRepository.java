@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.vacation.repository.vac_info;
+package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import org.springframework.data.repository.query.Param;
