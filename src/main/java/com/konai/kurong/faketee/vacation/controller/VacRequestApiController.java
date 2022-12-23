@@ -14,8 +14,12 @@ import com.konai.kurong.faketee.vacation.service.VacRequestService;
 import com.konai.kurong.faketee.vacation.service.VacTypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,8 +39,6 @@ public class VacRequestApiController {
 
         VacTypeResponseDto vacTypeResponseDto= vacTypeService.findById(type);
         VacInfoResponseDto vacInfoResponseDto = vacInfoService.findByEmpAndVacGroup(userService.findEmployeeId(sessionUser, corId), vacTypeResponseDto.getVacGroupResponseDto().getId());
-
-        log.info("remaining called========================================================");
         return ResponseEntity.ok(VacRemainResponseDto.builder()
                         .vacGroup(vacTypeResponseDto.getVacGroupResponseDto().getName())
                         .remain(vacInfoResponseDto.getRemaining())
