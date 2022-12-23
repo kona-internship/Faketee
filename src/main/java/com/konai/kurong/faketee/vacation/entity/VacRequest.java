@@ -3,6 +3,7 @@ package com.konai.kurong.faketee.vacation.entity;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.utils.jpa_auditing.BaseEntity;
+import com.konai.kurong.faketee.vacation.util.RequestVal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class VacRequest extends BaseEntity {
     private LocalDateTime date;
 
     @Column(name = "VAL")
-    private String val;
+    private RequestVal val;
 
     @ManyToOne
     @JoinColumn(name = "VAC_TYPE_ID")

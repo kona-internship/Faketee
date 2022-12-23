@@ -1,17 +1,20 @@
+
+let dateSelectedInString;
+let dateSelectedInArray = [];
 $(function() {
 
     let options={
         multidate: true,
         format: 'yyyy-mm-dd',
-        todayHighlight: true,
+        todayHighlight: false,
         autoclose: false,
     };
     $('#select-vac-date').datepicker(options);
 
-    let selected
     $('#select-vac-date').on("change", function (){
-        selected = $(this).val();
+        let selected = $(this).val();
         loadRemaining(selected);
+        dateSelectedInString = selected;
     });
 });
 
@@ -52,6 +55,7 @@ function checkType(){
     $('#alert').attr("hidden", true);
 }
 
+
 function loadRemaining(str){
 
     $('#remaining *').remove();
@@ -59,7 +63,7 @@ function loadRemaining(str){
     let dates = [];
     for(let i in strSplit)
         dates.push(strSplit[i]);
-
+    dateSelectedInArray = dates;
     let vacTypeId = $('#select-vac-type option:selected').val();
     $.ajax({
         async: true,
@@ -92,4 +96,14 @@ function drawRemaining(response, dates){
     + '일 입니다.'
     + '</i>'
     $('#remaining').append(msg);
+}
+
+function setInfo(){
+
+    window.location = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/form?type=" + $('#select-vac-type option:selected').val() + "&dates=" + dateSelectedInString;
+}
+
+function loadApprovalLine(vacType){
+
+    alert(vacType.name);
 }

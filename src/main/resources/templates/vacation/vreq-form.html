@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>휴가생성 요청</title>
+</head>
+<body>
+<h1>검토: 휴가생성</h1>
+<form>
+    <div id="approval-list">
+        승인권자
+    </div>
+    <div>
+        사유:
+        <input type="text" id="reason">
+    </div>
+    <div id="summary">
+        요청사항
+    </div>
+</form>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation-request.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    loadApprovalLine(/*[[${vactype}]]*/)
+    /*]]>*/
+</script>
+</html>
