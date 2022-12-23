@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.vacation.repository.vac_type;
+package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacType;
 import org.springframework.data.jpa.repository.JpaRepository;

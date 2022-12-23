@@ -4,8 +4,8 @@ import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationGroupNot
 import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationTypeNotFoundException;
 import com.konai.kurong.faketee.vacation.dto.VacTypeResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacTypeSaveRequestDto;
-import com.konai.kurong.faketee.vacation.repository.vac_type.VacTypeRepository;
-import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
+import com.konai.kurong.faketee.vacation.repository.VacTypeRepository;
+import com.konai.kurong.faketee.vacation.repository.VacGroupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

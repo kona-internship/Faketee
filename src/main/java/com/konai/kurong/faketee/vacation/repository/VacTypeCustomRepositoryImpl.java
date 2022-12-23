@@ -1,7 +1,5 @@
-package com.konai.kurong.faketee.vacation.repository.vac_type;
+package com.konai.kurong.faketee.vacation.repository;
 
-import com.konai.kurong.faketee.vacation.dto.QVacTypeResponseDto;
-import com.konai.kurong.faketee.vacation.dto.VacTypeResponseDto;
 import com.konai.kurong.faketee.vacation.entity.VacType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class VacTypeCustomRepositoryImpl implements VacTypeCustomRepository{
                 .select(vacType)
                 .from(vacType)
                 .where(vacType.vacGroup.corporation.id.eq(corId))
-                .orderBy(vacType.vacGroup.CRE_DTTM.asc())
+                .orderBy(vacType.vacGroup.id.asc())
                 .fetch();
     }
 
