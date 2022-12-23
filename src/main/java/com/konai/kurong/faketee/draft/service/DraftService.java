@@ -8,14 +8,12 @@ import com.konai.kurong.faketee.draft.dto.DraftResponseDto;
 import com.konai.kurong.faketee.draft.dto.DraftUpdateRequestDto;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.draft.repository.DraftRepository;
-import com.konai.kurong.faketee.draft.utils.DraftCrudType;
 import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import com.konai.kurong.faketee.schedule.entity.ScheduleInfo;
 import com.konai.kurong.faketee.schedule.repository.schedule.ScheduleInfoRepository;
 import com.konai.kurong.faketee.vacation.entity.VacRequest;
-import com.konai.kurong.faketee.vacation.repository.VacRequestRepository;
-import com.konai.kurong.faketee.vacation.repository.vac_info.VacInfoRepository;
+import com.konai.kurong.faketee.vacation.repository.VacInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,10 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.konai.kurong.faketee.schedule.entity.QScheduleInfo.scheduleInfo;
 
 @Transactional
 @Slf4j
