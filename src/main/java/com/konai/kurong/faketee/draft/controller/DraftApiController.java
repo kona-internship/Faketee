@@ -3,10 +3,7 @@ package com.konai.kurong.faketee.draft.controller;
 import com.konai.kurong.faketee.draft.dto.DraftCancelRequestDto;
 import com.konai.kurong.faketee.draft.dto.DraftUpdateRequestDto;
 import com.konai.kurong.faketee.draft.service.DraftService;
-import com.konai.kurong.faketee.employee.utils.EmpAuth;
-import com.konai.kurong.faketee.employee.utils.EmpRole;
-import com.konai.kurong.faketee.employee.utils.ReqEmp;
-import com.konai.kurong.faketee.employee.utils.ReqEmpInfo;
+import com.konai.kurong.faketee.employee.utils.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,7 +41,7 @@ public class DraftApiController {
         return new ResponseEntity<>(draftService.getDoneDraftList(empInfo.getId()), HttpStatus.OK);
     }
 
-    @EmpAuth(role = EmpRole.EMPLOYEE)
+    @EmpAuth(role = EmpRole.EMPLOYEE, paramCheckType = EmpAuthParamType.DRAFT_REQ)
     @PostMapping("/cancel")
     public ResponseEntity<?> cancelDraft(
             @Valid @RequestBody DraftCancelRequestDto requestDto) {
