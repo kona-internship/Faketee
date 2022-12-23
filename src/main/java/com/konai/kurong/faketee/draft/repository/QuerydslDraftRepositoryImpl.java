@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.konai.kurong.faketee.draft.entity.QDraft.draft;
 import static com.konai.kurong.faketee.employee.entity.QEmployee.employee;
@@ -43,7 +45,6 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
                     log.info(">>>>>>>>>>>>>>>>querydsl repo vac: "+request);
                 }
             }
-
         }
         return draftList;
     }

@@ -39,4 +39,9 @@ public class ScheduleInfo extends BaseEntity {
     @JoinColumn(name = "EMP_ID")
     private Employee employee;
 
+    public void changeTimes(LocalTime startTime, LocalTime endTime){
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
 }

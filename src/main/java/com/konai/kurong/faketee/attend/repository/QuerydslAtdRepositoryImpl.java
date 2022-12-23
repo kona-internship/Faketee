@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.attend.repository;
 
 import com.konai.kurong.faketee.attend.entity.Attend;
+import com.konai.kurong.faketee.attend.entity.AttendRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.konai.kurong.faketee.attend.entity.QAttend.attend;
+import static com.konai.kurong.faketee.attend.entity.QAttendRequest.attendRequest;
+import static com.konai.kurong.faketee.employee.entity.QEmployee.employee;
 
 @Slf4j
 @RequiredArgsConstructor
