@@ -20,6 +20,7 @@ import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplExcep
 import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -308,5 +309,49 @@ public class EmployeeService {
     public EmployeeResponseDto findById(Long empId){
 
         return EmployeeResponseDto.convertToDto(employeeRepository.findById(empId).orElseThrow());
+    }
+
+    /**
+     * 출퇴근 기록 승인권자 가져오기
+     * 1. empId의 role이 직원일 경우
+     * 소속되어있는 dept의 관리자부터 가져온다. 그 후로 소속된 DEPT 의 상위 DEPT 의 상위관리자(들을 계속해서 가져온다
+     *
+     * 2. empId의 role이 직원이 아닐 경우(조직관리자, 총괄관리자)
+     * 소속되어있는 dept의 상위 dept의 상위 관리자부터 가져온다.(조직관리자 - 총괄관리자에게, 총괄관리자 - 최고관리자에게)
+     *
+     * 3. empId의 role 이 최고관리자인 경우
+     * 승인을 받지 않는다
+     *
+     * @param empId
+     * @return
+     */
+    public void findApvlByEmp(Long empId) {
+        Employee emp = findByEmployeeById(empId);
+
+        if(emp.getRole().equals(EmpRole.EMPLOYEE)) {
+            //직원일 경우
+
+       } else {
+            //관리자일 경우
+
+        }
+    }
+
+    /**
+     * 승인권자 리스트 호출
+     *
+     * 휴가, 출퇴근 관련 요청을 보내는 직원에 대한 상위조직의 승인권자 리스트를 반환한다.
+     * 반환되는 승인권자는 중간관리자, 최고관리자 권한의 직원이며
+     * 요청하는 직원의 조직레벨부터 최상위 조직의 승인권자까지 찾아서 리스트로 반환한다.
+     * @param corId : 요청보내는 직원이 소속된 corporation 의 ID
+     * @param depId : 요청보내는 직원이 소속된 department 의 ID
+     * @return
+     */
+    public List<EmployeeResponseDto> findApprovalLine(Long corId, Long depId){
+
+        return employeeRepository.findApprovalLine(corId, depId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
     }
 }

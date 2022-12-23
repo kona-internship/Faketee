@@ -90,4 +90,8 @@ public class Draft extends BaseEntity {
     public void updateStateCode(DraftStateCode stateCode) {
         this.stateCode = stateCode;
     }
+
+    public void updateRequestMessage(String requestMessage) {
+        this.requestMessage = requestMessage;
+    }
 }

@@ -7,8 +7,8 @@ import com.konai.kurong.faketee.vacation.dto.VacInfoResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacInfoSaveRequestDto;
 import com.konai.kurong.faketee.vacation.dto.VacInfoUpdateRequestDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
-import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
-import com.konai.kurong.faketee.vacation.repository.vac_info.VacInfoRepository;
+import com.konai.kurong.faketee.vacation.repository.VacGroupRepository;
+import com.konai.kurong.faketee.vacation.repository.VacInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -135,7 +135,12 @@ public class VacInfoService {
     @Transactional
     public Long updateInfo(VacInfoUpdateRequestDto requestDto){
 
-        return vacInfoRepository.updateByEmpAndVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
+        return vacInfoRepository.findByEmpIdVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
+    }
+
+    public VacInfoResponseDto findByEmpAndVacGroup(Long empId, Long vacGroupId){
+
+        return VacInfoResponseDto.convertToDto(vacInfoRepository.findByEmpIdVacGroupId(empId, vacGroupId));
     }
 
 }

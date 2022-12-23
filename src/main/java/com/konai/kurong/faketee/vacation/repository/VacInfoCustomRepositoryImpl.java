@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.vacation.repository.vac_info;
+package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
 import com.konai.kurong.faketee.vacation.entity.VacRequest;
@@ -39,7 +39,7 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
     }
 
     @Override
-    public VacInfo updateByEmpAndVacGroupId(Long empId, Long vacGroupId) {
+    public VacInfo findByEmpIdVacGroupId(Long empId, Long vacGroupId) {
 
         return jpaQueryFactory
                 .selectFrom(vacInfo)

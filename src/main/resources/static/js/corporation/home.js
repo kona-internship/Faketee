@@ -23,6 +23,7 @@ function toMyPage(){
 function toVacation(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_INFO;
 }
+
 /**
  * 근무일정 가져오는 ajax
  */
@@ -123,4 +124,20 @@ function getToday() {
 
     todayDate = year + "-" + month + "-" + date;
     return month + "/" + date + "(" + when[day] + ") <br>";
+}
+
+function sendRequest(value){
+
+    switch (value){
+        case "요청" :
+            return URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR);
+        case "출퇴근기록 생성" :
+            return URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create";
+        case "출퇴근기록 수정" :
+            return URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/update";
+        case "출퇴근기록 삭제" :
+            return URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/delete";
+        case "휴가 생성" :
+            return URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/new";
+    }
 }

@@ -11,4 +11,5 @@ public interface ScheduleInfoRepository extends JpaRepository<ScheduleInfo, Long
     ScheduleInfo findAllByDateAndEmployeeCorporationIdAndEmployeeId(LocalDate date, Long corId, Long empId);
 
     List<ScheduleInfo> findAllByDateAndEmployeeId(LocalDate date, Long empId);
+//    List<ScheduleInfo> findAllByDateAndEmployeeCorporationIdAndEmployeeId(LocalDate date, Long corId, Long empId);
 }

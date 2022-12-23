@@ -1,4 +1,4 @@
-package com.konai.kurong.faketee.vacation.repository.vac_group;
+package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;

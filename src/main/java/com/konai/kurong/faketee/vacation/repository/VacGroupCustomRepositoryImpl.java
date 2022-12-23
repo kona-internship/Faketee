@@ -1,7 +1,5 @@
-package com.konai.kurong.faketee.vacation.repository.vac_group;
+package com.konai.kurong.faketee.vacation.repository;
 
-import com.konai.kurong.faketee.vacation.dto.QVacGroupResponseDto;
-import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.konai.kurong.faketee.vacation.entity.QVacGroup.vacGroup;
-import static com.konai.kurong.faketee.corporation.entity.QCorporation.corporation;
 
 @RequiredArgsConstructor
 @Repository
