@@ -36,7 +36,7 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
     }
 
     @Override
-    public VacInfo updateByEmpAndVacGroupId(Long empId, Long vacGroupId) {
+    public VacInfo findByEmpIdVacGroupId(Long empId, Long vacGroupId) {
 
         return jpaQueryFactory
                 .selectFrom(vacInfo)

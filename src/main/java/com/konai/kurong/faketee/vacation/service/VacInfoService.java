@@ -135,7 +135,12 @@ public class VacInfoService {
     @Transactional
     public Long updateInfo(VacInfoUpdateRequestDto requestDto){
 
-        return vacInfoRepository.updateByEmpAndVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
+        return vacInfoRepository.findByEmpIdVacGroupId(requestDto.getEmpId(), requestDto.getVacGroupId()).updateVacInfo(requestDto);
+    }
+
+    public VacInfoResponseDto findByEmpAndVacGroup(Long empId, Long vacGroupId){
+
+        return VacInfoResponseDto.convertToDto(vacInfoRepository.findByEmpIdVacGroupId(empId, vacGroupId));
     }
 
 }
