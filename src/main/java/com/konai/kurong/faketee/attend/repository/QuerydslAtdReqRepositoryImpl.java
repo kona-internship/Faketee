@@ -2,14 +2,15 @@ package com.konai.kurong.faketee.attend.repository;
 
 import com.konai.kurong.faketee.attend.entity.AttendRequest;
 import com.konai.kurong.faketee.attend.utils.AttendRequestVal;
-import com.konai.kurong.faketee.employee.repository.QuerydslEmpRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.konai.kurong.faketee.attend.entity.QAttendRequest.attendRequest;
+import static com.konai.kurong.faketee.employee.entity.QEmployee.employee;
 
 @RequiredArgsConstructor
 public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
@@ -36,5 +37,14 @@ public class QuerydslAtdReqRepositoryImpl implements QuerydslAtdReqRepository {
                 .where(attendRequest.draft.id.eq(draftId),
                         attendRequest.val.eq(AttendRequestVal.T))
                 .fetchOne());
+    }
+
+    @Override
+    public List<AttendRequest> getAtdReqByDraftId(Long draftId){
+        return jpaQueryFactory
+                .selectFrom(attendRequest)
+                .join(attendRequest.employee, employee)
+                .where(attendRequest.draft.id.eq(draftId))
+                .fetch();
     }
 }

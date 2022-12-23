@@ -55,4 +55,9 @@ public class Attend extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "EMP_ID", nullable = false)
     private Employee employee;
+
+    public void changeTimes(LocalTime startTime, LocalTime endTime){
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

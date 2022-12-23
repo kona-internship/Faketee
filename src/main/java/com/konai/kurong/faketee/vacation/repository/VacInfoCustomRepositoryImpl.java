@@ -1,12 +1,15 @@
 package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
+import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import static com.konai.kurong.faketee.vacation.entity.QVacInfo.vacInfo;
+import static com.konai.kurong.faketee.vacation.entity.QVacRequest.vacRequest;
+import static com.konai.kurong.faketee.vacation.entity.QVacType.vacType;
 
 @RequiredArgsConstructor
 @Repository
@@ -51,5 +54,14 @@ public class VacInfoCustomRepositoryImpl implements VacInfoCustomRepository {
                 .delete(vacInfo)
                 .where(vacInfo.vacGroup.id.eq(vacGroupId))
                 .execute();
+    }
+
+    @Override
+    public List<VacRequest> getVacReqByDraftId(Long draftId){
+        return jpaQueryFactory
+                .selectFrom(vacRequest)
+                .join(vacRequest.vacType, vacType)
+                .where(vacRequest.draft.id.eq(draftId))
+                .fetch();
     }
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Builder
@@ -34,6 +35,9 @@ public class VacRequest extends BaseEntity {
 
     @Column(name = "VAC_REQ_DATE")
     private LocalDateTime date;
+
+    @Column(name = "ORG_START_TIME")
+    private LocalTime originStartTime;
 
     @Column(name = "VAL")
     private RequestVal val;

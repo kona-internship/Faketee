@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.vacation.repository;
 
 import com.konai.kurong.faketee.vacation.entity.VacInfo;
+import com.konai.kurong.faketee.vacation.entity.VacRequest;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface VacInfoCustomRepository {
     VacInfo findByEmpIdVacGroupId(@Param("empId") Long empId, @Param("vacGroupId") Long vacGroupId);
     void deleteByVacGroupId(@Param("vacGroupId") Long vacGroupId);
 
+    List<VacRequest> getVacReqByDraftId(Long draftId);
 }
