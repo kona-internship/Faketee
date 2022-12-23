@@ -10,9 +10,9 @@
 
 <form name="update-setApvl" id="update-setApvl">
     <!--    승인권자 목록 가져와야 함  -->
-    승인권자 : <input type="text" id="apvEmp" name="apvEmp"><br><hr>
+    승인권자 : <div><div id="apvl-emp-list"></div></div>
 
-    사유 : <input type="text" id="msg" name="msg"><br><hr>
+    <br>사유 : <input type="text" id="msg" name="msg"><br><hr>
 
     <!--  직원이 직전 페이지에 보냈던 요청사항 내용들을 출력  -->
     요청사항<br>
@@ -23,7 +23,7 @@
 
     변경 후 : <input type="text" id="after-update" name="after-update" readonly><br><br>
 
-    <button type="button" onclick="">보내기</button>
+    <button type="button" onclick="updateAtdReq()">보내기</button>
 
     <input type="hidden" id="date" name="date" th:value="${date}">
     <input type="hidden" id="startTime" name="startTime" th:value="${startTime}">

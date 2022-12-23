@@ -100,6 +100,44 @@ function createSetApvlShow() {
     $('input[name=date]').attr('value', selectedDate);
     $('input[name=time]').attr('value', startTime + " ~ " + endTime);
     $('input[name=sch]').attr('value', schInfo);
+
+    getApvlEmpList();
+}
+
+/**
+ * 승인권자 목록을 가져오는 함수
+ */
+function getApvlEmpList() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/load/apv-emp",
+        type: "get",
+        contentType: "application/json",
+        success: function (data) {
+            //여기 작성
+            console.log(data)
+            showApvlEmpList(data);
+        },
+        error: function () {
+            alert('승인권자 불러오기 실패!');
+        }
+    });
+}
+
+/**
+ * 승인권자 목록을 보여주는 함수
+ * @param data
+ */
+function showApvlEmpList(data) {
+    $('#apvl-emp-list *').remove();
+
+    for (let [index, emp] of data.entries()) {
+        let msg = '<div>' +
+            '<input type="radio" name="apvlEmp" value= ' + emp.id + '>' +
+            (index + 1) + '. ' + emp.name +
+            '</div>';
+        $('#apvl-emp-list').append(msg);
+    }
 }
 
 /**
@@ -206,6 +244,8 @@ function updateSetApvlShow() {
     $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
     $('input[name=before-update]').attr('value', startTime + " ~ " + endTime);
     $('input[name=after-update]').attr('value', updateStartTime + " ~ " + updateEndTime);
+
+    getApvlEmpList();
 }
 
 /**
@@ -277,4 +317,79 @@ function deleteSetApvlShow() {
     let endTime = $('#endTime').val()
 
     $('input[name=record]').attr('value', "날짜 : " + date + " 출근시간 : " + startTime + " 퇴근시간 : " + endTime);
+
+    getApvlEmpList();
+}
+
+/**
+ * 출퇴근기록 생성 요청 보내기
+ */
+function createAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/create",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('input[name=apvlEmp]:checked').val(),
+            atdReqDate: $('#selectedDate').val(),
+            startTime: $('#startTime').val(),
+            endTime: $('#endTime').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 생성 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근기록 생성 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+/**
+ * 출퇴근기록 수정 요청 보내기
+ */
+function updateAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/update",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('input[name=apvlEmp]:checked').val(),
+            atdReqDate: $('#date').val(),
+            startTime: $('#updateStartTime').val(),
+            endTime: $('#updateEndTime').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 수정 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근기록 수정 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+/**
+ * 출퇴근기록 삭제 요청 보내기
+ */
+function deleteAtdReq() {
+    $.ajax({
+        async: true,
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_ATD_REQ + "/delete",
+        type: "post",
+        data: JSON.stringify({
+            requestMessage: $('#msg').val(),
+            apvEmpFinId: $('input[name=apvlEmp]:checked').val(),
+            atdReqDate: $('#date').val(),
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function () {
+            alert("출퇴근기록 삭제 요청이 완료되었습니다.");
+        },
+        error: function (request, status, error) {
+            alert("출퇴근기록 삭제 요청 실패" + "code:" + request.status + "\n" + " message : " + request.responseText + "\n" + "error:" + error);
+        }
+    });
 }

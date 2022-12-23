@@ -445,9 +445,11 @@ function loadSchedules() {
             selectedDate : selectedDate
         },
         success: function (data) {
-            drawScheduleList(data);
+            //지금 사람이 직원일 경우, 관리자일 경우
+            console.log(data)
+            drawScheduleList(data.scheduleInfo, data.role);
         },
-        error: function (error) {
+        error : function (error){
             alert(JSON.stringify(error));
         }
     });
@@ -458,7 +460,7 @@ function loadSchedules() {
  *
  * @param schList
  */
-function drawScheduleList(schList) {
+function drawScheduleList(schList, role) {
 
     $('#sch-list *').remove();
     if (schList.entries().next().value == null) {
@@ -471,10 +473,14 @@ function drawScheduleList(schList) {
             + sch.startTime
             + ' /  종료시간: '
             + sch.endTime
-            + '<br> 상태: '
-            + sch.state
-            + ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
-            + '</div>';
+            + '<br> 근무 일정 이름: '
+            + sch.state;
+        if(role === '직원') {
+            msg +='</div>';
+        } else{
+            msg += ' <button type="button" onclick=deleteSchedule(' + sch.id + ')>삭제</button>'
+                + '</div>';
+        }
         $('#sch-list').append(msg);
     }
 }
@@ -495,8 +501,9 @@ function deleteSchedule(scheduleId) {
             alert("근무 일정이 삭제되었습니다.");
             loadSchedules();
         },
-        error : function (error){
-            alert(JSON.stringify(error));
+        error: function (jqXHR) {
+            let result = getErrors(jqXHR);
+            showError(result);
             loadSchedules();
         }
     });

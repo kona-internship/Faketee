@@ -24,6 +24,8 @@ public enum ExceptionId {
     TMP_POS_NOT_FOUND("400_004_004"),
     TMP_NOT_FOUND("400_004_005"),
 
+    CONNECT_ATD_EXIST("400_004_006"),
+
 
 //    ===============POS=================
     POS_NOT_FOUND("400_005_001"),

@@ -50,7 +50,7 @@ public class AttendRequest extends BaseEntity {
     private LocalTime endTime;
 
     @Column(name = "ORG_START_TIME")
-    private LocalTime originStartTime;
+    private LocalTime orgStartTime;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "EMP_ID", nullable = false)

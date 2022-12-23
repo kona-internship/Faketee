@@ -7,13 +7,16 @@ import com.konai.kurong.faketee.attend.entity.AttendRequest;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.attend.repository.AttendRequestRepository;
 import com.konai.kurong.faketee.attend.utils.AttendRequestVal;
+import com.konai.kurong.faketee.department.repository.DepartmentRepository;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.draft.repository.DraftRepository;
 import com.konai.kurong.faketee.draft.utils.DraftCrudType;
 import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
+import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.repository.EmployeeRepository;
+import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.DraftNotWaitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -35,13 +39,15 @@ public class AttendRequestService {
     private final EmployeeRepository employeeRepository;
     private final DraftRepository draftRepository;
     private final AttendRepository attendRepository;
+    private final EmployeeService employeeService;
 
     //출퇴근기록 생성 요청
+    @Transactional
     public void createAttendRequest(AttendRequestSaveDto requestDto) {
 //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
         Employee approvalEmpFin = employeeRepository.findById(requestDto.getApvEmpFinId()).orElseThrow();
-        String approvalMessage = requestDto.getRequestMessage();
+        String requestMessage = requestDto.getRequestMessage();
         DraftCrudType crudType = DraftCrudType.CREATE;
 
 //        출퇴근기록 요청(ATD_REQ) 만들기에 필요한 것들 불러오기
@@ -50,9 +56,9 @@ public class AttendRequestService {
         LocalTime endTime = LocalTime.parse(requestDto.getEndTime());
 
 //        기안(DRAFT) Entity 만들기
-        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType);
+        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType, requestMessage);
         if (draft == null) {
-            draft = saveDraft(requestEmployee, approvalEmpFin, approvalMessage, crudType);
+            draft = saveDraft(requestEmployee, approvalEmpFin, requestMessage, crudType);
         }
 
 //        출퇴근기록 요청(ATD_REQ) Entity 만들기
@@ -60,11 +66,12 @@ public class AttendRequestService {
     }
 
     //    출퇴근기록 수정 요청
+    @Transactional
     public void updateAttendRequest(AttendRequestUpdateDto requestDto) {
 //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
         Employee approvalEmpFin = employeeRepository.findById(requestDto.getApvEmpFinId()).orElseThrow();
-        String approvalMessage = requestDto.getRequestMessage();
+        String requestMessage = requestDto.getRequestMessage();
         DraftCrudType crudType = DraftCrudType.UPDATE;
 
 //        출퇴근기록 요청(ATD_REQ) 만들기에 필요한 것들 불러오기
@@ -73,9 +80,9 @@ public class AttendRequestService {
         LocalTime endTime = LocalTime.parse(requestDto.getEndTime());
 
 //        기안(DRAFT) Entity 만들기
-        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType);
+        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType, requestMessage);
         if (draft == null) {
-            draft = saveDraft(requestEmployee, approvalEmpFin, approvalMessage, crudType);
+            draft = saveDraft(requestEmployee, approvalEmpFin, requestMessage, crudType);
         }
 
 //        출퇴근기록 요청(ATD_REQ) Entity 만들기
@@ -83,20 +90,21 @@ public class AttendRequestService {
     }
 
     //    출퇴근기록 삭제 요청
+    @Transactional
     public void deleteAttendRequest(AttendRequestDeleteDto requestDto) {
         //        기안(DRAFT) 만들기에 필요한 것들 불러오기
         Employee requestEmployee = employeeRepository.findById(requestDto.getReqEmpId()).orElseThrow();
         Employee approvalEmpFin = employeeRepository.findById(requestDto.getApvEmpFinId()).orElseThrow();
-        String approvalMessage = requestDto.getRequestMessage();
+        String requestMessage = requestDto.getRequestMessage();
         DraftCrudType crudType = DraftCrudType.DELETE;
 
 //        출퇴근기록 요청(ATD_REQ) 만들기에 필요한 것들 불러오기
         LocalDate atdReqDate = new Date(requestDto.getAtdReqDate().getTime()).toLocalDate();
 
 //        기안(DRAFT) Entity 만들기
-        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType);
+        Draft draft = setOldAttendRequest(requestEmployee.getId(), atdReqDate, crudType, requestMessage);
         if (draft == null) {
-            draft = saveDraft(requestEmployee, approvalEmpFin, approvalMessage, crudType);
+            draft = saveDraft(requestEmployee, approvalEmpFin, requestMessage, crudType);
         }
 
 //        출퇴근기록 요청(ATD_REQ) Entity 만들기
@@ -105,13 +113,13 @@ public class AttendRequestService {
 
     //      기안(DRAFT) Entity 저장하기
     @Transactional
-    public Draft saveDraft(Employee requestEmployee, Employee approvalEmpFin, String approvalMessage, DraftCrudType crudType) {
+    public Draft saveDraft(Employee requestEmployee, Employee approvalEmpFin, String requestMessage, DraftCrudType crudType) {
         Draft draft = Draft.builder()
                 .approvalDate(null)     //  나중에 승인권자 승인하면 승인 날짜 넣어주기
                 .requestDate(LocalDateTime.now())   //  요청을 보낸 날짜는 오늘
                 .approvalMessage(null)     //   나중에 승인권자 승인하면 승인권자 메세지 넣어주기
                 .stateCode(DraftStateCode.WAIT)     //  '대기'
-                .requestMessage(approvalMessage)
+                .requestMessage(requestMessage)
                 .requestType(DraftRequestType.ATTENDANCE)   //  '출퇴근기록'
                 .crudType(crudType)
                 .requestEmployee(requestEmployee)
@@ -143,20 +151,20 @@ public class AttendRequestService {
 //    Draft 반환
 //    나머지 Draft StateCode 인 경우(최종승인, 최종반려, 비활성화) 는 Draft CREATE
     @Transactional
-    public Draft setOldAttendRequest(Long empId, LocalDate atdReqDate, DraftCrudType crudType) {
-        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate).orElseThrow();
-
-        if (oldAttendRequest != null) {
+    public Draft setOldAttendRequest(Long empId, LocalDate atdReqDate, DraftCrudType crudType, String requestMessage) {
+        AttendRequest oldAttendRequest = attendRequestRepository.findAttendRequestByEmpDateVal(empId, atdReqDate);
+        if (oldAttendRequest == null) {
+            return null;
+        } else {
             Draft draft = draftRepository.findById(oldAttendRequest.getDraft().getId()).orElseThrow();
             if(draft.getStateCode() == DraftStateCode.WAIT) {
                 oldAttendRequest.updateVal();
+                draft.updateRequestMessage(requestMessage);
                 draft.updateCrudType(crudType);
                 return draft;
             } else {
                 return null;
             }
-        } else {
-            return null;
         }
     }
 
@@ -188,5 +196,15 @@ public class AttendRequestService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(date, formatter);
         return attendRepository.findByDate(localDate).orElse(null) == null ? true : false;
+    }
+
+    /**
+     * 출퇴근 기록 요청 승인권자 가져오기
+     *
+     * @param empId
+     */
+    public List<EmployeeResponseDto> loadApvlEmp(Long corId, Long empId) {
+        Employee employee = employeeService.findByEmployeeById(empId);
+        return employeeService.findApprovalLine(corId, employee.getDepartment().getId());
     }
 }

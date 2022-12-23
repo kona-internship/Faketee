@@ -2,13 +2,12 @@ package com.konai.kurong.faketee.vacation.service;
 
 import com.konai.kurong.faketee.corporation.repository.CorporationRepository;
 import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
-import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.vacation.VacationGroupNotFoundException;
 import com.konai.kurong.faketee.vacation.dto.VacGroupResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacGroupSaveRequestDto;
 import com.konai.kurong.faketee.vacation.entity.VacGroup;
-import com.konai.kurong.faketee.vacation.repository.vac_group.VacGroupRepository;
+import com.konai.kurong.faketee.vacation.repository.VacGroupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
