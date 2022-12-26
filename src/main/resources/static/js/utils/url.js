@@ -4,7 +4,16 @@
  * @type {string}
  */
 const PATH_COR = "/corporation";
-
+/**
+ * 출퇴근 장소
+ * @type {string}
+ */
+const PATH_LOC = "/loc";
+/**
+ * 직무
+ * @type {string}
+ */
+const PATH_POS = "/pos";
 /**
  * 조직 url path이다.
  *
