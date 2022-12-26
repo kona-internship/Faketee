@@ -1,4 +1,26 @@
 let todayDate;
+function toSchType(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/type";
+}
+function toTemp(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + "/temp";
+}
+function toSchReg(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_SCH + "/reg";
+}
+function toEmployee(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_EMP;
+}
+function toDepartment(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DEP;
+}
+function toPosition(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_POS;
+}
+
+function toLocation(){
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_LOC + "/list";
+}
 
 function toRequest(){
     location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/req";
