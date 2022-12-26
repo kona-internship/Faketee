@@ -37,12 +37,12 @@ public class EmpAuthAop {
     @Before("cut() && @annotation(empAuth)")
     public void before(JoinPoint joinPoint, EmpAuth empAuth){
         log.info("==================aop=====================");
-        // 세션의 유저 정보를 불러온다
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>req");
 
         List<Object> args = List.of(joinPoint.getArgs());
-
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>arg");
         if (empAuth.paramCheckType().equals(EmpAuthParamType.NO_CHECK)) {
             return;
         }
@@ -53,7 +53,6 @@ public class EmpAuthAop {
         for (Object arg : args) {
             if (arg instanceof AuthIdsDto) {
                 idList = ((AuthIdsDto) arg).getEmpAuthCheckList().getIdList();
-                empAuthParamValidator.validateDepartment(reqEmpInfo.getId(), ((AuthIdsDto) arg).getEmpAuthCheckList().getIdList());
             }
         }
 
