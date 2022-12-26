@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VacRemainResponseDto {
 
-    String vacGroup;
-    Double remain;
-    Double sub;
+    private String vacGroup;
+    private Double remain;
+    private Double sub;
 }

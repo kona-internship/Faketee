@@ -1,22 +1,24 @@
-
 let dateSelectedInString;
 let dateSelectedInArray = [];
-$(function() {
+let approvalSelected = 0;
+let approvalLevel = 0;
 
-    let options={
-        multidate: true,
-        format: 'yyyy-mm-dd',
-        todayHighlight: false,
-        autoclose: false,
-    };
-    $('#select-vac-date').datepicker(options);
-
-    $('#select-vac-date').on("change", function (){
-        let selected = $(this).val();
-        loadRemaining(selected);
-        dateSelectedInString = selected;
-    });
-});
+// $(function() {
+//
+//     let options={
+//         multidate: true,
+//         format: 'yyyy-mm-dd',
+//         todayHighlight: false,
+//         autoclose: false,
+//     };
+//     $('#select-vac-date').datepicker(options);
+//
+//     $('#select-vac-date').on("change", function (){
+//         let selected = $(this).val();
+//         loadRemaining(selected);
+//         dateSelectedInString = selected;
+//     });
+// });
 
 function loadVacTypeSelectBox(){
 
@@ -65,6 +67,8 @@ function loadRemaining(str){
         dates.push(strSplit[i]);
     dateSelectedInArray = dates;
     let vacTypeId = $('#select-vac-type option:selected').val();
+
+    // TODO: 휴가일수 선택에 따른 잔여일수 계산할때마다 서버 통신하기보다, 한번의 통신으로 잔여일수를 call 해오고 프론트에서 잔여일수 - 소진일수 계산하도록 코드 개선할 것.
     $.ajax({
         async: true,
         type: "GET",
@@ -105,5 +109,89 @@ function setInfo(){
 
 function loadApprovalLine(vacType){
 
-    alert(vacType.name);
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/load/approvals",
+        contentType: "application/json",
+
+        success : function (list){
+            approvalLevel = vacType.vacGroupResponseDto.approvalLevel;
+            drawApprovalLine(list);
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function drawApprovalLine(list){
+
+    $('#approval-list *').remove();
+
+    $('#approval-list').append('<label id="select-approval">'
+        + approvalSelected
+        + ' / '
+        + approvalLevel
+        +'</label>'
+        +  '<br>');
+
+    $('#approval-list').append('<br>'
+        + '<div style="color: gray">'
+        + '조직관리자'
+        + '</div>');
+
+    for(let[index, emp] of list.entries()){
+        let msg =
+            '<label>'
+            + '<input type="checkbox" onclick="checkBoxOnclickHandler()" name="approvals" value=' + emp.id + '>'
+            + emp.name
+            + '</label>'
+            + '<br>'
+        $('#approval-list').append(msg);
+    }
+
+    $('#approval-list').append('<br>' + '<div style="color: gray">' + '최고관리자' + '</div>');
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/load/approvals/admin",
+        contentType: "application/json",
+
+        success : function (admin){
+            $('#approval-list').append('<label>'
+                +'<input type="checkbox" onclick="checkBoxOnclickHandler()" name="approvals" value=' + admin.id + '>'
+                + admin.name
+                +'</label>'
+                +'<br><br>'
+            );
+        },
+        error : function (error){
+            alert('최고관리자를 불러오는데 실패했습니다');
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function checkBoxOnclickHandler(){
+    approvalSelected = $('input:checkbox[name=approvals]:checked').length;
+    if(approvalSelected>approvalLevel){
+        $('#select-approval').replaceWith(
+            '<label id="select-approval" style="color: crimson">'
+            + approvalSelected
+            + ' / '
+            + approvalLevel
+            +'</label>'
+        );
+    }else {
+        $('#select-approval').replaceWith(
+            '<label id="select-approval">'
+            + approvalSelected
+            + ' / '
+            + approvalLevel
+            +'</label>'
+        );
+    }
+
 }
