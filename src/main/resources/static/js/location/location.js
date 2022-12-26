@@ -134,7 +134,9 @@ function checkExistData(value, dataName) {
     }
     return true;
 }
-
+function goHome() {
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR);
+}
 /**
  * 출퇴근 장소 목록 리스트 페이지로 이동
  */

@@ -342,7 +342,7 @@ public class EmployeeService {
      * 승인권자 리스트 호출
      *
      * 휴가, 출퇴근 관련 요청을 보내는 직원에 대한 상위조직의 승인권자 리스트를 반환한다.
-     * 반환되는 승인권자는 중간관리자, 최고관리자 권한의 직원이며
+     * 반환되는 승인권자는 중간관리자 권한의 직원이며
      * 요청하는 직원의 조직레벨부터 최상위 조직의 승인권자까지 찾아서 리스트로 반환한다.
      * @param corId : 요청보내는 직원이 소속된 corporation 의 ID
      * @param depId : 요청보내는 직원이 소속된 department 의 ID
@@ -354,5 +354,10 @@ public class EmployeeService {
                 .stream()
                 .map(EmployeeResponseDto::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public EmployeeResponseDto findAdminApproval(Long corId){
+
+        return EmployeeResponseDto.convertToDto(employeeRepository.findAdminApproval(corId));
     }
 }

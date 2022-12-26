@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VacRemainResponseDto {
+public class VacRequestInfoDto {
 
-    private String vacGroup;
-    private Double remain;
-    private Double sub;
+    private Long vacTypeId;
+    private List<String> dates;
+    private List<Long> approvals;
+    private String requestMessage;
 }
