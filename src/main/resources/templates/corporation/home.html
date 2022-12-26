@@ -58,6 +58,22 @@
 <button type="button" onclick="toSchedule()">근무일정</button>&nbsp;
 <button type="button" onclick="toAttendance()">출퇴근기록</button>&nbsp;
 <button type="button" onclick="toVacation()">휴가</button>&nbsp;
+<th:block th:if="${role == '최고관리자' or role == '총괄관리자'} ">
+    <br>
+    <button type="button" onclick="toLocation()">출퇴근장소</button>
+    <button type="button" onclick="toPosition()">직무</button>
+    <button type="button" onclick="toDepartment()">조직</button>
+</th:block>
+<th:block th:if="${role != '직원'} ">
+    <button type="button" onclick="toEmployee()">직원</button>
+</th:block>
+
+<th:block th:if="${role == '최고관리자' or role == '총괄관리자'} ">
+    <br>-근무일정-<br>
+    <button type="button" onclick="toSchType()">근무일정 유형</button>
+    <button type="button" onclick="toTemp()">템플릿</button>
+    <button type="button" onclick="toSchReg()">근무일정 생성</button>
+</th:block>
 <p>&copy; faketee2022</p></form>
 </body>
 <script type="text/javascript" src="/js/corporation/home.js"/>

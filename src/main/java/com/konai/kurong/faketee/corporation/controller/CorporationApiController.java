@@ -47,7 +47,6 @@ public class CorporationApiController {
                                              @Valid @RequestBody EmployeeJoinRequestDto requestDto,
                                              HttpServletRequest httpServletRequest) {
 
-        employeeService.joinEmployee(user.getId(), requestDto, user, httpServletRequest);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.joinEmployee(user.getId(), requestDto, user, httpServletRequest), HttpStatus.OK);
     }
 }

@@ -6,9 +6,13 @@
 </head>
 <body>
 <h1>출퇴근 장소 목록</h1>
-<button type="button" onclick="goAddLocPage()">추가하기</button>
+
+<th:block th:if="${role == '최고관리자' or role == '총괄관리자'} ">
+    <button type="button" onclick="goAddLocPage()">추가하기</button>
+</th:block>
 <hr/>
 <div id="loc-list"></div>
+<button type="button" onclick="goHome()">홈</button>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script src="/js/utils/url.js"></script>
