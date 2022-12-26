@@ -22,7 +22,7 @@ public class ReqResponseDto {
     public static ReqResponseDto convertVacToDto(VacRequest vacDateRequest){
         return ReqResponseDto.builder()
                 .id(vacDateRequest.getId())
-                .date(vacDateRequest.getDate().toLocalDate())
+                .date(vacDateRequest.getDate())
                 .vacType(vacDateRequest.getVacType().getName())
                 .build();
     }

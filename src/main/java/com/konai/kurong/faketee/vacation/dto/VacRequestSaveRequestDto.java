@@ -10,8 +10,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import static com.konai.kurong.faketee.vacation.service.VacRequestService.DATETIMEFORMATTER;
 
 @Getter
 @Builder
@@ -27,7 +30,7 @@ public class VacRequestSaveRequestDto {
     public VacRequest toEntity(){
 
         return VacRequest.builder()
-                .date(parseStringToLocalDateTime(date))
+                .date(LocalDate.parse(date, DATETIMEFORMATTER))
                 .val(RequestVal.T)
                 .vacType(vacType)
                 .draft(draft)
@@ -35,8 +38,4 @@ public class VacRequestSaveRequestDto {
                 .build();
     }
 
-    private LocalDateTime parseStringToLocalDateTime(String time){
-
-        return LocalDateTime.parse(time);
-    }
 }

@@ -2,7 +2,6 @@ package com.konai.kurong.faketee.schedule.service;
 
 import com.konai.kurong.faketee.attend.entity.Attend;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
-import com.konai.kurong.faketee.attend.service.AttendService;
 import com.konai.kurong.faketee.employee.dto.EmployeeSchResponseDto;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
@@ -76,7 +75,7 @@ public class ScheduleInfoService {
 
         for (int i = 0; i < requestDto.getCheckedEmp().size(); i++) {
             Long empId = requestDto.getCheckedEmp().get(i);
-            Employee employee = employeeService.findByEmployeeById(empId);
+            Employee employee = employeeService.findEntityById(empId);
             for (int j = 0; j < dateList.size(); j++) {
                 ScheduleInfo scheduleInfo = ScheduleInfo.builder()
                         .date(dateList.get(j))
@@ -105,7 +104,7 @@ public class ScheduleInfoService {
 
         List<ScheduleInfo> scheduleInfoList = scheduleInfoRepository.findAllByDateAndEmployeeCorporationId(dateTime, corId);
 
-        Employee emp = employeeService.findByEmployeeById(empId);
+        Employee emp = employeeService.findEntityById(empId);
         return new Result<>(ScheduleInfoResponseDto.convertToDtoList(scheduleInfoList), emp.getRole().getRole());
     }
     @Getter

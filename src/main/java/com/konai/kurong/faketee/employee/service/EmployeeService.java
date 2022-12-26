@@ -20,7 +20,6 @@ import com.konai.kurong.faketee.utils.exception.custom.employee.EmpUserDuplExcep
 import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -113,7 +112,7 @@ public class EmployeeService {
 //        해당 회사의 관리자인지 권한 확인 필요
 
         //        직원 상세정보(EMP_INFO) Entity 만들어서 먼저 수정하기
-        EmployeeInfo oldEmployeeInfo = findByEmployeeById(employeeId).getEmployeeInfo();
+        EmployeeInfo oldEmployeeInfo = findEntityById(employeeId).getEmployeeInfo();
 
         EmployeeInfo newEmployeeInfo = EmployeeInfo.builder()
                 .joinDate(new java.sql.Timestamp(requestDto.getJoinDate().getTime()).toLocalDateTime())
@@ -197,7 +196,7 @@ public class EmployeeService {
     public void deactivateEmployee(Long corId, Long employeeId) {
 //        해당 회사의 관리자인지 권한 확인 필요
 
-        Employee employee = findByEmployeeById(employeeId);
+        Employee employee = findEntityById(employeeId);
         employee.deactivate();
     }
 
@@ -210,7 +209,7 @@ public class EmployeeService {
     public void reSendJoinCode(Long corId, Long employeeId, EmployeeReSendRequestDto requestDto) {
 //        해당 회사의 관리자인지 권한 확인 필요
 
-        Employee employee = findByEmployeeById(employeeId);
+        Employee employee = findEntityById(employeeId);
         EmployeeInfo employeeInfo = findByEmployeeInfoById(employee.getEmployeeInfo().getId());
         emailAuthService.sendJoinCode(requestDto.getEmail(), employeeInfo.getJoinCode());
     }
@@ -220,7 +219,7 @@ public class EmployeeService {
      * @param employeeId
      * @return
      */
-    public Employee findByEmployeeById(Long employeeId) {
+    public Employee findEntityById(Long employeeId) {
         return employeeRepository.findById(employeeId).orElseThrow();
     }
 
@@ -240,7 +239,7 @@ public class EmployeeService {
      */
     public EmployeeResponseDto getEmployeeResponseDto(Long employeeId) {
 //        EmployeeResponseDto 만들기에 필요한 것들 불러오기
-        Employee employee = findByEmployeeById(employeeId);
+        Employee employee = findEntityById(employeeId);
         EmployeeInfo employeeInfo = employee.getEmployeeInfo();
         EmpRole role = employee.getRole();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -326,7 +325,7 @@ public class EmployeeService {
      * @return
      */
     public void findApvlByEmp(Long empId) {
-        Employee emp = findByEmployeeById(empId);
+        Employee emp = findEntityById(empId);
 
         if(emp.getRole().equals(EmpRole.EMPLOYEE)) {
             //직원일 경우
@@ -358,5 +357,13 @@ public class EmployeeService {
     public EmployeeResponseDto findAdminApproval(Long corId){
 
         return EmployeeResponseDto.convertToDto(employeeRepository.findAdminApproval(corId));
+    }
+
+    public List<EmployeeResponseDto> findApprovalsById(List<Long> empId){
+
+        return employeeRepository.findApprovalsById(empId)
+                .stream()
+                .map(EmployeeResponseDto::convertToDto)
+                .collect(Collectors.toList());
     }
 }

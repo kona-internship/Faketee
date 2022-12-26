@@ -4,11 +4,12 @@ package com.konai.kurong.faketee.vacation.controller;
 import com.konai.kurong.faketee.account.service.UserService;
 import com.konai.kurong.faketee.auth.LoginUser;
 import com.konai.kurong.faketee.auth.dto.SessionUser;
-import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
+import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
+import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.vacation.dto.VacInfoResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacRemainResponseDto;
-import com.konai.kurong.faketee.vacation.dto.VacRequestInfoDto;
+import com.konai.kurong.faketee.vacation.dto.VacRequestFormDto;
 import com.konai.kurong.faketee.vacation.dto.VacTypeResponseDto;
 import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import com.konai.kurong.faketee.vacation.service.VacRequestService;
@@ -58,9 +59,11 @@ public class VacRequestApiController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<?> newRequest(@RequestBody VacRequestInfoDto vacRequestInfoDto){
+    public ResponseEntity<?> newRequest(@RequestBody VacRequestFormDto vacRequestInfoDto,
+                                        @PathVariable(name = "corId") Long corId,
+                                        @LoginUser SessionUser sessionUser){
 
-        return null;
+        return ResponseEntity.ok(vacRequestService.newVacationRequest(vacRequestInfoDto, userService.findEmployeeId(sessionUser, corId)));
     }
 
 

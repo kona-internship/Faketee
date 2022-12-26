@@ -68,6 +68,20 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
                 .fetchOne();
     }
 
+    @Override
+    public List<Employee> findApprovalsById(List<Long> empId) {
+
+        List<Employee> approvals = new ArrayList<>();
+        for(int i=0; i<empId.size(); i++){
+            approvals.add(
+                    jpaQueryFactory
+                    .selectFrom(employee)
+                    .where(employee.id.eq(empId.get(i)))
+                    .fetchOne());
+        }
+        return approvals;
+    }
+
     /**
      * TODO:  승인권자 찾기
      * 1. 관리자 리스트 뽑고
