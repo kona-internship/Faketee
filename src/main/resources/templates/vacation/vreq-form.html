@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>휴가생성 요청</title>
+</head>
+<body>
+<h1>검토: 휴가생성</h1>
+<form>
+    <div id="approval-list">
+        승인권자
+    </div>
+    <hr>
+    <div>
+        사유
+        <div>
+            <br>
+            <textarea id="message" rows="5" cols="40" placeholder="사유를 입력하세요 (필수)"></textarea>
+        </div>
+    </div>
+    <hr>
+    <div id="summary">
+        요청사항<br><br>
+    </div>
+    <br>
+    <button type="button" id="send-form" th:vacTypeId="${vactype.id}" th:onclick="sendForm(this.getAttribute('vacTypeId'))" disabled="disabled">보내기</button>
+</form>
+</body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script type="text/javascript" src="/js/vacation/vacation-request.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    loadApprovalLine(/*[[${vactype}]]*/)
+    loadRequestInfo(/*[[${vactype}]]*/, /*[[${dates}]]*/)
+    /*]]>*/
+</script>
+</html>
