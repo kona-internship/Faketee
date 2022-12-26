@@ -31,7 +31,7 @@
             <span>승인 현황</span>
         </th>
         <td id="draft-detail-apvl" th:each="apvlData : ${draft.apvlList}">
-            <div th:text="승인권자: |${apvlData.apvlEmpName} / 상태: ${apvlData.apvlState}"></div>
+            <div th:text="|승인권자: ${apvlData.apvlEmpName} / 상태: ${apvlData.apvlState}|"></div>
         </td>
     </tr>
     </tbody>
@@ -57,8 +57,9 @@
         <th>
             <span>날짜</span>
         </th>
-        <td>
-            <span id="draft-detail-date" th:text="|날짜: ${reqData.date} ${reqData.vacType?}|"></span>
+        <td id="draft-detail-req" th:each="reqData : ${draft.reqList}">
+            <span id="draft-detail-date" th:text="|날짜: ${reqData.date}| "></span>
+            <span id="draft-detail-vactype" th:if="${reqData.vacType}" th:text="|타입: ${reqData.vacType}|"></span>
         </td>
     </tr>
     </tbody>
@@ -66,4 +67,8 @@
 <div id="draft-detail-apvl-msg" th:text="${draft.approvalMessage}"></div>
 <div id="draft-detail-left"></div>
 </body>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script src="/js/utils/url.js"></script>
+<script src="/js/utils/exception.js"></script>
+<script type="text/javascript" src="/js/draft/draft.js"></script>
 </html>
