@@ -10,10 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static com.konai.kurong.faketee.draft.entity.QDraft.draft;
 import static com.konai.kurong.faketee.employee.entity.QEmployee.employee;
@@ -25,11 +23,16 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Draft> getDraftsWithRequestsByApproverAndStateCode(Long apvlEmpId, List<DraftStateCode> draftStateCodeList) {
+    public List<Draft> getDraftsWithRequestsByApproverAndStateCode(Long apvlEmpId) {
         List<Draft> draftList =  jpaQueryFactory
                 .selectFrom(draft)
                 .join(draft.requestEmployee, employee)
-                .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmpFin.id.eq(apvlEmpId))).and(draft.stateCode.in(draftStateCodeList)))
+//                .where((draft.approvalEmp1.id.eq(apvlEmpId).and(draft.stateCode.eq(DraftStateCode.WAIT)))
+//                        .or((draft.approvalEmpFin.id.eq(apvlEmpId).and(draft.stateCode.eq(DraftStateCode.APVL_1)).and(draft.approvalEmp1.isNull())))
+//                        .or((draft.approvalEmpFin.id.eq(apvlEmpId).and(draft.stateCode.eq(DraftStateCode.WAIT)).and(draft.approvalEmp1.isNotNull())))
+//                )
+                .where((draft.approvalEmp1.id.eq(apvlEmpId).or(draft.approvalEmpFin.id.eq(apvlEmpId))).and(draft.stateCode.in(DraftStateCode.getWaitingForApproval()))
+                )
                 .fetch();
         log.info(">>>>>>>>>>>>>>>>querydsl repo: "+draftList);
 //        draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
@@ -57,6 +60,7 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
                 .where(draft.requestEmployee.id.eq(empId).and(draft.stateCode.in(draftStateCodeList)))
                 .fetch();
         draftList.stream().map(Draft::getVacRequestList).forEach(Hibernate::initialize);
+        draftList.stream().map(Draft::getAtdRequestList).forEach(Hibernate::initialize);
         return draftList;
     }
 
@@ -85,13 +89,13 @@ public class QuerydslDraftRepositoryImpl implements QuerydslDraftRepository{
                 .set(draft.stateCode, draftStateCode)
                 .set(draft.approvalDate, dateTime)
                 .set(draft.approvalMessage, apvlMsg);
-        if(draftStateCode.equals(DraftStateCode.APVL_1) || draftStateCode.equals(DraftStateCode.REJ_1)){
+        if(draftStateCode.equals(DraftStateCode.APVL_FIN) || draftStateCode.equals(DraftStateCode.REJ_FIN)){
             updateClause
-                    .where(draft.approvalEmpFin.id.eq(draftId))
+                    .where(draft.id.eq(draftId))
                     .execute();
-        } else if (draftStateCode.equals(DraftStateCode.APVL_FIN) || draftStateCode.equals(DraftStateCode.REJ_FIN)) {
+        } else if (draftStateCode.equals(DraftStateCode.APVL_1) || draftStateCode.equals(DraftStateCode.REJ_1)) {
             updateClause
-                    .where(draft.approvalEmp1.id.eq(draftId))
+                    .where(draft.id.eq(draftId))
                     .execute();
         }
     }
