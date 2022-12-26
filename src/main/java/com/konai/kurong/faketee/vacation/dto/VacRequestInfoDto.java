@@ -15,4 +15,6 @@ public class VacRequestInfoDto {
 
     private Long vacTypeId;
     private List<String> dates;
+    private List<Long> approvals;
+    private String requestMessage;
 }

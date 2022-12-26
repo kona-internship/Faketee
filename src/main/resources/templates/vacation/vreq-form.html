@@ -15,7 +15,7 @@
         사유
         <div>
             <br>
-            <textarea id="reason" rows="5" cols="40" placeholder="사유를 입력하세요 (필수)"></textarea>
+            <textarea id="message" rows="5" cols="40" placeholder="사유를 입력하세요 (필수)"></textarea>
         </div>
     </div>
     <hr>
@@ -23,7 +23,7 @@
         요청사항<br><br>
     </div>
     <br>
-    <button type="button" onclick="sendForm()">보내기</button>
+    <button type="button" id="send-form" th:vacTypeId="${vactype.id}" th:onclick="sendForm(this.getAttribute('vacTypeId'))" disabled="disabled">보내기</button>
 </form>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
@@ -34,6 +34,5 @@
     loadApprovalLine(/*[[${vactype}]]*/)
     loadRequestInfo(/*[[${vactype}]]*/, /*[[${dates}]]*/)
     /*]]>*/
-
 </script>
 </html>

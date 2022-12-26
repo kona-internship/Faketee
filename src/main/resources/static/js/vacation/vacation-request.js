@@ -1,27 +1,32 @@
 let dateSelectedInString;
 let dateSelectedInArray = [];
-let approvalSelected = 0;
+let approvalChecked = 0;
 let approvalLevel = 0;
 
 function checkBoxOnclickHandler(){
-    approvalSelected = $('input:checkbox[name=approvals]:checked').length;
-    if(approvalSelected>approvalLevel){
+    approvalChecked = $('input:checkbox[name=approvals]:checked').length;
+    if(approvalChecked>approvalLevel || approvalChecked===0){
         $('#select-approval').replaceWith(
             '<label id="select-approval" style="color: crimson">'
-            + approvalSelected
+            + approvalChecked
             + ' / '
             + approvalLevel
             +'</label>'
         );
-    }else {
+    }else  {
         $('#select-approval').replaceWith(
             '<label id="select-approval">'
-            + approvalSelected
+            + approvalChecked
             + ' / '
             + approvalLevel
             +'</label>'
         );
     }
+
+    if(approvalChecked !== 0)
+        $('#send-form').removeAttr("disabled");
+    if(approvalChecked === 0 || approvalChecked > approvalLevel)
+        $('#send-form').attr("disabled", "disabled");
 }
 
 function parseStrDateToArray(str){
@@ -88,6 +93,7 @@ function loadRemaining(str){
 
         success : function (data){
             drawRemaining(data, dateSelectedInArray.length);
+            $('#to-form').removeAttr("disabled")
         },
         error : function (error){
             alert(JSON.stringify(error));
@@ -139,8 +145,8 @@ function drawApprovalLine(list){
 
     $('#approval-list *').remove();
 
-    $('#approval-list').append('<label id="select-approval">'
-        + approvalSelected
+    $('#approval-list').append('<label id="select-approval" style="color: crimson">'
+        + approvalChecked
         + ' / '
         + approvalLevel
         +'</label>'
@@ -243,6 +249,35 @@ function loadRequestInfo(vacType, dates){
     });
 }
 
-function sendForm(){
+function sendForm(vacTypeId){
 
+    let approvalSelected = [];
+    $("input:checkbox[name=approvals]:checked").each(function (){
+        approvalSelected.push(
+            $(this).attr("value")
+        );
+    });
+
+    let data = {
+        vacTypeId : vacTypeId,
+        approvals : approvalSelected,
+        dates : dateSelectedInArray,
+        requestMessage : $('#message').val()
+    }
+
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/request",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=UTF-8",
+
+        success : function (){
+            alert("요청을 보냈습니다.")
+            window.location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR);
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
 }
