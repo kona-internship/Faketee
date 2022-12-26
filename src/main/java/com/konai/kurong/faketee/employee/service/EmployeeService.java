@@ -60,6 +60,7 @@ public class EmployeeService {
             if(count>5){
                 throw new RuntimeException();
             }
+            joinCode = emailAuthService.createJoinCode();
             count++;
         }
 
