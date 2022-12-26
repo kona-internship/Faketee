@@ -5,6 +5,7 @@ import com.konai.kurong.faketee.draft.utils.DraftRequestType;
 import com.konai.kurong.faketee.draft.utils.DraftStateCode;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 
 @Getter
 @Builder
+@Slf4j
 public class DraftResponseDto {
     private Long id;
 
@@ -62,13 +64,14 @@ public class DraftResponseDto {
                 apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("").build());
                 break;
             case REJ_FIN:
-                apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("승인").build());
+                if(draft.getApprovalEmp1()!=null) {
+                    apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmp1().getName()).apvlState("승인").build());
+                }
                 apvlResponseDtos.add(ApvlResponseDto.builder().apvlEmpName(draft.getApprovalEmpFin().getName()).apvlState("거절").build());
                 break;
             default:
                 break;
         }
-
         DraftResponseDto.DraftResponseDtoBuilder builder =  DraftResponseDto.builder()
                 .id(draft.getId())
                 .requestEmployee(draft.getRequestEmployee().getName())
@@ -80,10 +83,9 @@ public class DraftResponseDto {
                 .requestType(draft.getRequestType().getType())
                 .crudType(draft.getCrudType().getType())
                 .apvlList(apvlResponseDtos);
-
-        if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){
+        if(draft.getRequestType().equals(DraftRequestType.ATTENDANCE)){log.info(">>>>>>flag 3");
             return builder.reqList(ReqResponseDto.convertToAtdDtoList(draft.getAtdRequestList())).build();
-        } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {
+        } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {log.info(">>>>>>flag 4");
             return builder.reqList(ReqResponseDto.convertToVacDtoList(draft.getVacRequestList())).build();
         }
         return null;

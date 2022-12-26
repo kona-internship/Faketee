@@ -20,7 +20,7 @@ function goReqDoneList() {
 }
 
 function goDetailPage(draftId){
-    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/" + draftId;
+    location.href = URL_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + getNextPath(window.location.href, PATH_DRAFT) + "/" + draftId;
 }
 
 /**
@@ -48,43 +48,44 @@ function loadDraftList() {
 
 function showDraftList(draftList) {
     $('#draft-list *').remove();
-
-    $('#draft-list').append(
-        '<ul>'
-    );
+    let msg;
+    msg = '<ul>';
     for (let draft of draftList) {
-        $('#draft-list').append(
+        msg = msg + (
             '<li>'+
-                '<button onclick="goDetailPage('+ draft.id+')"'+
-                    '<div>요청날짜: '+draft.requestDate+'</div>'+
-                    '<div>'+ draft.requestType + ' '+ draft.crudType + ' - ' + draft.requestEmployee + '</div>'+
-                    '<div>'
+                '<button onclick="goDetailPage('+ draft.id+')"' +
+                    '<div>'+ '요청한 날짜:' + '</div>'
         );
-        for(let draftDate of draft.dateList){
-            $('#draft-list').append(
-                    draftDate.date + ' '
+        for(let draftDate of draft.reqList){
+            msg = msg + (
+                    '<div>'+
+                    draftDate.date + ((draftDate.vacType!=null)? ' /'+draftDate.vacType : '') +
+                    '</div>'
             );
         }
-        $('#draft-list').append(
-                    '/' + draft.reqList.vacType +
-                    '</div>' +
+        msg = msg + (
+                    '<div>요청일: '+draft.requestDate+'</div>'+
+                    '<div>'+ draft.requestType + ' '+ draft.crudType + ' - ' + draft.requestEmployee + '</div>'+
                     '<div>'+draft.stateCode+'</div>'+
                 '</button>'+
             '</li>'
         );
     }
-    $('#draft-list').append(
+    msg = msg + (
         '</ul>'
     );
+    console.log(msg);
+    $('#draft-list').append(msg);
 }
 
 function apvlDraft() {
+    alert($('#draft-detail-apvl-msg').val());
     let jsonData = JSON.stringify({
-        draftId: getNextPath(window.location.href, PATH_DRAFT_APVL),
-        apvlMsg: $('#draft-detail-apvl-msg')
+        draftId: parseInt(getNextPath(window.location.href, "wait").substring(1)),
+        apvlMsg: $('#draft-detail-apvl-msg').val()
     });
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "apvl",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/apvl",
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -101,11 +102,11 @@ function apvlDraft() {
 
 function rejectDraft() {
     let jsonData = JSON.stringify({
-        draftId: getNextPath(window.location.href, PATH_DRAFT_APVL),
-        apvlMsg: $('#draft-detail-apvl-msg')
+        draftId: getNextPath(window.location.href, "wait").substring(1),
+        apvlMsg: $('#draft-detail-apvl-msg').val()
     });
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "reject",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/reject",
         type: "POST",
         data: jsonData,
         contentType: "application/json",
@@ -121,16 +122,17 @@ function rejectDraft() {
 }
 
 function cancelDraft() {
-    let state = $('#draft-detail-state').attr("text");
+    let state = $('#draft-detail-state').text();
+    console.log(state);
     if(!(state == "대기중" || state == "1차승인")){
         alert("승인 대기 중인 상태에서만 회수할 수 있습니다");
         return;
     }
     let jsonData = JSON.stringify({
-        draftId: getNextPath(window.location.href, PATH_DRAFT_REQ)
+        draftId: getNextPath(window.location.href, PATH_DRAFT_REQ).substring(1)
     });
     $.ajax({
-        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "reject",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_DRAFT + "/reject",
         type: "POST",
         data: jsonData,
         contentType: "application/json",
