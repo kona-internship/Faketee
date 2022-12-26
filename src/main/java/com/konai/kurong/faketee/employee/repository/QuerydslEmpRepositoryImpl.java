@@ -1,6 +1,7 @@
 package com.konai.kurong.faketee.employee.repository;
 
 import com.konai.kurong.faketee.department.entity.Department;
+import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
 import com.konai.kurong.faketee.employee.entity.Employee;
 import com.konai.kurong.faketee.employee.utils.EmpRole;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -56,6 +57,15 @@ public class QuerydslEmpRepositoryImpl implements QuerydslEmpRepository {
                 .selectFrom(employee)
                 .where(employee.department.id.in(deps).and(employee.position.id.in(pos)))
                 .fetch();
+    }
+
+    @Override
+    public Employee findAdminApproval(Long corId) {
+
+        return jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.corporation.id.eq(corId), employee.role.eq(EmpRole.ADMIN))
+                .fetchOne();
     }
 
     /**

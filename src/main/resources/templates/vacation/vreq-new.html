@@ -73,5 +73,21 @@
 <script type="text/javascript" src="/js/vacation/vacation-request.js"></script>
 <script>
     loadVacTypeSelectBox();
+    $(function() {
+
+        let options={
+            multidate: true,
+            format: 'yyyy-mm-dd',
+            todayHighlight: false,
+            autoclose: false,
+        };
+        $('#select-vac-date').datepicker(options);
+
+        $('#select-vac-date').on("change", function (){
+            let selected = $(this).val();
+            loadRemaining(selected);
+            dateSelectedInString = selected;
+        });
+    });
 </script>
 </html>
