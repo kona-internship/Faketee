@@ -81,7 +81,7 @@ public class LocationService {
 
     @Transactional
     public List<LocationMapResponseDto> getAtdLocList(Long corId, Long empId){
-        Long depId = employeeService.findByEmployeeById(empId).getDepartment().getId();
+        Long depId = employeeService.findEntityById(empId).getDepartment().getId();
         List<Location> locations = depLocService.getLocationByCorAndDep(corId, depId);
         return LocationMapResponseDto.convertToDtoList(locations);
     }

@@ -148,7 +148,7 @@ public class DraftService {
         } else if (draft.getRequestType().equals(DraftRequestType.VACATION)) {
             List<VacRequest> attendRequestList = vacInfoRepository.getVacReqByDraftId(draft.getId());
             for (VacRequest vacReq : attendRequestList) {
-                List<ScheduleInfo> orgSchInfos = scheduleInfoRepository.findAllByDateAndEmployeeId(vacReq.getDate().toLocalDate(), vacReq.getEmployee().getId());
+                List<ScheduleInfo> orgSchInfos = scheduleInfoRepository.findAllByDateAndEmployeeId(vacReq.getDate(), vacReq.getEmployee().getId());
                 switch (draft.getCrudType()) {
                     case CREATE:
                         ScheduleInfo orgSchInfo = null;
@@ -167,7 +167,7 @@ public class DraftService {
                             orgSchInfo.changeTimes(orgSchInfo.getStartTime(), vacReq.getVacType().getStartTime());
                         }
                         scheduleInfoRepository.save(ScheduleInfo.builder()
-                                .date(vacReq.getDate().toLocalDate())
+                                .date(vacReq.getDate())
                                 .startTime(vacReq.getVacType().getStartTime())
                                 .endTime(vacReq.getVacType().getEndTime())
                                 .state("VAC_" + vacReq.getVacType().getName())

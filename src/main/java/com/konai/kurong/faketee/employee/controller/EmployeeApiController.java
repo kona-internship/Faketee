@@ -1,8 +1,5 @@
 package com.konai.kurong.faketee.employee.controller;
 
-import com.konai.kurong.faketee.auth.LoginUser;
-import com.konai.kurong.faketee.auth.dto.SessionUser;
-import com.konai.kurong.faketee.employee.dto.EmployeeJoinRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeUpdateRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeReSendRequestDto;
 import com.konai.kurong.faketee.employee.dto.EmployeeSaveRequestDto;
@@ -80,7 +77,7 @@ public class EmployeeApiController {
     @GetMapping("/deactivate/{employeeId}")
     public ResponseEntity<?> deactivateEmp(@PathVariable(name = "corId") Long corId,
                                            @PathVariable(name = "employeeId") Long employeeId) {
-        if(employeeService.findByEmployeeById(employeeId).getVal() == "F") {
+        if(employeeService.findEntityById(employeeId).getVal() == "F") {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         else {

@@ -42,7 +42,7 @@ public class AttendService {
      */
     @Transactional
     public AttendResponseDto getUserScheduleInfo(Long corId, String date, Long empId) {
-        Employee emp = employeeService.findByEmployeeById(empId);
+        Employee emp = employeeService.findEntityById(empId);
         ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(date, corId, empId);
         String department = emp.getDepartment().getName();
 
@@ -131,7 +131,7 @@ public class AttendService {
      */
     @Transactional
     public void clickAtd(Long corId, Long empId, String onOff) {
-        Employee emp = employeeService.findByEmployeeById(empId);
+        Employee emp = employeeService.findEntityById(empId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         ScheduleInfo scheduleInfo = scheduleInfoService.getSchByDateAndEmp(LocalDate.now().format(formatter), corId, empId);

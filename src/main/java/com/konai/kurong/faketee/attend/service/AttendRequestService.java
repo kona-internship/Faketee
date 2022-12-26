@@ -7,7 +7,6 @@ import com.konai.kurong.faketee.attend.entity.AttendRequest;
 import com.konai.kurong.faketee.attend.repository.AttendRepository;
 import com.konai.kurong.faketee.attend.repository.AttendRequestRepository;
 import com.konai.kurong.faketee.attend.utils.AttendRequestVal;
-import com.konai.kurong.faketee.department.repository.DepartmentRepository;
 import com.konai.kurong.faketee.draft.entity.Draft;
 import com.konai.kurong.faketee.draft.repository.DraftRepository;
 import com.konai.kurong.faketee.draft.utils.DraftCrudType;
@@ -20,7 +19,6 @@ import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.utils.exception.custom.attend.request.DraftNotWaitException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -204,7 +202,7 @@ public class AttendRequestService {
      * @param empId
      */
     public List<EmployeeResponseDto> loadApvlEmp(Long corId, Long empId) {
-        Employee employee = employeeService.findByEmployeeById(empId);
+        Employee employee = employeeService.findEntityById(empId);
         return employeeService.findApprovalLine(corId, employee.getDepartment().getId());
     }
 }

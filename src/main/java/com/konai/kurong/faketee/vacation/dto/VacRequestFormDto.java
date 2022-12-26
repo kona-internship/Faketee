@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VacRequestInfoDto {
+public class VacRequestFormDto {
 
     private Long vacTypeId;
     private List<String> dates;

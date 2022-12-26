@@ -5,7 +5,7 @@ let approvalLevel = 0;
 
 function checkBoxOnclickHandler(){
     approvalChecked = $('input:checkbox[name=approvals]:checked').length;
-    if(approvalChecked>approvalLevel || approvalChecked===0){
+    if(approvalChecked>approvalLevel || approvalChecked===0 || approvalChecked<approvalLevel){
         $('#select-approval').replaceWith(
             '<label id="select-approval" style="color: crimson">'
             + approvalChecked

@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -34,7 +35,7 @@ public class VacRequest extends BaseEntity {
     private Long id;
 
     @Column(name = "VAC_REQ_DATE")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "ORG_START_TIME")
     private LocalTime originStartTime;

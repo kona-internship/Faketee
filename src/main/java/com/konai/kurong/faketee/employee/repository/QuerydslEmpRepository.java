@@ -13,5 +13,6 @@ public interface QuerydslEmpRepository {
     List<Employee> findByUserId(Long userId);
     List<Employee> getEmployeeByDepAndPos(List<Long> deps, List<Long> pos);
     Employee findAdminApproval(@Param("corId") Long corId);
+    List<Employee> findApprovalsById(@Param("List<empId>") List<Long> empId);
     List<Employee> findApprovalLine(@Param("corId") Long corId, @Param("depId") Long depId);
 }

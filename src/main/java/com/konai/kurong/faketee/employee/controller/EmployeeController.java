@@ -40,7 +40,7 @@ public class EmployeeController {
 //    val 이 W 와 F 상태에서만 합류 초대를 다시 받을 수 있음
     @GetMapping("/reSend/{empId}")
     public String reSendEmp(@PathVariable(name = "empId") Long empId, Model model) {
-        String val = employeeService.findByEmployeeById(empId).getVal();
+        String val = employeeService.findEntityById(empId).getVal();
         if(val.equals("W") || val.equals("F")) {
             model.addAttribute("id", empId);
             return "employee/reSend";
