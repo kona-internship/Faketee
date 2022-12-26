@@ -8,6 +8,7 @@ import com.konai.kurong.faketee.employee.dto.EmployeeResponseDto;
 import com.konai.kurong.faketee.employee.service.EmployeeService;
 import com.konai.kurong.faketee.vacation.dto.VacInfoResponseDto;
 import com.konai.kurong.faketee.vacation.dto.VacRemainResponseDto;
+import com.konai.kurong.faketee.vacation.dto.VacRequestInfoDto;
 import com.konai.kurong.faketee.vacation.dto.VacTypeResponseDto;
 import com.konai.kurong.faketee.vacation.service.VacInfoService;
 import com.konai.kurong.faketee.vacation.service.VacRequestService;
@@ -53,8 +54,13 @@ public class VacRequestApiController {
     @GetMapping("/load/approvals/admin")
     public ResponseEntity<?> loadApprovalAdmin(@PathVariable(name = "corId") Long corId){
 
-        EmployeeResponseDto responseDto = employeeService.findAdminApproval(corId);
         return ResponseEntity.ok(employeeService.findAdminApproval(corId));
+    }
+
+    @PostMapping("/request")
+    public ResponseEntity<?> newRequest(@RequestBody VacRequestInfoDto vacRequestInfoDto){
+
+        return null;
     }
 
 

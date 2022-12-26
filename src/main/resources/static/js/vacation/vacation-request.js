@@ -3,22 +3,35 @@ let dateSelectedInArray = [];
 let approvalSelected = 0;
 let approvalLevel = 0;
 
-// $(function() {
-//
-//     let options={
-//         multidate: true,
-//         format: 'yyyy-mm-dd',
-//         todayHighlight: false,
-//         autoclose: false,
-//     };
-//     $('#select-vac-date').datepicker(options);
-//
-//     $('#select-vac-date').on("change", function (){
-//         let selected = $(this).val();
-//         loadRemaining(selected);
-//         dateSelectedInString = selected;
-//     });
-// });
+function checkBoxOnclickHandler(){
+    approvalSelected = $('input:checkbox[name=approvals]:checked').length;
+    if(approvalSelected>approvalLevel){
+        $('#select-approval').replaceWith(
+            '<label id="select-approval" style="color: crimson">'
+            + approvalSelected
+            + ' / '
+            + approvalLevel
+            +'</label>'
+        );
+    }else {
+        $('#select-approval').replaceWith(
+            '<label id="select-approval">'
+            + approvalSelected
+            + ' / '
+            + approvalLevel
+            +'</label>'
+        );
+    }
+}
+
+function parseStrDateToArray(str){
+
+    let strSplit = str.split(',');
+    let dates = [];
+    for(let i in strSplit)
+        dates.push(strSplit[i]);
+    dateSelectedInArray = dates;
+}
 
 function loadVacTypeSelectBox(){
 
@@ -37,6 +50,8 @@ function loadVacTypeSelectBox(){
         }
     });
 }
+
+
 
 function drawVacTypeSelectBox(data){
 
@@ -57,15 +72,10 @@ function checkType(){
     $('#alert').attr("hidden", true);
 }
 
-
 function loadRemaining(str){
 
     $('#remaining *').remove();
-    let strSplit = str.split(',');
-    let dates = [];
-    for(let i in strSplit)
-        dates.push(strSplit[i]);
-    dateSelectedInArray = dates;
+    parseStrDateToArray(str);
     let vacTypeId = $('#select-vac-type option:selected').val();
 
     // TODO: 휴가일수 선택에 따른 잔여일수 계산할때마다 서버 통신하기보다, 한번의 통신으로 잔여일수를 call 해오고 프론트에서 잔여일수 - 소진일수 계산하도록 코드 개선할 것.
@@ -77,7 +87,7 @@ function loadRemaining(str){
         dataType: "json",
 
         success : function (data){
-            drawRemaining(data, dates.length);
+            drawRemaining(data, dateSelectedInArray.length);
         },
         error : function (error){
             alert(JSON.stringify(error));
@@ -174,24 +184,65 @@ function drawApprovalLine(list){
     });
 }
 
-function checkBoxOnclickHandler(){
-    approvalSelected = $('input:checkbox[name=approvals]:checked').length;
-    if(approvalSelected>approvalLevel){
-        $('#select-approval').replaceWith(
-            '<label id="select-approval" style="color: crimson">'
-            + approvalSelected
-            + ' / '
-            + approvalLevel
-            +'</label>'
-        );
-    }else {
-        $('#select-approval').replaceWith(
-            '<label id="select-approval">'
-            + approvalSelected
-            + ' / '
-            + approvalLevel
-            +'</label>'
+function loadRequestInfo(vacType, dates){
+
+    parseStrDateToArray(dates);
+
+    $('#summary').append(
+        '<div style="color: gray">'
+        + '휴가유형'
+        + '</div>'
+        + '<div>'
+        + vacType.name
+        + '&nbsp;'
+        + vacType.startTime
+        + ' ~ '
+        + vacType.endTime
+        + '</div>'
+        + '<br>'
+    )
+
+    $('#summary').append(
+        '<div style = "color: gray">'
+        + '요청날짜'
+        + '</div>'
+    );
+
+    for(let i=0; i<dateSelectedInArray.length; i++){
+        $('#summary').append(
+            '<div>'
+            + dateSelectedInArray[i]
+            + '</div>'
         );
     }
+
+    $.ajax({
+        async: true,
+        type: "GET",
+        url: URL_API_COR_PREFIX + getNextPath(window.location.href, PATH_COR) + PATH_VAC_REQ + "/remaining?type=" + vacType.id,
+        contentType: "application/json",
+        dataType: "json",
+
+        success : function (data){
+            remains = data.remain - (dateSelectedInArray.length * data.sub);
+            $('#summary').append(
+                '<br>'
+                + '<i style="color: crimson">'
+                + (data.vacGroup)
+                + '의 잔여일수는&nbsp;'
+                + (data.remain)
+                + '일&nbsp;-> &nbsp;'
+                + remains
+                + '일 입니다.'
+                + '</i>'
+            )
+        },
+        error : function (error){
+            alert(JSON.stringify(error));
+        }
+    });
+}
+
+function sendForm(){
 
 }

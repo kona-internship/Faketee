@@ -14,13 +14,16 @@
     <div>
         사유
         <div>
+            <br>
             <textarea id="reason" rows="5" cols="40" placeholder="사유를 입력하세요 (필수)"></textarea>
         </div>
     </div>
     <hr>
     <div id="summary">
-        요청사항
+        요청사항<br><br>
     </div>
+    <br>
+    <button type="button" onclick="sendForm()">보내기</button>
 </form>
 </body>
 <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
@@ -29,6 +32,8 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     loadApprovalLine(/*[[${vactype}]]*/)
+    loadRequestInfo(/*[[${vactype}]]*/, /*[[${dates}]]*/)
     /*]]>*/
+
 </script>
 </html>
