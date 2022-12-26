@@ -48,10 +48,17 @@ public class DraftController {
         return "draft/reqDetail";
     }
 
-    @GetMapping("/apvl/{draftId}")
+    @GetMapping("/wait/{draftId}")
     @EmpAuth(role = EmpRole.EMPLOYEE)
     public String getApvlDetail(@PathVariable("draftId") Long draftId, Model model){
         model.addAttribute("draft", draftService.getDraft(draftId));
         return "draft/apvlDetail";
+    }
+
+    @GetMapping("/done/{draftId}")
+    @EmpAuth(role = EmpRole.EMPLOYEE)
+    public String getDoneDetail(@PathVariable("draftId") Long draftId, Model model){
+        model.addAttribute("draft", draftService.getDraft(draftId));
+        return "draft/doneDetail";
     }
 }

@@ -153,7 +153,7 @@ class QuerydslDraftRepositoryImplTest {
 
 
 
-        List<Draft> draftList = draftRepository.getDraftsWithRequestsByApproverAndStateCode(sEmp.getId(), DraftStateCode.getWaitingForApproval());
+        List<Draft> draftList = draftRepository.getDraftsWithRequestsByApproverAndStateCode(sEmp.getId());
 
         assertThat(draftList.isEmpty(), equalTo(true));
     }

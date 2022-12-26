@@ -42,7 +42,7 @@ public class DraftService {
      * @return
      */
     public List<DraftResponseDto> getApvlDraftList(Long empId){
-        List<Draft> draftList =  draftRepository.getDraftsWithRequestsByApproverAndStateCode(empId, DraftStateCode.getWaitingForApproval());
+        List<Draft> draftList =  draftRepository.getDraftsWithRequestsByApproverAndStateCode(empId);
         return DraftResponseDto.convertToDtoList(draftList);
     }
 
@@ -94,7 +94,9 @@ public class DraftService {
             }
         } else {    // 1차 승인권자가 없을 경우
             if (draft.getApprovalEmpFin().getId().equals(empId)) {   // 최종 승인권자의 요청일 경우
+                log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>flag1 "+draft.getApprovalEmpFin().getId());
                 if (currentState.equals(DraftStateCode.WAIT)) {
+                    log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>flag2 "+requestDto.getDraftId());
                     draftRepository.updateDraftStateCodeAndDateAndMessageByApvlEmp(requestDto.getDraftId(), DraftStateCode.APVL_FIN, LocalDateTime.now(), requestDto.getApvlMsg());
                     applyDraftToSchedule(draft);
                 }
@@ -112,7 +114,7 @@ public class DraftService {
                         List<ScheduleInfo> orgSchInfos = scheduleInfoRepository.findAllByDateAndEmployeeId(atdReq.getAtdReqDate(), atdReq.getEmployee().getId());
                         ScheduleInfo reqSchInfo = null;
                         for(ScheduleInfo schInfo : orgSchInfos){
-                            if(schInfo.getState().contains("ATD")){
+                            if(schInfo.getState().contains("SCH")){
                                 reqSchInfo = schInfo;
                                 break;
                             }
