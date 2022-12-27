@@ -65,7 +65,10 @@
 ![DB_ver3 0](https://user-images.githubusercontent.com/87631304/209628014-6d1c291b-bb83-48d9-94eb-a9047a106aee.png)
 
 - DB 명세서
+resources > readMe > DB_document.pdf
 
 # 7. 메뉴얼
+- [회사의 최고관리자] 회사 생성, 직무CRUD, 조직CRUD, 출퇴근장소CRUD, 근무일정CRUD, 휴가CRUD, 직원추가
+- [회사의 직원] 회사인증, 출퇴근 기록 생성, 출퇴근 기록 요청, 휴가 요청
 
 # 8. 개선점
