@@ -22,8 +22,9 @@
 박소현 동덕여대 컴퓨터학과 : https://github.com/sohyunhere
 
 
-
 # 3. 사용기술
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring%20Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/>
 
 # 4. DB
 
