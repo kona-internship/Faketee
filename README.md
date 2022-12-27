@@ -65,6 +65,7 @@
 ![DB_ver3 0](https://user-images.githubusercontent.com/87631304/209628014-6d1c291b-bb83-48d9-94eb-a9047a106aee.png)
 
 - DB 명세서
+- 
 resources > readMe > DB_document.pdf
 
 # 7. 메뉴얼
@@ -72,3 +73,6 @@ resources > readMe > DB_document.pdf
 - [회사의 직원] 회사인증, 출퇴근 기록 생성, 출퇴근 기록 요청, 휴가 요청
 
 # 8. 개선점
+- UI 부분 부족
+- 자잘한 버그들
+- 
