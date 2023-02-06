@@ -30,6 +30,7 @@ public class DepLoc extends BaseEntity {
             strategy = SEQUENCE,
             generator = "DEP_LOC_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

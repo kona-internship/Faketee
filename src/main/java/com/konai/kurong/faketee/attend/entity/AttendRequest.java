@@ -35,12 +35,13 @@ public class AttendRequest extends BaseEntity {
             strategy = SEQUENCE,
             generator = "ATD_REQ_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "ATD_REQ_DATE", nullable = false)
     private LocalDate atdReqDate;
 
-    @Column(nullable = false)
+    @Column(name = "VAL", nullable = false)
     private AttendRequestVal val;
 
     @Column(name = "START_TIME")

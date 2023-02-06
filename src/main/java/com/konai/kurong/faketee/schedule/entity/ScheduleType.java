@@ -19,8 +19,10 @@ public class ScheduleType extends BaseEntity {
     @Id
     @SequenceGenerator(name = "SCH_TYPE_ID_GENERATOR", sequenceName = "SCH_TYPE_SEQUENCE", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SCH_TYPE_ID_GENERATOR")
+    @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
     @ManyToOne

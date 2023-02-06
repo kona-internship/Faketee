@@ -34,6 +34,7 @@ public class EmailAuth extends BaseUserEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "EMAIL_AUTH_TOKEN")
@@ -43,6 +44,7 @@ public class EmailAuth extends BaseUserEntity {
      * "T" 라면 만료된 것이므로 email 사용 불가
      * "F" 사용 가능
      */
+    @Column(name = "EXPIRED")
     private String expired;
 
     @Column(name = "EXPIRE_DATE")
