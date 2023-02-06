@@ -35,8 +35,10 @@ public class Position extends BaseEntity {
             strategy = SEQUENCE,
             generator = "POS_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
     @ManyToOne(fetch = LAZY)

@@ -30,6 +30,7 @@ public class EmployeeInfo extends BaseEntity {
             strategy = SEQUENCE,
             generator = "EMP_INFO_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
     @Column(name="JOIN_DATE")
@@ -38,16 +39,19 @@ public class EmployeeInfo extends BaseEntity {
     @Column(name="FREE_DATE")
     private LocalDateTime freeDate;
 
+    @Column(name="MAJOR")
     private String major;
 
+    @Column(name="CERT")
     private String cert;
 
+    @Column(name = "INFO")
     private String info;
 
     @Column(name="EMP_NO")
     private Long empNo;
 
-    @Column(nullable = false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
     @Column(name="JOIN_CODE", nullable = false)

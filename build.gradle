@@ -45,6 +45,11 @@ dependencies {
 //    "javax.annotation:javax.annotation-api")
     runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 
+//    mysql
+    implementation 'mysql:mysql-connector-java'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+
 //  spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 

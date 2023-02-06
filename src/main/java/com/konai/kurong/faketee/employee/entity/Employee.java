@@ -37,11 +37,13 @@ public class Employee extends BaseEntity {
             strategy = SEQUENCE,
             generator = "EMP_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "ROLE", nullable = false)
     @Enumerated(EnumType.STRING)
     private EmpRole role;
 
@@ -50,7 +52,7 @@ public class Employee extends BaseEntity {
      * T(true) : 합류 초대 메일 인증을 완료함
      * F(false) : 비활성화
      */
-    @Column(nullable = false)
+    @Column(name = "VAL", nullable = false)
     private String val;
 
     @ManyToOne(fetch = LAZY)

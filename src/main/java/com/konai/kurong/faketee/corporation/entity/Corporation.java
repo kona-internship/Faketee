@@ -18,6 +18,7 @@ public class Corporation extends BaseEntity {
     @Id
     @SequenceGenerator(name = "COR_ID_GENERATOR", sequenceName = "COR_SEQUENCE", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COR_ID_GENERATOR")
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "NAME")

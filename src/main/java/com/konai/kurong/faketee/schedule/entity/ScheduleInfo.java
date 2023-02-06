@@ -21,6 +21,7 @@ public class ScheduleInfo extends BaseEntity {
     @Id
     @SequenceGenerator(name = "SCH_INFO_ID_GENERATOR", sequenceName = "SCH_INFO_SEQUENCE", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SCH_INFO_ID_GENERATOR")
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "SCH_DATE")

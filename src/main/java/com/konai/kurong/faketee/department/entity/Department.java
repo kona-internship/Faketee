@@ -34,6 +34,7 @@ public class Department extends BaseEntity {
             strategy = SEQUENCE,
             generator = "DEP_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "NAME")

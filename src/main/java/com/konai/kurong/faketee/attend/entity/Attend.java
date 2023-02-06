@@ -34,6 +34,7 @@ public class Attend extends BaseEntity {
             strategy = SEQUENCE,
             generator = "ATD_ID_GENERATOR"
     )
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "START_TIME")
