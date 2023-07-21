@@ -137,15 +137,18 @@ function showSchDetail(data) {
  */
 function getToday() {
     let today = new Date();
-    let date = today.getDate();
-    let month = today.getMonth() + 1;
-    let year = today.getFullYear();
-    let day = today.getDay();
+        let date = today.getDate();
+        let month = today.getMonth() + 1;
+        let year = today.getFullYear();
+        let day = today.getDay();
 
-    let when = ['일', '월', '화', '수', '목', '금', '토'];
+        month = month >= 10 ? month : '0' + month;
+        date = date >= 10 ? date : '0' + date;
 
-    todayDate = year + "-" + month + "-" + date;
-    return month + "/" + date + "(" + when[day] + ") <br>";
+        let when = ['일', '월', '화', '수', '목', '금', '토'];
+
+        todayDate = year + "-" + month + "-" + date;
+        return month + "/" + date + "(" + when[day] + ") <br>";
 }
 
 function sendRequest(value){
